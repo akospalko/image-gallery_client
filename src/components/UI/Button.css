@@ -1,0 +1,22 @@
+.button-default,
+.button-image-new { 
+  margin: 0 auto;
+  border: none;
+  margin: 1rem auto;
+}
+.button-default {
+  width: 100%;
+  height: 50px;
+  background-color: rgba(110, 109, 109, 0.75);
+}
+.button-default:hover {
+  background-color: rgb(165, 165, 165);
+}
+.button-image-new { 
+  width: 100%;
+  height: 75px;
+  background-color: rgba(193, 39, 139, 0.75);
+}
+.button-image-new:hover {
+  background-color: rgba(193, 39, 139, 1);
+}
