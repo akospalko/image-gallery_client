@@ -2,15 +2,22 @@
 import React from 'react'
 import './Button.css'
 
-export default function Button({children, clicked, type, diasbled}) {
+export default function Button(props) {
+  const {children, customStyle, clicked, type, diasbled} = props;
   
   //add styling to button based on passed type (form, add new img, etc) 
   let buttonStyle = 'button-default';
   // 'image-update'
   // 'image-delete', etc...
-  switch(type) {
+  switch(customStyle) {
     case 'image-new':
-      buttonStyle = 'button-image-new'
+      buttonStyle = 'button-image-new';
+      break;
+    case 'image-control-panel':
+      buttonStyle = 'button-image-control-panel';
+      break;
+    case 'form-submit':
+      buttonStyle = 'button-form-submit';
       break;
     default:
       buttonStyle = 'button-default'
@@ -19,12 +26,12 @@ export default function Button({children, clicked, type, diasbled}) {
   return (
   <>
    <button 
+      type={type}
       className={buttonStyle}
       onClick={clicked}
       disabled= {diasbled}
     > {children}  
     </button>
   </>
- 
   )
 }

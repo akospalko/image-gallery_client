@@ -1,0 +1,10 @@
+.form-default,
+.form-image-new-update {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  min-height: 500px;
+  background-color: rgb(102, 102, 239);
+  padding: var(--padding-default);
+}

@@ -20,3 +20,25 @@
 .button-image-new:hover {
   background-color: rgba(193, 39, 139, 1);
 }
+.button-image-control-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  height: 100%;
+  background-color: blueviolet;
+  border: none;
+}
+.button-image-control-panel:hover {
+  background-color: rgb(101, 23, 175);
+}
+.button-form-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  background-color: rgb(146, 55, 226);
+  border: none;
+  margin: var(--margin-default) 0 ;
+}
