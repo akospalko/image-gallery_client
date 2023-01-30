@@ -1,15 +1,18 @@
 import './App.css'
 import Header from './layout/Header'
 import PageContent from './layout/PageContent'
+import ToggleModalContext from './components/ToggleModalContext'
 
 function App() {
   return (
     <div className="App">
-      {/* Header */}
-      <Header />
-      {/* Page content */}
-      <PageContent />
-      {/* Page footer */}
+      <ToggleModalContext>
+        {/* Header */}
+        <Header />
+        {/* Page content */}
+        <PageContent />
+        {/* Page footer */}
+      </ToggleModalContext>
     </div>
   )
 }

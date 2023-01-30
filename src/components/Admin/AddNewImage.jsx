@@ -4,7 +4,7 @@ import Input from '../UI/Input'
 import { newImage } from '../../helper/dataStorage'
 import './AddNewImage.css'
 
-export default function AddNewImage() {
+export default function AddNewImage({toggleHandler}) {
   //submit form
   const submitFormHandler = (e, form) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ export default function AddNewImage() {
   return (
     <div className='modal-container'>
       <Form 
-        submit={submitFormHandler} 
+        submit={submitFormHandler}
         initialValues={newImage}
         style={'image-new-update'}
       >

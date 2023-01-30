@@ -19,4 +19,5 @@
 .textarea-default,
 .textarea-image-new-update {
   height: 250px;
+  resize: none;
 }

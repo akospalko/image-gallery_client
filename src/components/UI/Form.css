@@ -1,10 +1,21 @@
 .form-default,
-.form-image-new-update {
+.form-image-new-update,
+.form-button-container {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  min-height: 500px;
+}
+
+.form-default,
+.form-image-new-update {
+  min-height: 100%;
   background-color: rgb(102, 102, 239);
   padding: var(--padding-default);
 }
+
+.form-button-container {
+  flex-direction: row;
+  justify-content: space-between;
+
+ }

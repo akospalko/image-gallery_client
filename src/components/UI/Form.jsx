@@ -2,12 +2,26 @@
 import React, {useState, createContext} from 'react'
 import './Form.css'
 import Button from './Button';
+import {useModalContext} from '../ToggleModalContext'
+
+
+
+
+
+
+
 //create context
 export const FormContext = createContext({form: {}});
 
 export default function Form(props) {
   //get props
-  const {children, submit = () => {}, initialValues, customStyle} = props;
+  const {
+    children, 
+    submit = () => {}, 
+    initialValues, 
+    customStyle} = props;
+    
+  const { toggleModalHandler = () => {}} = useModalContext();
   //state
   const [form, setForm] = useState(initialValues);
   //change handler
@@ -47,11 +61,20 @@ export default function Form(props) {
         <FormContext.Provider value={{form, handleFormChange}}> 
           {children} 
         </FormContext.Provider>
-        <Button 
-          customStyle='form-submit' 
-          type='submit' 
-          clicked={(e) => {submit(e, form)}}
-        > Submit </Button>      
+        <div className='form-button-container'> 
+          {toggleModalHandler ?  
+            <Button 
+              customStyle='form-submit' 
+              type='submit' 
+              clicked={toggleModalHandler}
+              > Cancel </Button> : null }      
+            <Button 
+              customStyle='form-submit' 
+              type='submit' 
+              clicked={(e) => {submit(e, form); toggleModalHandler()}}
+              > Submit 
+            </Button>      
+        </div>
       </form>
     </>
   )
