@@ -1,7 +1,7 @@
 import './App.css'
 import Header from './layout/Header'
 import PageContent from './layout/PageContent'
-import ToggleModalContext from './components/ToggleModalContext'
+import ToggleModalContext from './components/contexts/ToggleModalContext'
 
 function App() {
   return (

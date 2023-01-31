@@ -1,19 +1,22 @@
+//form to create/update image entries
 import React, {useEffect} from 'react'
 import './Dashboard.css'
 import '../Shared.css'
 import Button from '../UI/Button'
 import ImageCard from './ImageCard'
-import AddNewImage from './AddNewImage'
-import {useModalContext} from '../ToggleModalContext'
+import ImageEntryModal from './ImageEntryModal'
+import {useModalContext} from '../contexts/ToggleModalContext'
 
 export default function Dashboard() {
   const { toggleModal, toggleModalHandler} = useModalContext();
-
+  const operation = 'createImage'; // used with create new image entry  
   useEffect(() => {
-    //enable/disable scrolling on body based on toggleModal state
-    if(toggleModal) {
+    let isToggled = false; // check if any toggle value in toggleModal is true
+    for(let toggledElem in toggleModal) {
+      isToggled = toggleModal[toggledElem] === true || isToggled;
+    }
+    if(isToggled) {
       document.body.style.overflowY = 'hidden';
-      console.log(document.body.overflowY)
     } else {
       document.body.style.overflowY = 'scroll';
     }
@@ -25,19 +28,19 @@ export default function Dashboard() {
       <h1> Dashboard </h1>  
       {/* add new image button */}
       <Button 
-        clicked={toggleModalHandler}
+        clicked={() => toggleModalHandler(operation)}
         style={'image-new'}
       > 
-        Add new Image 
+        Crete Image Entry 
       </Button>
       {/* image cards container */}
       <div className='dashboard-image-container'>
       {/* image card (single) */}
         <ImageCard />
-  
       </div>
       {/* form modal: add/update image */}
-      { toggleModal ? <AddNewImage  toggleHandler={toggleModalHandler}  /> : null }
+      { toggleModal.createImage ? <ImageEntryModal operation ='createImage' toggleHandler={toggleModalHandler} /> : null }
+      { toggleModal.updateImage ? <ImageEntryModal operation ='updateImage'  toggleHandler={toggleModalHandler} /> : null }
     </div>
   )
 }

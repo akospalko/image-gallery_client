@@ -1,5 +1,5 @@
 //Form initializers
-export const newImage = {
+export const createImage = {
     title: {
       type: 'text',
       placeholder: 'image title',
@@ -15,7 +15,59 @@ export const newImage = {
     description: {
       placeholder: 'image description',
       value: '',
+    },
+    date: {
+      type: 'text', //date???
+      placeholder: 'date of taking the image',
+      value: ''
+    },
+    coordinate: {
+      type: 'text', //date???
+      placeholder: 'geolocation of the image',
+      value: ''
     }
+}
+export const updateImage = {
+  id : { 
+    type: 'text',
+    disabled: 'true',
+    placeholder: 'image entry id',
+    value: ''
+  },
+  file: {
+    type: 'text',
+    placeholder: 'image file name',
+    value: '',
+    //min-max length
+    // label: ''
+  },
+  title: {
+    type: 'text',
+    placeholder: 'image title',
+    value: '',
+    //min-max length
+    // label: ''
+  },
+  author: {
+    type: 'text',
+    placeholder: 'image author',
+    value: '',
+  },
+  description: {
+    placeholder: 'image description',
+    value: '',
+  },
+  date: {
+    type: 'text', //date???
+    placeholder: 'date of taking the image',
+    value: ''
+  },
+  coordinate: {
+    type: 'text', //date???
+    placeholder: 'geolocation of the image',
+    value: ''
+  }
+  //entry created at: date
 }
 
 export const imageCardTestData = [
@@ -26,7 +78,6 @@ export const imageCardTestData = [
     title: 'aerial photgraphy about a beautiful lake',
     date: '2023.01.29.',
     coordinate: 'lang: 111111, long: 999999',
-    date: '2023.01.29.',
     description: 'a beautiful lake with spectecular scenery, made by a beautiful lake'
   }, {
     id: '02',

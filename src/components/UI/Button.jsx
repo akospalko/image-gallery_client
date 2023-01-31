@@ -10,8 +10,8 @@ export default function Button(props) {
   // 'image-update'
   // 'image-delete', etc...
   switch(customStyle) {
-    case 'image-new':
-      buttonStyle = 'button-image-new';
+    case 'image-create-update':
+      buttonStyle = 'button-image-create-update';
       break;
     case 'image-control-panel':
       buttonStyle = 'button-image-control-panel';

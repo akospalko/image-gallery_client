@@ -1,21 +1,18 @@
 .form-default,
-.form-image-new-update,
+.form-image-create-update,
 .form-button-container {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
 }
-
 .form-default,
-.form-image-new-update {
+.form-image-create-update {
   min-height: 100%;
-  background-color: rgb(102, 102, 239);
+  background-color: rgb(102, 102, 105);
   padding: var(--padding-default);
 }
-
 .form-button-container {
   flex-direction: row;
   justify-content: space-between;
-
- }
+}

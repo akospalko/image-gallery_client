@@ -5,19 +5,27 @@ import React from 'react'
 import Button from '../UI/Button'
 import './ImageCard.css'
 import {imageCardTestData} from '../../helper/dataStorage'
+import {useModalContext} from '../contexts/ToggleModalContext'
 
 export default function ImageCard() {
-  return (
+  const { toggleModalHandler, setActiveEntryHandler } = useModalContext();
+  const operation = 'updateImage'
 
+  return (
     <>
       {imageCardTestData.map(card => (
         /* card container */
-        <div 
-          key={card.id}
-          className='image-card-container'>
-        {/* control panel: delete, edit buttons */}
+        <div key={card.id} className='image-card-container'>
+          {/* control panel: delete, edit buttons */}
           <div className='image-card-control-panel'>
-            <Button style={'image-control-panel'}> Edit </Button>
+            <Button 
+              style={'image-control-panel'}
+              clicked={() => {
+                setActiveEntryHandler(card.id, imageCardTestData);
+                toggleModalHandler(operation)
+              }}
+            >  Edit 
+            </Button>
             <Button style={'image-control-panel'}> Delete </Button>
             <Button style={'image-control-panel'}> View  </Button>
             <Button style={'image-control-panel'}> Map </Button>
