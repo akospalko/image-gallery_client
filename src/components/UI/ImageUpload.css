@@ -1,0 +1,30 @@
+.image-upload-file-input,
+.image-upload-input-field,
+.image-upload-message {
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.image-upload-file-input {
+  height: 100px;
+}
+.image-upload-input-field {
+  background-color: rgb(102, 74, 73);
+  width: 50%;
+  height: 50px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+.image-upload-input-field input {
+  display: none;
+}
+.image-upload-message {
+  min-height: 50px;
+}
+.image-upload-message p {
+  word-break: break-word;
+  padding: var(--padding-default);
+  margin: 0;
+}

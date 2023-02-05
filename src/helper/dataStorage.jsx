@@ -22,8 +22,13 @@ export const createImage = {
       value: ''
     },
     coordinate: {
-      type: 'text', //date???
+      type: 'text', 
       placeholder: 'geolocation of the image',
+      value: ''
+    },
+    imageName: {
+      type: 'text', 
+      placeholder: 'image name',
       value: ''
     }
 }

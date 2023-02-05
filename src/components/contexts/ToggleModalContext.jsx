@@ -7,11 +7,13 @@ export const useModalContext = () => {
 export default function ToggleModalContext({children}) {
   const modalTemplate = {
     createImage: false,
-    updateImage: false
+    updateImage: false,
+    viewImage: false
   }
-  // const [toggleModal, setToggleModal] = useState(false);
   const [toggleModal, setToggleModal] = useState(modalTemplate);
   const [activeID, setActivID] = useState({});
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false);
+  const [data, setData] = useState([]);
 
   //handle toggle state for multiple modals (e.g. create, update image, etc)
   const toggleModalHandler = (operation) => {
@@ -39,7 +41,10 @@ export default function ToggleModalContext({children}) {
         toggleModalHandler,
         activeID, 
         setActivID,
-        setActiveEntryHandler
+        setActiveEntryHandler,
+        isSubmittingForm, 
+        setIsSubmittingForm,
+        data, setData
       }}
     > 
       {children}

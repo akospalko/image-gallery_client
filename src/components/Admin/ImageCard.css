@@ -20,7 +20,6 @@
   width: 100%;
   background-color: crimson;
 }
-
 .image-card-content-data {
   display: flex;
   align-items: center;
@@ -32,6 +31,10 @@
 .image-card-content-data > p {
   margin: 0;
 }
+.image-card-content-data--title {
+  overflow: auto;
+  text-align: justify;
+}
 .image-card-content-data--description {
   min-height: 150px;
   overflow-y: auto;
@@ -39,9 +42,12 @@
   justify-content: initial;
   text-align: justify;
 }
-.image-card-content-data--title {
-  overflow: auto;
-  align-items: initial;
-  justify-content: initial;
-  text-align: justify;
+.image-card-content-data--timestamp {
+  height: 30px;
+  padding: 0.25rem;
+}
+
+.image-card-content-data--timestamp span {
+  font-size: 0.75rem;
+  margin: 0 1rem;
 }

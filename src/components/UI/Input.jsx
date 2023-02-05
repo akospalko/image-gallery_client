@@ -5,7 +5,7 @@ import {FormContext} from './Form';
 
 const Input = (props) => {
   const {label, name, customStyle } = props;
-  const{form, handleFormChange} = useContext(FormContext);
+  const {form, handleFormChange} = useContext(FormContext);
   
   //conditional styling input & textarea
   let inputStyle = 'input-default';

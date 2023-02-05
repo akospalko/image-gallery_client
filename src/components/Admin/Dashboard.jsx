@@ -35,12 +35,13 @@ export default function Dashboard() {
       </Button>
       {/* image cards container */}
       <div className='dashboard-image-container'>
-      {/* image card (single) */}
+        {/* image card (single) */}
         <ImageCard />
       </div>
       {/* form modal: add/update image */}
       { toggleModal.createImage ? <ImageEntryModal operation ='createImage' toggleHandler={toggleModalHandler} /> : null }
-      { toggleModal.updateImage ? <ImageEntryModal operation ='updateImage'  toggleHandler={toggleModalHandler} /> : null }
+      { toggleModal.updateImage ? <ImageEntryModal operation ='updateImage' toggleHandler={toggleModalHandler} /> : null }
+      { toggleModal.viewImage ? <ImageEntryModal operation ='viewImage' toggleHandler={toggleModalHandler} /> : null }
     </div>
   )
 }

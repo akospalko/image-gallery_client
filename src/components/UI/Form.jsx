@@ -16,8 +16,9 @@ export default function Form(props) {
     title,
     operation} = props;
   const { toggleModalHandler = () => {}} = useModalContext();
-  //state
+  //states
   const [form, setForm] = useState(initialValues);
+  const [statusMessage, setStatusMessage] = useState('EMPTY');
   //change handler
   const handleFormChange = (event) => {
     // get event name, value 
@@ -52,21 +53,28 @@ export default function Form(props) {
     <>
       <form className={formStyle}>
         <h1> {title} </h1>
-        <FormContext.Provider value={{form, handleFormChange}}> 
+        <FormContext.Provider value={{
+          // isSubmittingForm, setIsSubmittingForm,
+          form, setForm,
+          // data, setData,
+          statusMessage, 
+          setStatusMessage,
+          handleFormChange
+        }}> 
           {children} 
         </FormContext.Provider>
         <div className='form-button-container'> 
-          {toggleModalHandler ?  
+          { toggleModalHandler ?  
             <Button 
               customStyle='form-submit' 
               type='submit' 
               clicked={() => toggleModalHandler(operation)}
-              > Cancel </Button> : null }      
+            > Cancel </Button> : null }      
             <Button 
               customStyle='form-submit' 
               type='submit' 
               clicked={(e) => {submit(e, form); toggleModalHandler(operation)}}
-              > Submit 
+            > Submit 
             </Button>      
         </div>
       </form>
