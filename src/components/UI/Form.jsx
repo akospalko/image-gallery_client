@@ -1,5 +1,5 @@
 // a component to create reusable forms using react context
-import React, {useState, createContext} from 'react'
+import React, {useEffect, useState, createContext} from 'react'
 import './Form.css'
 import Button from './Button';
 import {useModalContext} from '../contexts/ToggleModalContext'
@@ -7,7 +7,7 @@ import {useModalContext} from '../contexts/ToggleModalContext'
 export const FormContext = createContext({form: {}});
 
 export default function Form(props) {
-  //get props
+  // PROPS
   const {
     children, 
     submit = () => {}, 
@@ -16,31 +16,50 @@ export default function Form(props) {
     title,
     operation} = props;
   const { toggleModalHandler = () => {}} = useModalContext();
-  //states
+  // STATES
   const [form, setForm] = useState(initialValues);
+  const [imageFile, setImageFile] = useState('select image to upload (png or jpg)')
   const [statusMessage, setStatusMessage] = useState('EMPTY');
-  //change handler
-  const handleFormChange = (event) => {
-    // get event name, value 
-    const { name, value } = event.target;
-    // copy form
-    let updatedForm = {
-      ...form,
-    };
-    //copy and update nested form properties
-    const updatedItem = {...updatedForm[name]};
-    //update prop value
-    updatedItem.value = value;
-    //update form with updated property
-    updatedForm[name] = updatedItem
-    // update state
-    setForm(updatedForm);
-  };
 
-  //conditional styling form
+  // HANDLERS
+  // input fields change handler (input, textarea)
+  const inputChangeHandler = (e) => {
+    // get event name, value 
+    const { name, value } = e.target; // get event name, value 
+    let updatedForm = {...form}; // copy form
+    const updatedItem = {...updatedForm[name]}; //copy and update nested form properties
+    updatedItem.value = value; // update prop value
+    updatedForm[name] = updatedItem; //update form with updated property
+    setForm(updatedForm);  // update state
+  };
+  // Add image to file api handler
+  // validate selected image file (check file extension, update state)
+  const validateImageFile = (selected) => {
+    console.log(selected)
+    const types = ['image/png', "image/jpeg"];  // allowed image file types
+    if (selected && types.includes(selected.type)) { // file's format is listed in types arr
+      setImageFile(selected);
+    } else { // if invalid
+      setImageFile('Not supported file format');
+      selected = '';
+    } 
+  }
+  // upload image
+  const imageFileChangeHandler = (e) => {
+    e.preventDefault();
+    // get selected file
+    let selectedFile = e.target.files[0] 
+    validateImageFile(selectedFile); // validate file, update state
+    // update form with image file
+    let updatedForm = {...form}; // copy form
+    console.log(updatedForm);
+    const updatedItem = {...updatedForm['imageFile']}; // copy and update nested form properties
+    updatedItem.value = selectedFile; // update prop value
+    updatedForm['imageFile'] = updatedItem; // update form with updated property
+    setForm(updatedForm); // update state
+  }
+  // CONDITIONAL STYLING
   let formStyle = 'form-default';
-  // 'image-update'
-  // 'image-delete', etc...
   switch(customStyle) {
     case 'image-create-update':
       formStyle = 'form-image-create-update';
@@ -52,17 +71,18 @@ export default function Form(props) {
   return (
     <>
       <form className={formStyle}>
-        <h1> {title} </h1>
-        <FormContext.Provider value={{
-          // isSubmittingForm, setIsSubmittingForm,
-          form, setForm,
-          // data, setData,
-          statusMessage, 
-          setStatusMessage,
-          handleFormChange
-        }}> 
-          {children} 
-        </FormContext.Provider>
+        <div className='form-form-container'> 
+          <h1> {title} </h1>
+          <FormContext.Provider value={{
+            form, setForm,
+            imageFile, setImageFile,
+            statusMessage, setStatusMessage,
+            inputChangeHandler,
+            imageFileChangeHandler
+          }}> 
+            {children} 
+          </FormContext.Provider>
+        </div>
         <div className='form-button-container'> 
           { toggleModalHandler ?  
             <Button 

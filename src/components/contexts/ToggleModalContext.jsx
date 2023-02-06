@@ -24,15 +24,6 @@ export default function ToggleModalContext({children}) {
     })
   }
 
-  // set active entry based on the passed id
-  const setActiveEntryHandler = (id, data) => {
-    console.log('active entry');
-    //filter entry from data with the help of id
-    //id comes from the clicked (rendered) entry, data is from fetching/data storage  
-    const filteredEntry = data.filter(elem => elem.id === id); 
-    console.log(filteredEntry)
-    setActivID(filteredEntry);
-  }
   return (
     <ModalContext.Provider
       value={{
@@ -41,7 +32,6 @@ export default function ToggleModalContext({children}) {
         toggleModalHandler,
         activeID, 
         setActivID,
-        setActiveEntryHandler,
         isSubmittingForm, 
         setIsSubmittingForm,
         data, setData

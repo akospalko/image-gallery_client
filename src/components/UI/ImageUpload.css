@@ -1,3 +1,4 @@
+.image-upload-file-container,
 .image-upload-file-input,
 .image-upload-input-field,
 .image-upload-message {
@@ -7,12 +8,16 @@
   flex-direction: column;
   width: 100%;
 }
+.image-upload-file-container {
+  margin: 1rem 0;
+}
 .image-upload-file-input {
-  height: 100px;
+  height: auto;
+  width: 50%;
 }
 .image-upload-input-field {
   background-color: rgb(102, 74, 73);
-  width: 50%;
+  width: 100%;
   height: 50px;
   cursor: pointer;
   margin: 0.5rem;
@@ -21,10 +26,12 @@
   display: none;
 }
 .image-upload-message {
-  min-height: 50px;
+  height: auto;
+  margin: 0;
+  word-break: break-word;
+  padding: 0 var(--padding-default);
+  margin: 0;
 }
 .image-upload-message p {
-  word-break: break-word;
-  padding: var(--padding-default);
-  margin: 0;
+
 }

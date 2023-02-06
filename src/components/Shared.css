@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - var(--header-height));
-  /* height: auto; */
   padding: 0.5rem;
   width: 100%;
   background-color: rgb(28, 186, 109);

@@ -30,13 +30,11 @@ export default function Dashboard() {
       <Button 
         clicked={() => toggleModalHandler(operation)}
         style={'image-new'}
-      > 
-        Crete Image Entry 
+      > Create Image Entry 
       </Button>
       {/* image cards container */}
       <div className='dashboard-image-container'>
-        {/* image card (single) */}
-        <ImageCard />
+        <ImageCard /> {/* image card (single) */}
       </div>
       {/* form modal: add/update image */}
       { toggleModal.createImage ? <ImageEntryModal operation ='createImage' toggleHandler={toggleModalHandler} /> : null }

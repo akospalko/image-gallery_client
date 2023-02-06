@@ -2,7 +2,8 @@
 import axios from 'axios';
 const baseURL = 'http://localhost:3000';
 
-// get all image entries
+// GET 
+// all image entries
 export const getAllImageEntries = async () => {
   let customResponseObj = {};
   const res = await axios.get(`${baseURL}/api/v1/image-entry`);
@@ -15,26 +16,40 @@ export const getAllImageEntries = async () => {
   }
   return customResponseObj;
 }
-
-// get entry
+ // re/fetch entries and update state (data) with the result
+ export const refetchImageEntries = async (dataSetter) => {
+  const response = await getAllImageEntries();
+  dataSetter(response.data);
+}
+// GET
+// single entry
 export const getSingleImageEntry = async (activeID) => {
-  let customResponseObj = {};
   if(!activeID) return;
+  let customResponseObj = {};
   try { 
-    const res = await axios.patch(`${baseURL}/api/v1/image-entry/${activeID}`)
-    if(String(res.status)[0] === '2') {
-      customResponseObj = { data: res.data.task, resStatus: 'GET_ENTRIES_SUCCESS' }
+    const response = await axios.get(`${baseURL}/api/v1/image-entry/${activeID}`);
+    if(String(response.status)[0] === '2') {
+      customResponseObj = { data: response.data.imageEntry, resStatus: 'GET_ENTRIES_SUCCESS' }
     } 
   } catch (error) {
-    customResponseObj = { data: res.data.task, resStatus:  'GET_ENTRIES_FAILED' }
+    customResponseObj = { resStatus: 'GET_ENTRIES_FAILED' }
   }
   return customResponseObj;
 }
-// create entry
+ // fetch single entry
+ export const fetchImageEntry = async (activeID, activeIDSetter) => {
+  const response = await getSingleImageEntry(activeID);
+  activeIDSetter(response.data);
+}
+
+// POST
 export const postImageEntry = async (imageEntry) => {
   if(!imageEntry) return;
   try {
-    const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry)
+    const options = {
+      headers: {"content-type": "multipart/form-data"}
+    }
+    const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry, options);
     if(String(res.status)[0] === '2') {
       return 'CREATE_ENTRIES_SUCCESS'; 
     } 
