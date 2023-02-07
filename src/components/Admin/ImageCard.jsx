@@ -1,23 +1,25 @@
 import React, {useEffect} from 'react'
 import Button from '../UI/Button'
 import './ImageCard.css'
-import {useModalContext} from '../contexts/ToggleModalContext'
 import {refetchImageEntries, fetchImageEntry, deleteImageEntry} from '../../helper/axiosRequests'
 import {transformDate} from '../../helper/transformDate'
+import {useModalContext} from '../contexts/ToggleModalContext'
+import {useFormContext} from '../contexts/FormContext'
 
 export default function ImageCard() {
-  const {data, setData, toggleModalHandler, setActivID, setActiveEntryHandler} = useModalContext();
-
-  //EFFECT
-  useEffect(() => {   // get all data on initial render
+  // CONTEXTS
+  const {toggleModalHandler, setActiveID, setID} = useModalContext();
+  const {data, setData} = useFormContext();
+  // EFFECT
+  useEffect(() => { // get all data on initial render
     (async () => {
       await refetchImageEntries(setData);
     })() 
-  }, [])
-
+  }, []) 
+ 
   const deleteImageEntryHandler = async (id) => {
     const responseDelete = await deleteImageEntry(id);
-    //TODO: if delete is successful: re-fetch entries
+    // TODO: if delete is successful: re-fetch entries
     await refetchImageEntries(setData);
   }
   //elements
@@ -30,7 +32,7 @@ export default function ImageCard() {
 
   return (
     <>
-      {data.map(card => (
+      {data?.map(card => (
         /* card container */
         <div key={card._id} className='image-card-container'>
           {/* control panel: delete, edit buttons */}
@@ -38,9 +40,7 @@ export default function ImageCard() {
             <Button 
               customStyle={'image-control-panel'}
               clicked={async () => {
-                await fetchImageEntry(card._id, setActivID)
-                // await getSingleImageEntry(card._id)
-                // setActiveEntryHandler(card._id, imageCardTestData);
+                await fetchImageEntry(card._id, setActiveID);
                 toggleModalHandler('updateImage')
               }}
             >  Edit 
@@ -52,7 +52,9 @@ export default function ImageCard() {
             </Button>
             <Button 
               customStyle={'image-control-panel'}
-              clicked={() => toggleModalHandler('viewImage')}
+              clicked={() => {
+                setID(card._id)
+                toggleModalHandler('viewImage') }}
             > View  
             </Button>
             <Button customStyle={'image-control-panel'}> Map </Button>

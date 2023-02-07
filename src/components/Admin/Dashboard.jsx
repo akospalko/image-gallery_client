@@ -9,7 +9,6 @@ import {useModalContext} from '../contexts/ToggleModalContext'
 
 export default function Dashboard() {
   const { toggleModal, toggleModalHandler} = useModalContext();
-  const operation = 'createImage'; // used with create new image entry  
   useEffect(() => {
     let isToggled = false; // check if any toggle value in toggleModal is true
     for(let toggledElem in toggleModal) {
@@ -28,7 +27,7 @@ export default function Dashboard() {
       <h1> Dashboard </h1>  
       {/* add new image button */}
       <Button 
-        clicked={() => toggleModalHandler(operation)}
+        clicked={() => toggleModalHandler('createImage')}
         style={'image-new'}
       > Create Image Entry 
       </Button>

@@ -1,56 +1,55 @@
-// a component to create reusable input forms 
-import React, {useContext} from 'react';
+// reusable input fields 
+import React from 'react'
 import './Input.css'
-import {FormContext} from './Form';
-import ImageUpload from './ImageUpload';
+import ImageUpload from './ImageUpload'
+import {useFormContext} from '../contexts/FormContext'
 
 const Input = (props) => {
+  // PROPS
   const {label, name, customStyle } = props;
-  const {form, inputChangeHandler} = useContext(FormContext);
-  
-  //conditional styling input & textarea
+  // CONTEXT
+  const {formData, inputChangeHandler} = useFormContext();
+  // CONDITIONAL STYLING
+  // input & textarea
   let inputStyle = 'input-default';
   let textareaStyle = 'textarea-default';
-
   switch(customStyle) {
-    case 'image-new-update':
-      inputStyle = 'input-image-new-update';
-      textareaStyle = 'textarea-image-new-update';
+    case 'image-create-update':
+      inputStyle = 'input-image-create-update';
+      textareaStyle = 'textarea-image-create-update';
       break;
     default:
       inputStyle = 'input-default';
       textareaStyle = 'textarea-default';
   } 
-    
-  //render label conditionaly
+  // RENDERED ELEMENTS
+  // label 
   const renderedLabel = (label ? 
-    <label> {name} </label>
+    <label> {formData[name]?.label} </label>
   : null ) 
-
-  //input field types
+  // input fields
   const input = (
     <input 
       className={inputStyle}
       name={name} 
-      type={form[name].type} 
-      placeholder={form[name].placeholder}
+      type={formData[name]?.type} 
+      placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
-      value={form[name].value}
-      disabled={form[name].disabled}
+      value={formData[name]?.value || ''}
+      disabled={formData[name]?.disabled}
     /> )
   const textarea = ( 
     <textarea 
-      className={ textareaStyle }
+      className={textareaStyle}
       name={name} 
-      placeholder={form[name].placeholder}
+      placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
-      value={form[name].value}
+      value={formData[name]?.value || ''}
     /> )
   const file = <ImageUpload />
-
   //decide input field type to render
   let element; 
-  switch(form[name].field) {
+  switch(formData[name]?.field) {
     case 'input':
       element = input; 
       break;
@@ -67,7 +66,7 @@ const Input = (props) => {
   return(
     <>
       {renderedLabel}
-      {element} 
+      {formData && element} 
     </>
   );
 }

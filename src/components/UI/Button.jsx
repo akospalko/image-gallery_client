@@ -1,4 +1,4 @@
-//custom reusable button
+// reusable buttons
 import React from 'react'
 import './Button.css'
 

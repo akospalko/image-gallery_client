@@ -1,47 +1,79 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
 import {createImage, updateImage} from '../../helper/dataStorage'
 import './ImageEntryModal.css'
 import {buildInputFields} from '../../helper/buildInputFields'
-import {postImageEntry, refetchImageEntries} from '../../helper/axiosRequests'
-import {useModalContext} from '../contexts/ToggleModalContext'
+import {postImageEntry, refetchImageEntries, updateImageEntry} from '../../helper/axiosRequests'
 import ViewImage from './ViewImage'
 import {convertFormData} from '../../helper/convertFormData'
+import {useModalContext} from '../contexts/ToggleModalContext'
+import {useFormContext} from '../contexts/FormContext'
 
 export default function ImageEntryModal({operation}) {
-  const {setData, activeID, setActivID, setIsSubmittingForm} = useModalContext();
-  //EFFECT
+  // CONTEXTS
+  const {activeID} = useModalContext();
+  const {formData, setFormData, setData, setIsSubmittingForm} = useFormContext();
+  // STATE
+  const [isFormReady, setIsFormReady] = useState(false);
+  // EFFECTS
   useEffect(() => {
-    console.log(activeID);
-    for(let elem in activeID) {
-      console.log(elem, activeID[elem]);
+    // find initial value based on operation value
+    let initialValue;
+    switch(operation) { 
+      case 'createImage':
+        initialValue = createImage;
+        break;
+      case 'updateImage':
+        initialValue = updateImage;
+        break;
+      default: 
+        initialValue = createImage;
     }
-  }, [])
+    setFormData(initialValue);
+  }, [operation, setFormData])
 
+  // populate from with active id on first render
+  useEffect(() => {
+    if(operation !== 'updateImage') return;
+    if(!formData) return;
+    if(isFormReady) return;
+    // update state with filtered fields
+    let updatedForm = {...formData}; // copy form
+    for(let elem in formData) {
+      const updatedItem = {...updatedForm[elem]}; 
+      updatedItem.value = activeID[elem];
+      updatedForm[elem] = updatedItem; 
+    }
+    setFormData(updatedForm);  
+    setIsFormReady(true);      
+  }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady
+  
   // SUBMIT
   // submit form for createImage (create new image entry)
-  const createImageEntryHandler = async(e, form) => {
+  const createImageEntryHandler = async(e, formData) => {
     e.preventDefault();
-    // setIsSubmittingForm(true);
     console.log('create image entry');
-    const convertedData = convertFormData(form); // perpare data to be transformed: convert form data to {entryName1: entryValue1, ...}
+    const convertedData = convertFormData(formData); // simplyfy data before sending request  
     await postImageEntry(convertedData); // send post request
     console.log('submitted values:', convertedData);
     //refetch data
     await refetchImageEntries(setData);
+    // if succes post request -> reset form 
+    setFormData(undefined);
   }
-  //submit form for createImage (update new image entry)
-  const updateImageEntryHandler = (e, form) => {
+  // submit form for createImage (update new image entry)
+  const updateImageEntryHandler = async (e, formData) => {
     e.preventDefault();
-    setIsSubmittingForm(true);
-    //TODO: update entries
-    console.log('update image entry');
-    console.log('submitted values:', form);
-    setIsSubmittingForm(false);
+    const convertedData = convertFormData(formData); 
+    const response = await updateImageEntry(activeID._id, convertedData)
+    //refetch data
+    await refetchImageEntries(setData);
+    // if succes post request -> reset form 
+    setFormData(undefined);
   }
-
-  //types of modals that we render based on the suplplied operation value
+  // RENDERED ELEMENTS  
+  // create image entry
   const createImageEntryModal = (  
     <Form 
       title={'Create Image Entry'}
@@ -60,15 +92,15 @@ export default function ImageEntryModal({operation}) {
       )) }
     </Form>
   )
+   // update image entry
   const updateImageEntryModal = (
     <Form 
       title={'Update Image Entry'}
       operation={operation}
       submit={updateImageEntryHandler}
-      initialValues={updateImage}
       customStyle='image-create-update'
     > 
-      { buildInputFields(updateImage).map(elem => (
+      { formData && buildInputFields(updateImage).map(elem => (
         <Input 
           key={elem.name} 
           name={elem.name} 
@@ -78,9 +110,9 @@ export default function ImageEntryModal({operation}) {
       )) }
     </Form>
   )
-
+  // view image entry's image
   const viewImageModal = <ViewImage/>;
-  // render modal based on the supplied operation value
+  // RENDER MODALS CONDITIONALLY 
   let renderModal; 
   switch(operation) {
     case 'createImage':
@@ -92,11 +124,13 @@ export default function ImageEntryModal({operation}) {
     case 'viewImage':
       renderModal = viewImageModal;
       break; 
+    default:
+      renderModal = <p> couldn't display modal </p>;
   }
 
   return (
     <div className='modal-container'>
-      { operation && renderModal }
+      { formData && renderModal }
     </div>
   )
 }

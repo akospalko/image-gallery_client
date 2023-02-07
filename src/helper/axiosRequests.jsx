@@ -1,7 +1,12 @@
 // list of requests made to the api
-import axios from 'axios';
-const baseURL = 'http://localhost:3000';
+import axios from 'axios'
 
+// INITIAL VALUES / SETTINGS
+// request header settings to allow sending image file and form text in one req (for post/patch)  
+const baseURL = 'http://localhost:3000';
+const options = {
+  headers: {"content-type": "multipart/form-data"}
+}
 // GET 
 // all image entries
 export const getAllImageEntries = async () => {
@@ -41,14 +46,10 @@ export const getSingleImageEntry = async (activeID) => {
   const response = await getSingleImageEntry(activeID);
   activeIDSetter(response.data);
 }
-
 // POST
 export const postImageEntry = async (imageEntry) => {
   if(!imageEntry) return;
   try {
-    const options = {
-      headers: {"content-type": "multipart/form-data"}
-    }
     const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry, options);
     if(String(res.status)[0] === '2') {
       return 'CREATE_ENTRIES_SUCCESS'; 
@@ -57,9 +58,20 @@ export const postImageEntry = async (imageEntry) => {
       return 'CREATE_ENTRIES_FAILED';
     }
 }
-// update entry
-
-// delete entry
+// PATCH (update)
+export const updateImageEntry = async (activeID, imageEntry) => {
+  if(!activeID && !imageEntry) return;
+  try { 
+    const res = await axios.patch(`${baseURL}/api/v1/image-entry/${activeID}`, imageEntry, options);
+    console.log(res);
+    if(String(res.status)[0] === '2') {
+      return 'UPDATE_ENTRIES_SUCCESS';
+    } 
+  } catch (error) {
+    return 'UPDATE_ENTRIES_FAILED'; 
+  }
+}
+// DELETE
 export const deleteImageEntry = async (activeID) => { 
   if(!activeID) return;
   try {
