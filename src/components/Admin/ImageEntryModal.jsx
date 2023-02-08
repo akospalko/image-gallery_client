@@ -92,7 +92,7 @@ export default function ImageEntryModal({operation}) {
       )) }
     </Form>
   )
-   // update image entry
+  // update image entry
   const updateImageEntryModal = (
     <Form 
       title={'Update Image Entry'}

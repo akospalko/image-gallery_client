@@ -14,25 +14,25 @@ export const createImage = {
     value: '',
     label: 'author'
   },
-  description: {
-    field: 'textarea',
-    placeholder: 'image description',
-    value: '',
-    label: 'description'
-  },
-  date: {
-    type: 'text', //date???
-    field: 'input',
-    placeholder: 'date of taking the image',
-    value: '',
-    label: 'date'
-  },
   coordinate: {
     type: 'text', 
     field: 'input',
     placeholder: 'geolocation of the image',
     value: '',
     label: 'coordinate'
+  },
+  description: {
+    field: 'textarea',
+    placeholder: 'image description',
+    value: '',
+    label: 'description'
+  },
+  captureDate: {
+    type: 'date', 
+    field: 'date',
+    placeholder: 'date of capturing the image',
+    value: '',
+    label: 'capture date'
   },
   imageFile: {
     type: 'file', 
@@ -50,6 +50,14 @@ export const updateImage = {
     disabled: true,
     label: 'id'
   },
+  imageName: {
+    type: 'text',
+    field: 'input',
+    placeholder: 'image file name',
+    value: '',
+    disabled: true,
+    label: 'image name'
+  },
   title: {
     type: 'text',
     field: 'input',
@@ -66,34 +74,27 @@ export const updateImage = {
     value: '',
     label: 'author'
   },
+  coordinate: {
+    type: 'text', 
+    field: 'input',
+    placeholder: 'geolocation of the image',
+    value: '',
+    label: 'coordinate'
+  },
   description: {
     field: 'textarea',
     placeholder: 'image description',
     value: '',
     label: 'description'
   },
-  date: {
-    type: 'text', //date???
-    field: 'input',
-    placeholder: 'date of taking the image',
+  captureDate: {
+    type: 'date', 
+    field: 'date',
+    placeholder: 'date of capturing the image',
     value: '',
-    label: 'date'
+    label: 'capture date'
   },
-  coordinate: {
-    type: 'text', //date???
-    field: 'input',
-    placeholder: 'geolocation of the image',
-    value: '',
-    label: 'coordinate'
-  },
-  imageName: {
-    type: 'text',
-    field: 'input',
-    placeholder: 'image file name',
-    value: '',
-    disabled: true,
-    label: 'image name'
-  },
+
   imageFile: {
     type: 'file',
     field: 'file',
@@ -101,7 +102,6 @@ export const updateImage = {
     label: ''
   }
 }
-
 // Status Message
 export const statusMessages = {
   // upload input image

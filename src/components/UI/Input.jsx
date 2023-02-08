@@ -2,13 +2,14 @@
 import React from 'react'
 import './Input.css'
 import ImageUpload from './ImageUpload'
+import DatePicker from './DatePicker'
 import {useFormContext} from '../contexts/FormContext'
 
 const Input = (props) => {
   // PROPS
   const {label, name, customStyle } = props;
   // CONTEXT
-  const {formData, inputChangeHandler} = useFormContext();
+  const {formData, exifExtractedValues, inputChangeHandler} = useFormContext();
   // CONDITIONAL STYLING
   // input & textarea
   let inputStyle = 'input-default';
@@ -47,6 +48,7 @@ const Input = (props) => {
       value={formData[name]?.value || ''}
     /> )
   const file = <ImageUpload />
+  const date = <DatePicker />
   //decide input field type to render
   let element; 
   switch(formData[name]?.field) {
@@ -58,6 +60,9 @@ const Input = (props) => {
       break;
     case 'file':
       element = file; 
+      break;
+    case 'date':
+      element = date; 
       break;
     default:
       element = input; 

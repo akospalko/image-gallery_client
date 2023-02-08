@@ -43,7 +43,8 @@ export const getSingleImageEntry = async (activeID) => {
 }
  // fetch single entry
  export const fetchImageEntry = async (activeID, activeIDSetter) => {
-  const response = await getSingleImageEntry(activeID);
+  const response = await getSingleImageEntry(activeID); 
+  console.log(response.data)
   activeIDSetter(response.data);
 }
 // POST

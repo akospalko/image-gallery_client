@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import Button from '../UI/Button'
 import './ImageCard.css'
 import {refetchImageEntries, fetchImageEntry, deleteImageEntry} from '../../helper/axiosRequests'
-import {transformDate} from '../../helper/transformDate'
+import {generateDateString, transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 
@@ -25,8 +25,8 @@ export default function ImageCard() {
   //elements
   const timestamp = (entry) => ( 
     <div className='image-card-content-data image-card-content-data--timestamp'> 
-      <i> <span> Created at: {transformDate(entry.createdAt)} </span> </i> 
-      <i> <span> Last updated: {transformDate(entry.updatedAt)} </span> </i> 
+      <i> <span> Created at: {generateDateString(entry.createdAt)} </span> </i> 
+      <i> <span> Last updated: {generateDateString(entry.updatedAt)} </span> </i> 
     </div>
   )
 
@@ -65,7 +65,7 @@ export default function ImageCard() {
             <div className='image-card-content-data image-card-content-data--title'> 
               <p> {card.title} </p>
             </div>
-            <div className='image-card-content-data'> {card.date} </div>
+            <div className='image-card-content-data'> {transformDate(card.captureDate, '-', '.')} </div>
             <div className='image-card-content-data'> {card.coordinate} </div>
             <div className='image-card-content-data'> {card.author} </div>
             <div className='image-card-content-data image-card-content-data--description'> 

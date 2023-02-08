@@ -4,7 +4,7 @@ import './ImageUpload.css'
 import {useFormContext} from '../contexts/FormContext'
 
 export default function ImageUpload() {
-  //CONTEXT
+  // CONTEXT
   const {imageFileChangeHandler, imageFile} = useFormContext();
 
   return(
