@@ -39,6 +39,7 @@ export default function Dashboard() {
       { toggleModal.createImage ? <ImageEntryModal operation ='createImage' toggleHandler={toggleModalHandler} /> : null }
       { toggleModal.updateImage ? <ImageEntryModal operation ='updateImage' toggleHandler={toggleModalHandler} /> : null }
       { toggleModal.viewImage ? <ImageEntryModal operation ='viewImage' toggleHandler={toggleModalHandler} /> : null }
+      { toggleModal.viewMap ? <ImageEntryModal operation ='viewMap' toggleHandler={toggleModalHandler} /> : null }
     </div>
   )
 }

@@ -8,6 +8,7 @@ import {useFormContext} from '../contexts/FormContext'
 const Input = (props) => {
   // PROPS
   const {label, name, customStyle } = props;
+  console.log(name);
   // CONTEXT
   const {formData, inputChangeHandler} = useFormContext();
   // CONDITIONAL STYLING

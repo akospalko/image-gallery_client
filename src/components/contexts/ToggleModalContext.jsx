@@ -13,7 +13,8 @@ export default function ToggleModalContext({children}) {
   const modalTemplate = {
     createImage: false,
     updateImage: false,
-    viewImage: false
+    viewImage: false,
+    viewMap: false
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);

@@ -41,6 +41,7 @@
   align-items: initial;
   justify-content: initial;
   text-align: justify;
+  word-break: break-word;
 }
 .image-card-content-data--timestamp {
   height: 30px;

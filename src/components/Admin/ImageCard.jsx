@@ -57,7 +57,13 @@ export default function ImageCard() {
                 toggleModalHandler('viewImage') }}
             > View  
             </Button>
-            <Button customStyle={'image-control-panel'}> Map </Button>
+            <Button 
+              customStyle={'image-control-panel'}
+              clicked={() => {
+                setID(card._id)
+                toggleModalHandler('viewMap') }}
+            > Map 
+            </Button>
           </div>
           {/* content */}
           <div className='image-card-content'>

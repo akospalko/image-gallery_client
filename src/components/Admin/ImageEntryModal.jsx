@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react'
+import './ImageEntryModal.css'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
-import {createImage, updateImage} from '../../helper/dataStorage'
-import './ImageEntryModal.css'
-import {buildInputFields} from '../../helper/buildInputFields'
-import {postImageEntry, refetchImageEntries, updateImageEntry} from '../../helper/axiosRequests'
 import ViewImage from './ViewImage'
-import {convertFormData} from '../../helper/convertFormData'
+import ViewMap from './ViewMap'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
+import {convertFormData} from '../../helper/convertFormData'
+import {postImageEntry, refetchImageEntries, updateImageEntry} from '../../helper/axiosRequests'
+import {buildInputFields} from '../../helper/buildInputFields'
+import {createImage, updateImage} from '../../helper/dataStorage'
 
 export default function ImageEntryModal({operation}) {
   // CONTEXTS
@@ -18,7 +19,7 @@ export default function ImageEntryModal({operation}) {
   const [isFormReady, setIsFormReady] = useState(false);
   // EFFECTS
   useEffect(() => {
-    // find initial value based on operation value
+    // find initial value to set up modals with forms based on operation value
     let initialValue;
     switch(operation) { 
       case 'createImage':
@@ -33,7 +34,7 @@ export default function ImageEntryModal({operation}) {
     setFormData(initialValue);
   }, [operation, setFormData])
 
-  // populate from with active id on first render
+  // populate form with active id on first render
   useEffect(() => {
     if(operation !== 'updateImage') return;
     if(!formData) return;
@@ -111,6 +112,8 @@ export default function ImageEntryModal({operation}) {
   )
   // view image entry's image
   const viewImageModal = <ViewImage/>;
+  // view map if entry has coordinates 
+  const viewMapModal = <ViewMap/>
   // RENDER MODALS CONDITIONALLY 
   let renderModal; 
   switch(operation) {
@@ -122,6 +125,9 @@ export default function ImageEntryModal({operation}) {
       break; 
     case 'viewImage':
       renderModal = viewImageModal;
+      break; 
+    case 'viewMap':
+      renderModal = viewMapModal;
       break; 
     default:
       renderModal = <p> couldn't display modal </p>;

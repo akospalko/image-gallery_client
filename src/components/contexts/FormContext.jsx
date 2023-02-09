@@ -54,6 +54,12 @@ export default function FormContext({children}) {
   // HANDLERS
   // input fields change handler (input, textarea)
   const inputChangeHandler = (e) => {
+    //test for setting gps values in array of nums format
+    if(name === 'gps') {
+
+    } else {
+      // other handlers
+    }
     // get event name, value 
     const { name, value } = e.target; // get event name, value 
     let updatedForm = {...formData}; // copy form

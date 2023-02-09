@@ -14,7 +14,7 @@ export default function DatePicker() {
         onChange={(e) => {
           dateInputChangeHandler(e)
         }}
-        value={formData['captureDate'].value || exifExtractedValues.dateTimeDigitized || ''}
+        value={exifExtractedValues.dateTimeDigitized || ''}
       />
     </div>
   )
