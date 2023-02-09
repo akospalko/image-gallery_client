@@ -9,7 +9,7 @@ const Input = (props) => {
   // PROPS
   const {label, name, customStyle } = props;
   // CONTEXT
-  const {formData, exifExtractedValues, inputChangeHandler} = useFormContext();
+  const {formData, inputChangeHandler} = useFormContext();
   // CONDITIONAL STYLING
   // input & textarea
   let inputStyle = 'input-default';

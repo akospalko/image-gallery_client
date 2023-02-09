@@ -26,19 +26,31 @@ export default function FormContext({children}) {
     if(typeof imageFile !== 'object') {return}
     (async () => {
       const tags = await ExifReader.load(imageFile, {expanded: true});
+      //update formData with the fetched gps data
       let extractedData = {};
       if(tags) {
         const dateTimeDigitized = transformDate(tags.exif?.DateTimeDigitized?.value || '');
         if(dateTimeDigitized) {
           extractedData = {...extractedData, dateTimeDigitized: dateTimeDigitized};
+          let updatedForm = {...formData}; // copy form
+          const updatedItem = {...updatedForm['captureDate']}; // copy and update nested form properties
+          updatedItem.value = transformDate(tags.exif?.DateTimeDigitized?.value || ''); // update prop value
+          updatedForm['captureDate'] = updatedItem; // update form with updated property
+          setFormData(updatedForm);  // update state
         }
-        if(tags.gps?.Latitude || tags.gps?.Longitude) {
-          extractedData = {...extractedData, gps: [tags.gps.Latitude, tags.gps.Longitude]};
-        }
+        if(tags.gps?.Latitude && tags.gps?.Longitude) {
+          extractedData = {...extractedData, gps: `${tags.gps.Latitude},${tags.gps.Longitude}`}; // extract gps data for later use
+          let updatedForm = {...formData}; // copy form
+          const updatedItem = {...updatedForm['gps']}; // copy and update nested form properties
+          updatedItem.value = `${tags.gps.Latitude},${tags.gps.Longitude}`; // update prop value
+          updatedForm['gps'] = updatedItem; // update form with updated property
+          setFormData(updatedForm);  // update state
+        } 
+        console.log(extractedData)
         setExifExtractedValues(extractedData);
       }
     })()
-  }, [imageFile, setExifExtractedValues])
+  }, [imageFile, setFormData, setExifExtractedValues])
   // HANDLERS
   // input fields change handler (input, textarea)
   const inputChangeHandler = (e) => {
@@ -46,7 +58,6 @@ export default function FormContext({children}) {
     const { name, value } = e.target; // get event name, value 
     let updatedForm = {...formData}; // copy form
     const updatedItem = {...updatedForm[name]}; // copy and update nested form properties
-    console.log(exifExtractedValues.gps);
     updatedItem.value = value; // update prop value
     updatedForm[name] = updatedItem; // update form with updated property
     setFormData(updatedForm);  // update state
@@ -77,7 +88,8 @@ export default function FormContext({children}) {
   // date input 
   const dateInputChangeHandler = (e) => {
     e.preventDefault();
-    setDateTimeDigitized(prev => {
+    setExifExtractedValues(prev => {
+      console.log(e.target.value);
       return {...prev, dateTimeDigitized: e.target.value}
     });
     // update form captureDate field
@@ -86,6 +98,7 @@ export default function FormContext({children}) {
     updatedItem.value = e.target.value; // update prop value
     updatedForm['captureDate'] = updatedItem; // update form with updated property
     setFormData(updatedForm); // update state
+    console.log(updatedForm)
   }
   
   return (

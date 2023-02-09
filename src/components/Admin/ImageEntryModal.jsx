@@ -13,7 +13,7 @@ import {useFormContext} from '../contexts/FormContext'
 export default function ImageEntryModal({operation}) {
   // CONTEXTS
   const {activeID} = useModalContext();
-  const {formData, setFormData, setData, setIsSubmittingForm} = useFormContext();
+  const {formData, setFormData, setData} = useFormContext();
   // STATE
   const [isFormReady, setIsFormReady] = useState(false);
   // EFFECTS
@@ -53,7 +53,6 @@ export default function ImageEntryModal({operation}) {
   // submit form for createImage (create new image entry)
   const createImageEntryHandler = async(e, formData) => {
     e.preventDefault();
-    console.log('create image entry');
     const convertedData = convertFormData(formData); // simplyfy data before sending request  
     await postImageEntry(convertedData); // send post request
     console.log('submitted values:', convertedData);

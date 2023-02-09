@@ -14,12 +14,12 @@ export const createImage = {
     value: '',
     label: 'author'
   },
-  coordinate: {
+  gps: {
     type: 'text', 
     field: 'input',
     placeholder: 'geolocation of the image',
     value: '',
-    label: 'coordinate'
+    label: 'gps (lat/long)'
   },
   description: {
     field: 'textarea',
@@ -74,12 +74,12 @@ export const updateImage = {
     value: '',
     label: 'author'
   },
-  coordinate: {
+  gps: {
     type: 'text', 
     field: 'input',
     placeholder: 'geolocation of the image',
     value: '',
-    label: 'coordinate'
+    label: 'gps (lat/long)'
   },
   description: {
     field: 'textarea',
@@ -94,7 +94,6 @@ export const updateImage = {
     value: '',
     label: 'capture date'
   },
-
   imageFile: {
     type: 'file',
     field: 'file',

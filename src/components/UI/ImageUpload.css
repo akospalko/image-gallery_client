@@ -9,7 +9,7 @@
   width: 100%;
 }
 .image-upload-file-container {
-  /* height: 100px; */
+  min-height: 100px;
 }
 .image-upload-file-input {
   height: 100%;

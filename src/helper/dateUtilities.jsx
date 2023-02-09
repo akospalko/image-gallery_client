@@ -16,6 +16,7 @@
   // if date is array: read, transform & simplify img exif date -> convert it to a " input type='date' " compatible string (test: ['2023:05:25 20:55:59'] -> '2023:05:25')
   // if date is string: replace separators 
   export const transformDate = (date, separatorOriginal=':', separatorReplace='-') => {
+    if(!date) {return}
     if(Array.isArray(date)) {
       return date[0].split(' ')[0].replaceAll(separatorOriginal, separatorReplace);
     } else if (typeof date === 'string') { // if input is string type: replace
