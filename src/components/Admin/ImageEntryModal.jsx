@@ -56,7 +56,6 @@ export default function ImageEntryModal({operation}) {
     e.preventDefault();
     const convertedData = convertFormData(formData); // simplyfy data before sending request  
     await postImageEntry(convertedData); // send post request
-    console.log('submitted values:', convertedData);
     //refetch data
     await refetchImageEntries(setData);
     // if succes post request -> reset form 

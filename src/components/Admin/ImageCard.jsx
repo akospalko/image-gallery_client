@@ -72,7 +72,8 @@ export default function ImageCard() {
               <p> {card.title} </p>
             </div>
             <div className='image-card-content-data'> {transformDate(card.captureDate, '-', '.')} </div>
-            <div className='image-card-content-data'> {card.gps} </div>
+            <div className='image-card-content-data'> {card.gpsLatitude} </div>
+            <div className='image-card-content-data'> {card.gpsLongitude} </div>
             <div className='image-card-content-data'> {card.author} </div>
             <div className='image-card-content-data image-card-content-data--description'> 
               <p> {card.description} </p>

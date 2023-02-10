@@ -44,7 +44,6 @@ export const getSingleImageEntry = async (activeID) => {
  // fetch single entry
  export const fetchImageEntry = async (activeID, activeIDSetter) => {
   const response = await getSingleImageEntry(activeID); 
-  console.log(response.data)
   activeIDSetter(response.data);
 }
 // POST
@@ -64,7 +63,6 @@ export const updateImageEntry = async (activeID, imageEntry) => {
   if(!activeID && !imageEntry) return;
   try { 
     const res = await axios.patch(`${baseURL}/api/v1/image-entry/${activeID}`, imageEntry, options);
-    console.log(res);
     if(String(res.status)[0] === '2') {
       return 'UPDATE_ENTRIES_SUCCESS';
     } 

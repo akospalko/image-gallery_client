@@ -8,13 +8,12 @@ export default function DatePicker() {
 
   return (
     <div className='date-picker-container'>
-      {console.log()}
       <input 
         type='date' 
         onChange={(e) => {
           dateInputChangeHandler(e)
         }}
-        value={exifExtractedValues.dateTimeDigitized || ''}
+        value={formData?.captureDate.value || ''}
       />
     </div>
   )

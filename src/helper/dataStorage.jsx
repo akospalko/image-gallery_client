@@ -14,12 +14,19 @@ export const createImage = {
     value: '',
     label: 'author'
   },
-  gps: {
-    type: 'text', 
+  gpsLatitude: {
+    type: 'number', 
     field: 'input',
-    placeholder: 'geolocation of the image',
+    placeholder: 'latitude coordinate of the image',
     value: '',
-    label: 'gps (lat/long)'
+    label: 'gps latitude'
+  },
+  gpsLongitude: {
+    type: 'number', 
+    field: 'input',
+    placeholder: 'longitude coordinate of the image',
+    value: '',
+    label: 'gps longitude'
   },
   description: {
     field: 'textarea',
@@ -74,12 +81,19 @@ export const updateImage = {
     value: '',
     label: 'author'
   },
-  gps: {
-    type: 'text', 
+  gpsLatitude: {
+    type: 'number', 
     field: 'input',
-    placeholder: 'geolocation of the image',
+    placeholder: 'latitude coordinate of the image',
     value: '',
-    label: 'gps (lat/long)'
+    label: 'gps latitude'
+  },
+  gpsLongitude: {
+    type: 'number', 
+    field: 'input',
+    placeholder: 'latitude coordinate of the image',
+    value: '',
+    label: 'gps longitude'
   },
   description: {
     field: 'textarea',
