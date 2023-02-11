@@ -4,16 +4,17 @@ import PageContent from './layout/PageContent'
 import ToggleModalContext from './components/contexts/ToggleModalContext'
 import FormContext from './components/contexts/FormContext'
 
+
 function App() {
   return (
     <div className="App">
       <ToggleModalContext>
       <FormContext>
-        {/* Header */}
-        <Header />
-        {/* Page content */}
-        <PageContent />
-        {/* Page footer */}
+          {/* Header */}
+          <Header />
+          {/* Page content */}
+          <PageContent />
+          {/* Page footer */}
       </FormContext>
       </ToggleModalContext>
     </div>

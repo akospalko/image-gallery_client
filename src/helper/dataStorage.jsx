@@ -121,4 +121,35 @@ export const statusMessages = {
   EMPTY: '',
   UPLOAD_IMAGE_FILE_INITIAL: 'Select image to upload (png or jpg)',
   UPLOAD_IMAGE_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format'
-} 
+}
+// Navigation bar data
+export const navElements = [
+  {
+    id: 0,
+    name: 'home',
+    path: '/'
+  }, {
+    id: 1,
+    name: 'gallery',
+    path: '/gallery'
+  }, {
+    id: 2,
+    name: 'map overview',
+    path: '/mapoverview'
+  }
+]
+export const navElementsAdmin = [
+  {
+    id: 0,
+    name: 'home',
+    path: '/admin/'
+  }, {
+    id: 1,
+    name: 'dashboard',
+    path: '/admin/dashboard'
+  }, {
+    id: 2,
+    name: 'map overview',
+    path: '/admin/mapoverview'
+  }
+]

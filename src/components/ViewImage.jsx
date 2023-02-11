@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../UI/Button'
+import Button from './UI/Button'
 import './ViewImage.css' 
-import { useModalContext } from '../contexts/ToggleModalContext'
-import { useFormContext } from '../contexts/FormContext'
+import { useModalContext } from './contexts/ToggleModalContext'
+import { useFormContext } from './contexts/FormContext'
 
 export default function ViewImage() {
   // CONTEXTS
   const {toggleModalHandler, id} = useModalContext();
-  const {data, setFormData, setImageFile} = useFormContext();
+  const {data, setFormData} = useFormContext();
   const [imageData, setImageData] = useState();
   // EFFECT
   // filter out imageURL for the current entry with the help of id (from modal context) 

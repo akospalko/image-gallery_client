@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react'
 import './ViewMap.css'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
-import { useFormContext } from '../contexts/FormContext'
-import { useModalContext } from '../contexts/ToggleModalContext'
-import Button from '../UI/Button'
+import { useFormContext } from './contexts/FormContext'
+import { useModalContext } from './contexts/ToggleModalContext'
+import Button from './UI/Button'
 
 export default function ViewMap() {
   // CONTEXT
