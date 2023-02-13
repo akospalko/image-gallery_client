@@ -3,19 +3,22 @@ import React from 'react'
 import Dashboard from '../components/Admin/Dashboard'
 import MapOverview from '../components/MapOverview'
 import { Route, Routes } from 'react-router-dom'
+import Home from '../components/User/Home'
 
+// set up context with role here
 export default function PageContent({role}) {
   return (
     <> 
       {/* User */}
-        {/* <Route path={'/'} element={ <Home role='admin'/> } /> */}
+      <Routes>
+        <Route path={'/'} element={ <Home/> } />
         {/* <Route path={'/gallery'} element={ <Gallery/> } /> */}
         {/* <Route path={'/map'} element={ <Map/> } /> */}
         {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
-
+      </Routes>
       {/* Admin */}
       <Routes>
-        {/* <Route path={'/admin/'} element={<Home/>} /> */}
+        {/* <Route path={'/admin/'} element={<Home role='admin'/>} /> */}
         <Route path={'/admin/dashboard'} element={<Dashboard/>} />
         <Route path={'/admin/mapoverview'} element={<MapOverview/>} />
         {/* <Route path={'*'} element={ <PageNotFound/> } />  */}

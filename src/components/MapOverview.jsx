@@ -31,7 +31,7 @@ export default function MapOverview() {
   useEffect(() => {
     if(!data) return;
     calculateStatistics(data);
-  }, [])
+  }, [data])
   
   // FUNCTIONS
   // collect all entries' coordinates from fetched data -> it is needed to calculate marker bounds 
