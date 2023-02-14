@@ -4,5 +4,10 @@
   min-height: calc(100vh - var(--header-height));
   padding: 0.5rem;
   width: 100%;
-  background-color: rgb(28, 186, 109);
+  background-color: rgb(124, 125, 124);
+}
+
+.shared-page-container--centered {
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,110 @@
+import React, {useState, useEffect, useRef, useCallback} from 'react'
+import './PhotoSlider.css'
+
+export default function PhotoSlider({slides, parentWidth}) {
+  // REFERENCE
+  const timerRef = useRef(null);
+  // STATE
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // STYLES
+  const slideStyles = {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '10px',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  };
+  const navigationButtons = 'photo-slider-navigation-button';
+  const navigationButtonLeft = [navigationButtons, 'photo-slider-navigation-button--left'].join(' ');
+  const navigationButtonRight = [navigationButtons, 'photo-slider-navigation-button--right'].join(' ');
+  const sliderStyles = {
+    display: 'flex',
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    flexDirection: 'column',
+  };
+  const slidesContainerStyles = {
+    display: 'flex',
+    height: '100%',
+    transition: 'transform ease-out 0.3s',
+  };
+  const slidesContainerOverflowStyles = {
+    overflow: 'hidden',
+    height: '100%',
+    borderRadius: '10px',
+  };
+
+  //FUNCTIONALITIES
+  const prevSlide = () => {
+    const isFirstSlide = currentIndex === 0;
+    const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1; 
+    setCurrentIndex(newIndex);
+  }
+  const nextSlide = useCallback(() => {
+    const isLastSlide = currentIndex === slides.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1; 
+    setCurrentIndex(newIndex);
+  }, [currentIndex, setCurrentIndex, slides])
+
+  const goToSlide = (slideIndex) => {
+    setCurrentIndex(slideIndex);
+  }
+  // EFFECT
+  useEffect(() => {
+    // clear timer from previous render (restarts timer on each occasion when we use the slider) 
+    if(timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    // create new timer (restart timer after not using slider)  
+    timerRef.current = setTimeout(() => {
+      nextSlide();
+    }, [2000])
+    // clean up memory
+    return () => {clearTimeout(timerRef.current)}
+  }, [nextSlide])
+  const getSlideStylesWithBackground = (slideIndex) => ({
+    ...slideStyles,
+    backgroundImage: `url(${slides[slideIndex].url})`,
+    width: `${parentWidth}px`,
+  });
+  const getSlidesContainerStylesWithWidth = () => ({
+    ...slidesContainerStyles,
+    width: parentWidth * slides.length,
+    transform: `translateX(${-(currentIndex * parentWidth)}px)`,
+  });
+
+  return (
+    <div style={sliderStyles}>
+      {/* slider navigation button */}
+      <div className='photo-slider-navigation-container'>
+        <div className={navigationButtonLeft} onClick={prevSlide}> {'❰'} </div>
+        <div className={navigationButtonRight} onClick={nextSlide}> {'❱'} </div>
+      </div>
+      {/* photo frame window */}
+      <div style={slidesContainerOverflowStyles}>
+        {/* photos slides container (row of photos) */}
+        <div style={getSlidesContainerStylesWithWidth()}>
+          {slides.map((_, slideIndex) => (
+            // single slide (photo)
+            <div
+            key={slideIndex}
+              style={getSlideStylesWithBackground(slideIndex)}
+            ></div>
+          ))}
+        </div>
+      </div>
+      {/* tracker */}
+      <div className='photo-slider-tracker'>
+        {slides.map((_, i) => (
+          <span 
+          key={i} 
+          className={i === currentIndex ? 'photo-slider-tracker-elem photo-slider-tracker-elem--active' : 'photo-slider-tracker-elem'} 
+          onClick={() => goToSlide(i)}> </span>
+        ))}
+      </div>
+    </div>
+  );
+}

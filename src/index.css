@@ -17,6 +17,9 @@
   --margin-default: 0.5rem;
   --padding-default: 0.5rem;
 
+  /* misc: */
+  --tracker-bar-height: 50px;
+
 
 }
 body {

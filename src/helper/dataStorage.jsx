@@ -153,3 +153,17 @@ export const navElementsAdmin = [
     path: '/admin/mapoverview'
   }
 ]
+// temporary slides for home photo slider
+export const temporarySlides = [
+  {
+    url: 'https://images.unsplash.com/photo-1676219957647-a69f861f9b27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    title:'1'
+},
+  {
+    url: 'https://images.unsplash.com/photo-1676219957679-33f1b1520a7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    title:'2'},
+  {
+    url: 'https://images.unsplash.com/photo-1676219957664-b12399c38b59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    title:'3'
+  }
+]
