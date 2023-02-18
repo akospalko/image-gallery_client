@@ -6,8 +6,20 @@
   width: 100%;
   background-color: rgb(124, 125, 124);
 }
-
 .shared-page-container--centered {
   justify-content: center;
   align-items: center;
+}
+.shared-modal-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--padding-default);
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow-y: scroll;
 }

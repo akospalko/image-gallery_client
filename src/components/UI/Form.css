@@ -4,6 +4,7 @@
 .form-button-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-direction: column;
   width: 100%;
 }
@@ -21,4 +22,8 @@
 .form-button-container {
   flex-direction: row;
   justify-content: space-between;
+}
+/* centering button (only if single button is present) for auth containers */
+.form-button-container--centered {
+  flex-direction: column;
 }

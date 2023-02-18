@@ -22,6 +22,14 @@ export default function Button(props) {
     case 'view-image-close':
       buttonStyle = 'button-view-image-close';
       break;
+    // toggle between login and register modals
+    case 'toggle-auth-modal': 
+    buttonStyle = 'button-toggle-auth-modal';
+    break;
+    // onClick -> highlighted toggle buttons for login - register modals  
+    case 'toggle-auth-modal active': 
+      buttonStyle = 'button-toggle-auth-modal--active';
+      break;
     default:
       buttonStyle = 'button-default'
   } 

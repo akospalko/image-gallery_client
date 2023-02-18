@@ -4,6 +4,7 @@ import axios from 'axios'
 // INITIAL VALUES / SETTINGS
 // request header settings to allow sending image file and form text in one req (for post/patch)  
 const baseURL = 'http://localhost:3000';
+// option to send image + text data when posting an image entry
 const options = {
   headers: {"content-type": "multipart/form-data"}
 }
@@ -81,4 +82,18 @@ export const deleteImageEntry = async (activeID) => {
   } catch (error) {
     return 'DELETE_ENTRIES_FAILED';
   }
+}
+
+// REGISTER NEW USER
+// POST
+export const createNewUser = async (userData) => {
+  if(!userData) return;
+  try {
+    const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry, options);
+    if(String(res.status)[0] === '2') {
+      return 'CREATE_ENTRIES_SUCCESS'; 
+    } 
+  } catch (error) {
+      return 'CREATE_ENTRIES_FAILED';
+    }
 }

@@ -1,5 +1,4 @@
 import React, {useState, createContext, useContext} from 'react'
-
 // DEFINE && EXPORT CONTEXT
 // create context
 const ModalContext = createContext();
@@ -14,7 +13,8 @@ export default function ToggleModalContext({children}) {
     createImage: false,
     updateImage: false,
     viewImage: false,
-    viewMap: false
+    viewMap: false,
+    authentication: 'login' // || register // toggle between Login and Register modals
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);
@@ -28,6 +28,19 @@ export default function ToggleModalContext({children}) {
       return {...prev, [operation]: !prev[operation]}
     })
   }
+  const authModalHandler = (operation) => {
+    setToggleModal(prev => {
+      if(!operation || (operation !== 'login' && operation !== 'register')) return;
+      let toggledElem;
+      if(operation === 'login') {
+        toggledElem = 'login';
+      } else if(operation === 'register') {
+        toggledElem = 'register';
+      }
+      return {...prev, authentication: toggledElem}
+    })
+
+  }
 
   return (
     <ModalContext.Provider
@@ -35,7 +48,8 @@ export default function ToggleModalContext({children}) {
         toggleModal, setToggleModal,
         activeID, setActiveID,
         id, setID,
-        toggleModalHandler
+        toggleModalHandler,
+        authModalHandler
       }}
     > 
       {children}

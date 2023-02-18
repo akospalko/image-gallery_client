@@ -3,8 +3,8 @@ import React from 'react'
 import './Form.css'
 import Button from './Button'
 import {useModalContext} from '../contexts/ToggleModalContext'
-import { useFormContext } from '../contexts/FormContext'
-import { statusMessages } from '../../helper/dataStorage'
+import {useFormContext} from '../contexts/FormContext'
+import {statusMessages} from '../../helper/dataStorage'
 
 export default function Form(props) {
   // PROPS
@@ -25,38 +25,70 @@ export default function Form(props) {
     default:
       formStyle = 'form-default';
   } 
+  // BUTTONS
+  // rendered button element
+  let buttonElement;
+  // image entry (create/udate)
+  const imageEntryButton = (
+    <div className='form-button-container'> 
+      { toggleModalHandler ?  
+        <Button 
+          customStyle='form-submit' 
+          type='button' 
+          clicked={() => {
+            setFormData(undefined);
+            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL)
+            toggleModalHandler(operation)}}
+        > Cancel 
+        </Button> : null
+      }      
+      <Button 
+        customStyle='form-submit' 
+        type='submit' 
+        clicked={ (e) => {
+            submit(e, formData); 
+            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
+            toggleModalHandler(operation);
+          }
+        }
+      > Submit </Button>      
+    </div> 
+  );
+  // authentication (login/register)
+  const authenticationButton = (
+    <div className='form-button-container form-button-container--centered'> 
+      <Button 
+        customStyle='form-submit' 
+        type='submit' 
+        clicked={(e) => {submit(e, formData)}}
+      > Submit 
+      </Button>      
+    </div> 
+  )
+  // decide rendered button element
+  switch(operation) {
+    case 'createImage': 
+    case 'updateImage': 
+      buttonElement = imageEntryButton;
+      break;
+    case 'login':
+    case 'register':
+      buttonElement = authenticationButton;
+      break;
+    default: 
+      buttonElement = <Button> Default </Button>;
+  }
 
   return (
     <>
       <form className={formStyle}>
+        {/* form */}
         <div className='form-form-container'> 
-          <h1> {title} </h1>
+          {title && <h1> {title} </h1>}
           {children} 
         </div>
-        <div className='form-button-container'> 
-          { toggleModalHandler ?  
-            <Button 
-              customStyle='form-submit' 
-              type='button' 
-              clicked={() => {
-                setFormData(undefined);
-                setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL)
-                toggleModalHandler(operation)}}
-            > Cancel 
-            </Button> : null }      
-            <Button 
-              customStyle='form-submit' 
-              type='submit' 
-              clicked={
-                (e) => {
-                  submit(e, formData); 
-                  setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL)
-                  toggleModalHandler(operation);
-                }
-              }
-            > Submit 
-            </Button>      
-        </div>
+        {/* button */}
+        {buttonElement}
       </form>
     </>
   )

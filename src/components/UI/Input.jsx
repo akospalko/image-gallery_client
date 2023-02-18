@@ -39,6 +39,26 @@ const Input = (props) => {
       value={formData[name]?.value || ''}
       disabled={formData[name]?.disabled}
     /> )
+  const email = (
+    <input 
+      className={inputStyle}
+      name={name} 
+      type={formData[name]?.type} 
+      placeholder={formData[name]?.placeholder}
+      onChange={inputChangeHandler}
+      value={formData[name]?.value || ''}
+      disabled={formData[name]?.disabled}
+    /> )
+  const password = (
+    <input 
+      className={inputStyle}
+      name={name} 
+      type={formData[name]?.type} 
+      placeholder={formData[name]?.placeholder}
+      onChange={inputChangeHandler}
+      value={formData[name]?.value || ''}
+      disabled={formData[name]?.disabled}
+    /> )
   const textarea = ( 
     <textarea 
       className={textareaStyle}
@@ -54,6 +74,12 @@ const Input = (props) => {
   switch(formData[name]?.field) {
     case 'input':
       element = input; 
+      break;
+    case 'email':
+      element = email; 
+      break;
+    case 'password':
+      element = password; 
       break;
     case 'textarea':
       element = textarea; 

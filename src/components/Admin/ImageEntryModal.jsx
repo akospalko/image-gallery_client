@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import './ImageEntryModal.css'
+import '../Shared.css'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
 import ViewImage from '../ViewImage'
@@ -49,7 +49,6 @@ export default function ImageEntryModal({operation}) {
     setFormData(updatedForm);  
     setIsFormReady(true);      
   }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady
-  
   // SUBMIT
   // submit form for createImage (create new image entry)
   const createImageEntryHandler = async(e, formData) => {
@@ -78,7 +77,6 @@ export default function ImageEntryModal({operation}) {
       title={'Create Image Entry'}
       operation = {operation}
       submit={createImageEntryHandler}
-      initialValues={createImage}
       customStyle='image-create-update'
     >
       { buildInputFields(createImage).map(elem => (
@@ -133,8 +131,8 @@ export default function ImageEntryModal({operation}) {
   }
 
   return (
-    <div className='modal-container'>
-      { formData && renderModal }
+    <div className='shared-modal-container'>
+      {formData && renderModal}
     </div>
   )
 }

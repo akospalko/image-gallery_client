@@ -4,7 +4,6 @@ import PageContent from './layout/PageContent'
 import ToggleModalContext from './components/contexts/ToggleModalContext'
 import FormContext from './components/contexts/FormContext'
 
-
 function App() {
   return (
     <div className="App">

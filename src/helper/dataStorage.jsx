@@ -115,6 +115,52 @@ export const updateImage = {
     label: ''
   }
 }
+export const login = {
+  username: {
+    type: 'text',
+    field: 'input',
+    placeholder: 'Luigi',
+    value: '',
+    label: 'username'
+  },
+  password: {
+    type: 'password',
+    field: 'password',
+    placeholder: 'a very secret password',
+    value: '',
+    label: 'password'
+  }
+} 
+export const register = {
+  username: {
+    type: 'text',
+    field: 'input',
+    placeholder: 'Luigi',
+    value: '',
+    label: 'username'
+  },
+  email: {
+    type: 'email',
+    field: 'email',
+    placeholder: 'luigi@email.com',
+    value: '',
+    label: 'e-mail'
+  },
+  password: {
+    type: 'password',
+    field: 'password',
+    placeholder: 'secret password',
+    value: '',
+    label: 'password'
+  },
+  passwordConfirm: {
+    type: 'password',
+    field: 'password',
+    placeholder: 'confirm your secret password',
+    value: '',
+    label: 'password' 
+  }
+} 
 // Status Message
 export const statusMessages = {
   // upload input image
