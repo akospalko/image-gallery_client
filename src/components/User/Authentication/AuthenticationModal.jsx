@@ -9,6 +9,8 @@ import {useFormContext} from '../../contexts/FormContext'
 import {login, register} from '../../../helper/dataStorage'
 import {buildInputFields} from '../../../helper/buildInputFields'
 import {convertFormData} from '../../../helper/convertFormData'
+import {createNewUser} from '../../../helper/axiosRequests'
+
 
 export default function AuthenticationModal({operation}) {
   // CONTEXT
@@ -43,9 +45,15 @@ export default function AuthenticationModal({operation}) {
   const registerHandler = async (e, formData) => {
     e.preventDefault();
     const convertedData = convertFormData(formData); // simplyfy data before sending request  
-    // validate fields && compare passwords -> enable button
-    console.log(convertedData);
-    // reset form 
+    const {password, passwordConfirm, ...rest} = convertedData;
+    // validate fields -> enable button
+    // check for matching passwords  
+    if(password !== passwordConfirm) return;
+      delete convertedData.passwordConfirm; // delete pw from convertedData obj
+      console.log(convertedData);
+      const response = await createNewUser(convertedData);
+      console.log(response);
+      // reset form 
     setFormData(register);
   }
   // RENDERED ELEMENTS

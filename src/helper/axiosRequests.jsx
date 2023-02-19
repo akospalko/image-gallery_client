@@ -83,17 +83,29 @@ export const deleteImageEntry = async (activeID) => {
     return 'DELETE_ENTRIES_FAILED';
   }
 }
-
 // REGISTER NEW USER
 // POST
 export const createNewUser = async (userData) => {
   if(!userData) return;
+  // axios options
+  const options = {
+    headers: {'Content-Type': 'application/json'},
+    withCredentials: true
+  }
   try {
-    const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry, options);
+    const res = await axios.post(`${baseURL}/api/v1/register`, userData, options);
     if(String(res.status)[0] === '2') {
-      return 'CREATE_ENTRIES_SUCCESS'; 
+      console.log(res.status)
+      return 'CREATE_USER_SUCCESS'; 
     } 
   } catch (error) {
-      return 'CREATE_ENTRIES_FAILED';
+    if(!error?.response) {
+      console.log(error)
+      return 'No server response';
+    } else if(error?.response.status === 409) {
+      return 'Username taken';
+    } else {
+      return 'Registration failed';
     }
+  }
 }
