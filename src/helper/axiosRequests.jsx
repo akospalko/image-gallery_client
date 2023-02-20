@@ -109,3 +109,13 @@ export const createNewUser = async (userData) => {
     }
   }
 }
+export const refreshToken = async (authSetter) => {
+  // axios options
+  const response =  await axios.post(`${baseURL}/api/v1/refresh`, {withCredentials: true});
+  authSetter(prev => {
+      console.log(prev);
+      console.log(response.data.accessToken);
+      return { ...prev, accessToken: response.data.accessToken }
+  });
+  return response.data.accessToken;
+}

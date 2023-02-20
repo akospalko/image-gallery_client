@@ -20,7 +20,7 @@ export default function FormContext({children}) {
 
   // EFFECT
   // read exif data of the added image file, if exist
-  useEffect(() => {
+useEffect(() => {
     if(!imageFile) return;
     if(typeof imageFile !== 'object') {return}
     (async () => {
