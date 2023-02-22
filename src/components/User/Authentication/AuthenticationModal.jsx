@@ -9,13 +9,14 @@ import {useFormContext} from '../../contexts/FormContext'
 import {login, register} from '../../../helper/dataStorage'
 import {buildInputFields} from '../../../helper/buildInputFields'
 import {convertFormData} from '../../../helper/convertFormData'
-import {createNewUser} from '../../../helper/axiosRequests'
-
+import {createNewUser, loginUser} from '../../../helper/axiosRequests'
+import {useAuthContext} from '../../contexts/AuthenticationContext'
 
 export default function AuthenticationModal({operation}) {
   // CONTEXT
   const {authModalHandler} = useModalContext();
-  const {formData, setFormData, setData} = useFormContext();
+  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {auth, setAuth} = useAuthContext(); 
   // EFFECT
   useEffect(() => {
     // find initial value to set up modals with forms based on operation value
@@ -32,29 +33,45 @@ export default function AuthenticationModal({operation}) {
     }
     setFormData(initialValue);
   }, [operation, setFormData])
-  // SUBMIT
-  // submit login handler
+  // HANDLERS
+  // login handler 
   const loginHandler = async (e, formData) => {
     e.preventDefault();
-    // logic
-    console.log(formData)
-    // reset form 
-    setFormData(login);
+    const convertedData = convertFormData(formData); // simplify data before sending request  
+    const response = await loginUser(convertedData);
+    if(response.success) {
+      // destructure response data
+      const {roles, accessToken} = response;
+      console.log(roles, accessToken);
+      const authData = {username: convertedData.username, password: convertedData.password, roles, accessToken}; 
+      setAuth(authData);  // store auth data in form
+    
+      setFormData(login);   // reset form to initial state
+    } else if(!response.success) {
+      // TODO: empty pasword field
+    } 
+    setMessage(response.message); // set status message
   }
-  // submit register handler
+  // register handler
   const registerHandler = async (e, formData) => {
     e.preventDefault();
     const convertedData = convertFormData(formData); // simplyfy data before sending request  
     const {password, passwordConfirm, ...rest} = convertedData;
     // validate fields -> enable button
-    // check for matching passwords  
-    if(password !== passwordConfirm) return;
-      delete convertedData.passwordConfirm; // delete pw from convertedData obj
-      console.log(convertedData);
-      const response = await createNewUser(convertedData);
-      console.log(response);
+    // check for matching pw-s  
+    if(password !== passwordConfirm) {
+      setMessage('Passwords are not matching');
+      return;
+    };
+    delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
+    const response = await createNewUser(convertedData);
+    if(response.success) {
       // reset form 
-    setFormData(register);
+      setFormData(register);
+    } else if(!response.success) {
+      // TODO: empty pasword fields
+    }
+    setMessage(response.message); // set status message
   }
   // RENDERED ELEMENTS
   // login

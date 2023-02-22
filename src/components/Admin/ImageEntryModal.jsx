@@ -7,14 +7,17 @@ import ViewMap from '../ViewMap'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import {convertFormData} from '../../helper/convertFormData'
-import {postImageEntry, refetchImageEntries, updateImageEntry} from '../../helper/axiosRequests'
+import {postImageEntry, getAllImageEntries, updateImageEntry} from '../../helper/axiosRequests'
 import {buildInputFields} from '../../helper/buildInputFields'
 import {createImage, updateImage} from '../../helper/dataStorage'
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 export default function ImageEntryModal({operation}) {
   // CONTEXTS
   const {activeID} = useModalContext();
-  const {formData, setFormData, setData} = useFormContext();
+  const {formData, setFormData, setData, setMessage} = useFormContext();
+  // HOOK
+  const axiosPrivate = useAxiosPrivate();
   // STATE
   const [isFormReady, setIsFormReady] = useState(false);
   // EFFECTS
@@ -37,7 +40,8 @@ export default function ImageEntryModal({operation}) {
   // populate form with active id on first render
   useEffect(() => {
     if(operation !== 'updateImage') return;
-    if(!formData) return;
+    if(!formData || formData !== updateImage) return;
+    if(!activeID) return;
     if(isFormReady) return;
     // update state with filtered fields
     let updatedForm = {...formData}; // copy form
@@ -49,24 +53,26 @@ export default function ImageEntryModal({operation}) {
     setFormData(updatedForm);  
     setIsFormReady(true);      
   }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady
-  // SUBMIT
+  // HANDLERS
   // submit form for createImage (create new image entry)
   const createImageEntryHandler = async(e, formData) => {
     e.preventDefault();
     const convertedData = convertFormData(formData); // simplyfy data before sending request  
-    await postImageEntry(convertedData); // send post request
-    //refetch data
-    await refetchImageEntries(setData);
-    // if succes post request -> reset form 
+    const responseCreate = await postImageEntry(convertedData, axiosPrivate); // post entry to server
+    setMessage(responseCreate.message);
+    const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+    setData(responseGetAll.imageEntries); // store entries in state
+    // reset form 
     setFormData(undefined);
   }
   // submit form for createImage (update new image entry)
   const updateImageEntryHandler = async (e, formData) => {
     e.preventDefault();
     const convertedData = convertFormData(formData); 
-    const response = await updateImageEntry(activeID._id, convertedData)
-    //refetch data
-    await refetchImageEntries(setData);
+    const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate);
+    setMessage(responseUpdate.message);
+    const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+    setData(responseGetAll.imageEntries); // store entries in state
     // if succes post request -> reset form 
     setFormData(undefined);
   }

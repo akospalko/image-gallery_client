@@ -16,8 +16,8 @@ export default function Authentication() {
   } else {<p> cannot display modal </p>}
 
   return (
-      <div className='shared-page-container'> 
-        {renderedModal}
-      </div>
-    )
+    <div className='shared-page-container'> 
+      {renderedModal}
+    </div>
+  )
 }

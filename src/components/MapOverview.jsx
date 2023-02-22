@@ -5,8 +5,11 @@ import './Shared.css'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import {useFormContext} from './contexts/FormContext'
+import {getAllImageEntries} from '../helper/axiosRequests'
 import FitMarkersToBounds from './FitMarkersToBounds'
-import {refetchImageEntries} from '../helper/axiosRequests'
+import useAxiosPrivate from './hooks/useAxiosPrivate' 
+
+
 import CustomPopup from './CustomPopup';
 
 export default function MapOverview() {
@@ -19,14 +22,18 @@ export default function MapOverview() {
   };
   const [statistics, setStatistics] = useState(statisticsTemplate);
   // CONTEXT
-  const {data, setData} = useFormContext();
+  const {data, setData, setMessage} = useFormContext();
+  // HOOK 
+  const axiosPrivate = useAxiosPrivate();
   // EFFECT
   useEffect(() => {
     if(!data) return;
     (async () => {
-      await refetchImageEntries(setData); // map is not updated automatically when we modify data    
+      const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      console.log(response);
+      setData(response.imageEntries); // store entries in state
+      setMessage(response.message); // set message
     })() 
-  
   }, [])
   useEffect(() => {
     if(!data) return;

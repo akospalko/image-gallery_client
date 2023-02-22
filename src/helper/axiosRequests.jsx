@@ -1,121 +1,133 @@
+// TODO: replace status message strings with CONSTANTS 
 // list of requests made to the api
-import axios from 'axios'
+import {axiosAuthentication} from '../helper/axiosInstances'
 
-// INITIAL VALUES / SETTINGS
-// request header settings to allow sending image file and form text in one req (for post/patch)  
-const baseURL = 'http://localhost:3000';
-// option to send image + text data when posting an image entry
-const options = {
-  headers: {"content-type": "multipart/form-data"}
-}
-// GET 
-// all image entries
-export const getAllImageEntries = async () => {
-  let customResponseObj = {};
-  const res = await axios.get(`${baseURL}/api/v1/image-entry`);
+// IMAGE ENTRY 
+// GET all image entries, update state with fetched response data
+export const getAllImageEntries = async (axiosInstance) => {
+  let fetchedData; 
   try {
-    if(String(res.status)[0] === '2') {
-      customResponseObj = { data: res.data.imageEntries, resStatusMessage: 'GET_ALL_ENTRIES_SUCCESS' };
-    } 
+    const response = await axiosInstance.get('/api/v1/image-entry');
+    fetchedData = {...response?.data}; 
   } catch (error) {
-    customResponseObj = { data: res.data.tasks, resStatusMessage: 'GET_ALL_ENTRIES_FAILED' };
+    if(!error?.response) {
+      fetchedData = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
   }
-  return customResponseObj;
+  console.log(fetchedData);
+  return fetchedData;
 }
- // re/fetch entries and update state (data) with the result
- export const refetchImageEntries = async (dataSetter) => {
-  const response = await getAllImageEntries();
-  dataSetter(response.data);
-}
-// GET
-// single entry
-export const getSingleImageEntry = async (activeID) => {
+// GET single entry, update state with fetched response data
+export const getSingleImageEntry = async (activeID, axiosInstance) => {
   if(!activeID) return;
-  let customResponseObj = {};
+  let fetchedData; 
   try { 
-    const response = await axios.get(`${baseURL}/api/v1/image-entry/${activeID}`);
-    if(String(response.status)[0] === '2') {
-      customResponseObj = { data: response.data.imageEntry, resStatus: 'GET_ENTRIES_SUCCESS' }
-    } 
+    const response = await axiosInstance.get(`/api/v1/image-entry/${activeID}`);
+    fetchedData = {...response?.data}; 
   } catch (error) {
-    customResponseObj = { resStatus: 'GET_ENTRIES_FAILED' }
+    if(!error?.response) {
+      fetchedData = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
   }
-  return customResponseObj;
-}
- // fetch single entry
- export const fetchImageEntry = async (activeID, activeIDSetter) => {
-  const response = await getSingleImageEntry(activeID); 
-  activeIDSetter(response.data);
+  return fetchedData;
 }
 // POST
-export const postImageEntry = async (imageEntry) => {
-  if(!imageEntry) return;
+export const postImageEntry = async (entryData, axiosInstance) => {
+  if(!entryData) return;
+  let fetchResult; 
   try {
-    const res = await axios.post(`${baseURL}/api/v1/image-entry`, imageEntry, options);
-    if(String(res.status)[0] === '2') {
-      return 'CREATE_ENTRIES_SUCCESS'; 
-    } 
+    const response = await axiosInstance.post(`/api/v1/image-entry`, entryData);
+    fetchResult = {...response?.data};
   } catch (error) {
-      return 'CREATE_ENTRIES_FAILED';
+    if(!error?.response) {
+      fetchResult = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
     }
+  }
+  return fetchResult;
 }
 // PATCH (update)
-export const updateImageEntry = async (activeID, imageEntry) => {
-  if(!activeID && !imageEntry) return;
+export const updateImageEntry = async (activeID, entryData, axiosInstance) => {
+  if(!activeID && !entryData) return;
+  let fetchResult; 
   try { 
-    const res = await axios.patch(`${baseURL}/api/v1/image-entry/${activeID}`, imageEntry, options);
-    if(String(res.status)[0] === '2') {
-      return 'UPDATE_ENTRIES_SUCCESS';
-    } 
+    const response = await axiosInstance.patch(`/api/v1/image-entry/${activeID}`, entryData);
+    fetchResult = {...response?.data};
   } catch (error) {
-    return 'UPDATE_ENTRIES_FAILED'; 
+    if(!error?.response) {
+      fetchResult = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
   }
+  return fetchResult;
 }
 // DELETE
-export const deleteImageEntry = async (activeID) => { 
+export const deleteImageEntry = async (activeID, axiosInstance) => { 
   if(!activeID) return;
-  try {
-    const res = await axios.delete(`${baseURL}/api/v1/image-entry/${activeID}`)
-    if(String(res.status)[0] === '2') {
-      return 'DELETE_ENTRIES_SUCCESS';
-    } 
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.delete(`/api/v1/image-entry/${activeID}`)
+    fetchResult = {...response?.data};
   } catch (error) {
-    return 'DELETE_ENTRIES_FAILED';
+    if(!error?.response) {
+      fetchResult = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
   }
+  return fetchResult;
 }
-// REGISTER NEW USER
-// POST
+
+// AUTHENTICATION
+// POST, register user
 export const createNewUser = async (userData) => {
   if(!userData) return;
-  // axios options
-  const options = {
-    headers: {'Content-Type': 'application/json'},
-    withCredentials: true
-  }
+  let fetchResult; 
   try {
-    const res = await axios.post(`${baseURL}/api/v1/register`, userData, options);
-    if(String(res.status)[0] === '2') {
-      console.log(res.status)
-      return 'CREATE_USER_SUCCESS'; 
-    } 
+    const response = await axiosAuthentication.post(`/api/v1/register`, userData);
+    fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
       console.log(error)
-      return 'No server response';
-    } else if(error?.response.status === 409) {
-      return 'Username taken';
+     fetchResult = {success: false, message: 'No server response'};
     } else {
-      return 'Registration failed';
+      fetchResult = {...error?.response.data};
     }
   }
+  return fetchResult;
 }
+// POST, login user
+export const loginUser = async (userData) => {
+  if(!userData) return;
+  let fetchResult; 
+  try {
+    const response = await axiosAuthentication.post(`/api/v1/login`, userData);
+    fetchResult = {...response?.data}
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: 'No server response'};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+
+// TOFIX: 
+//alternative: useRefreshToken hook
+// refresh expired access token if refresh token is still valid 
 export const refreshToken = async (authSetter) => {
-  // axios options
-  const response =  await axios.post(`${baseURL}/api/v1/refresh`, {withCredentials: true});
+  const response = await axiosAuthentication.post(`/api/v1/refresh`, {withCredentials: true});
   authSetter(prev => {
-      console.log(prev);
-      console.log(response.data.accessToken);
-      return { ...prev, accessToken: response.data.accessToken }
+    console.log(prev);
+    console.log(response.data.accessToken);
+    return {...prev, accessToken: response.data.accessToken}
   });
   return response.data.accessToken;
 }
