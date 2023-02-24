@@ -4,9 +4,10 @@ import Dashboard from '../components/Admin/Dashboard'
 import MapOverview from '../components/MapOverview'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../components/User/Home'
-import Authentication from '../components/User/Authentication/Authentication'
 import {ROLES} from '../helper/userRoles'
 import RequireAuth from '../components/User/Authentication/RequireAuth'
+import Login from '../components/User/Authentication/Login'
+import Register from '../components/User/Authentication/Register'
 
 // set up context with role here
 export default function PageContent({role}) {
@@ -16,11 +17,12 @@ export default function PageContent({role}) {
       <Routes>
       {/* public routes */}
       <Route path={'/'} element={ <Home/> } />
-      <Route path={'/authentication'} element={ <Authentication /> } />
+      <Route path={'/login'} element={ <Login/> } />
+      <Route path={'/register'} element={ <Register/> } />
       {/* protected routes */}
-        {/* <Route path={'/gallery'} element={ <Gallery/> } /> */}
-        {/* <Route path={'/map'} element={ <Map/> } /> */}
-        {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
+      {/* <Route path={'/gallery'} element={ <Gallery/> } /> */}
+      {/* <Route path={'/map'} element={ <Map/> } /> */}
+      {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
       </Routes>
       {/* Admin */}
       <Routes>

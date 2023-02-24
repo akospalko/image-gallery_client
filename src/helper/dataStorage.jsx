@@ -15,14 +15,14 @@ export const createImage = {
     label: 'author'
   },
   gpsLatitude: {
-    type: 'number', 
+    type: 'number',
     field: 'input',
     placeholder: 'latitude coordinate of the image',
     value: '',
     label: 'gps latitude'
   },
   gpsLongitude: {
-    type: 'number', 
+    type: 'number',
     field: 'input',
     placeholder: 'longitude coordinate of the image',
     value: '',
@@ -35,21 +35,21 @@ export const createImage = {
     label: 'description'
   },
   captureDate: {
-    type: 'date', 
+    type: 'date',
     field: 'date',
     placeholder: 'date of capturing the image',
     value: '',
     label: 'capture date'
   },
   imageFile: {
-    type: 'file', 
+    type: 'file',
     field: 'file',
     value: {},
     label: ''
   }
 }
 export const updateImage = {
-  _id : { 
+  _id : {
     type: 'text',
     field: 'input',
     placeholder: 'image entry id',
@@ -82,14 +82,14 @@ export const updateImage = {
     label: 'author'
   },
   gpsLatitude: {
-    type: 'number', 
+    type: 'number',
     field: 'input',
     placeholder: 'latitude coordinate of the image',
     value: '',
     label: 'gps latitude'
   },
   gpsLongitude: {
-    type: 'number', 
+    type: 'number',
     field: 'input',
     placeholder: 'latitude coordinate of the image',
     value: '',
@@ -102,7 +102,7 @@ export const updateImage = {
     label: 'description'
   },
   captureDate: {
-    type: 'date', 
+    type: 'date',
     field: 'date',
     placeholder: 'date of capturing the image',
     value: '',
@@ -130,7 +130,7 @@ export const login = {
     value: '',
     label: 'password'
   }
-} 
+}
 export const register = {
   username: {
     type: 'text',
@@ -158,15 +158,18 @@ export const register = {
     field: 'password',
     placeholder: 'confirm your secret password',
     value: '',
-    label: 'password' 
+    label: 'password'
   }
-} 
+}
 // Status Message
 export const statusMessages = {
-  // upload input image
+  // DEFAULT
   EMPTY: '',
+  // UPLOAD IMAGE
   UPLOAD_IMAGE_FILE_INITIAL: 'Select image to upload (png or jpg)',
-  UPLOAD_IMAGE_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format'
+  UPLOAD_IMAGE_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format',
+  // AXIOS
+  AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }
 // Navigation bar data
 export const navElements = [
@@ -202,14 +205,14 @@ export const navElementsAdmin = [
 // temporary slides for home photo slider
 export const temporarySlides = [
   {
-    url: 'https://images.unsplash.com/photo-1676219957647-a69f861f9b27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    url: 'https://images.unsplash.com/photo-1676219957647-a69f861f9b27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
     title:'1'
 },
   {
-    url: 'https://images.unsplash.com/photo-1676219957679-33f1b1520a7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    url: 'https://images.unsplash.com/photo-1676219957679-33f1b1520a7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
     title:'2'},
   {
-    url: 'https://images.unsplash.com/photo-1676219957664-b12399c38b59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', 
+    url: 'https://images.unsplash.com/photo-1676219957664-b12399c38b59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
     title:'3'
   }
 ]

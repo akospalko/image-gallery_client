@@ -38,7 +38,7 @@ export default function Form(props) {
           clicked={() => {
             setFormData(undefined);
             setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL)
-            toggleModalHandler(operation)}}
+          }}
         > Cancel 
         </Button> : null
       }      
@@ -48,9 +48,7 @@ export default function Form(props) {
         clicked={ (e) => {
             submit(e, formData); 
             setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
-            toggleModalHandler(operation);
-          }
-        }
+        }}
       > Submit </Button>      
     </div> 
   );

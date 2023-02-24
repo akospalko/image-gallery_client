@@ -8,11 +8,15 @@ import {useFormContext} from './contexts/FormContext'
 import {getAllImageEntries} from '../helper/axiosRequests'
 import FitMarkersToBounds from './FitMarkersToBounds'
 import useAxiosPrivate from './hooks/useAxiosPrivate' 
-
-
 import CustomPopup from './CustomPopup';
+import { useNavigate, useLocation } from 'react-router';
 
 export default function MapOverview() {
+  // ROUTE
+  // ROUTING
+    const navigate = useNavigate(); 
+    const location = useLocation(); 
+    const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // STATE
   // template
   const statisticsTemplate = {
@@ -29,10 +33,13 @@ export default function MapOverview() {
   useEffect(() => {
     if(!data) return;
     (async () => {
-      const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
-      console.log(response);
-      setData(response.imageEntries); // store entries in state
-      setMessage(response.message); // set message
+      try {
+        const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+        setData(response.imageEntries); // store entries in state
+        setMessage(response.message); // set message
+      } catch(error){
+        navToPrevPage(); // navigate unauth user back to login page
+      }
     })() 
   }, [])
   useEffect(() => {
@@ -48,7 +55,6 @@ export default function MapOverview() {
     const markerCoordinates = data.map(entryCoordinate => {
       if(!entryCoordinate.gpsLatitude && !entryCoordinate.gpsLongitude) return
       return [[entryCoordinate.gpsLatitude, entryCoordinate.gpsLongitude]]
-
     })
     return markerCoordinates;
   } 
@@ -90,7 +96,7 @@ export default function MapOverview() {
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     <FitMarkersToBounds markerCoordinates={collectMarkerCoordinates(data)}/>
-    { data.map((marker) => {
+    { data?.map((marker) => {
         if(!marker.gpsLatitude && !marker.gpsLongitude) return
         return <Marker 
           position={[marker.gpsLatitude, marker.gpsLongitude] || [0,0]} 
@@ -114,9 +120,9 @@ export default function MapOverview() {
 return (
   // <ViewMap />
   <div className='shared-page-container'>
-    <p> Map overview </p>
     {data && data.length > 0 && 
       <> 
+        <p> Map overview </p>
         {mapElement}
         {statisticsElement}  
       </>

@@ -1,23 +1,18 @@
-import axios from '../../helper/axiosInstances'
+// Hook: axios get request to refresh AT, update state with new auth data 
 import {useAuthContext} from '../contexts/AuthenticationContext'
-// import {refreshToken} from '../../helper/axiosRequests'
+import {refreshToken} from '../../helper/axiosRequests'
 
 const useRefreshToken = () => {
-  const {auth, setAuth} = useAuthContext();
-    // axios options
-    // console.log('ref token auth: ', auth)
-    const refreshToken = async () => {
-      const response = await axios.get('/refresh', {
-          withCredentials: true
-      });
-      setAuth(prev => {
-          console.log(prev);
-          console.log(response.data.accessToken);
-          return { ...prev, accessToken: response.data.accessToken }
-      });
-      return response.data.accessToken;
+  const {setAuth} = useAuthContext();
+
+  const refresh = async () => {
+    const response = await refreshToken('/api/v1/refresh');
+    setAuth(prev => {
+      return {...prev, accessToken: response.accessToken}
+    });
+    return response.accessToken;
   }
-  return refreshToken;
-}
+  return refresh;
+} 
 
 export default useRefreshToken;

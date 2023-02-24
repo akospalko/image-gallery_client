@@ -8,8 +8,11 @@ import ImageEntryModal from './ImageEntryModal'
 import {useModalContext} from '../contexts/ToggleModalContext'
 
 export default function Dashboard() {
+  // CONTEXT
   const { toggleModal, toggleModalHandler} = useModalContext();
+  // EFFECT
   useEffect(() => {
+    // disable scroll function when modal is opened (toggled)  
     let isToggled = false; // check if any toggle value in toggleModal is true
     for(let toggledElem in toggleModal) {
       isToggled = toggleModal[toggledElem] === true || isToggled;

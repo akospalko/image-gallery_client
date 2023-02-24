@@ -8,15 +8,15 @@ const useAxiosPrivate = () => {
   // CONTEXT
   const {auth} = useAuthContext();
   // HOOK
-  const refreshToken = useRefreshToken();
+  const refresh = useRefreshToken();
   // EFFECT
   useEffect(() => {
     // INTERCEPTORS
-    // for axios request()
+    // for axios request
     const requestIntercept = axiosPrivate.interceptors.request.use(
       config =>  {
         if(!config.headers['Authorization']) { // runs on first time user logs in
-          config.headers['Authorization'] = `Bearer ${auth?.accessToken}` // initial AT/ AT after refresh
+          config.headers['Authorization'] = `Bearer ${auth?.accessToken}`; // initial AT/ AT after refresh
         }
         return config;
       }, (error) => Promise.reject(error)
@@ -28,7 +28,7 @@ const useAxiosPrivate = () => {
         const prevRequest = error?.config;
         if(error?.response.status === 403 && !prevRequest?.sent) { // if 403 and request is not yet sent
           prevRequest.sent = true; // we only want to retry sending request once -> set sent to true  
-          const newAccesToken = await refreshToken(); // get new accesToken
+          const newAccesToken = await refresh(); // get new accesToken
           prevRequest.headers['Authorization'] = `Bearer ${newAccesToken}`; // set up new token in the auth header
           return axiosPrivate(prevRequest); // pass request again with the renewed access token
         }
@@ -40,7 +40,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept); // pass in interceptor to remove
       axiosPrivate.interceptors.response.eject(responseIntercept); 
     }
-  },[auth, refreshToken])
+  },[auth, refresh])
   return axiosPrivate;
 }
 

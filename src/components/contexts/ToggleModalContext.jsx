@@ -14,7 +14,6 @@ export default function ToggleModalContext({children}) {
     updateImage: false,
     viewImage: false,
     viewMap: false,
-    authentication: 'login' // || register // toggle between Login and Register modals
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);
@@ -28,19 +27,6 @@ export default function ToggleModalContext({children}) {
       return {...prev, [operation]: !prev[operation]}
     })
   }
-  const authModalHandler = (operation) => {
-    setToggleModal(prev => {
-      if(!operation || (operation !== 'login' && operation !== 'register')) return;
-      let toggledElem;
-      if(operation === 'login') {
-        toggledElem = 'login';
-      } else if(operation === 'register') {
-        toggledElem = 'register';
-      }
-      return {...prev, authentication: toggledElem}
-    })
-
-  }
 
   return (
     <ModalContext.Provider
@@ -49,7 +35,6 @@ export default function ToggleModalContext({children}) {
         activeID, setActiveID,
         id, setID,
         toggleModalHandler,
-        authModalHandler
       }}
     > 
       {children}

@@ -1,7 +1,7 @@
 // TODO: replace status message strings with CONSTANTS 
 // list of requests made to the api
 import {axiosAuthentication} from '../helper/axiosInstances'
-
+import {statusMessages} from './dataStorage';
 // IMAGE ENTRY 
 // GET all image entries, update state with fetched response data
 export const getAllImageEntries = async (axiosInstance) => {
@@ -11,12 +11,11 @@ export const getAllImageEntries = async (axiosInstance) => {
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
-      fetchedData = {success: false, message: 'No server response'};
+      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
   }
-  console.log(fetchedData);
   return fetchedData;
 }
 // GET single entry, update state with fetched response data
@@ -28,7 +27,7 @@ export const getSingleImageEntry = async (activeID, axiosInstance) => {
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
-      fetchedData = {success: false, message: 'No server response'};
+      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -44,7 +43,7 @@ export const postImageEntry = async (entryData, axiosInstance) => {
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: 'No server response'};
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -60,7 +59,7 @@ export const updateImageEntry = async (activeID, entryData, axiosInstance) => {
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: 'No server response'};
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -76,7 +75,7 @@ export const deleteImageEntry = async (activeID, axiosInstance) => {
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: 'No server response'};
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -95,7 +94,7 @@ export const createNewUser = async (userData) => {
   } catch (error) {
     if(!error?.response) {
       console.log(error)
-     fetchResult = {success: false, message: 'No server response'};
+     fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -107,27 +106,28 @@ export const loginUser = async (userData) => {
   if(!userData) return;
   let fetchResult; 
   try {
-    const response = await axiosAuthentication.post(`/api/v1/login`, userData);
+    const response = await axiosAuthentication.post(`/api/v1/login`, userData, { withCredentials: true });
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: 'No server response'};
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
   }
   return fetchResult;
 }
-
-// TOFIX: 
-//alternative: useRefreshToken hook
-// refresh expired access token if refresh token is still valid 
-export const refreshToken = async (authSetter) => {
-  const response = await axiosAuthentication.post(`/api/v1/refresh`, {withCredentials: true});
-  authSetter(prev => {
-    console.log(prev);
-    console.log(response.data.accessToken);
-    return {...prev, accessToken: response.data.accessToken}
-  });
-  return response.data.accessToken;
+export const refreshToken = async () => {
+  let fetchResult; 
+  try {
+    const response = await axiosAuthentication.get('/api/v1/refresh');
+    fetchResult = {...response?.data}
+  } catch(error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
 }
