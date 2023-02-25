@@ -202,6 +202,7 @@ export const navElementsAdmin = [
     path: '/admin/mapoverview'
   }
 ]
+
 // temporary slides for home photo slider
 export const temporarySlides = [
   {

@@ -13,7 +13,7 @@ export const getAllImageEntries = async (axiosInstance) => {
     if(!error?.response) {
       fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
-      fetchResult = {...error?.response.data};
+      fetchedData = {...error?.response.data};
     }
   }
   return fetchedData;
@@ -29,7 +29,7 @@ export const getSingleImageEntry = async (activeID, axiosInstance) => {
     if(!error?.response) {
       fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {
-      fetchResult = {...error?.response.data};
+      fetchedData = {...error?.response.data};
     }
   }
   return fetchedData;

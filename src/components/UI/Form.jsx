@@ -37,7 +37,8 @@ export default function Form(props) {
           type='button' 
           clicked={() => {
             setFormData(undefined);
-            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL)
+            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
+            toggleModalHandler(operation);
           }}
         > Cancel 
         </Button> : null

@@ -10,6 +10,7 @@ import FitMarkersToBounds from './FitMarkersToBounds'
 import useAxiosPrivate from './hooks/useAxiosPrivate' 
 import CustomPopup from './CustomPopup';
 import { useNavigate, useLocation } from 'react-router';
+import { useAuthContext } from './contexts/AuthenticationContext';
 
 export default function MapOverview() {
   // ROUTE
@@ -27,6 +28,7 @@ export default function MapOverview() {
   const [statistics, setStatistics] = useState(statisticsTemplate);
   // CONTEXT
   const {data, setData, setMessage} = useFormContext();
+  const {setAuth} = useAuthContext();
   // HOOK 
   const axiosPrivate = useAxiosPrivate();
   // EFFECT
@@ -37,8 +39,9 @@ export default function MapOverview() {
         const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
         setData(response.imageEntries); // store entries in state
         setMessage(response.message); // set message
-      } catch(error){
+      } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
+        // setAuth({});
       }
     })() 
   }, [])
@@ -82,7 +85,6 @@ export default function MapOverview() {
     //store results in state
     setStatistics(statTemp);
   }
-
   // RENDERED ELEMENTS 
   const mapElement = (
   <MapContainer

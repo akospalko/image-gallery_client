@@ -5,8 +5,9 @@ import {getAllImageEntries, getSingleImageEntry, deleteImageEntry} from '../../h
 import {generateDateString, transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
+import { useAuthContext } from '../contexts/AuthenticationContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
-import { useNavigate, useLocation } from 'react-router'
+import {useNavigate, useLocation} from 'react-router'
 
 export default function ImageCard() {
   // ROUTING
@@ -16,6 +17,7 @@ export default function ImageCard() {
   // CONTEXTS
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
   const {data, setData, setMessage} = useFormContext();
+  const {setAuth} = useAuthContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   // EFFECT
@@ -27,8 +29,8 @@ export default function ImageCard() {
         setMessage(response.message); // set message
       } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
+        // setAuth({});
       }
-      
     })() 
   }, []) 
   // delete and refetch image entries
@@ -40,6 +42,7 @@ export default function ImageCard() {
       setData(responseGetAll.imageEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
+      // setAuth({});
     }
   }
   //elements
@@ -67,6 +70,7 @@ export default function ImageCard() {
                   setMessage(response.message); // set message
                 } catch(error) {
                   navToPrevPage(); // navigate unauth user back to login page
+                  // setAuth({});  
                 }
               }}
             > Edit 

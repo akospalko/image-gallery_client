@@ -14,17 +14,29 @@ export default function ToggleModalContext({children}) {
     updateImage: false,
     viewImage: false,
     viewMap: false,
+    headerNav: false, // header navigation menu containing the pages (hamburger menu) 
+    headerAuth: false, // header authentication menu: shows login page if unauth else show a modal (profile info, logout )  
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);
   const [activeID, setActiveID] = useState({});
   const [id, setID] = useState(''); //id passed from ImageCaards to ViewImage. Helps in finding the clicked entry's corresponding img
   // HANDLERS
-  // handle toggle state for multiple modals (e.g. create, update image, etc)
-  const toggleModalHandler = (operation) => {
+  // handle toggle state for multiple modals (e.g. create, update image, etc). Can set a specified value(true||false) if provided (forcedValue) 
+  const toggleModalHandler = (operation, forcedValue) => {
     setToggleModal(prev => {
       if(!operation) return;
-      return {...prev, [operation]: !prev[operation]}
+      let updatedModal = {...prev};
+      let newValue = forcedValue ? forcedValue : !prev[operation]; 
+      // hide all modals -> set to false
+      for(let modal in updatedModal) {
+        updatedModal = {...updatedModal, [modal]: false}
+      }
+      // show the specified modal(named operation)
+      if(operation){
+        updatedModal = {...updatedModal, [operation]: newValue}
+      }
+      return updatedModal;
     })
   }
 

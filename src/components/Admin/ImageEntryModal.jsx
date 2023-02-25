@@ -4,7 +4,7 @@ import Form from '../UI/Form'
 import Input from '../UI/Input'
 import ViewImage from '../ViewImage'
 import ViewMap from '../ViewMap'
-import {useModalContext} from '../contexts/ToggleModalContext'
+import ToggleModalContext, {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import {convertFormData} from '../../helper/convertFormData'
 import {postImageEntry, getAllImageEntries, updateImageEntry} from '../../helper/axiosRequests'
@@ -14,7 +14,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 export default function ImageEntryModal({operation}) {
   // CONTEXTS
-  const {activeID} = useModalContext();
+  const {activeID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, setData, setMessage} = useFormContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
@@ -57,24 +57,31 @@ export default function ImageEntryModal({operation}) {
   // submit form for createImage (create new image entry)
   const createImageEntryHandler = async(e, formData) => {
     e.preventDefault();
-    const convertedData = convertFormData(formData); // simplyfy data before sending request  
-    const responseCreate = await postImageEntry(convertedData, axiosPrivate); // post entry to server
-    setMessage(responseCreate.message);
-    const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
-    setData(responseGetAll.imageEntries); // store entries in state
-    // reset form 
-    setFormData(undefined);
+    try {
+      const convertedData = convertFormData(formData); // simplyfy data before sending request  
+      const responseCreate = await postImageEntry(convertedData, axiosPrivate); // post entry to server
+      setMessage(responseCreate.message);
+      const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      setData(responseGetAll.imageEntries); // store entries in state
+      setFormData(undefined); // reset form 
+      toggleModalHandler(operation);
+    } catch (error) {  }
   }
   // submit form for createImage (update new image entry)
   const updateImageEntryHandler = async (e, formData) => {
     e.preventDefault();
-    const convertedData = convertFormData(formData); 
-    const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate);
-    setMessage(responseUpdate.message);
-    const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
-    setData(responseGetAll.imageEntries); // store entries in state
-    // if succes post request -> reset form 
-    setFormData(undefined);
+    try {
+      const convertedData = convertFormData(formData); 
+      const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate);
+      setMessage(responseUpdate.message);
+      const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      setData(responseGetAll.imageEntries); // store entries in state
+      // if succes post request -> reset form 
+      setFormData(undefined);
+      toggleModalHandler(operation);
+    } catch(error) {
+
+    }
   }
   // RENDERED ELEMENTS  
   // create image entry

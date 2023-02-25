@@ -21,7 +21,7 @@ export default function Login() {
   const from = location.state?.from?.pathname || "/";
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
-  const {setAuth} = useAuthContext(); 
+  const {auth, setAuth} = useAuthContext(); 
   // EFFECT
   useEffect(() => {
     setFormData(login);
@@ -38,6 +38,7 @@ export default function Login() {
       setAuth(authData);  // store auth data in form
       setFormData(login);   // reset form to initial state
       navigate(from, { replace: true }); // navigate user to default resource
+      console.log('auth');
     } catch(error) {
       // TODO: empty pasword field
     } 
