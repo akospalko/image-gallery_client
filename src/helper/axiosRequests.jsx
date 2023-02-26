@@ -117,12 +117,30 @@ export const loginUser = async (userData) => {
   }
   return fetchResult;
 }
+// GET, refresh access token 
 export const refreshToken = async () => {
   let fetchResult; 
   try {
     const response = await axiosAuthentication.get('/api/v1/refresh');
     fetchResult = {...response?.data}
   } catch(error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+
+// GET, logout user
+export const logoutUser = async () => {
+  if(!userData) return;
+  let fetchResult; 
+  try {
+    const response = await axiosAuthentication.post(`/api/v1/logout`, userData, { withCredentials: true });
+    fetchResult = {...response?.data}
+  } catch (error) {
     if(!error?.response) {
       fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
     } else {

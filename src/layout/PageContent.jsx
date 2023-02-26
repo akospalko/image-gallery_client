@@ -10,7 +10,7 @@ import Login from '../components/User/Authentication/Login'
 import Register from '../components/User/Authentication/Register'
 
 // set up context with role here
-export default function PageContent({role}) {
+export default function PageContent(role) {
   return (
     <> 
       {/* User */}

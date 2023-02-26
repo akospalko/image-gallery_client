@@ -19,8 +19,9 @@ export default function ToggleModalContext({children}) {
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
   const [activeID, setActiveID] = useState({});
-  const [id, setID] = useState(''); //id passed from ImageCaards to ViewImage. Helps in finding the clicked entry's corresponding img
+  const [id, setID] = useState(''); // id passed from ImageCaards to ViewImage. Helps in finding the clicked entry's corresponding img
   // HANDLERS
   // handle toggle state for multiple modals (e.g. create, update image, etc). Can set a specified value(true||false) if provided (forcedValue) 
   const toggleModalHandler = (operation, forcedValue) => {
@@ -39,14 +40,22 @@ export default function ToggleModalContext({children}) {
       return updatedModal;
     })
   }
+  // handle toggle state for a single dropdown  
+  const toggleDropdownHandler = (forcedValue) => {
+    setToggleDropdown(prev => {
+      return forcedValue ? forcedValue : !prev; 
+    })
+  }
 
   return (
     <ModalContext.Provider
       value={{
         toggleModal, setToggleModal,
+        toggleDropdown, setToggleDropdown,
         activeID, setActiveID,
         id, setID,
         toggleModalHandler,
+        toggleDropdownHandler
       }}
     > 
       {children}

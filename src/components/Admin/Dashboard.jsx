@@ -1,28 +1,19 @@
 //form to create/update image entries
-import React, {useEffect} from 'react'
+import React from 'react'
 import './Dashboard.css'
 import '../Shared.css'
 import Button from '../UI/Button'
 import ImageCard from './ImageCard'
 import ImageEntryModal from './ImageEntryModal'
 import {useModalContext} from '../contexts/ToggleModalContext'
+import useToggleModalScroll from '../hooks/useToggleModalScroll'
 
 export default function Dashboard() {
   // CONTEXT
   const { toggleModal, toggleModalHandler} = useModalContext();
-  // EFFECT
-  useEffect(() => {
-    // disable scroll function when modal is opened (toggled)  
-    let isToggled = false; // check if any toggle value in toggleModal is true
-    for(let toggledElem in toggleModal) {
-      isToggled = toggleModal[toggledElem] === true || isToggled;
-    }
-    if(isToggled) {
-      document.body.style.overflowY = 'hidden';
-    } else {
-      document.body.style.overflowY = 'scroll';
-    }
-  }, [toggleModal])
+  // HOOK
+  // TODO: relocate
+  useToggleModalScroll();
 
   return (
     <div className='shared-page-container'>

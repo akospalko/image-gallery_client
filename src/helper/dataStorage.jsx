@@ -1,4 +1,4 @@
-//Form initializers
+// FORM INITIALIZERS
 export const createImage = {
   title: {
     type: 'text',
@@ -115,6 +115,7 @@ export const updateImage = {
     label: ''
   }
 }
+// AUTHENTICATION
 export const login = {
   username: {
     type: 'text',
@@ -161,7 +162,7 @@ export const register = {
     label: 'password'
   }
 }
-// Status Message
+// STATUS MESSAGES
 export const statusMessages = {
   // DEFAULT
   EMPTY: '',
@@ -171,6 +172,7 @@ export const statusMessages = {
   // AXIOS
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }
+// NAVIGATION 
 // Navigation bar data
 export const navElements = [
   {
@@ -202,8 +204,22 @@ export const navElementsAdmin = [
     path: '/admin/mapoverview'
   }
 ]
+export const profileNavElements = [
+  {
+    id: 0,
+    name: 'settings',
+    path: '/settings'
+  },
+  // {
+  //   id: 1,
+  //   name: 'log out',
+  //   // path: '/settings'
+  // }
+]
 
-// temporary slides for home photo slider
+
+// TEMPORARY
+// slides for home photo slider
 export const temporarySlides = [
   {
     url: 'https://images.unsplash.com/photo-1676219957647-a69f861f9b27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
