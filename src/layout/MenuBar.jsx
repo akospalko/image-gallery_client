@@ -2,25 +2,23 @@
 // TODO: swap modal menu toggle button text(close - open) to icon (hamburger - x) 
 import React from 'react'
 import './Header.css'
-import {navElements, navElementsAdmin, profileNavElements} from '../helper/dataStorage' 
-import { useModalContext } from '../components/contexts/ToggleModalContext';
-import { useAuthContext } from '../components/contexts/AuthenticationContext';
-import { useNavigate } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import {useModalContext} from '../components/contexts/ToggleModalContext';
+import {useAuthContext} from '../components/contexts/AuthenticationContext';
+import {useNavigate} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import useLogout from '../components/hooks/useLogout'
 
-export default function MenuBar({role}) {
-   let currentNav = role === 'admin' ? navElementsAdmin :  navElements; 
+export default function MenuBar({navElements}) {
   // ROUTE
   const navigate = useNavigate();
   // CONTEXT 
   const {toggleDropdown, toggleDropdownHandler} = useModalContext();
-  const {auth} = useAuthContext();
+  const {auth, setAuth} = useAuthContext();
   // HOOK
-  const {logoutUserHandler} = useLogout();
+  const logoutUserHandler = useLogout();
   // RENDERED ELEMENTS
   // header button for dropdowns (which means larger screens) unauth user: nav to login pg
-  const userProfileButtonDropdown = (
+  const userProfileDropdownButton = (
     <div 
       className='header-container-menu-modal-element'
       onClick={
@@ -40,12 +38,14 @@ export default function MenuBar({role}) {
         <div className ='header-dropdown-container'
           onClick={e => e.stopPropagation()}
         >
-          {profileNavElements && profileNavElements.map(elem => (
-            <p key={elem.id}>
-              {elem.name}
-            </p>
-          ))}
-          <div onClick={() => {logoutUserHandler}}> Logout </div>
+          <div 
+            className='user-profile-element'
+            style={{'cursor': 'pointer'}} 
+            onClick={() => {
+              logoutUserHandler();
+              toggleDropdownHandler(false);
+            }}
+          > Logout </div>
       </div>
     </>
   )
@@ -56,7 +56,7 @@ export default function MenuBar({role}) {
       <div className='header-dummy'></div>
       <div className='header-bar-container'>
         <div className='header-bar-navigation'>
-            {currentNav && currentNav.map((elem) => {
+            {navElements && navElements.map((elem) => {
               return <NavLink 
                 key={elem.id} 
                 to={elem.path}
@@ -69,7 +69,7 @@ export default function MenuBar({role}) {
         </div> 
       </div>
       {/* authentication button */}
-      {userProfileButtonDropdown}
+      {userProfileDropdownButton}
       {/* authentication dropdown */}
       {toggleDropdown && userProfileDropdown} 
     </div>

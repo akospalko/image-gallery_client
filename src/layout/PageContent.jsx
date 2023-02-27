@@ -10,19 +10,23 @@ import Login from '../components/User/Authentication/Login'
 import Register from '../components/User/Authentication/Register'
 
 // set up context with role here
-export default function PageContent(role) {
+export default function PageContent({role}) {
   return (
     <> 
-      {/* User */}
-      <Routes>
       {/* public routes */}
-      <Route path={'/'} element={ <Home/> } />
-      <Route path={'/login'} element={ <Login/> } />
-      <Route path={'/register'} element={ <Register/> } />
+      {/* Unauth */}
+      <Routes>
+        {/* public routes */}
+        <Route path={'/'} element={ <Home/> } />
+        <Route path={'/login'} element={ <Login/> } />
+        <Route path={'/register'} element={ <Register/> } />
+      </Routes>
       {/* protected routes */}
-      {/* <Route path={'/gallery'} element={ <Gallery/> } /> */}
-      {/* <Route path={'/map'} element={ <Map/> } /> */}
-      {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
+      {/* User */}
+      <Routes> 
+        {/* <Route path={'/gallery'} element={ <Gallery/> } /> */}
+        {/* <Route path={'/map'} element={ <Map/> } /> */}
+        {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
       </Routes>
       {/* Admin */}
       <Routes>
@@ -35,6 +39,7 @@ export default function PageContent(role) {
         </Route>
         {/* <Route path={'*'} element={ <PageNotFound/> } /> */}
       </Routes>
+      {/* Shared??? */}
     </>
   )
 }

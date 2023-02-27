@@ -135,10 +135,9 @@ export const refreshToken = async () => {
 
 // GET, logout user
 export const logoutUser = async () => {
-  if(!userData) return;
   let fetchResult; 
   try {
-    const response = await axiosAuthentication.post(`/api/v1/logout`, userData, { withCredentials: true });
+    const response = await axiosAuthentication.get('/api/v1/logout', { withCredentials: true });
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {

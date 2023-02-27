@@ -173,8 +173,20 @@ export const statusMessages = {
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }
 // NAVIGATION 
-// Navigation bar data
-export const navElements = [
+// navigation elements visible for unauthenticated users
+export const navElementsUnauthenticated = [
+  {
+    id: 0,
+    name: 'home',
+    path: '/'
+  }, {
+    id: 1,
+    name: 'info',
+    path: '/info'
+  }
+]
+// navigation elements visible for authenticated users with 'user' role
+export const navElementsUser = [
   {
     id: 0,
     name: 'home',
@@ -189,6 +201,7 @@ export const navElements = [
     path: '/mapoverview'
   }
 ]
+// navigation elements visible for authenticated users with 'admin' role
 export const navElementsAdmin = [
   {
     id: 0,

@@ -3,10 +3,11 @@ import {useAuthContext} from '../contexts/AuthenticationContext'
 import {refreshToken} from '../../helper/axiosRequests'
 
 const useRefreshToken = () => {
+  // CONTEXT
   const {setAuth} = useAuthContext();
-
+  // HANDLER
   const refresh = async () => {
-    const response = await refreshToken('/api/v1/refresh');
+    const response = await refreshToken();
     setAuth(prev => {
       return {...prev, accessToken: response.accessToken}
     });
