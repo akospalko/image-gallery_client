@@ -9,7 +9,7 @@ import { useAuthContext } from '../contexts/AuthenticationContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import {useNavigate, useLocation} from 'react-router'
 
-export default function ImageCard() {
+export default function ImageCard({collection}) {
   // ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -24,7 +24,7 @@ export default function ImageCard() {
   useEffect(() => { // get all data on initial render
     (async () => {
       try {
-        const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+        const response = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
         setData(response.imageEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
@@ -36,9 +36,9 @@ export default function ImageCard() {
   // delete and refetch image entries
   const deleteImageEntryHandler = async (id) => {
     try {
-      const responseDelete = await deleteImageEntry(id, axiosPrivate);
+      const responseDelete = await deleteImageEntry(id, axiosPrivate, collection);
       setMessage(responseDelete.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
       setData(responseGetAll.imageEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
@@ -56,15 +56,16 @@ export default function ImageCard() {
   return (
     <>
       {data?.map(card => (
-        /* card container */
+        /* CARD CONTAINER */
         <div key={card._id} className='image-card-container'>
-          {/* control panel: delete, edit buttons */}
+          {/* CONTROL PANEL */}
+          {/* edit */}
           <div className='image-card-control-panel'>
             <Button 
               customStyle={'image-control-panel'}
               clicked={async () => {
                 try {
-                  const response = await getSingleImageEntry(card._id, axiosPrivate); // fetch entry data
+                  const response = await getSingleImageEntry(card._id, axiosPrivate, collection); // fetch entry data
                   setActiveID(response.imageEntry); // set active entry
                   toggleModalHandler('updateImage'); // open modal
                   setMessage(response.message); // set message
@@ -73,27 +74,26 @@ export default function ImageCard() {
                   // setAuth({});  
                 }
               }}
-            > Edit 
-            </Button>
+            > Edit </Button>
+            {/* delete */}
             <Button 
               customStyle={'image-control-panel'}
               clicked={() => deleteImageEntryHandler(card._id)} 
-            > Delete
-            </Button>
+            > Delete </Button>
+            {/* view */}
             <Button 
               customStyle={'image-control-panel'}
               clicked={() => {
                 setID(card._id)
                 toggleModalHandler('viewImage') }}
-            > View  
-            </Button>
+            > View </Button>
+            {/* map */}
             <Button 
               customStyle={'image-control-panel'}
               clicked={() => {
                 setID(card._id)
                 toggleModalHandler('viewMap') }}
-            > Map 
-            </Button>
+            > Map </Button>
           </div>
           {/* content */}
           <div className='image-card-content'>

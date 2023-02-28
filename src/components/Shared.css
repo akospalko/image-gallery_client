@@ -1,5 +1,9 @@
-.shared-page-container {
+.shared-page-container,
+.shared-modal-container,
+.shared-image-cards-container {
   display: flex;
+}
+.shared-page-container {
   flex-direction: column;
   min-height: calc(100vh - var(--header-height));
   padding: 0.5rem;
@@ -11,7 +15,6 @@
   align-items: center;
 }
 .shared-modal-container {
-  display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   position: fixed;
@@ -22,4 +25,13 @@
   padding: var(--padding-default);
   background-color: rgba(0, 0, 0, 0.7);
   overflow-y: scroll;
+}
+/* home && gallery image cards container */
+.shared-image-cards-container {
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+.shared-image-cards-container {
+  height: auto;
 }

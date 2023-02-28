@@ -36,7 +36,6 @@ export default function PhotoSlider({slides, parentWidth}) {
     height: '100%',
     borderRadius: '10px',
   };
-
   //FUNCTIONALITIES
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -67,7 +66,7 @@ export default function PhotoSlider({slides, parentWidth}) {
   }, [nextSlide])
   const getSlideStylesWithBackground = (slideIndex) => ({
     ...slideStyles,
-    backgroundImage: `url(${slides[slideIndex].url})`,
+    backgroundImage: `url(${slides[slideIndex].imageURL})`,
     width: `${parentWidth}px`,
   });
   const getSlidesContainerStylesWithWidth = () => ({
@@ -75,7 +74,7 @@ export default function PhotoSlider({slides, parentWidth}) {
     width: parentWidth * slides.length,
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   });
-
+  
   return (
     <div style={sliderStyles}>
       {/* slider navigation button */}
@@ -88,11 +87,8 @@ export default function PhotoSlider({slides, parentWidth}) {
         {/* photos slides container (row of photos) */}
         <div style={getSlidesContainerStylesWithWidth()}>
           {slides.map((_, slideIndex) => (
-            // single slide (photo)
-            <div
-            key={slideIndex}
-              style={getSlideStylesWithBackground(slideIndex)}
-            ></div>
+          
+            <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
           ))}
         </div>
       </div>

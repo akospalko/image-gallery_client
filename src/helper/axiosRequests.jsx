@@ -3,11 +3,26 @@
 import {axiosAuthentication} from '../helper/axiosInstances'
 import {statusMessages} from './dataStorage';
 // IMAGE ENTRY 
-// GET all image entries, update state with fetched response data
-export const getAllImageEntries = async (axiosInstance) => {
+// GET all image entries -> home, gallery protected resources 
+export const getAllImageEntries = async (axiosInstance, collection) => {
   let fetchedData; 
   try {
-    const response = await axiosInstance.get('/api/v1/image-entry');
+    const response = await axiosInstance.get(`/api/v1/image-entry/${collection}`);
+    fetchedData = {...response?.data}; 
+  } catch (error) {
+    if(!error?.response) {
+      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchedData = {...error?.response.data};
+    }
+  }
+  return fetchedData;
+}
+// GET all image entries -> home image entries with unprotected resources
+export const getAllHomePhotos = async (axiosInstance) => {
+  let fetchedData; 
+  try {
+    const response = await axiosInstance.get('/api/v1/home-photos');
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -19,11 +34,11 @@ export const getAllImageEntries = async (axiosInstance) => {
   return fetchedData;
 }
 // GET single entry, update state with fetched response data
-export const getSingleImageEntry = async (activeID, axiosInstance) => {
+export const getSingleImageEntry = async (activeID, axiosInstance, collection) => {
   if(!activeID) return;
   let fetchedData; 
   try { 
-    const response = await axiosInstance.get(`/api/v1/image-entry/${activeID}`);
+    const response = await axiosInstance.get(`/api/v1/image-entry/${collection}/${activeID}`);
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -35,11 +50,11 @@ export const getSingleImageEntry = async (activeID, axiosInstance) => {
   return fetchedData;
 }
 // POST
-export const postImageEntry = async (entryData, axiosInstance) => {
+export const postImageEntry = async (entryData, axiosInstance, collection) => {
   if(!entryData) return;
   let fetchResult; 
   try {
-    const response = await axiosInstance.post(`/api/v1/image-entry`, entryData);
+    const response = await axiosInstance.post(`/api/v1/image-entry/${collection}`, entryData);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -51,11 +66,11 @@ export const postImageEntry = async (entryData, axiosInstance) => {
   return fetchResult;
 }
 // PATCH (update)
-export const updateImageEntry = async (activeID, entryData, axiosInstance) => {
+export const updateImageEntry = async (activeID, entryData, axiosInstance, collection) => {
   if(!activeID && !entryData) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.patch(`/api/v1/image-entry/${activeID}`, entryData);
+    const response = await axiosInstance.patch(`/api/v1/image-entry/${collection}/${activeID}`, entryData);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -67,11 +82,11 @@ export const updateImageEntry = async (activeID, entryData, axiosInstance) => {
   return fetchResult;
 }
 // DELETE
-export const deleteImageEntry = async (activeID, axiosInstance) => { 
+export const deleteImageEntry = async (activeID, axiosInstance, collection) => { 
   if(!activeID) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.delete(`/api/v1/image-entry/${activeID}`)
+    const response = await axiosInstance.delete(`/api/v1/image-entry/${collection}/${activeID}`)
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {

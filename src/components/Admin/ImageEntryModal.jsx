@@ -12,7 +12,7 @@ import {buildInputFields} from '../../helper/buildInputFields'
 import {createImage, updateImage} from '../../helper/dataStorage'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
-export default function ImageEntryModal({operation}) {
+export default function ImageEntryModal({operation, collection}) {
   // CONTEXTS
   const {activeID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, setData, setMessage} = useFormContext();
@@ -59,9 +59,9 @@ export default function ImageEntryModal({operation}) {
     e.preventDefault();
     try {
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
-      const responseCreate = await postImageEntry(convertedData, axiosPrivate); // post entry to server
+      const responseCreate = await postImageEntry(convertedData, axiosPrivate, collection); // post entry to server
       setMessage(responseCreate.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
       setData(responseGetAll.imageEntries); // store entries in state
       setFormData(undefined); // reset form 
       toggleModalHandler(operation);
@@ -72,15 +72,15 @@ export default function ImageEntryModal({operation}) {
     e.preventDefault();
     try {
       const convertedData = convertFormData(formData); 
-      const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate);
+      const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate, collection);
       setMessage(responseUpdate.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
       setData(responseGetAll.imageEntries); // store entries in state
       // if succes post request -> reset form 
       setFormData(undefined);
       toggleModalHandler(operation);
     } catch(error) {
-
+      // TODO: error handling
     }
   }
   // RENDERED ELEMENTS  

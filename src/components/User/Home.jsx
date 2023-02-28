@@ -1,15 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Home.css'
 import '../Shared.css'
 import PhotoSlider from './PhotoSlider'
-import {temporarySlides} from '../../helper/dataStorage'
 import useBreakpoints from '../hooks/useBreakpoints'
+import { useFormContext } from '../contexts/FormContext'
+import { getAllHomePhotos } from '../../helper/axiosRequests'
+import axios from '../../helper/axiosInstances'
 
 export default function Home() {
+  // CONTEXT
+  const {data, setData} = useFormContext();
   // HOOK
   const {active} = useBreakpoints();
+   // EFFECT
+   useEffect(() => { // get all data on initial render
+    (async () => {
+      const response = await getAllHomePhotos(axios); // fetch entries, update state  
+      setData(response.imageEntries); // store entries in state
+      setMessage(response.message); // set message
+    })() 
+  }, []) 
+  
   // STYLES
-
   // media query for parent width (required for slider responsive design) 
   let activeParentSize = {
     width: 300,
@@ -71,14 +83,13 @@ export default function Home() {
         };
       break;
   }
-  console.log(active);
   return (
     <div className='shared-page-container shared-page-container--centered '>
       <div className='home-title'>
         <h1> Photo Gallery </h1>
       </div>
       <div className='home-photo-slider' style={{margin: '0 auto', height: `${activeParentSize.height}px`, width: `${activeParentSize.width}px`}}>
-        <PhotoSlider slides={temporarySlides} parentWidth={activeParentSize.width} />
+        <PhotoSlider slides={data} parentWidth={activeParentSize.width} />
       </div>
       <div className='home-subtitle'>
         <p> footages for you </p>

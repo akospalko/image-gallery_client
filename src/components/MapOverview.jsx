@@ -9,8 +9,9 @@ import {getAllImageEntries} from '../helper/axiosRequests'
 import FitMarkersToBounds from './FitMarkersToBounds'
 import useAxiosPrivate from './hooks/useAxiosPrivate' 
 import CustomPopup from './CustomPopup';
-import { useNavigate, useLocation } from 'react-router';
-import { useAuthContext } from './contexts/AuthenticationContext';
+import {useNavigate, useLocation} from 'react-router';
+import {useAuthContext} from './contexts/AuthenticationContext';
+import {COLLECTIONS} from '../helper/dataStorage';
 
 export default function MapOverview() {
   // ROUTE
@@ -36,7 +37,7 @@ export default function MapOverview() {
     if(!data) return;
     (async () => {
       try {
-        const response = await getAllImageEntries(axiosPrivate); // fetch entries, update state  
+        const response = await getAllImageEntries(axiosPrivate, COLLECTIONS.gallery); // fetch entries, update state  
         setData(response.imageEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {

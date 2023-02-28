@@ -1,16 +1,20 @@
 // routes for pages
 import React from 'react'
-import Dashboard from '../components/Admin/Dashboard'
+import Gallery from '../components/Admin/Gallery'
 import MapOverview from '../components/MapOverview'
-import { Route, Routes } from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 import Home from '../components/User/Home'
+import HomeAdmin from '../components/Admin/Home'
 import {ROLES} from '../helper/userRoles'
-import RequireAuth from '../components/User/Authentication/RequireAuth'
-import Login from '../components/User/Authentication/Login'
-import Register from '../components/User/Authentication/Register'
+import RequireAuth from '../components/Authentication/RequireAuth'
+import Login from '../components/Authentication/Login'
+import Register from '../components/Authentication/Register'
+import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLock'
 
 // set up context with role here
 export default function PageContent({role}) {
+  // HOOK
+  useToggleModalScrollLock();
   return (
     <> 
       {/* public routes */}
@@ -30,9 +34,11 @@ export default function PageContent({role}) {
       </Routes>
       {/* Admin */}
       <Routes>
-        {/* <Route path={'/admin/'} element={<Home role='admin'/>} /> */}
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
-          <Route path={'/admin/dashboard'} element={<Dashboard/>}/>
+          <Route path={'/admin/'} element={<HomeAdmin/>}/>
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
+          <Route path={'/admin/gallery'} element={<Gallery/>}/>
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
           <Route path={'/admin/mapoverview'} element={<MapOverview/>}/>

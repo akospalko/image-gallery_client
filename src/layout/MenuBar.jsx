@@ -13,7 +13,7 @@ export default function MenuBar({navElements}) {
   const navigate = useNavigate();
   // CONTEXT 
   const {toggleDropdown, toggleDropdownHandler} = useModalContext();
-  const {auth, setAuth} = useAuthContext();
+  const {auth} = useAuthContext();
   // HOOK
   const logoutUserHandler = useLogout();
   // RENDERED ELEMENTS
