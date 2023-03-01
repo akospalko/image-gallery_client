@@ -6,7 +6,7 @@
 .shared-page-container {
   flex-direction: column;
   min-height: calc(100vh - var(--header-height));
-  padding: 0.5rem;
+  /* padding: var(--padding-default); */
   width: 100%;
   background-color: rgb(124, 125, 124);
 }

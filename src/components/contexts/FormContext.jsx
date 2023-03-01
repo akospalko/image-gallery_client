@@ -17,6 +17,7 @@ export default function FormContext({children}) {
   const [exifExtractedValues, setExifExtractedValues] = useState({}); // extracted values from uploaded(selected) img (date of capture and gps coordinates)
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
+  const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
 
   // EFFECT
@@ -96,6 +97,7 @@ useEffect(() => {
         imageFile, setImageFile,
         statusMessage, setStatusMessage,
         data, setData,
+        homePhotos, setHomePhotos,
         message, setMessage,
         exifExtractedValues, setExifExtractedValues,
         inputChangeHandler,

@@ -1,0 +1,76 @@
+/* same as image-card-container (ImageCard.css) */
+/* 0 */
+.photo-entry-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  width: 100%;
+  margin-top: var(--margin-default);
+  background-color: rgb(85, 18, 169);
+}
+/* 1 */
+/* .photo-entry-title,
+.photo-entry-title--dummy,
+.photo-entry-title--info {
+  
+} */
+.photo-entry-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  height: 70px;
+}
+.photo-entry-title p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  height: 100%;
+  margin: 0;
+  padding: var(--padding-default);
+}
+.photo-entry-title-dummy,
+.photo-entry-title-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+}
+/* 2 */
+.photo-entry-photo {
+  width: 100%;
+  min-height: 400px;
+  background-size: cover;
+  background-repeat: no-repeat;  
+  background-position: center center;
+};
+
+/* 3 */
+.photo-entry-additional-info {} 
+.photo-entry-additional-info {
+  display: flex;
+  align-items: center;
+  background-color: orange;
+  width: 100%;
+  height: 40px;
+}
+.photo-entry-additional-info-like-count,
+.photo-entry-additional-info-capture-date {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 50%;
+  height: 100%;
+} 
+/* 4 */
+.image-card-control-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  flex-direction: row;
+}

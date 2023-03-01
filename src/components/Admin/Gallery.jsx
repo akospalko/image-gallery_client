@@ -7,7 +7,7 @@ import {useModalContext} from '../contexts/ToggleModalContext'
 import ImageEntryModalGroup from './ImageEntryModalGroup'
 import {COLLECTIONS} from '../../helper/dataStorage'
 
-export default function Dashboard() {
+export default function Gallery() {
   // CONTEXT
   const {toggleModalHandler} = useModalContext();
 

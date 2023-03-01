@@ -60,7 +60,7 @@ export default function PhotoSlider({slides, parentWidth}) {
     // create new timer (restart timer after not using slider)  
     timerRef.current = setTimeout(() => {
       nextSlide();
-    }, [2000])
+    }, [3000])
     // clean up memory
     return () => {clearTimeout(timerRef.current)}
   }, [nextSlide])
@@ -87,7 +87,6 @@ export default function PhotoSlider({slides, parentWidth}) {
         {/* photos slides container (row of photos) */}
         <div style={getSlidesContainerStylesWithWidth()}>
           {slides.map((_, slideIndex) => (
-          
             <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
           ))}
         </div>
