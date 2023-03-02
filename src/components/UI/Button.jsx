@@ -12,8 +12,11 @@ export default function Button(props) {
     case 'image-create-update':
       buttonStyle = 'button-image-create-update';
       break;
-    case 'image-control-panel':
-      buttonStyle = 'button-image-control-panel';
+    case 'control-panel-edit': // admin/editor -> edit buttons (edit, delete, view, map) 
+      buttonStyle = 'button-control-panel-edit';
+      break;
+    case 'control-panel-view': // user -> view buttons (like, map, view, info) 
+      buttonStyle = 'button-control-panel-view';
       break;
     case 'form-submit':
       buttonStyle = 'button-form-submit';

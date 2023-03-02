@@ -62,7 +62,7 @@ export default function ImageCard({collection}) {
           {/* edit */}
           <div className='image-card-control-panel'>
             <Button 
-              customStyle={'image-control-panel'}
+              customStyle={'control-panel-edit'}
               clicked={async () => {
                 try {
                   const response = await getSingleImageEntry(card._id, axiosPrivate, collection); // fetch entry data
@@ -77,19 +77,19 @@ export default function ImageCard({collection}) {
             > Edit </Button>
             {/* delete */}
             <Button 
-              customStyle={'image-control-panel'}
+              customStyle={'control-panel-edit'}
               clicked={() => deleteImageEntryHandler(card._id)} 
             > Delete </Button>
             {/* view */}
             <Button 
-              customStyle={'image-control-panel'}
+              customStyle={'control-panel-edit'}
               clicked={() => {
                 setID(card._id)
                 toggleModalHandler('viewImage') }}
             > View </Button>
             {/* map */}
             <Button 
-              customStyle={'image-control-panel'}
+              customStyle={'control-panel-edit'}
               clicked={() => {
                 setID(card._id)
                 toggleModalHandler('viewMap') }}
