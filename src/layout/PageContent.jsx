@@ -32,7 +32,6 @@ export default function PageContent({role}) {
         <Route path={'/gallery'} element={ <Gallery/> } />
         <Route path={'/map'} element={<MapOverview/>}/>
         {/* <Route path={'/map'} element={ <Map/> } /> */}
-       
       </Routes>
       {/* Admin */}
       <Routes>

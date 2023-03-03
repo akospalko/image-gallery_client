@@ -2,12 +2,10 @@
 import React from 'react'
 import '../Shared.css'
 import PhotoEntries from './PhotoEntries'
-import {useModalContext} from '../contexts/ToggleModalContext'
 import {COLLECTIONS} from '../../helper/dataStorage'
+import PhotoEntryModal from './PhotoEntryModalGroup'
 
 export default function Gallery() {
-  // CONTEXT
-  const {toggleModalHandler} = useModalContext();
 
   return (
     <div className='shared-page-container'>
@@ -18,6 +16,7 @@ export default function Gallery() {
         <PhotoEntries collection={COLLECTIONS.gallery} />
       </div>
       {/* modals: map, view, view post/details */}
+      <PhotoEntryModal collection={COLLECTIONS.gallery}/>
     </div>
   )
 }

@@ -2,17 +2,20 @@ import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
-import ViewImage from '../ViewImage'
-import ViewMap from '../ViewMap'
-import ToggleModalContext, {useModalContext} from '../contexts/ToggleModalContext'
+import FullScreenView from '../Modals/FullScreenView'
+import MapView from '../Modals/MapView'
+import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import {convertFormData} from '../../helper/convertFormData'
 import {postImageEntry, getAllImageEntries, updateImageEntry} from '../../helper/axiosRequests'
 import {buildInputFields} from '../../helper/buildInputFields'
-import {createImage, updateImage} from '../../helper/dataStorage'
+import {createImage, updateImage, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
+import ModalHeader from '../Modals/ModalHeader'
 
-export default function ImageEntryModal({operation, collection}) {
+
+
+export default function PhotoEntryModal({operation, collection}) {
   // CONTEXTS
   const {activeID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, setData, setMessage} = useFormContext();
@@ -25,10 +28,10 @@ export default function ImageEntryModal({operation, collection}) {
     // find initial value to set up modals with forms based on operation value
     let initialValue;
     switch(operation) { 
-      case 'createImage':
+      case OPERATIONS.CREATE_IMAGE:
         initialValue = createImage;
         break;
-      case 'updateImage':
+      case OPERATIONS.UPDATE_IMAGE:
         initialValue = updateImage;
         break;
       default: 
@@ -39,7 +42,7 @@ export default function ImageEntryModal({operation, collection}) {
 
   // populate form with active id on first render
   useEffect(() => {
-    if(operation !== 'updateImage') return;
+    if(operation !== OPERATIONS.UPDATE_IMAGE) return;
     if(!formData || formData !== updateImage) return;
     if(!activeID) return;
     if(isFormReady) return;
@@ -87,7 +90,6 @@ export default function ImageEntryModal({operation, collection}) {
   // create image entry
   const createImageEntryModal = (  
     <Form 
-      title={'Create Image Entry'}
       operation = {operation}
       submit={createImageEntryHandler}
       customStyle='image-create-update'
@@ -105,7 +107,6 @@ export default function ImageEntryModal({operation, collection}) {
   // update image entry
   const updateImageEntryModal = (
     <Form 
-      title={'Update Image Entry'}
       operation={operation}
       submit={updateImageEntryHandler}
       customStyle='image-create-update'
@@ -121,31 +122,41 @@ export default function ImageEntryModal({operation, collection}) {
     </Form>
   )
   // view image entry's image
-  const viewImageModal = <ViewImage/>;
+  const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 
-  const viewMapModal = <ViewMap/>
+  const mapViewModal = <MapView/>
   // RENDER MODALS CONDITIONALLY 
   let renderModal; 
+  let modalTitle = operation ? MODAL_TITLES[operation] : '';
   switch(operation) {
-    case 'createImage':
+    case OPERATIONS.CREATE_IMAGE:
       renderModal = createImageEntryModal;
       break; 
-    case 'updateImage':
+    case OPERATIONS.UPDATE_IMAGE:
       renderModal = updateImageEntryModal;
       break; 
-    case 'viewImage':
-      renderModal = viewImageModal;
+    case OPERATIONS.FULLSCREEN_VIEW:
+      renderModal = fullScreenViewModal;
       break; 
-    case 'viewMap':
-      renderModal = viewMapModal;
+    case OPERATIONS.MAP_VIEW:
+      renderModal = mapViewModal;
       break; 
     default:
       renderModal = <p> couldn't display modal </p>;
   }
 
   return (
-    <div className='shared-modal-container'>
-      {formData && renderModal}
+    <div className='shared-modal-backdrop'>
+      <div className='shared-modal'>
+        {/* modal header */}
+        <div className='shared-modal-header'> 
+          <ModalHeader title={modalTitle} operation={operation} />
+        </div>
+        {/* modal content */}
+        <div className='shared-modal-content'>
+        {formData && renderModal}
+        </div>
+      </div>
     </div>
   )
 }

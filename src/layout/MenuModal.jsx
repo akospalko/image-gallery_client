@@ -7,6 +7,7 @@ import {useAuthContext} from '../components/contexts/AuthenticationContext';
 import {useNavigate} from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
 import useLogout from '../components/hooks/useLogout'
+import {OPERATIONS} from '../helper/dataStorage';
 
 export default function MenuModal({navElements}) {
   // ROUTE
@@ -23,7 +24,7 @@ export default function MenuModal({navElements}) {
       className='header-container-menu-modal-element'
       onClick={
         auth.username ? 
-        () => {toggleModalHandler('headerAuth')} // toggle modal 
+        () => {toggleModalHandler(OPERATIONS.HEADER_AUTH)} // toggle modal 
         : 
         () => {navigate('/login')}  // unauth user: nav to login pg
       }
@@ -39,7 +40,7 @@ let userProfileModal =
       style={{'cursor': 'pointer'}} 
       onClick={() => {
         logoutUserHandler();
-        toggleModalHandler('headerAuth', false);
+        toggleModalHandler(OPERATIONS.HEADER_AUTH, false);
       }}
     > Logout </div>
   </div>
@@ -49,20 +50,20 @@ let userProfileModal =
     <div className='header-container-menu-modal'>
       <div 
         className='header-container-menu-modal-element' 
-        onClick={() => toggleModalHandler('headerNav')}
-      > {toggleModal.headerNav ? 'CLOSE' : 'OPEN'} 
+        onClick={() => toggleModalHandler(OPERATIONS.HEADER_NAV)}
+      > {toggleModal.HEADER_NAV ? 'CLOSE' : 'OPEN'} 
       </div>
       {/* authentication button */}
       {userProfileModalButton}
       {/* display navigation elements */}
-      {toggleModal.headerNav && 
+      {toggleModal.HEADER_NAV && 
         <div className='header-modal-container'>
           <div className='header-modal-navigation'>
             {navElements && navElements.map((elem) => {
               return <NavLink 
                 key={elem.id} 
                 to={elem.path}
-                onClick={() => toggleModalHandler('headerNav', false)}
+                onClick={() => toggleModalHandler(OPERATIONS.HEADER_NAV, false)}
                 className={({isActive}) => 
                 (isActive ? 'header-navigation-item--active' : null)}
               > <p> {elem.name} </p> 
@@ -71,7 +72,7 @@ let userProfileModal =
           </div> 
         </div>}
       {/* show authentication modal if toggled on */}
-      {toggleModal.headerAuth && userProfileModal}
+      {toggleModal.HEADER_AUTH && userProfileModal}
     </div> 
   )
 }

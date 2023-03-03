@@ -14,17 +14,52 @@
   justify-content: center;
   align-items: center;
 }
-.shared-modal-container {
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: fixed;
+/* modals */
+.shared-modal {
+  display: flex;
+  flex-direction: column;
+  position: fixed; 
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: var(--padding-default);
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgb(80, 80, 80);
   overflow-y: scroll;
+}
+/* modal header */
+.shared-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* height: 50px; */
+  min-height: 50px;
+  background-color: rgb(135, 140, 140);
+}
+.shared-modal-dummy,
+.shared-modal-title,
+.shared-modal-close-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.shared-modal-title {
+  width: auto;
+}
+.shared-modal-title b {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.shared-modal-dummy,
+.shared-modal-close-button {
+  width: 50px;
+}
+/* modal content */
+.shared-modal-content {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
 }
 /* home && gallery image cards container */
 .shared-image-cards-container {
@@ -35,3 +70,22 @@
 .shared-image-cards-container {
   height: auto;
 }
+
+
+/* PC */
+/* display on pc view disable on mobile */
+/* .shared-modal-backdrop {
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: scroll;
+} */
+/* alternative opaque modal backdrop */
+/* .shared-modal-backdrop--opaque {
+  background-color: rgba(0, 0, 0, 1);
+} */

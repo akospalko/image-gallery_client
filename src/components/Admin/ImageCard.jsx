@@ -2,12 +2,15 @@ import React, {useEffect} from 'react'
 import Button from '../UI/Button'
 import './ImageCard.css'
 import {getAllImageEntries, getSingleImageEntry, deleteImageEntry} from '../../helper/axiosRequests'
-import {generateDateString, transformDate} from '../../helper/dateUtilities'
+import {transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import { useAuthContext } from '../contexts/AuthenticationContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import {useNavigate, useLocation} from 'react-router'
+import {OPERATIONS} from '../../helper/dataStorage'
+import Timestamp from '../Timestamp'
+
 
 export default function ImageCard({collection}) {
   // ROUTING
@@ -45,13 +48,6 @@ export default function ImageCard({collection}) {
       // setAuth({});
     }
   }
-  //elements
-  const timestamp = (entry) => ( 
-    <div className='image-card-content-data image-card-content-data--timestamp'> 
-      <i> <span> Created at: {generateDateString(entry.createdAt)} </span> </i> 
-      <i> <span> Last updated: {generateDateString(entry.updatedAt)} </span> </i> 
-    </div>
-  )
 
   return (
     <>
@@ -67,7 +63,7 @@ export default function ImageCard({collection}) {
                 try {
                   const response = await getSingleImageEntry(card._id, axiosPrivate, collection); // fetch entry data
                   setActiveID(response.imageEntry); // set active entry
-                  toggleModalHandler('updateImage'); // open modal
+                  toggleModalHandler(OPERATIONS.UPDATE_IMAGE); // open modal
                   setMessage(response.message); // set message
                 } catch(error) {
                   navToPrevPage(); // navigate unauth user back to login page
@@ -85,14 +81,14 @@ export default function ImageCard({collection}) {
               customStyle={'control-panel-edit'}
               clicked={() => {
                 setID(card._id)
-                toggleModalHandler('viewImage') }}
+                toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
             > View </Button>
             {/* map */}
             <Button 
               customStyle={'control-panel-edit'}
               clicked={() => {
                 setID(card._id)
-                toggleModalHandler('viewMap') }}
+                toggleModalHandler(OPERATIONS.MAP_VIEW) }}
             > Map </Button>
           </div>
           {/* content */}
@@ -108,7 +104,10 @@ export default function ImageCard({collection}) {
             <div className='image-card-content-data image-card-content-data--description'> 
               <p> {card.description} </p>
             </div>
-            {timestamp(card)}
+            {/* timestamp */}
+            <div className='image-card-content-data image-card-content-data--timestamp'> 
+              <Timestamp dateCreation={card.createdAt} dateLastUpdate={card.updatedAt} />
+            </div>
           </div>
         </div>
       ))}

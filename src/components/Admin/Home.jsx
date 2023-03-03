@@ -4,8 +4,8 @@ import '../Shared.css'
 import Button from '../UI/Button'
 import ImageCard from './ImageCard'
 import {useModalContext} from '../contexts/ToggleModalContext'
-import ImageEntryModalGroup from './ImageEntryModalGroup'
-import {COLLECTIONS} from '../../helper/dataStorage'
+import PhotoEntryModalGroup from './PhotoEntryModalGroup'
+import {COLLECTIONS, OPERATIONS} from '../../helper/dataStorage'
 
 export default function Home() {
   // CONTEXT
@@ -18,7 +18,7 @@ export default function Home() {
       {/* IMAGE ENTRY */}
       {/* add new image button */}
       <Button 
-      clicked={() => toggleModalHandler('createImage')} 
+      clicked={() => toggleModalHandler(OPERATIONS.CREATE_IMAGE)} 
       style={'image-new'}
       > Create Image Entry 
       </Button>
@@ -27,7 +27,7 @@ export default function Home() {
         <ImageCard collection={COLLECTIONS.home} /> 
       </div>
       {/* control group modals */}
-      <ImageEntryModalGroup collection={COLLECTIONS.home}/>
+      <PhotoEntryModalGroup collection={COLLECTIONS.home}/>
     </div>
   )
 }

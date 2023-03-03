@@ -43,6 +43,7 @@
   text-align: justify;
   word-break: break-word;
 }
+/* timestamp */
 .image-card-content-data--timestamp {
   height: 30px;
   padding: 0.25rem;

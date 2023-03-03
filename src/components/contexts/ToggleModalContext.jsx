@@ -10,12 +10,13 @@ export const useModalContext = () => {
 export default function ToggleModalContext({children}) {
   // INIT VALUES
   const modalTemplate = {
-    createImage: false,
-    updateImage: false,
-    viewImage: false,
-    viewMap: false,
-    headerNav: false, // header navigation menu containing the pages (hamburger menu) 
-    headerAuth: false, // header authentication menu: shows login page if unauth else show a modal (profile info, logout )  
+    CREATE_IMAGE: false,
+    UPDATE_IMAGE: false,
+    FULLSCREEN_VIEW: false,
+    MAP_VIEW: false,
+    PHOTO_INFO_VIEW: false,
+    HEADER_NAV: false, // header navigation menu containing the pages (hamburger menu) 
+    HEADER_AUTH: false, // header authentication menu: shows login page if unauth else show a modal (profile info, logout )  
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);

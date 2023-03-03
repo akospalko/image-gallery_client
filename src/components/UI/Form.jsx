@@ -4,7 +4,7 @@ import './Form.css'
 import Button from './Button'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
-import {statusMessages} from '../../helper/dataStorage'
+import {statusMessages, OPERATIONS} from '../../helper/dataStorage'
 
 export default function Form(props) {
   // PROPS
@@ -12,7 +12,6 @@ export default function Form(props) {
     children, 
     submit = () => {}, 
     customStyle,
-    title,
     operation} = props;
   const {toggleModalHandler = () => {}} = useModalContext();
   const {formData, setFormData, setImageFile} = useFormContext();
@@ -66,12 +65,12 @@ export default function Form(props) {
   )
   // decide rendered button element
   switch(operation) {
-    case 'createImage': 
-    case 'updateImage': 
+    case OPERATIONS.CREATE_IMAGE: 
+    case OPERATIONS.UPDATE_IMAGE: 
       buttonElement = imageEntryButton;
       break;
-    case 'login':
-    case 'register':
+    case OPERATIONS.LOGIN:
+    case OPERATIONS.REGISTER:
       buttonElement = authenticationButton;
       break;
     default: 
@@ -83,7 +82,6 @@ export default function Form(props) {
       <form className={formStyle}>
         {/* form */}
         <div className='form-form-container'> 
-          {title && <h1> {title} </h1>}
           {children} 
         </div>
         {/* button */}

@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import './ViewMap.css'
+import './MapView.css'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
-import { useFormContext } from './contexts/FormContext'
-import { useModalContext } from './contexts/ToggleModalContext'
-import Button from './UI/Button'
+import {useFormContext} from '../contexts/FormContext'
+import {useModalContext} from '../contexts/ToggleModalContext'
 
-export default function ViewMap() {
+export default function MapView() {
   // CONTEXT
-  const {toggleModalHandler, id} = useModalContext();
-  const {data, setFormData} = useFormContext();
+  const {id} = useModalContext();
+  const {data} = useFormContext();
   // STATE
   const [gpsCoordinates, setGPSCoordinates] = useState({gpsLatitude: null, gpsLongitude: null}); 
   // EFFECT
@@ -29,15 +28,6 @@ export default function ViewMap() {
       zoom={12} 
       scrollWheelZoom={true}
     >
-    <div className='view-image-button'> 
-      <Button 
-        clicked={() => {
-          setFormData(undefined);
-          toggleModalHandler('viewMap')
-        }}
-        customStyle='view-image-close'> X 
-      </Button>
-    </div>
     <TileLayer
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -52,15 +42,6 @@ export default function ViewMap() {
   // displayed element if no gps is provided
   let displayNoGPS = (
     <div className='view-map-container'>
-      <div className='view-image-button'> 
-        <Button 
-          clicked={() => {
-            setFormData(undefined);
-            toggleModalHandler('viewMap')
-          }}
-          customStyle='view-image-close'> X 
-        </Button>
-      </div>
       <p> No geolocation for this entry</p>
   </div>
   )

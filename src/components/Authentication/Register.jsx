@@ -4,7 +4,7 @@ import './Authentication.css'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
 import {useFormContext} from '../contexts/FormContext'
-import {register} from '../../helper/dataStorage'
+import {OPERATIONS, register} from '../../helper/dataStorage'
 import {buildInputFields} from '../../helper/buildInputFields'
 import {convertFormData} from '../../helper/convertFormData'
 import {createNewUser} from '../../helper/axiosRequests'
@@ -12,7 +12,7 @@ import {useNavigate} from 'react-router'
 
 export default function Register() {
   // CONSTANTS
-  const operation = 'register';
+  const operation = OPERATIONS.REGISTER;
   // HOOKS
   const navigate = useNavigate(); 
   // ROUTE

@@ -234,3 +234,29 @@ export const COLLECTIONS = {
   home: 'home', 
   gallery: 'gallery'
 }
+
+// title for each modal
+export const MODAL_TITLES = {
+  FULLSCREEN_VIEW: 'View',
+  MAP_VIEW: 'Map',
+  PHOTO_INFO_VIEW: 'Info',
+  CREATE_IMAGE:'Create Photo Entry',
+  UPDATE_IMAGE:'Update Photo Entry',
+  //...
+}
+
+// operation constants 
+export const OPERATIONS = {
+  // PHOTO ENTRY
+  FULLSCREEN_VIEW: 'FULLSCREEN_VIEW',
+  MAP_VIEW: 'MAP_VIEW',
+  PHOTO_INFO_VIEW: 'PHOTO_INFO_VIEW',
+  CREATE_IMAGE:'CREATE_IMAGE',
+  UPDATE_IMAGE:'UPDATE_IMAGE',
+  // AUTH
+  REGISTER: 'REGISTER',
+  LOGIN: 'LOGIN',
+  // NAV
+  HEADER_AUTH: 'HEADER_AUTH',
+  HEADER_NAV: 'HEADER_NAV'
+}

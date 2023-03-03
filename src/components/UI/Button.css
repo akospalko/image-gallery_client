@@ -3,9 +3,8 @@
 .button-control-panel-edit,
 .button-control-panel-view,
 .button-form-submit,
-.button-view-image-close,
 .button-image-create-update,
-.button-view-image-close { 
+.button-modal-close { 
   /* margin: 0 auto; */
   border: none;
   cursor: pointer;
@@ -63,8 +62,12 @@
   margin: var(--margin-default);
 }
 /* close modal (X) */
-.button-view-image-close {
+.button-modal-close {
   width: 100%;
   height: 100%;
-  background-color: rgb(136, 134, 134);
+  background-color: rgba(0, 0, 0, 0);
+}
+.button-modal-close:hover,
+.button-modal-close:active {
+  background-color: rgb(102, 3, 3);
 }

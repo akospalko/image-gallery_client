@@ -121,7 +121,6 @@ export default function MapOverview() {
   )
 
 return (
-  // <ViewMap />
   <div className='shared-page-container'>
     {data && data.length > 0 && 
       <> 

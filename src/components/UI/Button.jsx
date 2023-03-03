@@ -21,8 +21,8 @@ export default function Button(props) {
     case 'form-submit':
       buttonStyle = 'button-form-submit';
       break;
-    case 'view-image-close':
-      buttonStyle = 'button-view-image-close';
+    case 'modal-close':
+      buttonStyle = 'button-modal-close';
       break;
     default:
       buttonStyle = 'button-default'

@@ -6,8 +6,12 @@ import Button from '../UI/Button';
 import {useFormContext} from '../contexts/FormContext'
 import {useModalContext} from '../contexts/ToggleModalContext';
 import {getAllImageEntries} from '../../helper/axiosRequests'
+// import {useNavigate, useLocation} from 'react-router'
+import {OPERATIONS} from '../../helper/dataStorage';
 
 export default function PhotoEntries({collection}) {
+  // ROUTING
+  const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
   const {data, setData, setMessage} = useFormContext();
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
@@ -21,7 +25,7 @@ export default function PhotoEntries({collection}) {
         setData(response.imageEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
-        // navToPrevPage(); // navigate unauth user back to login page
+        navToPrevPage(); // navigate unauth user back to login page
       }
     })() 
   }, []) 
@@ -53,7 +57,6 @@ export default function PhotoEntries({collection}) {
   const photoLikesStyle = { 
     display: 'flex',
     height: '30px',
-    // justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     fontSize: '0.75rem',
@@ -86,31 +89,35 @@ export default function PhotoEntries({collection}) {
   )
   const controlPanel = (entryID) => (
     <div style={controlPanelStyle} className='photo-entry-control-panel'>
-      {/* Like, Map, View, Info */}
+      {/* group 1 */}
       <span className='photo-entry-control-panel--1'> 
         <Button 
           customStyle={'control-panel-view'}
           // clicked={}
         > Like </Button>
-        {/* delete */}
         {/* view photo */}
         <Button 
           customStyle={'control-panel-view'}
           clicked={() => {
             setID(entryID)
-            toggleModalHandler('viewImage')}}
+            toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
         > View </Button>
         {/* map */}
         <Button 
           customStyle={'control-panel-view'}
           clicked={() => {
             setID(entryID)
-            toggleModalHandler('viewMap')}}
+            toggleModalHandler(OPERATIONS.MAP_VIEW)}}
         > Map </Button>
       </span>
+      {/* group 2 */}
       <span className='photo-entry-control-panel--2'> 
-       <Button 
+        {/* info */}
+        <Button 
           customStyle={'control-panel-view'}
+          clicked={() => {
+            setID(entryID)
+            toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}
         > Info </Button>
       </span>
     </div>
