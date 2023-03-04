@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import './Header.css'
-import MenuModal from './menuModal';
-import MenuBar from './menuBar';
-import { navElementsUnauthenticated, navElementsUser, navElementsAdmin } from '../helper/dataStorage';
-import { useAuthContext } from '../components/contexts/AuthenticationContext';
-import { ROLES } from '../helper/userRoles';
-export default function Header({role}) {
+import MenuSmall from './MenuSmall';
+import MenuLarge from './MenuLarge';
+import {navElementsUnauthenticated, navElementsUser, navElementsAdmin} from '../helper/dataStorage';
+import {useAuthContext} from '../components/contexts/AuthenticationContext';
+import {ROLES} from '../helper/userRoles';
+export default function Header() {
   // STATE
   const [activeNavigation, setActiveNavigation] = useState(navElementsUnauthenticated);
   // CONTEXT
@@ -35,10 +35,10 @@ export default function Header({role}) {
   
   return (
     <> 
-      {/* menu modal */}
-      <MenuBar navElements={activeNavigation} role={role} />
-      {/* menu bar */}
-      <MenuModal navElements={activeNavigation} role={role}/>
+      {/* menu bar for small screens */}
+      <MenuSmall navElements={activeNavigation} />
+      {/* menu modal for large screens */}
+      <MenuLarge navElements={activeNavigation} />
     </>
   )
 }

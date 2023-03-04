@@ -85,7 +85,7 @@ export default function Home() {
       break;
   }
   return (
-    <div className='shared-page-container shared-page-container--centered '>
+    <div className='shared-page-container shared-page-container--centered'>
       <div className='home-title'>
         <h1> Photo Gallery </h1>
       </div>

@@ -13,7 +13,7 @@ import Register from '../components/Authentication/Register'
 import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLock'
 
 // set up context with role here
-export default function PageContent({role}) {
+export default function PageContent() {
   // HOOK
   useToggleModalScrollLock();
   return (

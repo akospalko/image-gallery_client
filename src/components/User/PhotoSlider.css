@@ -5,7 +5,7 @@
   position: absolute;
   width: 100%;
   height: calc(100% - var(--tracker-bar-height));
-  z-index: 1;
+  z-index: var(--z1);
 }
 .photo-slider-navigation-button {
   display: flex;
@@ -17,7 +17,7 @@
   border-radius: 50px;
   cursor: pointer;
   background-color: rgba(244, 244, 244, 0.05);
-  z-index: 1;
+  z-index: var(--z1);
 }
 .photo-slider-navigation-button:hover {
   background-color: rgba(244, 244, 244, 0.2);

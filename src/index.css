@@ -16,9 +16,14 @@
   --header-height: 70px;
   --margin-default: 0.5rem;
   --padding-default: 0.5rem;
-
   /* misc: */
   --tracker-bar-height: 50px;
+  /* z-index groups */
+  --z1: 1;
+  --z2: 2;
+  --z3: 3;
+  --z4: 5;
+  --z5: 6;
 }
 body {
   margin: 0;

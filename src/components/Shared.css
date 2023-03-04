@@ -5,7 +5,8 @@
 }
 .shared-page-container {
   flex-direction: column;
-  min-height: calc(100vh - var(--header-height));
+  top: var(--header-height);
+  min-height: calc(100vh);
   /* padding: var(--padding-default); */
   width: 100%;
   background-color: rgb(124, 125, 124);
@@ -25,6 +26,7 @@
   right: 0;
   background-color: rgb(80, 80, 80);
   overflow-y: scroll;
+  z-index: var(--z5);
 }
 /* modal header */
 .shared-modal-header {
@@ -71,7 +73,6 @@
   height: auto;
 }
 
-
 /* PC */
 /* display on pc view disable on mobile */
 /* .shared-modal-backdrop {
@@ -84,6 +85,7 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
   overflow-y: scroll;
+  z-index: var(--z4);
 } */
 /* alternative opaque modal backdrop */
 /* .shared-modal-backdrop--opaque {

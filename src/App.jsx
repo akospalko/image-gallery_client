@@ -12,7 +12,7 @@ function App() {
       <AuthenticationContext>
       <FormContext>
         {/* Header */}
-        <Header role={'admin'} />
+        <Header/>
         {/* Page content */}
         <PageContent />
         {/* Page footer */}
