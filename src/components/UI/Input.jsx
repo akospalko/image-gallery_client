@@ -12,12 +12,17 @@ const Input = (props) => {
   const {formData, inputChangeHandler} = useFormContext();
   // CONDITIONAL STYLING
   // input & textarea
-  let inputStyle = 'input-default';
-  let textareaStyle = 'textarea-default';
+  let inputStyle;
+  let textareaStyle;
+  let labelStyle; 
   switch(customStyle) {
     case 'image-create-update':
       inputStyle = 'input-image-create-update';
       textareaStyle = 'textarea-image-create-update';
+      break;
+    case 'authentication':
+      inputStyle = 'input-authentication';
+      // textareaStyle = ''; // default for now
       break;
     default:
       inputStyle = 'input-default';
@@ -26,7 +31,7 @@ const Input = (props) => {
   // RENDERED ELEMENTS
   // label 
   const renderedLabel = (label ? 
-    <label> {formData[name]?.label} </label>
+    <label className={labelStyle}> {formData[name]?.label} </label>
   : null ) 
   // input fields
   const input = (

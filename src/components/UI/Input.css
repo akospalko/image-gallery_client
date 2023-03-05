@@ -1,5 +1,6 @@
 .input-default,
 .input-image-create-update,
+.input-authentication,
 .textarea-default,
 .textarea-image-create-update {
   display: flex;
@@ -7,15 +8,30 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  background-color: rgb(192, 204, 228);
-  margin-top: var(--margin-default);
   border: none;
-  padding: var(--padding-default);
+  outline: none;
 }
+/* INPUT */
 .input-default,
 .input-image-create-update {
+  background-color: rgb(192, 204, 228);
+  margin-top: var(--margin-default);
+  padding: var(--padding-default);
   height: 50px;
 }
+.input-authentication {
+  height: 50px;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom: 2px solid rgb(192, 204, 228);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.input-authentication::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+}
+/* TEXTAREA */
 .textarea-default,
 .textarea-image-create-update {
   min-height: 50px;

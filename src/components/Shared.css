@@ -4,16 +4,19 @@
   display: flex;
 }
 .shared-page-container {
-  flex-direction: column;
+  position: absolute;
   top: var(--header-height);
-  min-height: calc(100vh);
-  /* padding: var(--padding-default); */
+  flex-direction: column;
+  min-height: calc(100% - var(--header-height));
   width: 100%;
   background-color: rgb(124, 125, 124);
 }
 .shared-page-container--centered {
   justify-content: center;
   align-items: center;
+}
+.shared-page-container--with-padding {
+  padding: var(--padding-default);
 }
 /* modals */
 .shared-modal {

@@ -29,15 +29,13 @@ export default function ToggleModalContext({children}) {
     setToggleModal(prev => {
       if(!operation) return;
       let updatedModal = {...prev};
-      let newValue = forcedValue ? forcedValue : !prev[operation]; 
+      let newValue = forcedValue === false ? forcedValue = false : !prev[operation]; 
       // hide all modals -> set to false
       for(let modal in updatedModal) {
         updatedModal = {...updatedModal, [modal]: false}
       }
       // show the specified modal(named operation)
-      if(operation){
         updatedModal = {...updatedModal, [operation]: newValue}
-      }
       return updatedModal;
     })
   }

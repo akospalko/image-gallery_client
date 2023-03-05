@@ -4,7 +4,8 @@
 .button-control-panel-view,
 .button-form-submit,
 .button-image-create-update,
-.button-modal-close { 
+.button-modal-close,
+.button-authentication { 
   /* margin: 0 auto; */
   border: none;
   cursor: pointer;
@@ -70,4 +71,10 @@
 .button-modal-close:hover,
 .button-modal-close:active {
   background-color: rgb(102, 3, 3);
+}
+/* button for authentication pages: login/register  */
+.button-authentication {
+  width: 80%;
+  height: 50px;
+  background-color: rgba(171, 171, 171, 0.5);
 }

@@ -24,6 +24,9 @@ export default function Button(props) {
     case 'modal-close':
       buttonStyle = 'button-modal-close';
       break;
+    case 'authentication':
+      buttonStyle = 'button-authentication';
+      break;
     default:
       buttonStyle = 'button-default'
   } 

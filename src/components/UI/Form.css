@@ -1,5 +1,6 @@
 .form-default,
 .form-image-create-update,
+.form-authentication,
 .form-form-container, 
 .form-button-container {
   display: flex;
@@ -16,9 +17,39 @@
   background-color: rgb(102, 102, 105);
   padding: var(--padding-default);
 }
-.form-form-container {
-
+.form-authentication {
+  min-height: 100%;
+  padding: var(--padding-default);
+  background-color: transparent;
+  
+  /* background-color: rgb(65, 65, 66); */
 }
+/* TITLES */
+.form-default--title,
+.form-authentication--title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+/* default */
+.form-default--title {
+  height: 50px;
+}
+.form-default--title h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+/* authentication */
+.form-authentication--title {
+  height: 100px;
+}
+.form-authentication--title h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* .form-form-container {} */
 .form-button-container {
   flex-direction: row;
   justify-content: space-between;
@@ -27,3 +58,12 @@
 .form-button-container--centered {
   flex-direction: column;
 }
+/* auth specific style */
+.form-button-container--authentication {
+  /* margin-top: 1rem; */
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+

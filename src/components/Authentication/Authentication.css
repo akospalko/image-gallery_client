@@ -1,19 +1,37 @@
-.auth-modal-container {
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  flex-direction: row;
+.auth-modal {
+  position: relative;
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  border: 2px solid rgba(252, 252, 252, 0.75);
+  z-index: 1;
+  /* modal is centered on the screen. Necessary  while  header position:fixed is applied */
+}
+.auth-modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  z-index: -1; /* put the background behind the modal*/
 }
 .auth-modal-navigate {
-  background-color: rgb(102, 102, 105);
+  /* background-color: rgb(102, 102, 105); */
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 30px;
 }
 .auth-modal-navigate--active {
-  background-color: rgb(95, 12, 12);
+  background-color: rgba(252, 252, 252, 0.75);
 }

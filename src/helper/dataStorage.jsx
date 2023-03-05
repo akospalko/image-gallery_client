@@ -120,14 +120,14 @@ export const login = {
   username: {
     type: 'text',
     field: 'input',
-    placeholder: 'Luigi',
+    placeholder: 'Username',
     value: '',
     label: 'username'
   },
   password: {
     type: 'password',
     field: 'password',
-    placeholder: 'a very secret password',
+    placeholder: 'Password',
     value: '',
     label: 'password'
   }
@@ -136,28 +136,28 @@ export const register = {
   username: {
     type: 'text',
     field: 'input',
-    placeholder: 'Luigi',
+    placeholder: 'Username',
     value: '',
     label: 'username'
   },
   email: {
     type: 'email',
     field: 'email',
-    placeholder: 'luigi@email.com',
+    placeholder: 'Email',
     value: '',
     label: 'e-mail'
   },
   password: {
     type: 'password',
     field: 'password',
-    placeholder: 'secret password',
+    placeholder: 'Password',
     value: '',
     label: 'password'
   },
   passwordConfirm: {
     type: 'password',
     field: 'password',
-    placeholder: 'confirm your secret password',
+    placeholder: 'Password Confirm',
     value: '',
     label: 'password'
   }

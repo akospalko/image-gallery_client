@@ -37,7 +37,10 @@ export default function MenuSmall({navElements}) {
         auth.username ? 
         () => {toggleModalHandler(OPERATIONS.HEADER_AUTH)} // toggle modal 
         : 
-        () => {navigate('/login')}  // unauth user: nav to login pg
+        () => {
+          navigate('/login')
+          toggleModalHandler(OPERATIONS.HEADER_NAV, false)
+        }  // unauth user: nav to login pg
       }
     > Login 
     </div>

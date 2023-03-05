@@ -47,30 +47,44 @@ export default function Register() {
     setMessage(response.message); // set status message
   }
 
+  // STYLING
+  // modal background
+  const backgroundStyle= {
+    backgroundImage: `url(${'https://images.unsplash.com/photo-1554570731-63bcddda4dcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2127&q=80'})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center'
+  }
+
   return (
-    <div className='shared-page-container'> 
-      {/* register */}
-      {formData && 
-        <Form 
-          title='Register'
-          operation={operation}
-          submit={registerHandler}
-        > 
-          {buildInputFields(register).map(elem => (
-            <Input 
-              key={elem.name} 
-              name={elem.name} 
-              label={true}
-            />
-          ))}
-        </Form>}
-        {/* login-register navigation button */}
-        <div className='auth-modal-navigate'>
-          <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
-            Login 
-          </div>  
-          <div className='auth-modal-navigate auth-modal-navigate--active'>
-            Register 
+    <div style={backgroundStyle} className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
+      <div className='auth-modal'>
+        {/* modal background */}
+        <div className='auth-modal-background'></div>
+        {/* register form */}
+        {formData && 
+          <Form 
+            customStyle='authentication'
+            title='Register'
+            operation={operation}
+            submit={registerHandler}
+          > 
+            {buildInputFields(register).map(elem => (
+              <Input 
+                customStyle='authentication'
+                key={elem.name} 
+                name={elem.name} 
+              />
+            ))}
+          </Form>}
+          {/* login-register navigation button */}
+          <div className='auth-modal-navigate'>
+            <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
+              Login 
+            </div>  
+            <div className='auth-modal-navigate auth-modal-navigate--active'>
+              Register 
+            </div>
           </div>
         </div>
     </div>
