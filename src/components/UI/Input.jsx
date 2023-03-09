@@ -1,7 +1,7 @@
 // reusable input fields 
 import React from 'react'
 import './Input.css'
-import ImageUpload from './ImageUpload'
+import PhotoUpload from './PhotoUpload'
 import DatePicker from './DatePicker'
 import {useFormContext} from '../contexts/FormContext'
 
@@ -72,7 +72,7 @@ const Input = (props) => {
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
     /> )
-  const file = <ImageUpload />
+  const file = <PhotoUpload />
   const date = <DatePicker />
   //decide input field type to render
   let element; 

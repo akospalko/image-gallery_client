@@ -7,13 +7,11 @@ import MapView from '../Modals/MapView'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import {convertFormData} from '../../helper/convertFormData'
-import {postImageEntry, getAllImageEntries, updateImageEntry} from '../../helper/axiosRequests'
+import {postPhotoEntry, getAllPhotoEntries, updatePhotoEntry} from '../../helper/axiosRequests'
 import {buildInputFields} from '../../helper/buildInputFields'
-import {createImage, updateImage, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
+import {createPhoto, updatePhoto, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import ModalHeader from '../Modals/ModalHeader'
-
-
 
 export default function PhotoEntryModal({operation, collection}) {
   // CONTEXTS
@@ -28,22 +26,22 @@ export default function PhotoEntryModal({operation, collection}) {
     // find initial value to set up modals with forms based on operation value
     let initialValue;
     switch(operation) { 
-      case OPERATIONS.CREATE_IMAGE:
-        initialValue = createImage;
+      case OPERATIONS.CREATE_PHOTO:
+        initialValue = createPhoto;
         break;
-      case OPERATIONS.UPDATE_IMAGE:
-        initialValue = updateImage;
+      case OPERATIONS.UPDATE_PHOTO:
+        initialValue = updatePhoto;
         break;
       default: 
-        initialValue = createImage;
+        initialValue = createPhoto;
     }
     setFormData(initialValue);
   }, [operation, setFormData])
 
   // populate form with active id on first render
   useEffect(() => {
-    if(operation !== OPERATIONS.UPDATE_IMAGE) return;
-    if(!formData || formData !== updateImage) return;
+    if(operation !== OPERATIONS.UPDATE_PHOTO) return;
+    if(!formData || formData !== updatePhoto) return;
     if(!activeID) return;
     if(isFormReady) return;
     // update state with filtered fields
@@ -57,28 +55,28 @@ export default function PhotoEntryModal({operation, collection}) {
     setIsFormReady(true);      
   }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady
   // HANDLERS
-  // submit form for createImage (create new image entry)
-  const createImageEntryHandler = async(e, formData) => {
+  // submit form for createPhoto (create new photo entry)
+  const createPhotoEntryHandler = async(e, formData) => {
     e.preventDefault();
     try {
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
-      const responseCreate = await postImageEntry(convertedData, axiosPrivate, collection); // post entry to server
+      const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
       setMessage(responseCreate.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
-      setData(responseGetAll.imageEntries); // store entries in state
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      setData(responseGetAll.photoEntries); // store entries in state
       setFormData(undefined); // reset form 
       toggleModalHandler(operation);
     } catch (error) {  }
   }
-  // submit form for createImage (update new image entry)
-  const updateImageEntryHandler = async (e, formData) => {
+  // submit form for createPhoto (update new photo entry)
+  const updatePhotoEntryHandler = async (e, formData) => {
     e.preventDefault();
     try {
       const convertedData = convertFormData(formData); 
-      const responseUpdate = await updateImageEntry(activeID._id, convertedData, axiosPrivate, collection);
+      const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
       setMessage(responseUpdate.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
-      setData(responseGetAll.imageEntries); // store entries in state
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      setData(responseGetAll.photoEntries); // store entries in state
       // if succes post request -> reset form 
       setFormData(undefined);
       toggleModalHandler(operation);
@@ -87,14 +85,14 @@ export default function PhotoEntryModal({operation, collection}) {
     }
   }
   // RENDERED ELEMENTS  
-  // create image entry
-  const createImageEntryModal = (  
+  // create photo entry
+  const createPhotoEntryModal = (  
     <Form 
       operation = {operation}
-      submit={createImageEntryHandler}
+      submit={createPhotoEntryHandler}
       customStyle='image-create-update'
     >
-      { buildInputFields(createImage).map(elem => (
+      { buildInputFields(createPhoto).map(elem => (
         <Input 
           key={elem.name} 
           name={elem.name} 
@@ -104,14 +102,14 @@ export default function PhotoEntryModal({operation, collection}) {
       )) }
     </Form>
   )
-  // update image entry
-  const updateImageEntryModal = (
+  // update photo entry
+  const updatePhotoEntryModal = (
     <Form 
       operation={operation}
-      submit={updateImageEntryHandler}
+      submit={updatePhotoEntryHandler}
       customStyle='image-create-update'
     > 
-      { formData && buildInputFields(updateImage).map(elem => (
+      { formData && buildInputFields(updatePhoto).map(elem => (
         <Input 
           key={elem.name} 
           name={elem.name} 
@@ -121,7 +119,7 @@ export default function PhotoEntryModal({operation, collection}) {
       )) }
     </Form>
   )
-  // view image entry's image
+  // view entry's photo
   const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 
   const mapViewModal = <MapView/>
@@ -129,11 +127,11 @@ export default function PhotoEntryModal({operation, collection}) {
   let renderModal; 
   let modalTitle = operation ? MODAL_TITLES[operation] : '';
   switch(operation) {
-    case OPERATIONS.CREATE_IMAGE:
-      renderModal = createImageEntryModal;
+    case OPERATIONS.CREATE_PHOTO:
+      renderModal = createPhotoEntryModal;
       break; 
-    case OPERATIONS.UPDATE_IMAGE:
-      renderModal = updateImageEntryModal;
+    case OPERATIONS.UPDATE_PHOTO:
+      renderModal = updatePhotoEntryModal;
       break; 
     case OPERATIONS.FULLSCREEN_VIEW:
       renderModal = fullScreenViewModal;

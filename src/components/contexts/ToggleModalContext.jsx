@@ -10,8 +10,8 @@ export const useModalContext = () => {
 export default function ToggleModalContext({children}) {
   // INIT VALUES
   const modalTemplate = {
-    CREATE_IMAGE: false,
-    UPDATE_IMAGE: false,
+    CREATE_PHOTO: false,
+    UPDATE_PHOTO: false,
     FULLSCREEN_VIEW: false,
     MAP_VIEW: false,
     PHOTO_INFO_VIEW: false,
@@ -22,9 +22,9 @@ export default function ToggleModalContext({children}) {
   const [toggleModal, setToggleModal] = useState(modalTemplate);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [activeID, setActiveID] = useState({});
-  const [id, setID] = useState(''); // id passed from ImageCaards to ViewImage. Helps in finding the clicked entry's corresponding img
+  const [id, setID] = useState(''); // id passed from PhotoCards to ViewPhoto. Helps in finding the clicked entry's corresponding img
   // HANDLERS
-  // handle toggle state for multiple modals (e.g. create, update image, etc). Can set a specified value(true||false) if provided (forcedValue) 
+  // handle toggle state for multiple modals (e.g. create, update photo, etc). Can set a specified value(true||false) if provided (forcedValue) 
   const toggleModalHandler = (operation, forcedValue) => {
     setToggleModal(prev => {
       if(!operation) return;

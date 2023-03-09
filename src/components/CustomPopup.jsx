@@ -9,7 +9,7 @@ export default function CustomPopup({marker}) {
       <h3>  {marker.title} </h3>
       <img 
         className='popup-image'
-        src={marker.imageURL} 
+        src={marker.photoURL} 
         alt={marker.title}
       />
       <div className='popup-info'>

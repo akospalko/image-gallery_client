@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     proxy: {
-    "/api/v1/image-entry": {
+    "/api/v1/photo-entry": {
     target: 'http://localhost:3000',
     changeOrigin: true,
     secure: false,

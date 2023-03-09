@@ -12,7 +12,7 @@ export default function MapView() {
   // STATE
   const [gpsCoordinates, setGPSCoordinates] = useState({gpsLatitude: null, gpsLongitude: null}); 
   // EFFECT
-  // filter out imageURL for the current entry with the help of id (from modal context) 
+  // filter out photoURL for the current entry with the help of id (from modal context) 
   useEffect(() => {
     if(!data) return;
     const filtered = data.filter(elem => elem._id === id);

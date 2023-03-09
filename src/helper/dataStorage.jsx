@@ -1,74 +1,74 @@
 // FORM INITIALIZERS
-export const createImage = {
+export const createPhoto = {
   title: {
     type: 'text',
     field: 'input', // custom type used for conditional rendering of input fields
-    placeholder: 'image title',
+    placeholder: 'title',
     value: '',
     label: 'title'
   },
   author: {
     type: 'text',
     field: 'input',
-    placeholder: 'image author',
+    placeholder: 'author',
     value: '',
     label: 'author'
   },
   gpsLatitude: {
     type: 'number',
     field: 'input',
-    placeholder: 'latitude coordinate of the image',
+    placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'gps latitude'
   },
   gpsLongitude: {
     type: 'number',
     field: 'input',
-    placeholder: 'longitude coordinate of the image',
+    placeholder: 'longitude coordinate of the photo',
     value: '',
     label: 'gps longitude'
   },
   description: {
     field: 'textarea',
-    placeholder: 'image description',
+    placeholder: 'description',
     value: '',
     label: 'description'
   },
   captureDate: {
     type: 'date',
     field: 'date',
-    placeholder: 'date of capturing the image',
+    placeholder: 'capture date',
     value: '',
     label: 'capture date'
   },
-  imageFile: {
+  photoFile: {
     type: 'file',
     field: 'file',
     value: {},
     label: ''
   }
 }
-export const updateImage = {
+export const updatePhoto = {
   _id : {
     type: 'text',
     field: 'input',
-    placeholder: 'image entry id',
+    placeholder: 'photo entry id',
     value: '',
     disabled: true,
     label: 'id'
   },
-  imageName: {
+  photoName: {
     type: 'text',
     field: 'input',
-    placeholder: 'image file name',
+    placeholder: 'file name',
     value: '',
     disabled: true,
-    label: 'image name'
+    label: 'file name'
   },
   title: {
     type: 'text',
     field: 'input',
-    placeholder: 'image title',
+    placeholder: 'title',
     value: '',
     label: 'title'
     //min-max length
@@ -77,38 +77,38 @@ export const updateImage = {
   author: {
     type: 'text',
     field: 'input',
-    placeholder: 'image author',
+    placeholder: 'author',
     value: '',
     label: 'author'
   },
   gpsLatitude: {
     type: 'number',
     field: 'input',
-    placeholder: 'latitude coordinate of the image',
+    placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'gps latitude'
   },
   gpsLongitude: {
     type: 'number',
     field: 'input',
-    placeholder: 'latitude coordinate of the image',
+    placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'gps longitude'
   },
   description: {
     field: 'textarea',
-    placeholder: 'image description',
+    placeholder: 'description',
     value: '',
     label: 'description'
   },
   captureDate: {
     type: 'date',
     field: 'date',
-    placeholder: 'date of capturing the image',
+    placeholder: 'capture date',
     value: '',
     label: 'capture date'
   },
-  imageFile: {
+  photoFile: {
     type: 'file',
     field: 'file',
     value: {},
@@ -166,9 +166,9 @@ export const register = {
 export const statusMessages = {
   // DEFAULT
   EMPTY: '',
-  // UPLOAD IMAGE
-  UPLOAD_IMAGE_FILE_INITIAL: 'Select image to upload (png or jpg)',
-  UPLOAD_IMAGE_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format',
+  // UPLOAD PHOTO
+  UPLOAD_PHOTO_FILE_INITIAL: 'Select photo to upload (png or jpg)',
+  UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format',
   // AXIOS
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }
@@ -231,8 +231,8 @@ export const profileNavElements = [
 ]
 
 export const COLLECTIONS = {
-  home: 'home', 
-  gallery: 'gallery'
+  HOME: 'home', 
+  GALLERY: 'gallery'
 }
 
 // title for each modal
@@ -240,8 +240,8 @@ export const MODAL_TITLES = {
   FULLSCREEN_VIEW: 'View',
   MAP_VIEW: 'Map',
   PHOTO_INFO_VIEW: 'Info',
-  CREATE_IMAGE:'Create Photo Entry',
-  UPDATE_IMAGE:'Update Photo Entry',
+  CREATE_PHOTO:'Create Photo Entry',
+  UPDATE_PHOTO:'Update Photo Entry',
   //...
 }
 
@@ -251,8 +251,8 @@ export const OPERATIONS = {
   FULLSCREEN_VIEW: 'FULLSCREEN_VIEW',
   MAP_VIEW: 'MAP_VIEW',
   PHOTO_INFO_VIEW: 'PHOTO_INFO_VIEW',
-  CREATE_IMAGE:'CREATE_IMAGE',
-  UPDATE_IMAGE:'UPDATE_IMAGE',
+  CREATE_PHOTO:'CREATE_PHOTO',
+  UPDATE_PHOTO:'UPDATE_PHOTO',
   // AUTH
   REGISTER: 'REGISTER',
   LOGIN: 'LOGIN',

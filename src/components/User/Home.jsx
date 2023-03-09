@@ -3,13 +3,13 @@ import './Home.css'
 import '../Shared.css'
 import PhotoSlider from './PhotoSlider'
 import useBreakpoints from '../hooks/useBreakpoints'
-import { useFormContext } from '../contexts/FormContext'
+import {useFormContext } from '../contexts/FormContext'
 import { getAllHomePhotos } from '../../helper/axiosRequests'
 import axios from '../../helper/axiosInstances'
 
 export default function Home() {
   // CONTEXT
-  const {data, setData, homePhotos, setHomePhotos, setMessage} = useFormContext();
+  const {homePhotos, setHomePhotos, setMessage} = useFormContext();
   // HOOK
   const {active} = useBreakpoints();
    // EFFECT
@@ -17,7 +17,7 @@ export default function Home() {
     if(homePhotos.length > 0) return; // get all home photos if photo container is empty
     (async () => {
       const response = await getAllHomePhotos(axios); // fetch entries, update state  
-      setHomePhotos(response.imageEntries); // store entries in state
+      setHomePhotos(response?.photoEntries); // store entries in state
       setMessage(response.message); // set message
     })() 
   }, [homePhotos]) 

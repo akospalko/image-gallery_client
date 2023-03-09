@@ -1,11 +1,11 @@
-// display all the images with coordinates on maps
+// display all the photos with coordinates on maps
 import React, { useState, useEffect } from 'react'
 import './MapOverview.css'
 import './Shared.css'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import {useFormContext} from './contexts/FormContext'
-import {getAllImageEntries} from '../helper/axiosRequests'
+import {getAllPhotoEntries} from '../helper/axiosRequests'
 import FitMarkersToBounds from './FitMarkersToBounds'
 import useAxiosPrivate from './hooks/useAxiosPrivate' 
 import CustomPopup from './CustomPopup';
@@ -22,8 +22,8 @@ export default function MapOverview() {
   // STATE
   // template
   const statisticsTemplate = {
-    numberOfEntries: 0, // images w + w/o coordinates
-    numberOfPlaces: 0, // images w coordinates
+    numberOfEntries: 0, // photos w + w/o coordinates
+    numberOfPlaces: 0, // photos w coordinates
     authors: 0
   };
   const [statistics, setStatistics] = useState(statisticsTemplate);
@@ -37,8 +37,8 @@ export default function MapOverview() {
     if(!data) return;
     (async () => {
       try {
-        const response = await getAllImageEntries(axiosPrivate, COLLECTIONS.gallery); // fetch entries, update state  
-        setData(response.imageEntries); // store entries in state
+        const response = await getAllPhotoEntries(axiosPrivate, COLLECTIONS.GALLERY); // fetch entries, update state  
+        setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
@@ -115,7 +115,7 @@ export default function MapOverview() {
   const statisticsElement = (
     <div>
       <p> Authors: {statistics.authors} </p>
-      <p> Number of Images: {statistics.numberOfEntries} </p>
+      <p> Number of Photos: {statistics.numberOfEntries} </p>
       <p> Number of Places: {statistics.numberOfPlaces} </p>
     </div>
   )

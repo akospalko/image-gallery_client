@@ -10,8 +10,8 @@ export default function PhotoEntryModalGroup({collection}) {
 
   return (
     <>
-      {toggleModal.CREATE_IMAGE ? <PhotoEntryModal collection={collection} operation={OPERATIONS.CREATE_IMAGE}/> : null }
-      {toggleModal.UPDATE_IMAGE ? <PhotoEntryModal collection={collection} operation={OPERATIONS.UPDATE_IMAGE}/> : null }
+      {toggleModal.CREATE_PHOTO ? <PhotoEntryModal collection={collection} operation={OPERATIONS.CREATE_PHOTO}/> : null }
+      {toggleModal.UPDATE_PHOTO ? <PhotoEntryModal collection={collection} operation={OPERATIONS.UPDATE_PHOTO}/> : null }
       {toggleModal.FULLSCREEN_VIEW ? <PhotoEntryModal collection={collection} operation={OPERATIONS.FULLSCREEN_VIEW}/> : null }
       {toggleModal.MAP_VIEW ? <PhotoEntryModal collection={collection} operation={OPERATIONS.MAP_VIEW}/> : null }
     </> 

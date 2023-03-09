@@ -15,7 +15,7 @@ export default function Form(props) {
     customStyle,
     operation} = props;
   const {toggleModalHandler} = useModalContext();
-  const {formData, setFormData, setImageFile} = useFormContext();
+  const {formData, setFormData, setPhotoFile} = useFormContext();
   // CONDITIONAL STYLING
   let formStyle;
   let formTitleStyle;
@@ -35,8 +35,8 @@ export default function Form(props) {
   // BUTTONS
   // rendered button element
   let buttonElement;
-  // image entry (create/udate)
-  const imageEntryButton =  () => (
+  // photo entry (create/udate)
+  const photoEntryButton =  () => (
     <div className='form-button-container'> 
       { toggleModalHandler ?  
         <Button 
@@ -44,7 +44,7 @@ export default function Form(props) {
           type='button' 
           clicked={() => {
             setFormData(undefined);
-            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
+            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
             toggleModalHandler(operation);
           }}
         > Cancel 
@@ -54,7 +54,7 @@ export default function Form(props) {
         type='submit' 
         clicked={ (e) => {
             submit(e, formData); 
-            setImageFile(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
+            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
         }}
       > Submit </Button>      
     </div> 
@@ -77,9 +77,9 @@ export default function Form(props) {
   }
   // conditionally rendere button elements
   switch(operation) {
-    case OPERATIONS.CREATE_IMAGE: 
-    case OPERATIONS.UPDATE_IMAGE: 
-      buttonElement = imageEntryButton;
+    case OPERATIONS.CREATE_PHOTO: 
+    case OPERATIONS.UPDATE_PHOTO: 
+      buttonElement = photoEntryButton;
       break;
     case OPERATIONS.LOGIN:
       buttonElement = authenticationButton;

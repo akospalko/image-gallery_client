@@ -11,7 +11,7 @@ export default function PhotoEntryModal({operation}) {
   // const {} = useFormContext();
   // RENDERED ELEMENTS  
 
-  // view image entry's image
+  // view entry's photo
   const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 
   const mapViewModal = <MapView/>

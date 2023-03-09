@@ -5,7 +5,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Button from '../UI/Button';
 import {useFormContext} from '../contexts/FormContext'
 import {useModalContext} from '../contexts/ToggleModalContext';
-import {getAllImageEntries} from '../../helper/axiosRequests'
+import {getAllPhotoEntries} from '../../helper/axiosRequests'
 // import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage';
 
@@ -21,8 +21,8 @@ export default function PhotoEntries({collection}) {
   useEffect(() => { // get all data on initial render
     (async () => {
       try {
-        const response = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
-        setData(response.imageEntries); // store entries in state
+        const response = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+        setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
@@ -128,7 +128,7 @@ export default function PhotoEntries({collection}) {
       {data && data.map(photoEntry => (
         <div key={photoEntry._id} className='photo-entry-container'> 
           {title(photoEntry.title)}
-          {photo(photoEntry.imageURL, photoEntry.captureDate)}
+          {photo(photoEntry.photoURL, photoEntry.captureDate)}
           {photoLikes()}
           {controlPanel(photoEntry._id)}
         </div>

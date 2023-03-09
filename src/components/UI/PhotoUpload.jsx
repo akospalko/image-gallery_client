@@ -1,11 +1,11 @@
 // a component to create reusable input forms 
 import React from 'react'
-import './ImageUpload.css'
+import './PhotoUpload.css'
 import {useFormContext} from '../contexts/FormContext'
 
-export default function ImageUpload() {
+export default function PhotoUpload() {
   // CONTEXT
-  const {imageFileChangeHandler, imageFile} = useFormContext();
+  const {photoFileChangeHandler, photoFile} = useFormContext();
 
   return(
     <div className='image-upload-file-container'>
@@ -15,13 +15,13 @@ export default function ImageUpload() {
           <input
             type='file'
             value='' // resets value // solves the problem when we couldn't choose the same picture twice in a row for upload. 
-            onChange={(e) => imageFileChangeHandler(e)}
+            onChange={(e) => photoFileChangeHandler(e)}
           />
           <span> Select </span>
         </div>
       </label>
       <p className='image-upload-message'> 
-        {imageFile?.name || imageFile} 
+        {photoFile?.name || photoFile} 
       </p>
     </div>
   );

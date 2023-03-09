@@ -7,9 +7,9 @@ export default function FullScreenView() {
   // CONTEXTS
   const {id} = useModalContext();
   const {data} = useFormContext();
-  const [imageData, setImageData] = useState();
+  const [photoData, setImageData] = useState();
   // EFFECT
-  // filter out imageURL for the current entry with the help of id (from modal context) 
+  // filter out photoURL for the current entry with the help of id (from modal context) 
   useEffect(() => {
     if(!data) return;
     const filtered = data.filter(elem => elem._id === id);
@@ -17,19 +17,19 @@ export default function FullScreenView() {
       return {
         ...prev, 
         title: filtered[0].title, 
-        url: filtered[0].imageURL
+        url: filtered[0].photoURL
       }
     })
   }, [data, id])
   //RENDERED ELEMENT
   let rendered = <p> loading... </p>
-  if(imageData) {
-    rendered = <div style={{backgroundImage: `url(${imageData.url})`}} 
+  if(photoData) {
+    rendered = <div style={{backgroundImage: `url(${photoData.url})`}} 
     className='view-image-photo'> </div> 
   }
   return(
     <>
-    {/* image file */}
+    {/* photo */}
     {rendered}
     </>
   )

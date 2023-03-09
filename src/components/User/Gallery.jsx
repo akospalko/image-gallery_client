@@ -1,4 +1,4 @@
-//form to create/update image entries
+//form to create/update photo entries
 import React from 'react'
 import '../Shared.css'
 import PhotoEntries from './PhotoEntries'
@@ -13,10 +13,10 @@ export default function Gallery() {
       <h1> Gallery </h1>  
       {/* photo entries */}
       <div className='shared-image-cards-container'>
-        <PhotoEntries collection={COLLECTIONS.gallery} />
+        <PhotoEntries collection={COLLECTIONS.GALLERY} />
       </div>
       {/* modals: map, view, view post/details */}
-      <PhotoEntryModal collection={COLLECTIONS.gallery}/>
+      <PhotoEntryModal collection={COLLECTIONS.GALLERY}/>
     </div>
   )
 }

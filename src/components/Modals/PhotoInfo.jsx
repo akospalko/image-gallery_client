@@ -13,7 +13,7 @@ export default function PhotoInfo() {
   // STATE
   const [photoInfo, setPhotoInfo] = useState({}); 
   // EFFECT
-  // filter out imageURL for the current entry with the help of id (from modal context) 
+  // filter out photoURL for the current entry with the help of id (from modal context) 
   useEffect(() => {
     if(!data) return;
     console.log(data);

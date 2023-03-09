@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
 import './PhotoSlider.css'
 
-export default function PhotoSlider({slides, parentWidth}) {
+export default function PhotoSlider({slides = [], parentWidth}) {
   // REFERENCE
   const timerRef = useRef(null);
   // STATE
@@ -66,12 +66,12 @@ export default function PhotoSlider({slides, parentWidth}) {
   }, [nextSlide])
   const getSlideStylesWithBackground = (slideIndex) => ({
     ...slideStyles,
-    backgroundImage: `url(${slides[slideIndex].imageURL})`,
+    backgroundImage: `url(${slides[slideIndex].photoURL})`,
     width: `${parentWidth}px`,
   });
   const getSlidesContainerStylesWithWidth = () => ({
     ...slidesContainerStyles,
-    width: parentWidth * slides.length,
+    width: parentWidth * slides?.length,
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   });
   
@@ -86,14 +86,14 @@ export default function PhotoSlider({slides, parentWidth}) {
       <div style={slidesContainerOverflowStyles}>
         {/* photos slides container (row of photos) */}
         <div style={getSlidesContainerStylesWithWidth()}>
-          {slides.map((_, slideIndex) => (
+          {slides?.map((_, slideIndex) => (
             <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
           ))}
         </div>
       </div>
       {/* tracker */}
       <div className='photo-slider-tracker'>
-        {slides.map((_, i) => (
+        {slides?.map((_, i) => (
           <span 
           key={i} 
           className={i === currentIndex ? 'photo-slider-tracker-elem photo-slider-tracker-elem--active' : 'photo-slider-tracker-elem'} 

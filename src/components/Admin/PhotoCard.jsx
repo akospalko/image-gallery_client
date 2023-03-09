@@ -1,18 +1,17 @@
 import React, {useEffect} from 'react'
 import Button from '../UI/Button'
-import './ImageCard.css'
-import {getAllImageEntries, getSingleImageEntry, deleteImageEntry} from '../../helper/axiosRequests'
+import './PhotoCard.css'
+import {getAllPhotoEntries, getSinglePhotoEntry, deletePhotoEntry} from '../../helper/axiosRequests'
 import {transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
-import { useAuthContext } from '../contexts/AuthenticationContext'
+import {useAuthContext} from '../contexts/AuthenticationContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage'
 import Timestamp from '../Timestamp'
 
-
-export default function ImageCard({collection}) {
+export default function PhotoCard({collection}) {
   // ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -27,8 +26,8 @@ export default function ImageCard({collection}) {
   useEffect(() => { // get all data on initial render
     (async () => {
       try {
-        const response = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
-        setData(response.imageEntries); // store entries in state
+        const response = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+        setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
@@ -36,13 +35,13 @@ export default function ImageCard({collection}) {
       }
     })() 
   }, []) 
-  // delete and refetch image entries
-  const deleteImageEntryHandler = async (id) => {
+  // delete and refetch photo entries
+  const deletePhotoEntryHandler = async (id) => {
     try {
-      const responseDelete = await deleteImageEntry(id, axiosPrivate, collection);
+      const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
       setMessage(responseDelete.message);
-      const responseGetAll = await getAllImageEntries(axiosPrivate, collection); // fetch entries, update state  
-      setData(responseGetAll.imageEntries); // store entries in state
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      setData(responseGetAll.photoEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
       // setAuth({});
@@ -61,9 +60,9 @@ export default function ImageCard({collection}) {
               customStyle={'control-panel-edit'}
               clicked={async () => {
                 try {
-                  const response = await getSingleImageEntry(card._id, axiosPrivate, collection); // fetch entry data
-                  setActiveID(response.imageEntry); // set active entry
-                  toggleModalHandler(OPERATIONS.UPDATE_IMAGE); // open modal
+                  const response = await getSinglePhotoEntry(card._id, axiosPrivate, collection); // fetch entry data
+                  setActiveID(response.photoEntry); // set active entry
+                  toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
                   setMessage(response.message); // set message
                 } catch(error) {
                   navToPrevPage(); // navigate unauth user back to login page
@@ -74,7 +73,7 @@ export default function ImageCard({collection}) {
             {/* delete */}
             <Button 
               customStyle={'control-panel-edit'}
-              clicked={() => deleteImageEntryHandler(card._id)} 
+              clicked={() => deletePhotoEntryHandler(card._id)} 
             > Delete </Button>
             {/* view */}
             <Button 

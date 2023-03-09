@@ -13,7 +13,7 @@ export const useFormContext = () => {
 export default function FormContext({children}) {
   // STATES
   const [formData, setFormData] = useState();
-  const [imageFile, setImageFile] = useState(statusMessages.UPLOAD_IMAGE_FILE_INITIAL);
+  const [photoFile, setPhotoFile] = useState(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
   const [exifExtractedValues, setExifExtractedValues] = useState({}); // extracted values from uploaded(selected) img (date of capture and gps coordinates)
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
@@ -21,12 +21,12 @@ export default function FormContext({children}) {
   const [message, setMessage] = useState('');
 
   // EFFECT
-  // read exif data of the added image file, if exist
+  // read exif data of the added photo file, if exist
 useEffect(() => {
-    if(!imageFile) return;
-    if(typeof imageFile !== 'object') {return}
+    if(!photoFile) return;
+    if(typeof photoFile !== 'object') {return}
     (async () => {
-      const tags = await ExifReader.load(imageFile, {expanded: true});
+      const tags = await ExifReader.load(photoFile, {expanded: true});
       //update formData with the fetched gps data
       if(tags) {
         const captureDate = transformDate(tags.exif?.DateTimeDigitized?.value || '');
@@ -44,7 +44,7 @@ useEffect(() => {
         setExifExtractedValues(extractedData);
       }
     })()
-  }, [imageFile, setFormData, setExifExtractedValues])
+  }, [photoFile, setFormData, setExifExtractedValues])
   // HANDLERS
   // input fields change handler (input, textarea)
   const inputChangeHandler = (e) => {
@@ -56,27 +56,27 @@ useEffect(() => {
     updatedForm[name] = updatedItem; // update form with updated property
     setFormData(updatedForm);  // update state
   };
-  // add image to file api handler  && validate selected image file (check file extension, update state)
-  const validateImageFile = (selected) => {
-    const types = ['image/png', "image/jpeg"];  // allowed image file types
+  // add photo to file api handler  && validate selected photo file (check file extension, update state)
+  const validatePhotoFile = (selected) => {
+    const types = ['image/png', "image/jpeg"];  // allowed photo file types
     if (selected && types.includes(selected.type)) { // file's format is listed in types arr
-      setImageFile(selected);
+      setPhotoFile(selected);
     } else { // if invalid
-      setImageFile(statusMessages.UPLOAD_IMAGE_FILE_NOT_SUPPORTED_FORMAT);
+      setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT);
       selected = statusMessages.EMPTY;
     } 
   }
-  // upload image
-  const imageFileChangeHandler = (e) => {
+  // upload photo
+  const photoFileChangeHandler = (e) => {
     e.preventDefault();
     // get selected file
     let selectedFile = e.target.files[0] 
-    validateImageFile(selectedFile); // validate file, update state
-    // update form with image file
+    validatePhotoFile(selectedFile); // validate file, update state
+    // update form with photo file
     let updatedForm = {...formData}; // copy form
-    const updatedItem = {...updatedForm['imageFile']}; // copy and update nested form properties
+    const updatedItem = {...updatedForm['photoFile']}; // copy and update nested form properties
     updatedItem.value = selectedFile; // update prop value
-    updatedForm['imageFile'] = updatedItem; // update form with updated property
+    updatedForm['photoFile'] = updatedItem; // update form with updated property
     setFormData(updatedForm); // update state
   }
   // date input 
@@ -94,14 +94,14 @@ useEffect(() => {
     <FormLayoutProvider.Provider
       value={{
         formData, setFormData,
-        imageFile, setImageFile,
+        photoFile, setPhotoFile,
         statusMessage, setStatusMessage,
         data, setData,
         homePhotos, setHomePhotos,
         message, setMessage,
         exifExtractedValues, setExifExtractedValues,
         inputChangeHandler,
-        imageFileChangeHandler,
+        photoFileChangeHandler,
         dateInputChangeHandler
       }}
     > {children}
