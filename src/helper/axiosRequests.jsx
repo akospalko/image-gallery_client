@@ -67,7 +67,7 @@ export const postPhotoEntry = async (entryData, axiosInstance, collection) => {
 }
 // PATCH (update)
 export const updatePhotoEntry = async (activeID, entryData, axiosInstance, collection) => {
-  if(!activeID && !entryData) return;
+  if(!activeID || !entryData) return;
   let fetchResult; 
   try { 
     const response = await axiosInstance.patch(`/api/v1/photo-entry/${collection}/${activeID}`, entryData);
@@ -97,7 +97,56 @@ export const deletePhotoEntry = async (activeID, axiosInstance, collection) => {
   }
   return fetchResult;
 }
-
+// USER'S COLLECTION
+// PATCH (create/update) // create user collection && add photo entry (if non existent) || add a new photo entry to an already existing one 
+export const addPhotoEntryToCollection = async (userID, photoEntryID, axiosInstance) => {
+  // const queryData = { userID, photoEntryID };
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.patch(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
+    console.log(response)
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+// DELETE // remove photo entry from user collection 
+export const removePhotoEntryFromCollection = async (userID, photoEntryID, axiosInstance) => {
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.delete(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
+    console.log(response)
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+// GET // user's collection
+// getPhotoEntries: true|false -> if false||undefined: return photoEntriesID. if true result: photoEntries
+export const getUserCollectionPhotoEntries = async (axiosInstance, userID, getPhotoEntries) => {
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.get(`/api/v1/user-photo-collection/${userID}/?getPhotoEntries=${getPhotoEntries}`);
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
 // AUTHENTICATION
 // POST, register user
 export const createNewUser = async (userData) => {
@@ -147,7 +196,6 @@ export const refreshToken = async () => {
   }
   return fetchResult;
 }
-
 // GET, logout user
 export const logoutUser = async () => {
   let fetchResult; 

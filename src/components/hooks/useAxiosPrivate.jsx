@@ -1,10 +1,11 @@
-// interceptor for axios private instance: add bearer token to reqs w/o AT  
+// interceptor for axios private instance with content-type: multipart/form-data // add bearer token to reqs w/o AT || refresh expired AT
+// TODO: create reusable axiosPrivate interceptors (one for application/json and the other is for multipart/form-data)
 import {useEffect} from "react"
 import {axiosPrivate} from "../../helper/axiosInstances"
 import {useAuthContext} from "../contexts/AuthenticationContext"
 import useRefreshToken from "./useRefreshToken"
 
-const useAxiosPrivate = () => {
+const useAxiosPrivateApplicationJSON = () => {
   // CONTEXT
   const {auth} = useAuthContext();
   // HOOK
@@ -35,7 +36,7 @@ const useAxiosPrivate = () => {
         return Promise.reject(error);
       }
     )
-    // remove interceptors (component unmount)
+    // remove interceptors (on component unmount)
     return () => {
       axiosPrivate.interceptors.request.eject(requestIntercept); // pass in interceptor to remove
       axiosPrivate.interceptors.response.eject(responseIntercept); 
@@ -44,4 +45,4 @@ const useAxiosPrivate = () => {
   return axiosPrivate;
 }
 
-export default useAxiosPrivate;
+export default useAxiosPrivateApplicationJSON;

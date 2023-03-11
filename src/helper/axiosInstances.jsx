@@ -7,13 +7,12 @@ const BASE_URL = 'http://localhost:3000'; // TODO: change URL to live  api's URL
 export default axios.create({
   baseURL: BASE_URL
 });
-// access private resources  
+// access private resources with multipart/form-data
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  headers: {"content-type": "multipart/form-data"},
+  headers: {"Content-Type": "multipart/form-data"},
   withCredentials: true
 });
-// access private resources  
 export const axiosAuthentication = axios.create({
   baseURL: BASE_URL,
   headers: {'Content-Type': 'application/json'},
