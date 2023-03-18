@@ -14,6 +14,7 @@ export default function Home() {
   const {active} = useBreakpoints();
    // EFFECT
    useEffect(() => {  
+    // TODO: maybe should use isFetched state instead of checking for arr.length
     if(homePhotos.length > 0) return; // get all home photos if photo container is empty
     (async () => {
       const response = await getAllHomePhotos(axios); // fetch entries, update state  

@@ -6,10 +6,10 @@ import {transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import {useAuthContext} from '../contexts/AuthenticationContext'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage'
 import Timestamp from '../Timestamp'
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 export default function PhotoCard({collection}) {
   // ROUTING
@@ -19,14 +19,14 @@ export default function PhotoCard({collection}) {
   // CONTEXTS
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
   const {data, setData, setMessage} = useFormContext();
-  const {setAuth} = useAuthContext();
+  const {auth, setAuth} = useAuthContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   // EFFECT
   useEffect(() => { // get all data on initial render
     (async () => {
       try {
-        const response = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+        const response = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
         setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
@@ -40,7 +40,7 @@ export default function PhotoCard({collection}) {
     try {
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
       setMessage(responseDelete.message);
-      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
       setData(responseGetAll.photoEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page

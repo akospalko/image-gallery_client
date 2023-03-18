@@ -6,7 +6,6 @@ import {COLLECTIONS} from '../../helper/dataStorage'
 import PhotoEntryModal from './PhotoEntryModalGroup'
 
 export default function Gallery() {
-
   return (
     <div className='shared-page-container'>
       {/* title */}

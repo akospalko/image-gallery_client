@@ -1,4 +1,5 @@
-//TODO: DELETE MODAL CONTEXT AUTH RELATED CODE
+// TODO: DELETE MODAL CONTEXT AUTH RELATED CODE
+// TODO: DELETE AC token from auth state
 import React, {useEffect} from 'react'
 import '../Shared.css'
 import './Authentication.css'
@@ -32,13 +33,13 @@ export default function Login() {
     e.preventDefault();
     const convertedData = convertFormData(formData); // simplify data before sending request  
     const response = await loginUser(convertedData);
-   try {
-      const {roles, accessToken} = response;
-      const authData = {username: convertedData.username, password: convertedData.password, roles, accessToken}; 
+    try {
+     console.log('auth: ', response)
+      const {roles, accessToken, userID} = response; 
+      const authData = {username: convertedData.username, password: convertedData.password, roles, accessToken, userID}; 
       setAuth(authData);  // store auth data in form
       setFormData(login);   // reset form to initial state
       navigate(from, { replace: true }); // navigate user to default resource
-      console.log('auth');
     } catch(error) {
       // TODO: empty pasword field
     } 

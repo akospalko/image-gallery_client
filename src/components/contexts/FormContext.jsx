@@ -19,6 +19,8 @@ export default function FormContext({children}) {
   const [data, setData] = useState([]);
   const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
+  // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
+  const [isGalleryFetched, setIsGalleryFetched] = useState(false);
 
   // EFFECT
   // read exif data of the added photo file, if exist
@@ -100,6 +102,7 @@ useEffect(() => {
         homePhotos, setHomePhotos,
         message, setMessage,
         exifExtractedValues, setExifExtractedValues,
+        isGalleryFetched, setIsGalleryFetched,
         inputChangeHandler,
         photoFileChangeHandler,
         dateInputChangeHandler

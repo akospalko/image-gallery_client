@@ -10,8 +10,8 @@ import {convertFormData} from '../../helper/convertFormData'
 import {postPhotoEntry, getAllPhotoEntries, updatePhotoEntry} from '../../helper/axiosRequests'
 import {buildInputFields} from '../../helper/buildInputFields'
 import {createPhoto, updatePhoto, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import ModalHeader from '../Modals/ModalHeader'
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 export default function PhotoEntryModal({operation, collection}) {
   // CONTEXTS
@@ -62,7 +62,7 @@ export default function PhotoEntryModal({operation, collection}) {
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
       setMessage(responseCreate.message);
-      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
       setData(responseGetAll.photoEntries); // store entries in state
       setFormData(undefined); // reset form 
       toggleModalHandler(operation);
@@ -75,7 +75,7 @@ export default function PhotoEntryModal({operation, collection}) {
       const convertedData = convertFormData(formData); 
       const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
       setMessage(responseUpdate.message);
-      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection); // fetch entries, update state  
+      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
       setData(responseGetAll.photoEntries); // store entries in state
       // if succes post request -> reset form 
       setFormData(undefined);
@@ -119,7 +119,7 @@ export default function PhotoEntryModal({operation, collection}) {
       )) }
     </Form>
   )
-  // view entry's photo
+  // view entry's photo file
   const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 
   const mapViewModal = <MapView/>
