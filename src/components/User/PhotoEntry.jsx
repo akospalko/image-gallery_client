@@ -4,7 +4,13 @@ import '../Shared.css'
 import Button from '../UI/Button';
 import {useFormContext} from '../contexts/FormContext'
 import {useModalContext} from '../contexts/ToggleModalContext';
-import {addPhotoEntryToCollection, removePhotoEntryFromCollection, getUserCollectionPhotoEntries} from '../../helper/axiosRequests'
+import {
+  addPhotoEntryLike, 
+  removePhotoEntryLike, 
+  addPhotoEntryToCollection, 
+  removePhotoEntryFromCollection, 
+  getUserCollectionPhotoEntries
+} from '../../helper/axiosRequests'
 import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage';
 import {useAuthContext} from '../contexts/AuthenticationContext';
@@ -12,8 +18,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const PhotoEntry = ({photoEntry, collection}) => {
   // PROPS
-  const {title, photoURL, captureDate, _id, isInCollection } = photoEntry;
-  const [isToggled, setIsToggled] = useState(false);
+  const {title, photoURL, captureDate, _id, isInCollection, inCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
   const {setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
@@ -56,7 +61,46 @@ const PhotoEntry = ({photoEntry, collection}) => {
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
 
-  // TODO: replace it to my collection component
+  // add like to photo entry
+  const addLikeHandler = useCallback(async (userID, photoEntryID) => {
+    // send request to server get response 
+    const responseAddLike = await addPhotoEntryLike(userID, photoEntryID, axiosPrivate);
+    setMessage(responseAddLike.message);
+    // upate state with new data
+    console.log(responseAddLike)
+    setData(prev => {  
+      const copyData = [...prev];
+      const updatedData = copyData.map(entry => { 
+        if(entry._id === responseAddLike.photoEntry._id) { return {...entry, ...responseAddLike.photoEntry} } // update entry in state with the fetched entry (if state entry id === fetched entry id) 
+        else { return {...entry} }
+      })
+      return updatedData;
+    })   
+    setMessage(responseAddLike.message); // set message
+    // navToPrevPage(); // navigate unauth user back to login page
+  }, [])
+
+  // remove like from photo entry
+  const removeLikeHandler = useCallback(async (userID, photoEntryID) => {
+    // send request to server get response 
+    const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
+    setMessage(responseRemoveLike.message);
+    // upate state with new data
+    console.log(responseRemoveLike)
+    setData(prev => {  
+      const copyData = [...prev];
+      const updatedData = copyData.map(entry => { 
+        if(entry._id === responseRemoveLike.photoEntry._id) { return {...entry, ...responseRemoveLike.photoEntry} } // update entry in state with the fetched entry (if state entry id === fetched entry id) 
+        else { return {...entry} }
+      })
+      return updatedData;
+    })   
+    setMessage(responseRemoveLike.message); // set message
+    // navToPrevPage(); // navigate unauth user back to login page
+  }, [])
+
+
+  // TODO: relocate it to my collection component
   const getUserCollectionPhotoEntriesHandler = useCallback(async (userID) => {
     const responseRemoveFromCollection = await getUserCollectionPhotoEntries(userID, axiosPrivate);
     setMessage(responseRemoveFromCollection.message);
@@ -129,6 +173,16 @@ const PhotoEntry = ({photoEntry, collection}) => {
         <Button 
           customStyle={'control-panel-view'}
           clicked={
+            isLiked ?
+            async () => removeLikeHandler(auth.userID, entryID)
+            :
+            async () => addLikeHandler(auth.userID, entryID) 
+          }
+        > {isLiked ? 'x' : '<3'} 
+        </Button>
+        <Button 
+          customStyle={'control-panel-view'}
+          clicked={
             isInCollection ?
               async () => removePhotoEntryFromCollectionHandler(auth.userID, entryID) 
               :
@@ -136,12 +190,12 @@ const PhotoEntry = ({photoEntry, collection}) => {
           }
         > {isInCollection ? '-' : '+'} 
         </Button>
-        <Button 
+        {/* <Button 
           customStyle={'control-panel-view'}
           clicked={
           async () => getUserCollectionPhotoEntriesHandler(auth.userID)
           }
-        > Get </Button>
+        > Get </Button> */}
         {/* view photo */}
         <Button 
           customStyle={'control-panel-view'}
@@ -174,7 +228,7 @@ const PhotoEntry = ({photoEntry, collection}) => {
     <div className='photo-entry-container'> 
       {photoTitle(title)}
       {photo(photoURL, captureDate)}
-      {photoLikes()}
+      {photoLikes(likes)}
       {controlPanel(_id)}
     </div>
   )

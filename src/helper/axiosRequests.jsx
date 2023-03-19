@@ -100,7 +100,6 @@ export const deletePhotoEntry = async (activeID, axiosInstance, collection) => {
 // USER'S COLLECTION
 // PATCH (create/update) // create user collection && add photo entry (if non existent) || add a new photo entry to an already existing one 
 export const addPhotoEntryToCollection = async (userID, photoEntryID, axiosInstance) => {
-  // const queryData = { userID, photoEntryID };
   let fetchResult; 
   try { 
     const response = await axiosInstance.patch(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
@@ -119,7 +118,6 @@ export const removePhotoEntryFromCollection = async (userID, photoEntryID, axios
   let fetchResult; 
   try { 
     const response = await axiosInstance.delete(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
-    console.log(response)
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -136,6 +134,39 @@ export const getUserCollectionPhotoEntries = async (userID, axiosInstance) => {
   let fetchResult; 
   try { 
     const response = await axiosInstance.get(`/api/v1/user-photo-collection/${userID}`);
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+// PHOTO ENTRY LIKE
+// PATCH (create/update) // create user collection && add photo entry (if non existent) || add a new photo entry to an already existing one 
+export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.patch(`/api/v1/user-photo-likes/${userID}/${photoEntryID}`);
+    console.log(response)
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+// DELETE // remove photo entry from user collection 
+export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.delete(`/api/v1/user-photo-likes/${userID}/${photoEntryID}`);
+    console.log(response)
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
