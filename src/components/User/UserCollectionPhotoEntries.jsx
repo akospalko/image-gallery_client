@@ -8,7 +8,7 @@ import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import PhotoEntry from './PhotoEntry';
 
-export default function PhotoEntries({collection}) {
+export default function UserCollectionPhotoEntries() {
   // CONTEXT
   const {data, setData, setMessage} = useFormContext();
   const {auth} = useAuthContext(); 
@@ -18,10 +18,11 @@ export default function PhotoEntries({collection}) {
   // ROUTING
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
   // HANDLER
-  const fetchPhotoEntries = useCallback( async () => {
+
+  const fetchUserCollection = useCallback( async () => {
     try {
-      console.log('fetch photo entries')
-      const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
+      console.log('get user collection');
+      const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'own'); // get user's collection photo entries
       setData(response.photoEntries); // store entries in state
       setMessage(response.message); // set message
     } catch(error) {
@@ -30,8 +31,8 @@ export default function PhotoEntries({collection}) {
   }, [])
   // EFFECT
   useEffect(() => { // get all data on initial render
-    fetchPhotoEntries();
-  }, [fetchPhotoEntries]) 
+   fetchUserCollection()
+  }, [fetchUserCollection]) 
 
   return (
     <div className='photo-entries-container'>

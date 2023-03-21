@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import Button from '../UI/Button'
 import './PhotoCard.css'
-import {getAllPhotoEntries, getSinglePhotoEntry, deletePhotoEntry} from '../../helper/axiosRequests'
+import {getAllGalleryPhotoEntries, getSinglePhotoEntry, deletePhotoEntry} from '../../helper/axiosRequests'
 import {transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
@@ -26,7 +26,7 @@ export default function PhotoCard({collection}) {
   useEffect(() => { // get all data on initial render
     (async () => {
       try {
-        const response = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
+        const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
         setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
@@ -40,7 +40,7 @@ export default function PhotoCard({collection}) {
     try {
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
       setMessage(responseDelete.message);
-      const responseGetAll = await getAllPhotoEntries(axiosPrivate, collection, auth.userID); // fetch entries, update state  
+      const responseGetAll = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
       setData(responseGetAll.photoEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page

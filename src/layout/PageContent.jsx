@@ -11,11 +11,14 @@ import RequireAuth from '../components/Authentication/RequireAuth'
 import Login from '../components/Authentication/Login'
 import Register from '../components/Authentication/Register'
 import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLock'
+import {useAuthContext} from '../components/contexts/AuthenticationContext'
 
 // set up context with role here
 export default function PageContent() {
   // HOOK
   useToggleModalScrollLock();
+  // CONTEXT
+  const { auth } = useAuthContext();
   return (
     <> 
       {/* public routes */}
@@ -29,8 +32,17 @@ export default function PageContent() {
       {/* protected routes */}
       {/* User */}
       <Routes> 
-        <Route path={'/gallery'} element={ <Gallery/> } />
-        <Route path={'/map'} element={<MapOverview/>}/>
+         {/* gallery */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
+          <Route path={'/gallery'} element={ <Gallery/> } />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
+          <Route path={'/map'} element={<MapOverview/>}/>
+        </Route>
+        {/* user collection */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
+          <Route path={`/${auth.username}/collection`} element={ <Gallery isUserCollection={true} /> } />
+        </Route>
         {/* <Route path={'/map'} element={ <Map/> } /> */}
       </Routes>
       {/* Admin */}

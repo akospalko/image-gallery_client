@@ -3,11 +3,11 @@
 import {axiosAuthentication} from '../helper/axiosInstances'
 import {statusMessages} from './dataStorage';
 // PHOTO ENTRY 
-// GET all photo entries -> home, gallery protected resources 
-export const getAllPhotoEntries = async (axiosInstance, collection, userID) => {
+// GET all photo entries -> gallery (all gallery photos || photos added to user's own collection) protected resources 
+export const getAllGalleryPhotoEntries = async (axiosInstance, userID, collectionType) => {
   let fetchedData; 
   try {
-    const response = await axiosInstance.get(`/api/v1/photo-entry/${collection}/?userID=${userID}`);
+    const response = await axiosInstance.get(`/api/v1/photo-gallery/?userID=${userID}&collectionType=${collectionType}`);
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -18,11 +18,11 @@ export const getAllPhotoEntries = async (axiosInstance, collection, userID) => {
   }
   return fetchedData;
 }
-// GET all photo entries -> home photo entries with unprotected resources
+// GET all photos for home page: unprotected resource
 export const getAllHomePhotos = async (axiosInstance) => {
   let fetchedData; 
   try {
-    const response = await axiosInstance.get('/api/v1/home-photos');
+    const response = await axiosInstance.get('/api/v1/photo-home');
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -38,7 +38,7 @@ export const getSinglePhotoEntry = async (activeID, axiosInstance, collection, u
   if(!activeID) return;
   let fetchedData; 
   try { 
-    const response = await axiosInstance.get(`/api/v1/photo-entry/${collection}/${activeID}/?userID=${userID}`);
+    const response = await axiosInstance.get(`/api/v1/photo-gallery/${collection}/${activeID}/?userID=${userID}`);
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -54,7 +54,7 @@ export const postPhotoEntry = async (entryData, axiosInstance, collection, userI
   if(!entryData) return;
   let fetchResult; 
   try {
-    const response = await axiosInstance.post(`/api/v1/photo-entry/${collection}/?userID=${userID}`, entryData);
+    const response = await axiosInstance.post(`/api/v1/photo-gallery/${collection}/?userID=${userID}`, entryData);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -70,7 +70,7 @@ export const updatePhotoEntry = async (activeID, entryData, axiosInstance, colle
   if(!activeID || !entryData) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.patch(`/api/v1/photo-entry/${collection}/${activeID}`, entryData);
+    const response = await axiosInstance.patch(`/api/v1/photo-gallery/${collection}/${activeID}`, entryData);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -86,7 +86,7 @@ export const deletePhotoEntry = async (activeID, axiosInstance, collection) => {
   if(!activeID) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.delete(`/api/v1/photo-entry/${collection}/${activeID}`)
+    const response = await axiosInstance.delete(`/api/v1/photo-gallery/${collection}/${activeID}`)
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -102,7 +102,7 @@ export const deletePhotoEntry = async (activeID, axiosInstance, collection) => {
 export const addPhotoEntryToCollection = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
-    const response = await axiosInstance.patch(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
+    const response = await axiosInstance.patch(`/api/v1/photo-user-collection/${userID}/${photoEntryID}`);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -117,23 +117,7 @@ export const addPhotoEntryToCollection = async (userID, photoEntryID, axiosInsta
 export const removePhotoEntryFromCollection = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
-    const response = await axiosInstance.delete(`/api/v1/user-photo-collection/${userID}/${photoEntryID}`);
-    fetchResult = {...response?.data};
-  } catch (error) {
-    if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
-    } else {
-      fetchResult = {...error?.response.data};
-    }
-  }
-  return fetchResult;
-}
-// GET // user's collection
-// getPhotoEntries: true|false -> if false||undefined: return photoEntriesID. if true result: photoEntries
-export const getUserCollectionPhotoEntries = async (userID, axiosInstance) => {
-  let fetchResult; 
-  try { 
-    const response = await axiosInstance.get(`/api/v1/user-photo-collection/${userID}`);
+    const response = await axiosInstance.delete(`/api/v1/photo-user-collection/${userID}/${photoEntryID}`);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -149,8 +133,7 @@ export const getUserCollectionPhotoEntries = async (userID, axiosInstance) => {
 export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
-    const response = await axiosInstance.patch(`/api/v1/user-photo-likes/${userID}/${photoEntryID}`);
-    console.log(response)
+    const response = await axiosInstance.patch(`/api/v1/photo-user-like/${userID}/${photoEntryID}`);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -165,8 +148,7 @@ export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => 
 export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
-    const response = await axiosInstance.delete(`/api/v1/user-photo-likes/${userID}/${photoEntryID}`);
-    console.log(response)
+    const response = await axiosInstance.delete(`/api/v1/photo-user-like/${userID}/${photoEntryID}`);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {

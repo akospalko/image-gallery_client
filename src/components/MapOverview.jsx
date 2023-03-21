@@ -5,7 +5,7 @@ import './Shared.css'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import {useFormContext} from './contexts/FormContext'
-import {getAllPhotoEntries} from '../helper/axiosRequests'
+import {getAllGalleryPhotoEntries} from '../helper/axiosRequests'
 import FitMarkersToBounds from './FitMarkersToBounds'
 import useAxiosPrivate from './hooks/useAxiosPrivate';
 import CustomPopup from './CustomPopup';
@@ -37,7 +37,7 @@ export default function MapOverview() {
     if(!data) return;
     (async () => {
       try {
-        const response = await getAllPhotoEntries(axiosPrivate, COLLECTIONS.GALLERY, auth.userID); // fetch entries, update state  
+        const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
         setData(response.photoEntries); // store entries in state
         setMessage(response.message); // set message
       } catch(error) {
