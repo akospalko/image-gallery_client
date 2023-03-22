@@ -19,7 +19,7 @@ export default function Home() {
     (async () => {
       const response = await getAllHomePhotos(axios); // fetch entries, update state  
       setHomePhotos(response?.photoEntries); // store entries in state
-      setMessage(response.message); // set message
+      // setMessage(response.message); // set message
     })() 
   }, [homePhotos]) 
   

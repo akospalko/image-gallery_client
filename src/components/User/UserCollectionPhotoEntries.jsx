@@ -24,7 +24,7 @@ export default function UserCollectionPhotoEntries() {
       console.log('get user collection');
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'own'); // get user's collection photo entries
       setData(response.photoEntries); // store entries in state
-      setMessage(response.message); // set message
+      // setMessage(response.message); // set message
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
     }

@@ -27,25 +27,45 @@ export default function Register() {
   // register handler
   const registerHandler = async (e, formData) => {
     e.preventDefault();
-    const convertedData = convertFormData(formData); // simplyfy data before sending request  
-    const {password, passwordConfirm, ...rest} = convertedData;
-    // validate fields -> enable button
-    // check for matching pw-s  
-    if(password !== passwordConfirm) {
-      setMessage('Passwords are not matching');
-      return;
-    };
-    delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
-    const response = await createNewUser(convertedData);
     try {
-      setFormData(register); // reset form 
-      navigate('/login'); //navigate to login page after successful registration
+      const convertedData = convertFormData(formData); // simplyfy data before sending request  
+      const {password, passwordConfirm, username, email} = convertedData;
+      console.log(password, passwordConfirm, username, email);
+      // check for matching pw-s  
+      if(password !== passwordConfirm) {
+        const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}};
+        setFormData(resetPassword);
+        setMessage('Passwords are not matching');
+       console.log(resetPassword);
+        return;
+      };
+      delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
+      const response = await createNewUser(convertedData);
+      const {success, message} = response ?? {}; // destructure response values
+      console.log(response);
+      if(success) {  // register successfull
+        setFormData(register); // reset form 
+        navigate('/login'); //navigate to login page after successful registration
+      } else { // register failed
+
       }
-    catch(error) {
-     // TODO: empty pasword fields
+
+    } catch(error) {
+      // TODO: empty pasword fields
+      console.log(error);
     }      
-    setMessage(response.message); // set status message
   }
+
+  // if(success) {  // auth successfull
+  //   const authData = {username: convertedData.username, password: convertedData.password, roles, accessToken, userID}; 
+  //   navigate(from, { replace: true }); // navigate user to default resource
+  //   setAuth(authData);  // store auth data in form
+  //   setFormData(login);   // reset form to initial state
+  // } else { // auth failed
+  //   // empty password field before next login attempt
+  //   const resetPassword = {username: {...username}, password: {...login.password}};
+  //   setFormData(resetPassword); // reset form to initial state
+  // }
 
   // STYLING
   // modal background

@@ -31,7 +31,7 @@ const PhotoEntry = ({photoEntry}) => {
   // add photo entry to collection
   const addPhotoEntryToCollectionHandler = useCallback(async (userID, photoEntryID) => {
     const responseAddToCollection = await addPhotoEntryToCollection(userID, photoEntryID, axiosPrivate);
-    setMessage(responseAddToCollection.message);
+    setMessage(responseAddToCollection.message); 
     setData(prev => {
       const copyData = [...prev];
       const updatedData = copyData.map(entry => {
@@ -40,7 +40,6 @@ const PhotoEntry = ({photoEntry}) => {
       })
       return updatedData;
     })
-    setMessage(responseAddToCollection.message); // set message
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
   // remove photo entry from collection
@@ -61,7 +60,6 @@ const PhotoEntry = ({photoEntry}) => {
 
   // add like to photo entry
   const addLikeHandler = useCallback(async (userID, photoEntryID) => {
-    console.log('add like');
     try {
       // send request to server get response
       const responseAddLike = await addPhotoEntryLike(userID, photoEntryID, axiosPrivate);
@@ -89,25 +87,19 @@ const PhotoEntry = ({photoEntry}) => {
   
   // remove like from photo entry
   const removeLikeHandler = useCallback(async (userID, photoEntryID) => {
-    console.log('remove like');
     try {
     // send request to server get response
     const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
-    setMessage(responseRemoveLike.message);
     // upate state with new data
-    console.log(responseRemoveLike)
     setData(prev => {
       const copyData = [...prev];
       const updatedData = copyData.map(entry => {
         if(entry._id === responseRemoveLike?.photoEntry?._id) { 
-          // console.log('photoid', photoEntryID, 'mapped entry id', entry._id, 'response data id', responseRemoveLike.photoEntry['_id']);
           return {...entry, ...responseRemoveLike.photoEntry} 
         } // update entry in state with the fetched entry (if state entry id === fetched entry id)
         else { return {...entry} }
       })
-      console.log('updated data after removed like', updatedData);
       return updatedData;
-      // return prev;
     })
     setMessage(responseRemoveLike.message); // set message
   } catch(error) {
