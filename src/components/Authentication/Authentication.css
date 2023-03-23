@@ -35,6 +35,25 @@
   flex-direction: column;
   background-color: rgba(100, 0, 0, 1);
 }
+/* reset password for login modal */
+.auth-modal-reset-password {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 80%;
+  height: 25px;
+}
+.auth-modal-status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 75px;
+  padding: var(--padding-default);
+}
+.auth-modal-status-message p {
+  margin: 0;
+}
 .auth-modal-navigate {
   /* background-color: rgb(102, 102, 105); */
   background-color: transparent;
@@ -45,5 +64,5 @@
   height: 30px;
 }
 .auth-modal-navigate--active {
-  background-color: rgba(252, 252, 252, 0.75);
+  background-color: rgba(203, 124, 124, 0.75);
 }

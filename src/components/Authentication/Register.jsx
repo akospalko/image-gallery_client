@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+// TODO: outsource client side status messages
+import React, {useEffect, useState} from 'react'
 import '../Shared.css'
 import './Authentication.css'
 import Form from '../UI/Form'
@@ -9,63 +10,53 @@ import {buildInputFields} from '../../helper/buildInputFields'
 import {convertFormData} from '../../helper/convertFormData'
 import {createNewUser} from '../../helper/axiosRequests'
 import {useNavigate} from 'react-router'
+import Loader from '../SVG/Loader'
 
 export default function Register() {
   // CONSTANTS
   const operation = OPERATIONS.REGISTER;
   // HOOKS
   const navigate = useNavigate(); 
-  // ROUTE
-  const from = location.state?.from?.pathname || "/";
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
+    // STATE
+    const [isLoading, setIsLoading] = useState(false);
   // EFFECT
   useEffect(() => {
+    setMessage('');
     setFormData(register); // set up form initial data
-  }, [])
+  }, [setFormData, setMessage])
   // HANDLERS
   // register handler
   const registerHandler = async (e, formData) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
-      const {password, passwordConfirm, username, email} = convertedData;
-      console.log(password, passwordConfirm, username, email);
+      const {password, passwordConfirm} = convertedData; // destructure converted data values
+      const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
       // check for matching pw-s  
       if(password !== passwordConfirm) {
-        const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}};
         setFormData(resetPassword);
         setMessage('Passwords are not matching');
-       console.log(resetPassword);
         return;
       };
       delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
       const response = await createNewUser(convertedData);
       const {success, message} = response ?? {}; // destructure response values
-      console.log(response);
+      setMessage(message); 
       if(success) {  // register successfull
-        setFormData(register); // reset form 
         navigate('/login'); //navigate to login page after successful registration
+        setFormData(register); // reset form 
       } else { // register failed
-
+        setFormData(resetPassword); // empty pasword fields
       }
-
     } catch(error) {
-      // TODO: empty pasword fields
-      console.log(error);
-    }      
+      setMessage('Error. Try again later!'); 
+    } finally {
+      setIsLoading(false);     
+    }
   }
-
-  // if(success) {  // auth successfull
-  //   const authData = {username: convertedData.username, password: convertedData.password, roles, accessToken, userID}; 
-  //   navigate(from, { replace: true }); // navigate user to default resource
-  //   setAuth(authData);  // store auth data in form
-  //   setFormData(login);   // reset form to initial state
-  // } else { // auth failed
-  //   // empty password field before next login attempt
-  //   const resetPassword = {username: {...username}, password: {...login.password}};
-  //   setFormData(resetPassword); // reset form to initial state
-  // }
 
   // STYLING
   // modal background
@@ -79,6 +70,8 @@ export default function Register() {
   return (
     <div style={backgroundStyle} className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
       <div className='auth-modal'>
+        {/* modal loader */}
+        {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
         {/* register form */}
@@ -96,17 +89,20 @@ export default function Register() {
                 name={elem.name} 
               />
             ))}
-          </Form>}
-          {/* login-register navigation button */}
-          <div className='auth-modal-navigate'>
-            <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
-              Login 
-            </div>  
-            <div className='auth-modal-navigate auth-modal-navigate--active'>
-              Register 
-            </div>
+          </Form>
+        }
+        {/* status message container */}
+        <div className='auth-modal-status-message'> <p> {message} </p> </div>
+        {/* login-register navigation button */}
+        <div className='auth-modal-navigate'>
+          <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
+            Login 
+          </div>  
+          <div className='auth-modal-navigate auth-modal-navigate--active'>
+            Register 
           </div>
         </div>
+      </div>
     </div>
   )
 }

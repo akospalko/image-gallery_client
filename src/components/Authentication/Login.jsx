@@ -1,7 +1,5 @@
-// TODO: DELETE MODAL CONTEXT AUTH RELATED CODE
-// TODO: DELETE AC token from auth state
-// TODO: add remember me + forgot password group
-// TODO: add status message container: appear always or only when there is a message to display?
+// TODO: add remember me + forgot password group (crate page)
+// TODO: outsource client side status messages
 
 import React, {useEffect, useState} from 'react'
 import '../Shared.css'
@@ -29,35 +27,33 @@ export default function Login() {
   const {setAuth} = useAuthContext(); 
   // STATE
   const [isLoading, setIsLoading] = useState(false);
-
   // EFFECT
   useEffect(() => {
     setMessage('');
     setFormData(login);
-  }, [setFormData])
+  }, [setFormData, setMessage])
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
     e.preventDefault();
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
       const {roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
       setMessage(message); // set status message (for both success and failed auth)
-      console.log(message);
-      if(success) {  // auth successfull
-        setAuth({username: convertedData.username, roles, accessToken, userID});  // store auth data in state
+      if(success) { // auth successfull
+        setAuth({username: convertedData.username, roles, accessToken, userID}); // store auth data in state
         navigate(from, { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
         setFormData({username: {...formData.username}, password: {...login.password}}); // empty password field before next login attempt
       }
     } catch(error) {
-      // TODO: empty pasword field
       setMessage('Error. Try again later!'); // set status message (for both success and failed auth)
-    } 
-    setIsLoading(false);
+    } finally {
+      setIsLoading(false);     
+    }
   }
   // STYLING
   // modal background
@@ -72,30 +68,31 @@ export default function Login() {
   return (
     <div style={backgroundStyle} className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
-      {/* modal loader */}
-      {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
-      {/* modal background */}
-      <div className='auth-modal-background'></div>
-      {/* login form */}
-      {formData && 
-        <Form 
-          customStyle='authentication'
-          title='Log in'
-          operation={operation}
-          submit={loginHandler}
-        > 
-          {formData && buildInputFields(login).map(elem => (
-            <Input 
-              customStyle='authentication'
-              key={elem.name} 
-              name={elem.name} 
-            /> 
-          ))}
-          <div> <p> forgot password? </p> </div>
-        </Form>
-      }
+        {/* modal loader */}
+        {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
+        {/* modal background */}
+        <div className='auth-modal-background'></div>
+        {/* login form */}
+        {formData && 
+          <Form 
+            customStyle='authentication'
+            title='Log in'
+            operation={operation}
+            submit={loginHandler}
+          > 
+            {buildInputFields(login).map(elem => (
+              <Input 
+                customStyle='authentication'
+                key={elem.name} 
+                name={elem.name} 
+              /> 
+            ))}
+            {/* control group: reset password */}
+            <div className='auth-modal-reset-password'> <span> forgot password? </span> </div>
+          </Form>
+        }
         {/* status message container */}
-        <div> <p> {message} </p> </div>
+        <div className='auth-modal-status-message'> <p> {message} </p> </div>
         {/* login-register navigation button */}
         <div className='auth-modal-navigate'>
           <div className='auth-modal-navigate auth-modal-navigate--active'> 

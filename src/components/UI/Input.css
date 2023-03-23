@@ -24,7 +24,7 @@
   width: 80%;
   background-color: rgba(0, 0, 0, 0);
   border-bottom: 2px solid rgb(192, 204, 228);
-  margin-bottom: 1rem;
+  margin-bottom: var(--margin-default);
   font-size: 1rem;
 }
 .input-authentication::placeholder {
