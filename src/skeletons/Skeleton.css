@@ -1,0 +1,45 @@
+/* basic styles */
+.skeleton {
+  background-color: #d0d0d0;
+  margin: var(--margin-default) 0;
+}
+/* text */
+.text {
+  width: 100%;
+  height: 30px;
+}
+/* PHOTO ENTRY */
+/* title */
+.title {
+  width: 100%;
+  height: 80px;
+  margin-top: 0;
+}
+/* photo */
+.photo {
+  width: 100%;
+  height: 450px;
+  margin-top: 0;
+}
+/* control panel */
+.control-panel {
+  width: 100%;
+  height: 70px;
+  margin: 0;
+}
+/* SKELETON COMPONENTS */
+/* user gallery photo entry */
+.photo-entry-skeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 600px;
+  flex-direction: column;
+  background-color: #adacac;
+  margin: var(--margin-default) 0;
+  padding: var(--padding-default);
+}
+.photo-entry-skeleton:last-child {
+  margin-bottom: 0;
+}
