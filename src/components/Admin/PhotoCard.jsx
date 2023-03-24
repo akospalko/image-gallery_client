@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+//TODO: outsource edit handler
+import React from 'react'
 import Button from '../UI/Button'
 import './PhotoCard.css'
 import {getAllGalleryPhotoEntries, getSinglePhotoEntry, deletePhotoEntry} from '../../helper/axiosRequests'
@@ -19,22 +20,10 @@ export default function PhotoCard({collection}) {
   // CONTEXTS
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
   const {data, setData, setMessage} = useFormContext();
-  const {auth, setAuth} = useAuthContext();
+  const {auth} = useAuthContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
-  // EFFECT
-  useEffect(() => { // get all data on initial render
-    (async () => {
-      try {
-        const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
-        setData(response.photoEntries); // store entries in state
-        //setMessage(response.message); // set message
-      } catch(error) {
-        navToPrevPage(); // navigate unauth user back to login page
-        // setAuth({});
-      }
-    })() 
-  }, []) 
+  // HANDLERS
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
     try {
@@ -44,7 +33,17 @@ export default function PhotoCard({collection}) {
       setData(responseGetAll.photoEntries); // store entries in state
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
-      // setAuth({});
+    }
+  }
+  // delete and refetch photo entries
+  const editPhotoEntryHandler = async (id) => {
+    try {
+      const response = await getSinglePhotoEntry(card._id, axiosPrivate, collection); // fetch entry data
+      setActiveID(response.photoEntry); // set active entry
+      toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
+      setMessage(response.message); // set message
+    } catch(error) {
+      navToPrevPage(); // navigate unauth user back to login page
     }
   }
 
@@ -66,7 +65,6 @@ export default function PhotoCard({collection}) {
                   setMessage(response.message); // set message
                 } catch(error) {
                   navToPrevPage(); // navigate unauth user back to login page
-                  // setAuth({});  
                 }
               }}
             > Edit </Button>
@@ -78,9 +76,7 @@ export default function PhotoCard({collection}) {
             {/* view */}
             <Button 
               customStyle={'control-panel-edit'}
-              clicked={() => {
-                setID(card._id)
-                toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
+              clicked={() => editPhotoEntryHandler(card.id)}
             > View </Button>
             {/* map */}
             <Button 
