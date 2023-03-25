@@ -30,7 +30,7 @@ export default function Home() {
       setIsLoading(false); 
       setHomePhotos(response?.photoEntries); // store entries in state
     })() 
-  }, [homePhotos, isLoading]) 
+  }, []) 
  
   // STYLES
   // media query for parent width (required for slider responsive design) 
@@ -94,24 +94,26 @@ export default function Home() {
         };
       break;
   }
+  // loader
   const loader = (
     <div className='shared-page-container shared-page-container--centered'>
       <Loader height='50%' width='50%'/>
     </div>
   )
- const photos = (
-  <div className='shared-page-container shared-page-container--centered'>
-    <div className='home-title'>
-      <h1> Photo Gallery </h1>
+  // photo slider
+  const photos = (
+    <div className='shared-page-container shared-page-container--centered'>
+      <div className='home-title'>
+        <h1> Photo Gallery </h1>
+      </div>
+      <div className='home-photo-slider' style={{margin: '0 auto', height: `${activeParentSize.height}px`, width: `${activeParentSize.width}px`}}>
+        <PhotoSlider slides={homePhotos} parentWidth={activeParentSize.width} />
+      </div>
+      <div className='home-subtitle'>
+        <p> footages for you </p>
+      </div>
     </div>
-    <div className='home-photo-slider' style={{margin: '0 auto', height: `${activeParentSize.height}px`, width: `${activeParentSize.width}px`}}>
-      <PhotoSlider slides={homePhotos} parentWidth={activeParentSize.width} />
-    </div>
-    <div className='home-subtitle'>
-      <p> footages for you </p>
-    </div>
-  </div>
- ) 
+  ) 
   return (
     <>
     {/* {homePhotos && homePhotos.length > 0 ? photos : loader} */}

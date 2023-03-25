@@ -4,15 +4,16 @@ import './PhotoSlider.css'
 export default function PhotoSlider({slides = [], parentWidth}) {
   // REFERENCE
   const timerRef = useRef(null);
-  // STATE
+  // STATES
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [didLoad, setDidLoad] = useState(false);
+
   // STYLES
   const slideStyles = {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '10px',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   };
@@ -51,6 +52,20 @@ export default function PhotoSlider({slides = [], parentWidth}) {
   const goToSlide = (slideIndex) => {
     setCurrentIndex(slideIndex);
   }
+
+    // display loaded images
+    const displayImageStyle = didLoad ? {} : {visiblity: 'hidden'}
+
+  const getSlideStylesWithBackground = (slideIndex) => ({
+    ...slideStyles,
+    // backgroundImage: `url(${slides[slideIndex].photoURL})`,
+    width: `${parentWidth}px`,
+  });
+  const getSlidesContainerStylesWithWidth = () => ({
+    ...slidesContainerStyles,
+    width: parentWidth * slides?.length,
+    transform: `translateX(${-(currentIndex * parentWidth)}px)`,
+  });
   // EFFECT
   useEffect(() => {
     // clear timer from previous render (restarts timer on each occasion when we use the slider) 
@@ -64,17 +79,7 @@ export default function PhotoSlider({slides = [], parentWidth}) {
     // clean up memory
     return () => {clearTimeout(timerRef.current)}
   }, [nextSlide])
-  const getSlideStylesWithBackground = (slideIndex) => ({
-    ...slideStyles,
-    backgroundImage: `url(${slides[slideIndex].photoURL})`,
-    width: `${parentWidth}px`,
-  });
-  const getSlidesContainerStylesWithWidth = () => ({
-    ...slidesContainerStyles,
-    width: parentWidth * slides?.length,
-    transform: `translateX(${-(currentIndex * parentWidth)}px)`,
-  });
-  
+
   return (
     <div style={sliderStyles}>
       {/* slider navigation button */}
@@ -87,8 +92,11 @@ export default function PhotoSlider({slides = [], parentWidth}) {
         {/* photos slides container (row of photos) */}
         <div style={getSlidesContainerStylesWithWidth()}>
           {slides?.map((_, slideIndex) => (
-            <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
+            <img key={slideIndex} src={slides[slideIndex].photoURL} style={getSlideStylesWithBackground(slideIndex)} onLoad={() => {setDidLoad(true)}} />
           ))}
+          {/* {slides?.map((_, slideIndex) => (
+            <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
+          ))} */}
         </div>
       </div>
       {/* tracker */}

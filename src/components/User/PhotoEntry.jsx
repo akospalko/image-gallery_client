@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react'
+import React, {useCallback} from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
 import Button from '../UI/Button';
@@ -15,9 +15,9 @@ import {OPERATIONS} from '../../helper/dataStorage';
 import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-const PhotoEntry = ({photoEntry, isImageLoaded, setIsImageLoaded}) => {
+const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
   // PROPS
-  const {title, photoURL, captureDate, _id, isInCollection,isLiked, likes} = photoEntry ?? {};
+  const {title, photoURL, captureDate, _id, isInCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
   const {data, setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
@@ -110,7 +110,7 @@ const PhotoEntry = ({photoEntry, isImageLoaded, setIsImageLoaded}) => {
 
   // STYLES
   // NOTE: for some elements class selectors didn't apply. I solved the problem in these cases using inline styles.
-  const photoStyle = (entryPhoto) => ({
+  const photoStyle = {
     display: 'flex',
     height: '450px',
     position: 'relative',
@@ -119,18 +119,7 @@ const PhotoEntry = ({photoEntry, isImageLoaded, setIsImageLoaded}) => {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center'
-  })
-  // backup
-  // const photoStyle = (entryPhoto) => ({
-  //   display: 'flex',
-  //   height: '450px',
-  //   position: 'relative',
-  //   width: '100%',
-  //   // backgroundImage: `url(${entryPhoto})`,
-  //   backgroundSize: 'cover',
-  //   backgroundRepeat: 'no-repeat',
-  //   backgroundPosition: 'center center'
-  // })
+  }
   const captureDateStyle = {
     display: 'flex',
     justifyContent: 'center',
@@ -163,8 +152,11 @@ const PhotoEntry = ({photoEntry, isImageLoaded, setIsImageLoaded}) => {
       <p> {entryTitle} </p>
     </div>
   )
+  
   const photo = (entryPhoto, captureDate) => (
-    <img className='photo-entry-photo' src={entryPhoto} style={photoStyle(entryPhoto)} onLoad={() => setIsImageLoaded(true)}/>
+    <>
+      {imgFile(photoURL, photoStyle)}
+    </>
     //TODO: fix img positioning, remove redundant code
       // <div className='photo-entry-capture-date' style={captureDateStyle}>
       //   <strong> {captureDate} </strong>
@@ -233,12 +225,8 @@ const PhotoEntry = ({photoEntry, isImageLoaded, setIsImageLoaded}) => {
       </span>
     </div>
   )
-  
-  // hide photo entry while image is loading
-  const isPhotoLoading = isImageLoaded ? {} : {visibility: 'hidden', position: 'fixed'};
-
   return (
-    <div style={isPhotoLoading} className='photo-entry-container'>
+    <div style={isImageLoadingStyle} className='photo-entry-container'>
       {photoTitle(title)}
       {photo(photoURL, captureDate)}
       {photoLikes(likes)}

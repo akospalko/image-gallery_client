@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
 import {useFormContext} from '../contexts/FormContext'
@@ -7,7 +7,8 @@ import {useNavigate} from 'react-router'
 import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import PhotoEntry from './PhotoEntry';
-import SkeletonComponent from '../../skeletons/SkeletonComponent'
+import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry'
+import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 
 export default function PhotoEntries() {
   // CONTEXT
@@ -16,8 +17,7 @@ export default function PhotoEntries() {
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  // STATE
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const {isImageLoaded, setIsImageLoaded, isImageLoadingStyle, getImageFile} = useHideImagesWhileLoading();
   // ROUTING
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
   // HANDLER
@@ -34,41 +34,20 @@ export default function PhotoEntries() {
   useEffect(() => { // get all data on initial render
     fetchPhotoEntries();
   }, [fetchPhotoEntries]) 
-  
-
- const isPhotoLoading = isImageLoaded ? {} : {visibility: 'hidden'};
-
-//  const loader = (
-//   <div style={!isImageLoaded ? {} : {visibility: 'hidden'}} className='photo-entries-container'>
-//   {/* data is not yet fetched */}
-//   { !isImageLoaded && !data && <SkeletonComponent/> } 
-//   {/* data is fetched but images are still being loaded */}
-//   { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonComponent key={photoEntry._id}/ > })}
-//   {/* photo entry is ready to be displayed */}
-//   </div>
-// )
-
-// const photoEntries = (
-//   <div style={isImageLoaded ? {} : {visibility: 'hidden'}} className='photo-entries-container'>
-//   {data && data.map(photoEntry => {
-//     return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} isImageLoaded={isImageLoaded} setIsImageLoaded={setIsImageLoaded} />
-//   })}
-// </div>
-// )
 
   return (
-    // <>
-    //   { loader }
-    //   { photoEntries }
-    // </>
+    // TESTING SKELETONS
+    // <div className='photo-entries-container'>
+    //   {/* data is not yet fetched: display  single skeleton component */}
+    //   { <SkeletonUserPhotoEntry theme={'dark'} /> } 
+    // </div>
     <div className='photo-entries-container'>
-      {/* data is not yet fetched */}
-      { !data && <SkeletonComponent/> } 
-      {/* data is fetched but images are still being loaded */}
-      { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonComponent key={photoEntry._id}/ > })}
-      {/* photo entry is ready to be displayed */}
-      {data && data.map(photoEntry => {
-        return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} isImageLoaded={isImageLoaded} setIsImageLoaded={setIsImageLoaded} />
+      {/* data is not yet fetched: display  single skeleton component */}
+      { !isImageLoaded && <SkeletonUserPhotoEntry /> } 
+      {/* data is fetched but images are still being loaded: display amount of fetched array.length skeleton component */}
+      { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} theme={'dark'} /> })}
+      {/* photo entry is ready to be displayed: display photo entries */}
+      {data && data.map(photoEntry => { return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} imgFile={getImageFile} isImageLoadingStyle={isImageLoadingStyle} />
       })}
     </div>
   )

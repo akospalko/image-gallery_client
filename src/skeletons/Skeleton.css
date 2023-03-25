@@ -1,6 +1,6 @@
 /* basic styles */
 .skeleton {
-  background-color: #d0d0d0;
+  background-color: #dadada;
   margin: var(--margin-default) 0;
 }
 /* text */
@@ -29,17 +29,34 @@
 }
 /* SKELETON COMPONENTS */
 /* user gallery photo entry */
-.photo-entry-skeleton {
+.skeleton-wrapper {
+  margin: var(--margin-default) 0;
+}
+.skeleton-photo-entry {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 600px;
   flex-direction: column;
-  background-color: #adacac;
-  margin: var(--margin-default) 0;
+ 
   padding: var(--padding-default);
 }
-.photo-entry-skeleton:last-child {
+.skeleton-photo-entry:last-child {
   margin-bottom: 0;
+}
+
+/* THEME */
+/* skeleton component background */
+/* light / default */
+.skeleton-wrapper.light { 
+  background-color: #a1a1a1;
+}
+/* dark / default */
+.skeleton-wrapper.dark { 
+  background-color: #343434;
+ }
+/* skeleton element background color for dark theme */
+.skeleton-wrapper.dark .skeleton {
+  background-color: #747474;
 }
