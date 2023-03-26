@@ -10,7 +10,7 @@ import {
   addPhotoEntryToCollection,
   removePhotoEntryFromCollection
 } from '../../helper/axiosRequests'
-import {useNavigate, useLocation} from 'react-router'
+import {useNavigate} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage';
 import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -19,7 +19,7 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
   // PROPS
   const {title, photoURL, captureDate, _id, isInCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
-  const {data, setData, setMessage} = useFormContext();
+  const {setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
   const {auth} = useAuthContext();
   // HOOK
@@ -153,19 +153,16 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
     </div>
   )
   
-  const photo = (entryPhoto, captureDate) => (
-    <>
-      {imgFile(photoURL, photoStyle)}
-    </>
-    //TODO: fix img positioning, remove redundant code
-      // <div className='photo-entry-capture-date' style={captureDateStyle}>
-      //   <strong> {captureDate} </strong>
-      // </div>
-    // <div className='photo-entry-photo' style={photoStyle(entryPhoto)}>
-    //   <div className='photo-entry-capture-date' style={captureDateStyle}>
-    //     <strong> {captureDate} </strong>
-    //   </div>
-    // </div>
+  //TODO: fix img positioning, remove redundant code 
+  const photo = (photoURL, captureDate) => (
+    <div className='photo-entry-photo' style={photoStyle}>
+      {/* photo */}
+      {imgFile(photoURL, photoStyle)} 
+      {/* capture date */}
+      <div className='photo-entry-capture-date' style={captureDateStyle}>
+        <strong> {captureDate} </strong>
+      </div>
+    </div>
   )
   const photoLikes = (likeCount) => (
     // display likes

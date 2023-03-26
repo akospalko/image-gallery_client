@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
 import './PhotoSlider.css'
 
-export default function PhotoSlider({slides = [], parentWidth}) {
+export default function PhotoSlider({slides = [], parentWidth, imgFile}) {
   // REFERENCE
   const timerRef = useRef(null);
   // STATES
@@ -91,8 +91,14 @@ export default function PhotoSlider({slides = [], parentWidth}) {
       <div style={slidesContainerOverflowStyles}>
         {/* photos slides container (row of photos) */}
         <div style={getSlidesContainerStylesWithWidth()}>
-          {slides?.map((_, slideIndex) => (
+          {/* {slides?.map((_, slideIndex) => (
             <img key={slideIndex} src={slides[slideIndex].photoURL} style={getSlideStylesWithBackground(slideIndex)} onLoad={() => {setDidLoad(true)}} />
+          ))} */}
+          {slides?.map((_, slideIndex) => (
+            <> 
+             {imgFile(slides[slideIndex].photoURL, getSlideStylesWithBackground(slideIndex), slideIndex)} 
+            </>
+            // <img key={slideIndex} src={slides[slideIndex].photoURL} style={getSlideStylesWithBackground(slideIndex)} onLoad={() => {setDidLoad(true)}} />
           ))}
           {/* {slides?.map((_, slideIndex) => (
             <div key={slideIndex} style={getSlideStylesWithBackground(slideIndex)}></div>
