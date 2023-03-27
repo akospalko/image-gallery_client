@@ -37,8 +37,8 @@
   margin: 0;
 }
 .home-photo-slider-tracker {
-  height: 45px;
-  width: 50%;
+  height: 30px;
+  width: 30%;
   margin: var(--margin-default) 0 0 0;
 }
 .home-subtitle {
