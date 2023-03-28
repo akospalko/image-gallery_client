@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./Carousel.css";
 
 const Carousel = ({ children, isImageLoadingStyle }) => {
-  console.log(isImageLoadingStyle)
   // STATES
   const [counter, setCounter] = useState(1);
   const [pause, setPause] = useState(false);
