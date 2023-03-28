@@ -88,7 +88,9 @@ export default function Login() {
               /> 
             ))}
             {/* control group: reset password */}
-            <div className='auth-modal-reset-password'> <span> forgot password? </span> </div>
+            <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 
+              Forgot password?
+            </div>
           </Form>
         }
         {/* status message container */}

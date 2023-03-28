@@ -65,6 +65,8 @@ export default function Form(props) {
     let buttonTitle;
     if(operation === OPERATIONS.LOGIN) {buttonTitle = 'Login'}
     else if(operation === OPERATIONS.REGISTER) {buttonTitle = 'Register'}
+    else if (operation === OPERATIONS.PASSWORD_RESET_SEND_EMAIL_LINK) {buttonTitle = 'Reset'}
+    else if (operation === OPERATIONS.PASSWORD_RESET_SAVE_NEW_PASSWORD) {buttonTitle = 'Save'}
     else {buttonTitle = 'Submit'}
     return <div className='form-button-container form-button-container--centered form-button-container--authentication'> 
       <Button 
@@ -82,13 +84,13 @@ export default function Form(props) {
       buttonElement = photoEntryButton;
       break;
     case OPERATIONS.LOGIN:
-      buttonElement = authenticationButton;
-      break;
     case OPERATIONS.REGISTER:
+    case OPERATIONS.PASSWORD_RESET_SEND_EMAIL_LINK:
+    case OPERATIONS.PASSWORD_RESET_SAVE_NEW_PASSWORD:
       buttonElement = authenticationButton;
       break;
     default: 
-      buttonElement = <Button> Default </Button>;
+      buttonElement = (() => <Button> Default </Button>);
   }
 
 

@@ -44,6 +44,7 @@
   align-items: center;
   width: 80%;
   height: 25px;
+  cursor: pointer;
 }
 .auth-modal-status-message {
   display: flex;

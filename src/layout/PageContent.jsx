@@ -12,6 +12,8 @@ import Login from '../components/Authentication/Login'
 import Register from '../components/Authentication/Register'
 import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLock'
 import {useAuthContext} from '../components/contexts/AuthenticationContext'
+import PasswordResetSendEmailLink from '../components/Authentication/PasswordResetSendEmailLink'
+import PasswordResetSaveNewPassword from '../components/Authentication/PasswordResetSaveNewPassword'
 
 // set up context with role here
 export default function PageContent() {
@@ -28,6 +30,9 @@ export default function PageContent() {
         <Route path={'/'} element={ <Home/> } />
         <Route path={'/login'} element={ <Login/> } />
         <Route path={'/register'} element={ <Register/> } />
+        <Route path={'/password-reset'} element={ <PasswordResetSendEmailLink/> } />
+        <Route path={'/password-new'} element={ <PasswordResetSaveNewPassword/> } />
+
       </Routes>
       {/* protected routes */}
       {/* User */}

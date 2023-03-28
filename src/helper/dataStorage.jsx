@@ -162,6 +162,40 @@ export const register = {
     label: 'password'
   }
 }
+// form to get email where the password reset link is to be sent
+export const passwordResetSendEmailLink = {
+  email: {
+    type: 'email',
+    field: 'email',
+    placeholder: 'Email',
+    value: '',
+    label: 'e-mail'
+  }
+}
+// form to get new password which are to be saved as the new password for the account
+export const passwordResetSaveNewPassword = {
+  email: {
+    type: 'email',
+    field: 'email',
+    placeholder: 'Email',
+    value: '',
+    label: 'e-mail'
+  },
+  password: {
+    type: 'password',
+    field: 'password',
+    placeholder: 'Password',
+    value: '',
+    label: 'password'
+  },
+  passwordConfirm: {
+    type: 'password',
+    field: 'password',
+    placeholder: 'Password Confirm',
+    value: '',
+    label: 'password'
+  }
+}
 // STATUS MESSAGES
 export const statusMessages = {
   // DEFAULT
@@ -256,6 +290,8 @@ export const OPERATIONS = {
   // AUTH
   REGISTER: 'REGISTER',
   LOGIN: 'LOGIN',
+  PASSWORD_RESET_SEND_EMAIL_LINK: 'PASSWORD_RESET_SEND_EMAIL_LINK',
+  PASSWORD_RESET_SAVE_NEW_PASSWORD: 'PASSWORD_RESET_SAVE_NEW_PASSWORD',
   // NAV
   HEADER_AUTH: 'HEADER_AUTH',
   HEADER_NAV: 'HEADER_NAV'
