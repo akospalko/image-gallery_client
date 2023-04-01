@@ -28,6 +28,18 @@ export default defineConfig({
     changeOrigin: true,
     secure: false,
     ws: true
+  },
+    "/api/v1/password-forgot": {
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    secure: false,
+    ws: true
+  },
+    "/api/v1/password-reset": {
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    secure: false,
+    ws: true
   }
 }},
   plugins: [react()],

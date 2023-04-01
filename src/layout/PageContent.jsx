@@ -14,6 +14,7 @@ import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLo
 import {useAuthContext} from '../components/contexts/AuthenticationContext'
 import PasswordResetSendEmailLink from '../components/Authentication/PasswordResetSendEmailLink'
 import PasswordResetSaveNewPassword from '../components/Authentication/PasswordResetSaveNewPassword'
+import ErrorPage from '../error/ErrorPage'
 
 // set up context with role here
 export default function PageContent() {
@@ -31,8 +32,8 @@ export default function PageContent() {
         <Route path={'/login'} element={ <Login/> } />
         <Route path={'/register'} element={ <Register/> } />
         <Route path={'/password-reset'} element={ <PasswordResetSendEmailLink/> } />
-        <Route path={'/password-new'} element={ <PasswordResetSaveNewPassword/> } />
-
+        <Route exact path={'/password-forgot/:id/:token'} element={ <PasswordResetSaveNewPassword/> } />
+        <Route path={'*'} element={ <ErrorPage/> } />
       </Routes>
       {/* protected routes */}
       {/* User */}
@@ -61,10 +62,16 @@ export default function PageContent() {
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
           <Route path={'/admin/mapoverview'} element={<MapOverview/>}/>
         </Route>
+  
+        
         {/* <Route path={'*'} element={ <PageNotFound/> } /> */}
         {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
       </Routes>
       {/* Shared??? */}
+  
+      {/* <Routes>
+        <Route path={'*'} element={ <ErrorPage/> } />
+      </Routes> */}
     </>
   )
 }

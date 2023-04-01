@@ -1,5 +1,6 @@
 // TODO: replace status message strings with CONSTANTS 
 // list of requests made to the api
+import axios from 'axios';
 import {axiosAuthentication} from '../helper/axiosInstances'
 import {statusMessages} from './dataStorage';
 // PHOTO ENTRY 
@@ -223,3 +224,50 @@ export const logoutUser = async () => {
   }
   return fetchResult;
 }
+// POST, request new password reset link
+export const requestPasswordResetLink = async (email) => {
+  let fetchResult; 
+  try {
+    const response = await axiosAuthentication.post('/api/v1/password-forgot', email);
+    fetchResult = {...response?.data};
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  console.log(fetchResult)
+  return fetchResult;
+}
+// GET, verify password reset link (token) validity before allowing users to change their password
+export const checkPasswordResetLinkValidity = async (userID, token) => {
+  let fetchResult; 
+  try {
+    const response = await axiosAuthentication.get(`/api/v1/password-reset/${userID}/${token}`);
+    fetchResult = {...response?.data}
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+    } else {
+      fetchResult = {...error?.response.data};
+    }
+  }
+  return fetchResult;
+}
+  // POST: reset pass word
+  export const resetPassword = async (userID, token, credentials) => {
+    let fetchResult; 
+    try {
+      const response = await axiosAuthentication.post(`/api/v1/password-reset/${userID}/${token}`, credentials);
+      fetchResult = {...response?.data}
+    } catch (error) {
+      if(!error?.response) {
+        fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      } else {
+        fetchResult = {...error?.response.data};
+      }
+    }
+    console.log(fetchResult)
+    return fetchResult;
+  }
