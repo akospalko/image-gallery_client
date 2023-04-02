@@ -40,7 +40,6 @@ export default function PasswordResetSaveNewPassword() {
   // HANDLERS
   const resetPasswordHandler = async (e, formData) => {
     e.preventDefault();
-    console.log(passwordResetSaveNewPassword);
     if(!id || !token) { // check for necessary data, if not provided navigate to error page
       setMessage('Missing ID/Token');
       navigate('/error-page'); // nav user to error page 
@@ -50,7 +49,6 @@ export default function PasswordResetSaveNewPassword() {
     const response = await resetPassword(id, token, convertedData); 
     setMessage(response.message);
     if(response?.isTokenValid === false) { // invalid token -> nav to error page 
-      console.log(message);
       navigate('/error-page'); 
     } 
     if(response?.errorField === 'email') { // wrong email: reset input 

@@ -242,6 +242,7 @@ export const requestPasswordResetLink = async (email) => {
 }
 // GET, verify password reset link (token) validity before allowing users to change their password
 export const checkPasswordResetLinkValidity = async (userID, token) => {
+
   let fetchResult; 
   try {
     const response = await axiosAuthentication.get(`/api/v1/password-reset/${userID}/${token}`);

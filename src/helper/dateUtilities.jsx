@@ -2,14 +2,8 @@
   export const generateDateString = (date, separator='.') => {
     const dateObj = new Date(date); 
     const year = dateObj.getFullYear();
-    let month = dateObj.getMonth() + 1;
-    if(month < 10) {
-      month = `0${month}`;
-    }
-    let day = dateObj.getDate();
-    if(day < 10) {
-      day = `0${day}`;
-    }
+    let month = (dateObj.getMonth() + 1) < 10 ? (`0${dateObj.getMonth()}`) : (`${dateObj.getMonth()}`); 
+    let day = dateObj.getDate() < 10 ? (`0${dateObj.getDate()}`) : (`${dateObj.getDate()}`);
     return `${year}${separator}${month}${separator}${day}${separator}`;
   }
 
