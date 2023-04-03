@@ -29,9 +29,9 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
   useEffect(() => {
-    setMessage('');
     setFormData(login);
-  }, [setFormData, setMessage])
+    return () => setFormData(undefined);
+  }, [setFormData])
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {

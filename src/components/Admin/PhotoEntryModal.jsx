@@ -1,3 +1,4 @@
+// TODO: handle loading, disable button, img skeleton loader 
 import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Form from '../UI/Form'
@@ -21,6 +22,7 @@ export default function PhotoEntryModal({operation, collection}) {
   const axiosPrivate = useAxiosPrivate();
   // STATE
   const [isFormReady, setIsFormReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // EFFECTS
   useEffect(() => {
     // find initial value to set up modals with forms based on operation value
@@ -53,7 +55,7 @@ export default function PhotoEntryModal({operation, collection}) {
     }
     setFormData(updatedForm);  
     setIsFormReady(true);      
-  }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady
+  }, [formData, operation, isFormReady, setIsFormReady]) // setIsFormReady ; 
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
   const createPhotoEntryHandler = async(e, formData) => {
@@ -72,6 +74,7 @@ export default function PhotoEntryModal({operation, collection}) {
   const updatePhotoEntryHandler = async (e, formData) => {
     e.preventDefault();
     try {
+    // TODO: add loader
       const convertedData = convertFormData(formData); 
       const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
       setMessage(responseUpdate.message);
@@ -82,9 +85,10 @@ export default function PhotoEntryModal({operation, collection}) {
       toggleModalHandler(operation);
     } catch(error) {
       // TODO: error handling
+      // TODO: nav to login if token is expired
     }
   }
-  // RENDERED ELEMENTS  
+  // MODAL ELEMENTS  
   // create photo entry
   const createPhotoEntryModal = (  
     <Form 
@@ -123,6 +127,7 @@ export default function PhotoEntryModal({operation, collection}) {
   const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 
   const mapViewModal = <MapView/>
+
   // RENDER MODALS CONDITIONALLY 
   let renderModal; 
   let modalTitle = operation ? MODAL_TITLES[operation] : '';

@@ -1,11 +1,9 @@
-//form to create/update photo entries
+// display photo gallery and user collection
 import React from 'react'
 import '../Shared.css'
 import PhotoEntries from './PhotoEntries'
 import UserCollectionPhotoEntries from './UserCollectionPhotoEntries'
-import PhotoEntryModal from './PhotoEntryModalGroup'
-
-
+import PhotoEntryModalGroup from './PhotoEntryModalGroup'
 
 export default function Gallery({isUserCollection}) {
   return (
@@ -17,7 +15,7 @@ export default function Gallery({isUserCollection}) {
         {isUserCollection ? <UserCollectionPhotoEntries/> : <PhotoEntries/>}
       </div>
       {/* modals: map, view, view post/details */}
-      <PhotoEntryModal/>
+      <PhotoEntryModalGroup/>
     </div>
   )
 }

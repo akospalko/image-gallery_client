@@ -21,7 +21,7 @@ export default function ModalHeader({title, operation}) {
           customStyle='modal-close'
           clicked={() => {
             setFormData(undefined);
-            toggleModalHandler(operation);
+            toggleModalHandler(operation, false);
           }}
           > X 
         </Button>

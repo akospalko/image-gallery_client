@@ -1,12 +1,12 @@
 .button-default,
 .button-image-create-update,
+.button-photo-new,
 .button-control-panel-edit,
 .button-control-panel-view,
 .button-form-submit,
 .button-image-create-update,
 .button-modal-close,
 .button-authentication { 
-  /* margin: 0 auto; */
   border: none;
   cursor: pointer;
 }
@@ -28,6 +28,16 @@
 .button-image-create-update:hover {
   background-color: rgba(193, 39, 139, 1);
 }
+.button-photo-new {
+  margin: 0 auto;
+  width: 90%;
+  height: 50px;
+  background-color: rgba(81, 81, 81, 0.75);
+}
+.button-photo-new:hover {
+  background-color: rgba(81, 81, 81, 1);
+}
+
 /* CONTROL PANEL */
 /* photo entries - edit */
 .button-control-panel-edit {

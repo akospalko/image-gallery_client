@@ -16,7 +16,7 @@ export default function PasswordResetSendLink() {
   // EFFECT
   useEffect(() => {
     setFormData(passwordResetSendEmailLink);
-    return () => setMessage('');
+    // return () => setMessage('');
   }, [setFormData, setMessage])
   // HANDLERS
   // send a mail with a password reset link to the provided email address

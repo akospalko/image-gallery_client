@@ -7,10 +7,7 @@ import ModalHeader from '../Modals/ModalHeader'
 import {MODAL_TITLES, OPERATIONS} from '../../helper/dataStorage'
 
 export default function PhotoEntryModal({operation}) {
-  // CONTEXTS
-  // const {} = useFormContext();
   // RENDERED ELEMENTS  
-
   // view entry's photo
   const fullScreenViewModal = <FullScreenView/>;
   // view map if entry has coordinates 

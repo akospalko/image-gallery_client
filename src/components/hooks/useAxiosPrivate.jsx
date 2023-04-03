@@ -5,7 +5,7 @@ import {axiosPrivate} from "../../helper/axiosInstances"
 import {useAuthContext} from "../contexts/AuthenticationContext"
 import useRefreshToken from "./useRefreshToken"
 
-const useAxiosPrivateApplicationJSON = () => {
+const useAxiosPrivate = () => {
   // CONTEXT
   const {auth} = useAuthContext();
   // HOOK
@@ -45,4 +45,4 @@ const useAxiosPrivateApplicationJSON = () => {
   return axiosPrivate;
 }
 
-export default useAxiosPrivateApplicationJSON;
+export default useAxiosPrivate;

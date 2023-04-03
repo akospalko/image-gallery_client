@@ -1,4 +1,3 @@
-//TODO: reusable loader class (currently used: auth-modal-loader)
 import React, {useCallback, useEffect, useState} from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'

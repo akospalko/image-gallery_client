@@ -121,14 +121,14 @@ export const login = {
     type: 'text',
     field: 'input',
     placeholder: 'Username',
-    value: '',
+    value: 'akos',
     label: 'username'
   },
   password: {
     type: 'password',
     field: 'password',
     placeholder: 'Password',
-    value: '',
+    value: '1',
     label: 'password'
   }
 }

@@ -12,6 +12,9 @@ export default function Button(props) {
     case 'image-create-update':
       buttonStyle = 'button-image-create-update';
       break;
+    case 'photo-new':
+      buttonStyle = 'button-photo-new';
+      break;
     case 'control-panel-edit': // admin/editor -> edit buttons (edit, delete, view, map) 
       buttonStyle = 'button-control-panel-edit';
       break;
