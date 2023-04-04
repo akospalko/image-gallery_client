@@ -1,0 +1,13 @@
+.timestamp-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.timestamp-container span {
+  margin: 0 auto;
+  font-size: 0.75rem;
+  color: #000;
+  line-height: normal;
+}

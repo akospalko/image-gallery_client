@@ -1,3 +1,4 @@
+// TODO: remove redundant parts 
 // SOURCE: SVG Loader Animation by Nikhil Krishnan. Link: https://codepen.io/nikhil8krishnan/pen/rVoXJa 
 // svg component for loader(s) 
 import React from 'react'

@@ -1,6 +1,6 @@
 // TODO: outsource home - gallery header titles -> more reusable
 // content management for photo gallery collection 
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Button from '../UI/Button'
 import PhotoEntries from './PhotoEntries'
@@ -12,12 +12,15 @@ import {useNavigate, useLocation} from 'react-router';
 import {getAllGalleryPhotoEntries} from '../../helper/axiosRequests'
 import {useFormContext} from '../contexts/FormContext'
 import {useAuthContext} from '../contexts/AuthenticationContext'
+import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
 
 export default function Gallery() {
   // ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
+  // STATE
+  const [isLoading, setIsLoading] = useState(true);
   // CONTEXT
   const {toggleModalHandler} = useModalContext();
   const {setData} = useFormContext();
@@ -32,12 +35,17 @@ export default function Gallery() {
         setData(response.photoEntries); // store entries in state
       } catch(error) {
         navToPrevPage(); // navigate unauth user back to login page
+      } finally {
+        setIsLoading(false);
       }
     })() 
   }, []) 
 
+  // RENDERED ELEMENTS
+  // data is loading -> skeleton loader || photo entries
+  const renderedElement = isLoading ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
   return (
-    <div className='shared-page-container'>
+    <div className='shared-page-container shared-page-container--with-padding'>
       {/* header title */}
       <h1> Gallery Dashboard </h1>  
       {/* add new photo entry button */}
@@ -48,10 +56,10 @@ export default function Gallery() {
       </Button>
       {/* photo cards container */}
       <div className='shared-image-cards-container'>
-        <PhotoEntries collection={COLLECTIONS.GALLERY} />
+        {renderedElement}
       </div>
       {/* control group modals */}
       <PhotoEntryModalGroup collection={COLLECTIONS.GALLERY}/>
     </div>
-  )
-}
+    )
+  }
