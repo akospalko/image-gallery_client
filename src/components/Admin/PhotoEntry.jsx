@@ -1,4 +1,3 @@
-// TODO conditional styling with 'data.length > ...' should be used with db validation value
 // photo entry with control panel buttons
 import React from 'react'
 import './PhotoEntries.css'
@@ -9,13 +8,11 @@ import {useFormContext} from '../contexts/FormContext'
 import {useAuthContext} from '../contexts/AuthenticationContext'
 import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage'
-import Timestamp from '../Timestamp'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import Button from '../UI/Button';
 import { getAllGalleryPhotoEntries, getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
 import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/ControlPanel'
 import PhotoEntryContentElement from './PhotoEntryContentElement'
-
 
 const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIsLoading}) => {
   // PROPS
@@ -91,43 +88,6 @@ const controlPanel = (
   </div>
 )
 
-const photoContentOld = (
-  <div className='photo-entry-admin-content-container'>
-    {/* TIMESTAMP */}
-    <div className='photo-entry-admin-content photo-entry-admin-content--timestamp'> 
-      <div className='photo-entry-admin-content-label'></div>
-      <Timestamp dateCreation={createdAt} dateLastUpdate={updatedAt} />
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label photo-entry-admin-content-data--border-top'> <span> ID </span> </div>
-      <div className='photo-entry-admin-content-data photo-entry-admin-content-data--border-top'> {id} </div>
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label'> <span> Title </span> </div>
-      <div style={title.length >= 40 ? {justifyContent: 'initial'} : null} className='photo-entry-admin-content-data'> {title} </div>
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label'> <span> Captured </span> </div>
-      <div className='photo-entry-admin-content-data'> {transformDate(captureDate, '-', '.')} </div>
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label'> <span> GPS lat </span> </div>
-      <div className='photo-entry-admin-content-data'> {gpsLatitude} </div>
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label'> <span> GPS lon </span> </div>
-      <div className='photo-entry-admin-content-data'> {gpsLongitude} </div>
-    </div>
-    <div className='photo-entry-admin-content'> 
-      <div className='photo-entry-admin-content-label'> <span> Author </span> </div>
-      <div style={author.length >= 45 ? {justifyContent: 'initial'} : null}  className='photo-entry-admin-content-data'> {author} </div>
-    </div>
-    <div className='photo-entry-admin-content photo-entry-admin-content--fill-remaining-height'> 
-      <div className='photo-entry-admin-content-label photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'> <span> Description </span>  </div>
-      <div style={description.length >= 40 ? {justifyContent: 'initial'} : null}  className='photo-entry-admin-content-data photo-entry-admin-content-data--description'> {description} </div>
-    </div>
-  </div>
-)
 const photoContent = (
   <div className='photo-entry-admin-content-container'>
     {/* TIMESTAMP */}

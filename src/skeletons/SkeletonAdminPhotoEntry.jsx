@@ -9,19 +9,15 @@ export default function SkeletonAdminPhotoEntry({theme}) {
   return (
     <div className={`skeleton-wrapper ${themeStyle}`}>
       <div className='skeleton-admin-photo-entry'>
-        {/* control panel buttons */}
-        <SkeletonElement type='element--50px' />
-        {/* data field: small */}
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        <SkeletonElement type='element--60px element-margin-top--0' />
-        {/* data field: large */}
-        <SkeletonElement type='element--150px element-margin-top--0' />
-        {/* data field: small */}
-        <SkeletonElement type='element--60px element-margin--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin-top--0' />
+        <SkeletonElement type='element--50px element-margin--0' />
+        <SkeletonElement type='element--200px element-margin-bottom--0' />
       </div>
       <ShimmerEffect />
     </div>

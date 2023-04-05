@@ -76,11 +76,18 @@
   padding: var(--padding-default);
   margin-top: 0;
 }
+.element--200px {
+  width: 100%;
+  height: calc(200px - var(--padding-default));
+  padding: var(--padding-default);
+  margin-top: 0;
+}
 
 /* ELEMENT MARGINS */
 .element-margin-top--0 {
   margin-top: 0;
 }
+
 .element-margin-bottom--0 {
   margin-bottom: 0;
 }

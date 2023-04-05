@@ -8,7 +8,6 @@ export default function PhotoEntryContentElement(props) {
   // CONDITIONAL STYLING
   // position text inside data container (start or center) depending on provided value  
   const positionTextConditionally = dataPositionTreshold && String(data)?.length >= dataPositionTreshold ? {justifyContent: 'initial'} : null; 
-
   // default content contains:
   // custom content (currently only used for a custom type: timestamp) 
   let contentType = (
