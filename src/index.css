@@ -16,6 +16,8 @@
   --header-height: 70px;
   --margin-default: 0.5rem;
   --padding-default: 0.5rem;
+  /* border colors */
+  --border-color-1: rgb(73, 72, 72); 
   /* misc: */
   --tracker-bar-height: 50px;
   /* z-index groups */

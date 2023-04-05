@@ -10,5 +10,4 @@ export default function Timestamp({dateCreation, dateLastUpdate}) {
       <span> <i> Updated: {generateDateString(dateLastUpdate)} </i> </span>  
     </div>
   )
-}
-
+} 

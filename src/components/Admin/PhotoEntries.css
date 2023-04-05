@@ -10,10 +10,10 @@
 .photo-entry-admin-container {
   display: flex;
   flex-direction: column;
-  height: 550px;
+  height: 600px;
   background-color: rgba(0, 0, 0, 0.75);
   margin-bottom: var(--margin-default);
-  border: 1px solid black;
+  border: 1px solid var(--border-color-1);
 }
 .photo-entry-admin-container:last-child {
   margin-bottom: 0rem;
@@ -45,34 +45,25 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: rgba(178, 178, 178, 0.5);
+  background-color: rgb(59, 59, 59);
 }
 .photo-entry-admin-content {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50px;
-  border-bottom: 1px solid black;
-}
-.photo-entry-admin-content:last-child {
-  border: 0;
 }
 .photo-entry-admin-content > p {
   margin: 0;
 }
-/* content - modified */
-.photo-entry-admin-content--title {
-  text-align: justify;
-}
-.photo-entry-admin-content--description {
+.photo-entry-admin-content--fill-remaining-height {
   flex-grow: 1;
 }
 .photo-entry-admin-content--timestamp {
-  padding: 0.25rem;
-  height: 30px;
+  height: 50px;
   align-items: initial;
   justify-content: initial;
-  background-color: rgb(244, 164, 60);
+  background-color: rgb(59, 59, 59);
 }
 /* content label */
 .photo-entry-admin-content-label {
@@ -85,10 +76,16 @@
   letter-spacing: 0.1rem;
   line-height: 100%;
   word-break: break-word;
-  padding: var(--padding-default) 0 var(--padding-default) var(--padding-default);
+  padding: var(--padding-default);
+  background-color: rgb(59, 59, 59);
+  /* color: #000; */
 }
-.photo-entry-admin-content-label--vertical {
-  writing-mode: vertical-lr;
+/* content label - modified */
+.photo-entry-admin-content-label--vertical-text {
+  writing-mode: vertical-rl;
+}
+.photo-entry-admin-content-label--border-bottom-0 {
+  border-bottom: 0;
 }
 /* content data */
 .photo-entry-admin-content-data {
@@ -98,14 +95,22 @@
   height: 100%;
   width: 100%;
   padding: var(--padding-default);
-  word-break: break-word;
   text-align: justify;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-left: 1px solid var(--border-color-1);
+  border-bottom: 1px solid var(--border-color-1);
 }
-/* data text starts at the start of the container  */
-.photo-entry-admin-content-data--text-start {
+/* content data - modified */
+.photo-entry-admin-content-data--border-top {
+  border-top: 1px solid var(--border-color-1);
+}
+.photo-entry-admin-content-data--description {
   align-items: initial;
-}
-/* enable text scroll on y axis */
-.photo-entry-admin-content-data--scroll-y {
+  word-break: break-word;
   overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+  border-bottom: 0;
 }
