@@ -1,4 +1,4 @@
-/* basic styles */
+/* ______BASIC______ */
 .skeleton {
   background-color: #dadada;
   margin: var(--margin-default) 0;
@@ -8,46 +8,17 @@
   width: 100%;
   height: 30px;
 }
-
 /* ______ELEMENT TYPES______ */
-/* USER PHOTO ENTRY */
-.title {
-  width: 100%;
-  height: 80px;
-  margin-top: 0;
-}
-.photo {
-  width: 100%;
-  height: 450px;
-  margin-top: 0;
-}
-.control-panel {
-  width: 100%;
-  height: 70px;
-  margin: 0;
-}
-/* HOME PAGE */
-.home-header {
-  width: 100%;
-  height: 100px;
-  margin: 0 0 1rem 0;
-}
-.home-photo-slider {
-  width: 100%;
-  height: 350px;
-  margin: 0;
-}
-.home-photo-slider-tracker {
-  height: 30px;
+.element--50px-30p {
+  height: calc(30px - var(--padding-default));
   width: 30%;
-  margin: var(--margin-default) 0 0 0;
+  margin-top: 0;
 }
-.home-subtitle {
+.element--45px-60p {
   height: 45px;
   width: 60%;
-  margin: 1rem 0 0 0;
+  margin-top: 0;
 }
-/* ADMIN PHOTO ENTRY  */
 .element--50px {
   height: calc(50px - var(--padding-default));
   width: 100%;
@@ -61,85 +32,89 @@
 .element--60px {
   width: 100%;
   height: calc(60px - var(--padding-default));
-  padding: var(--padding-default);
   margin-top: 0;
 }
 .element--80px {
   width: 100%;
   height: calc(80px - var(--padding-default));
-  padding: var(--padding-default);
+  margin-top: 0;
+}
+.element--100px {
+  width: 100%;
+  height: calc(100px - var(--padding-default));
   margin-top: 0;
 }
 .element--150px {
   width: 100%;
   height: calc(150px - var(--padding-default));
-  padding: var(--padding-default);
   margin-top: 0;
 }
 .element--200px {
   width: 100%;
   height: calc(200px - var(--padding-default));
-  padding: var(--padding-default);
   margin-top: 0;
 }
-
-/* ELEMENT MARGINS */
+.element--350px {
+  width: 100%;
+  height: calc(350px - var(--padding-default));
+  margin-top: 0;
+}
+.element--450px {
+  width: 100%;
+  height: calc(450px - var(--padding-default));
+  margin-top: 0;
+}
+/* ELEMENT MODIFIERS */
 .element-margin-top--0 {
   margin-top: 0;
 }
-
 .element-margin-bottom--0 {
   margin-bottom: 0;
+}
+.element-margin-bottom--1rem {
+  margin-bottom: 1rem;
 }
 .element-margin--0 {
   margin: 0;
 }
-
 /* ______SKELETON COMPONENTS______ */
-/* SHARED */
+/* WRAPPER */
 .skeleton-wrapper {
   margin: var(--margin-default) 0;
   position: relative;
   overflow: hidden;
 }
-/* GALLERY (user) */
-.skeleton-user-photo-entry {
+.skeleton-user-photo-entry, 
+.skeleton-home,
+.skeleton-wrapper-home,
+.skeleton-admin-photo-entry {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 500px;
-  flex-direction: column;
   padding: var(--padding-default);
+  width: 100%;
+}
+/* GALLERY (user) */
+.skeleton-user-photo-entry {
+  /* height: 500px; */
+  width: 100%;
+  flex-direction: column;
 }
 .skeleton-user-photo-entry:last-child {
   margin-bottom: 0;
 }
 /* HOME */
 .skeleton-home {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   height: 100%;
   flex-direction: column;
-  padding: var(--padding-default);
 }
 .skeleton-wrapper-home {
-  display: flex;
   width: 90%;
-  justify-content: center;
-  align-items: center;
 }
 /* ADMIN GALLERY/HOME PHOTO ENTRIES */ 
 .skeleton-admin-photo-entry {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   /* height: 500px; */
   flex-direction: column;
-  padding: var(--padding-default);
 }
 .skeleton-admin-photo-entry:last-child {
   margin-bottom: 0;

@@ -56,7 +56,8 @@ export default function PhotoEntries() {
   )
   return (
     <>
-      {isLoading ? loader : photoEntries}
+      {/* {isLoading ? loader : photoEntries} */}
+      <SkeletonUserPhotoEntry />
     </>
   )
 }

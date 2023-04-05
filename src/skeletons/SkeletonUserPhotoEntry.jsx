@@ -9,9 +9,9 @@ export default function SkeletonUserPhotoEntry({theme}) {
   return (
     <div className={`skeleton-wrapper ${themeStyle}`}>
       <div className='skeleton-user-photo-entry'>
-        <SkeletonElement type='title' />
-        <SkeletonElement type='photo' />
-        <SkeletonElement type='control-panel' />
+        <SkeletonElement type='element--80px' />
+        <SkeletonElement type='element--450px' />
+        <SkeletonElement type='element--80px element-margin-bottom--0' />
       </div>
       <ShimmerEffect />
     </div>
