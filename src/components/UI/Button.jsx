@@ -3,7 +3,7 @@ import React from 'react'
 import './Button.css'
 
 export default function Button(props) {
-  const {children, customStyle, clicked, type, diasbled} = props;
+  const {children, customStyle, clicked, type, disabled} = props;
   //add styling to button based on passed type (form, add new img, etc) 
   let buttonStyle = 'button-default';
   // 'image-update'
@@ -40,7 +40,7 @@ export default function Button(props) {
         type={type}
         className={buttonStyle}
         onClick={clicked}
-        disabled= {diasbled}
+        disabled= {disabled}
       > {children}  
       </button>
     </>

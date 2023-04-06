@@ -1,3 +1,4 @@
+// TODO: rework how styling works
 // reusable input fields 
 import React from 'react'
 import './Input.css'

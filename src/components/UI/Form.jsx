@@ -13,7 +13,8 @@ export default function Form(props) {
     title, // title for non-modal forms
     submit = () => {}, 
     customStyle,
-    operation} = props;
+    operation,
+    disabled} = props;
   const {toggleModalHandler} = useModalContext();
   const {formData, setFormData, setPhotoFile} = useFormContext();
   // CONDITIONAL STYLING
@@ -42,6 +43,7 @@ export default function Form(props) {
         <Button 
           customStyle={'form-submit'} 
           type='button' 
+          disabled={disabled}
           clicked={() => {
             setFormData(undefined);
             setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
@@ -52,6 +54,7 @@ export default function Form(props) {
       <Button 
         customStyle={'form-submit'}
         type='submit' 
+        disabled={disabled}
         clicked={ (e) => {
             submit(e, formData); 
             setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
@@ -93,21 +96,18 @@ export default function Form(props) {
       buttonElement = (() => <Button> Default </Button>);
   }
 
-
   return (
-    <>
-      <form className={formStyle}>
-        {/* title */}
-        <div className={formTitleStyle}>
-          {title && <h2> {title} </h2>}
-        </div>
-        {/* form */}
-        {/* <div className='form-form-container'>  */}
-        {children} 
-        {/* </div> */}
-        {/* button */}
-        {buttonElement()}
-      </form>
-    </>
+    <form className={formStyle}>
+      {/* title */}
+      <div className={formTitleStyle}>
+        {title && <h2> {title} </h2>}
+      </div>
+      {/* form */}
+      {/* <div className='form-form-container'>  */}
+      {children} 
+      {/* </div> */}
+      {/* button */}
+      {buttonElement()}
+    </form>
   )
 }
