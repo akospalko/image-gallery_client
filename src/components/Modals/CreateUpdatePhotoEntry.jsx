@@ -1,3 +1,5 @@
+// TODO: replace string labels with CONSTANTs 
+// TODO: pass title/form styling to Form elem 
 // Reusable modal for create/update photo entry 
 import React from 'react'
 import Form from '../UI/Form'
@@ -10,14 +12,16 @@ import { convertFormData } from '../../helper/convertFormData'
 import { useModalContext } from '../contexts/ToggleModalContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import { useAuthContext } from '../contexts/AuthenticationContext'
-
+import Button from '../UI/Button'
+import { statusMessages } from '../../helper/dataStorage'
+import './CreateUpdatePhotoEntry.css'
 
 export default function CreateUpdatePhotoEntry(props) {
   const {operation, formTemplate, collection, formStyle, inputStyle, label, disabled} = props;
   
   // CONTEXT
   const {activeID, toggleModalHandler} = useModalContext();
-  const {setFormData, setData, setMessage} = useFormContext();
+  const {formData, setFormData, setData, setMessage, setPhotoFile} = useFormContext();
   const {userID} = useAuthContext
   // HOOK 
   const axiosPrivate = useAxiosPrivate();
@@ -55,24 +59,61 @@ export default function CreateUpdatePhotoEntry(props) {
       // TODO: nav to login if token is expired
     }
   }
+  // BUTTON
+  // submit photo entry (create/udate) or close modal
+  const photoEntryButton = (
+    <div className='form-button-container'> 
+      { toggleModalHandler ?  
+        <Button 
+          customStyle={'form-submit'} 
+          type='button' 
+          disabled={disabled}
+          clicked={() => {
+            setFormData(undefined);
+            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
+            toggleModalHandler(operation);
+          }}
+        > Cancel 
+        </Button> : null }      
+      <Button 
+        customStyle={'form-submit'}
+        form='form-create-update-photo-entry'
+        type='submit' 
+        disabled={disabled}
+        clicked={ (e) => {
+          operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
+          setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
+        }}
+      > Submit </Button>      
+    </div> 
+  );
   // MODAL ELEMENTS  
   // create && update photo entry modals
   return (
-    <Form 
-      operation={operation}
-      submit={operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler : updatePhotoEntryHandler}
-      customStyle={formStyle}
-      disabled={disabled}
-    > 
-      {/* { formData && buildInputFields(formTemplate).map(elem => ( */}
-      { buildInputFields(formTemplate).map(elem => (
-      <Input 
-        key={elem.name} 
-        name={elem.name} 
-        label={label}
-        customStyle={inputStyle}
-      /> 
-    )) }
-    </Form>
+    <>
+      {/* FORM WRAPPER */}
+      <div className='wrapper-create-update-photo-entry-modal'>
+        {/* FORM */}
+        <Form 
+          id='form-create-update-photo-entry'
+          operation={operation}
+          // formStyle={'form--padding-default'}
+          // titleStyle={formStyle}
+        > 
+          {/* { formData && buildInputFields(formTemplate).map(elem => ( */}
+          { buildInputFields(formTemplate).map(elem => (
+          <Input 
+            key={elem.name} 
+            name={elem.name} 
+            label={label}
+            customStyle={inputStyle}
+          /> 
+        )) }
+        </Form>
+        {/* STATUS MESSAGE */}
+        {/* SUBMIT FORM BUTTON */}
+        {photoEntryButton}
+      </div>
+    </>
   )
 }
