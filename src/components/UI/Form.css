@@ -1,63 +1,29 @@
-.form-default,
-.form-image-create-update,
-.form-authentication,
-.form-form-container, 
-.form-button-container {
+/* ______DEFAULT VALUES______ */
+/* FORM CONTAINER */
+.form-default {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+  /* min-height: 100%; */
 }
-.form-default,
-.form-image-create-update {
-  min-height: 100%;
-  justify-content: space-between;
-  overflow-y: auto;
-  background-color: rgb(102, 102, 105);
-  padding: var(--padding-default);
-}
-.form-authentication {
-  min-height: 100%;
-  background-color: transparent;
-}
-/* TITLES */
-.form-default--title,
-.form-authentication--title {
+/* TITLE */
+.form-title-default {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-}
-/* default */
-.form-default--title {
-  height: 50px;
-}
-.form-default--title h2 {
-  margin: 0;
-  font-size: 2rem;
-}
-/* authentication */
-.form-authentication--title {
   height: 75px;
 }
-.form-authentication--title h2 {
-  margin: 0;
+.form-title-default h2 {
+  margin: auto 0;
   font-size: 2rem;
 }
-/* .form-form-container {} */
-.form-button-container {
-  flex-direction: row;
-  justify-content: space-between;
-}
-/* centering button (only if single button is present) for auth containers */
-.form-button-container--centered {
-  flex-direction: column;
-}
-/* auth specific style */
-.form-button-container--authentication {
-  /* margin-top: 1rem; */
-  justify-content: center;
-  align-items: center;
-  margin-top: 1.5rem;
+/* ______MODIFIERS______ */
+/* COMPONENTS */
+.form-authentication {
+  min-height: 100%;
+  padding: var(--padding-default);
+  background-color: transparent;
 }

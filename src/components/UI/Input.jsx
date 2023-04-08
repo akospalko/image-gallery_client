@@ -1,5 +1,4 @@
-// TODO: rework how styling works
-// reusable input fields 
+// reusable input field component 
 import React from 'react'
 import './Input.css'
 import PhotoUpload from './PhotoUpload'
@@ -8,36 +7,18 @@ import {useFormContext} from '../contexts/FormContext'
 
 const Input = (props) => {
   // PROPS
-  const {label, name, customStyle } = props;
+  const {label, name, inputStyle, textareaStyle, labelStyle } = props;
   // CONTEXT
   const {formData, inputChangeHandler} = useFormContext();
-  // CONDITIONAL STYLING
-  // input & textarea
-  let inputStyle;
-  let textareaStyle;
-  let labelStyle; 
-  switch(customStyle) {
-    case 'image-create-update':
-      inputStyle = 'input-image-create-update';
-      textareaStyle = 'textarea-image-create-update';
-      break;
-    case 'authentication':
-      inputStyle = 'input-authentication';
-      // textareaStyle = ''; // default for now
-      break;
-    default:
-      inputStyle = 'input-default';
-      textareaStyle = 'textarea-default';
-  } 
-  // RENDERED ELEMENTS
+  // ELEMENTS
   // label 
-  const renderedLabel = (label ? 
-    <label className={labelStyle}> {formData[name]?.label} </label>
+  const renderedLabel = (label && formData[name]?.label ? 
+    <label className={`label-default ${labelStyle}`}> {formData[name]?.label} </label>
   : null ) 
   // input fields
   const input = (
     <input 
-      className={inputStyle}
+      className={`input-default ${inputStyle}`}
       name={name} 
       type={formData[name]?.type} 
       placeholder={formData[name]?.placeholder}
@@ -47,7 +28,7 @@ const Input = (props) => {
     /> )
   const email = (
     <input 
-      className={inputStyle}
+      className={`input-default ${inputStyle}`}
       name={name} 
       type={formData[name]?.type} 
       placeholder={formData[name]?.placeholder}
@@ -57,7 +38,7 @@ const Input = (props) => {
     /> )
   const password = (
     <input 
-      className={inputStyle}
+      className={`input-default ${inputStyle}`}
       name={name} 
       type={formData[name]?.type} 
       placeholder={formData[name]?.placeholder}
@@ -67,7 +48,7 @@ const Input = (props) => {
     /> )
   const textarea = ( 
     <textarea 
-      className={textareaStyle}
+      className={`textarea-default ${textareaStyle}`}
       name={name} 
       placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
@@ -75,35 +56,35 @@ const Input = (props) => {
     /> )
   const file = <PhotoUpload />
   const date = <DatePicker />
-  //decide input field type to render
-  let element; 
+  // CONDITIONAL RENDER INPUT ELEMENTS
+  let renderedElement; 
   switch(formData[name]?.field) {
     case 'input':
-      element = input; 
+      renderedElement = input; 
       break;
     case 'email':
-      element = email; 
+      renderedElement = email; 
       break;
     case 'password':
-      element = password; 
+      renderedElement = password; 
       break;
     case 'textarea':
-      element = textarea; 
+      renderedElement = textarea; 
       break;
     case 'file':
-      element = file; 
+      renderedElement = file; 
       break;
     case 'date':
-      element = date; 
+      renderedElement = date; 
       break;
     default:
-      element = input; 
+      renderedElement = input; 
   }
 
   return(
     <>
       {renderedLabel}
-      {formData && element} 
+      {formData && renderedElement} 
     </>
   );
 }

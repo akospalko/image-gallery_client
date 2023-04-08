@@ -1,39 +1,65 @@
-.input-default,
-.input-image-create-update,
-.input-authentication,
-.textarea-default,
-.textarea-image-create-update {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ______DEFAULT VALUES______ */
+/* INPUT && TEXTAREA */
+.input-default, 
+.textarea-default {
   width: 100%;
-  box-sizing: border-box;
   border: none;
   outline: none;
-}
-/* INPUT */
-.input-default,
-.input-image-create-update {
-  background-color: rgb(192, 204, 228);
-  margin-top: var(--margin-default);
   padding: var(--padding-default);
-  height: 50px;
-}
-.input-authentication {
-  height: 50px;
-  width: 80%;
   background-color: rgba(0, 0, 0, 0);
-  border-bottom: 2px solid rgb(192, 204, 228);
-  margin-bottom: var(--margin-default);
   font-size: 1rem;
 }
-.input-authentication::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: bold;
+/* INPUT */
+.input-default {
+  height: 45px;
+  border-bottom: 2px solid rgb(192, 204, 228);
 }
 /* TEXTAREA */
-.textarea-default,
-.textarea-image-create-update {
-  min-height: 50px;
+.textarea-default {
+  min-height: 150px;
   resize: vertical;
+  border: 2px solid rgb(192, 204, 228);
+  text-align: justify;
+}
+/* PLACEHOLDER */
+.input-default::placeholder,
+.textarea-default::placeholder {
+  color: rgb(163, 163, 163);
+}
+/* LABEL */
+.label-default {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  width: 100%;
+  height: 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+/* ______MODIFIERS______ */
+/* COMPONENTS */
+/* authentication form input fields */
+.input-authentication {
+  height: 50px;
+  width: 90%;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+/* create-update photo entry input/textarea fields */
+.input-create-update-photo-entry,
+.textarea-create-update-photo-entry {
+  margin-bottom: 1.5rem;
+  width: 90%;
+}
+/* create-update photo entry input fields */
+.input-create-update-photo-entry {
+  padding: 0;
+}
+/* create-update photo entry textarea fields */
+.textarea-create-update-photo-entry {
+  margin-top: var(--padding-default);
+}
+/* create-update photo entry input/textarea fields */
+.input-create-update-photo-entry-label {
+  width: 90%;
 }
