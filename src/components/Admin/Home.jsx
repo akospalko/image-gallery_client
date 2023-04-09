@@ -49,7 +49,7 @@ export default function Home() {
       {/* add new photo entry button */}
       <Button 
         clicked={() => toggleModalHandler(OPERATIONS.CREATE_PHOTO)}
-        customStyle='photo-new'
+        buttonStyle='button-photo-new'
       > Create Photo Entry 
       </Button>
       {/* photo cards container */}

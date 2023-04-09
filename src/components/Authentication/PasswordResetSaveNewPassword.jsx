@@ -10,6 +10,7 @@ import {useParams} from 'react-router-dom';
 import {checkPasswordResetLinkValidity, resetPassword} from '../../helper/axiosRequests'
 import Loader from '../SVG/Loader';
 import {useNavigate} from 'react-router'
+import Button from '../UI/Button';
 
 export default function PasswordResetSaveNewPassword() {
   // ROUTES
@@ -60,6 +61,20 @@ export default function PasswordResetSaveNewPassword() {
     setIsLoading(false);
     if(response?.success) { setTimeout(()=> { navigate('/login'); return }, 1000) } // success: nav to login page
   }
+  // BUTTON
+  // submit form: create and save new password
+  const saveNewPasswordButton = (
+    <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
+      <Button 
+        buttonStyle='button-authentication' 
+        type='submit' 
+        form='form-password-reset-save-new-password'
+        disabled={false}
+        clicked={(e) => {resetPasswordHandler(e, formData)}}
+      > Submit </Button>      
+    </div>
+  )
+
   return (
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
@@ -67,23 +82,16 @@ export default function PasswordResetSaveNewPassword() {
         {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
-        {/* send reset password form */}
+        {/* save new password form */}
         {formData && 
-          <Form 
-            customStyle='authentication'
-            title='Create new password'
-            operation={OPERATIONS.PASSWORD_RESET_SAVE_NEW_PASSWORD}
-            submit={resetPasswordHandler}
-          > 
+          <Form id='form-password-reset-save-new-password' title='Create new password'> 
             {buildInputFields(passwordResetSaveNewPassword).map(elem => (
-              <Input 
-                customStyle='authentication'
-                key={elem.name} 
-                name={elem.name} 
-              /> 
+              <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/> 
             ))}
           </Form>
         }
+        {/* submit form button */}
+        {saveNewPasswordButton}
         {/* status message container */}
         <div className='auth-modal-status-message'> <p> {message} </p> </div>
       </div>

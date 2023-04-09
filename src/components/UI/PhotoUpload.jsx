@@ -1,4 +1,4 @@
-// a component to create reusable input forms 
+// input to upload photo    
 import React from 'react'
 import './PhotoUpload.css'
 import {useFormContext} from '../contexts/FormContext'

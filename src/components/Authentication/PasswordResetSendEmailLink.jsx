@@ -7,6 +7,7 @@ import './Authentication.css'
 import {buildInputFields} from '../../helper/buildInputFields'
 import {requestPasswordResetLink} from '../../helper/axiosRequests'
 import Loader from '../SVG/Loader';
+import Button from '../UI/Button';
 
 export default function PasswordResetSendLink() {
   // CONTEXT
@@ -27,6 +28,19 @@ export default function PasswordResetSendLink() {
     setMessage(response.message);
     setIsLoading(false);
   }
+  // BUTTON
+  // submit form: request password reset link 
+  const requestPasswordResetLinkButton = (
+    <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
+      <Button 
+        customStyle='authentication' 
+        type='submit' 
+        form='form-password-reset-link'
+        disabled={false}
+        clicked={(e) => {sendPasswordResetEmailHandler(e, formData)}}
+      > Submit </Button>      
+    </div> 
+  )
   return (
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
@@ -36,21 +50,14 @@ export default function PasswordResetSendLink() {
         <div className='auth-modal-background'></div>
         {/* send reset password form */}
         {formData && 
-          <Form 
-            customStyle='authentication'
-            title='Reset your password'
-            operation={OPERATIONS.PASSWORD_RESET_SEND_EMAIL_LINK}
-            submit={sendPasswordResetEmailHandler}
-          > 
+          <Form id='form-password-reset-link' title='Reset your password'> 
             {buildInputFields(passwordResetSendEmailLink).map(elem => (
-              <Input 
-                customStyle='authentication'
-                key={elem.name} 
-                name={elem.name} 
-              /> 
+              <Input inputStyle='input-authentication'  key={elem.name} name={elem.name}/> 
             ))}
           </Form>
         }
+        {/* submit form button */}
+        {requestPasswordResetLinkButton}
         {/* status message container */}
         <div className='auth-modal-status-message'> <p> {message} </p> </div>
       </div>

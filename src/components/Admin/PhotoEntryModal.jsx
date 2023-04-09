@@ -42,8 +42,6 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
       operation={operation} 
       formTemplate={formTemplate} 
       collection={collection}
-      formStyle='image-create-update' 
-      inputStyle='image-create-update' 
       label={true}
       disabled={isLoading}
     />
@@ -53,8 +51,6 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
       operation={operation} 
       formTemplate={formTemplate} 
       collection={collection}
-      formStyle='image-create-update' 
-      inputStyle='image-create-update' 
       label={true} 
       disabled={isLoading}
     />
@@ -91,8 +87,8 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
         </div>
         {/* modal content */}
         <div className='shared-modal-content'>
-        {/* {renderModal} */}
-        {formData && renderModal}
+          {/* {renderModal} */}
+          {formData && renderModal}
         </div>
       </div>
     </div>

@@ -1,0 +1,10 @@
+/* WRAPPER */
+.create-update-photo-entry-modal-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  background-color: rgb(88, 88, 88);
+  padding: var(--padding-default);
+}

@@ -177,7 +177,7 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
       <span className='photo-entry-control-panel--1'>
         {/* add/remove photo to/from collection toggler */}
         <Button
-          customStyle={'control-panel-view'}
+          buttonStyle='button-control-panel-view'
           clicked={
             isLiked ?
             async () => removeLikeHandler(auth.userID, entryID)
@@ -187,7 +187,7 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
         > {isLiked ? 'X' : '<3'}
         </Button>
         <Button
-          customStyle={'control-panel-view'}
+          buttonStyle='button-control-panel-view'
           clicked={
             isInCollection ?
               async () => removePhotoEntryFromCollectionHandler(auth.userID, entryID)
@@ -197,14 +197,14 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
         > {isInCollection ? '-' : '+'}
         </Button>
         <Button
-          customStyle={'control-panel-view'}
+          buttonStyle='button-control-panel-view'
           clicked={() => {
             setID(entryID)
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
         > View </Button>
         {/* map */}
         <Button
-          customStyle={'control-panel-view'}
+          buttonStyle='button-control-panel-view'
           clicked={() => {
             setID(entryID)
             toggleModalHandler(OPERATIONS.MAP_VIEW)}}
@@ -214,7 +214,7 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
       <span className='photo-entry-control-panel--2'>
         {/* info */}
         <Button
-          customStyle={'control-panel-view'}
+          buttonStyle='button-control-panel-view'
           clicked={() => {
             setID(entryID)
             toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}

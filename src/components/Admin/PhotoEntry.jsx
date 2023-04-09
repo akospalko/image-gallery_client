@@ -61,19 +61,19 @@ const controlPanel = (
     <span className='photo-entry-admin-control-panel--1'>
       {/* edit */}
       <Button 
-        customStyle={'control-panel-edit'}
+        buttonStyle='button-control-panel-edit'
         clicked={() => editPhotoEntryHandler(id)}
       > <Edit /> </Button>
       {/* view */}
       <Button 
-        customStyle={'control-panel-edit'}
+        buttonStyle='button-control-panel-edit'
         clicked={() => {
           setID(id)
           toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
       > <ViewPhoto height='100%' width='100%'/> </Button>
       {/* map */}
       <Button 
-        customStyle={'control-panel-edit'}
+        buttonStyle='button-control-panel-edit'
         clicked={() => {
           setID(id)
           toggleModalHandler(OPERATIONS.MAP_VIEW) }}
@@ -81,7 +81,7 @@ const controlPanel = (
     </span>
     <span className='photo-entry-admin-control-panel--2'> 
       <Button 
-          customStyle={'control-panel-edit'}
+          buttonStyle='button-control-panel-edit'
           clicked={() => deletePhotoEntryHandler(id)} 
       > <Delete /> </Button>
     </span>

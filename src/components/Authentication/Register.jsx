@@ -11,6 +11,7 @@ import {convertFormData} from '../../helper/convertFormData'
 import {createNewUser} from '../../helper/axiosRequests'
 import {useNavigate} from 'react-router'
 import Loader from '../SVG/Loader'
+import Button from '../UI/Button'
 
 export default function Register() {
   // CONSTANTS
@@ -57,7 +58,19 @@ export default function Register() {
       setIsLoading(false);     
     }
   }
-
+  // BUTTON
+  // submit form: register
+  const registerButton = (
+    <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
+      <Button 
+        buttonStyle='button-authentication' 
+        type='submit' 
+        form='form-register'
+        disabled={false}
+        clicked={(e) => {registerHandler(e, formData)}}
+      > Register </Button>      
+    </div> 
+  )
   // STYLING
   // modal background
   const backgroundStyle= {
@@ -74,23 +87,16 @@ export default function Register() {
         {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
-        {/* register form */}
+        {/* FORM: register */}
         {formData && 
-          <Form 
-            customStyle='authentication'
-            title='Register'
-            operation={operation}
-            submit={registerHandler}
-          > 
-            {buildInputFields(register).map(elem => (
-              <Input 
-                customStyle='authentication'
-                key={elem.name} 
-                name={elem.name} 
-              />
-            ))}
+          <Form id='form-register' title='Register'> 
+          {buildInputFields(register).map(elem => (
+            <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/>
+          ))}
           </Form>
         }
+        {/* submit form button */}
+        {registerButton}
         {/* status message container */}
         <div className='auth-modal-status-message'> <p> {message} </p> </div>
         {/* login-register navigation button */}

@@ -3,46 +3,17 @@ import React from 'react'
 import './Button.css'
 
 export default function Button(props) {
-  const {children, customStyle, clicked, type, disabled} = props;
-  //add styling to button based on passed type (form, add new img, etc) 
-  let buttonStyle = 'button-default';
-  // 'image-update'
-  // 'image-delete', etc...
-  switch(customStyle) {
-    case 'image-create-update':
-      buttonStyle = 'button-image-create-update';
-      break;
-    case 'photo-new':
-      buttonStyle = 'button-photo-new';
-      break;
-    case 'control-panel-edit': // admin/editor -> edit buttons (edit, delete, view, map) 
-      buttonStyle = 'button-control-panel-edit';
-      break;
-    case 'control-panel-view': // user -> view buttons (like, map, view, info) 
-      buttonStyle = 'button-control-panel-view';
-      break;
-    case 'form-submit':
-      buttonStyle = 'button-form-submit';
-      break;
-    case 'modal-close':
-      buttonStyle = 'button-modal-close';
-      break;
-    case 'authentication':
-      buttonStyle = 'button-authentication';
-      break;
-    default:
-      buttonStyle = 'button-default'
-  } 
+  const {children, buttonStyle, clicked, type, disabled} = props;
 
   return (
     <>
-    <button 
-        type={type}
-        className={buttonStyle}
-        onClick={clicked}
-        disabled= {disabled}
-      > {children}  
-      </button>
+      <button 
+          type={type}
+          className={`button-default ${buttonStyle}`}
+          onClick={clicked}
+          disabled= {disabled}
+        > {children}  
+        </button>
     </>
   )
 }

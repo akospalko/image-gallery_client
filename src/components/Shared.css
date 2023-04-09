@@ -42,8 +42,7 @@
   background-color: rgb(135, 140, 140);
 }
 .shared-modal-dummy,
-.shared-modal-title,
-.shared-modal-close-button {
+.shared-modal-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,8 +55,7 @@
   margin: 0;
   font-size: 1.5rem;
 }
-.shared-modal-dummy,
-.shared-modal-close-button {
+.shared-modal-dummy {
   width: 50px;
 }
 /* modal content */
@@ -75,22 +73,34 @@
 .shared-image-cards-container {
   height: auto;
 }
-
-/* PC */
-/* display on pc view disable on mobile */
-/* .shared-modal-backdrop {
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  overflow-y: scroll;
-  z-index: var(--z4);
-} */
-/* alternative opaque modal backdrop */
-/* .shared-modal-backdrop--opaque {
-  background-color: rgba(0, 0, 0, 1);
-} */
+/* ______BUTTON WRAPPER______ */
+/* wrapper */
+.shared-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+.shared-button-wrapper--modal-close {
+  justify-content: center;
+  height: 100%;
+  width: 50px;
+}
+/* ______MODIFIERS______ */
+/* TODO: place it to shared.css */
+/* WRAPPER */
+.shared-button-wrapper--create-update-photo-entry {
+/* ... */
+}
+/* COMPONENTS */
+/* auth specific style */
+.shared-button-wrapper--authentication {
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+/* ELEMENTS */
+/* centering button (only if single button is present) for auth containers */
+.shared-button-wrapper--centered {
+  flex-direction: column;
+}

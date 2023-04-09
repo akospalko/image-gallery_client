@@ -14,6 +14,7 @@ import {loginUser} from '../../helper/axiosRequests'
 import {useAuthContext} from '../contexts/AuthenticationContext'
 import {useNavigate} from 'react-router'
 import Loader from '../SVG/Loader'
+import Button from '../UI/Button'
 
 export default function Login() {
   // CONSTANTS
@@ -55,6 +56,19 @@ export default function Login() {
       setIsLoading(false);     
     }
   }
+  // BUTTON
+  // submit form: login
+  const loginButton = (
+    <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
+      <Button 
+        buttonStyle='button-authentication' 
+        type='submit' 
+        form='form-login'
+        disabled={false}
+        clicked={(e) => {loginHandler(e, formData)}}
+      > Login </Button>      
+    </div> 
+  )
   // STYLING
   // modal background
   const backgroundStyle= {
@@ -74,18 +88,9 @@ export default function Login() {
         <div className='auth-modal-background'></div>
         {/* login form */}
         {formData && 
-          <Form 
-            customStyle='authentication'
-            title='Log in'
-            operation={operation}
-            submit={loginHandler}
-          > 
+          <Form id='form-login' title='Log in' formStyle='form-authentication' > 
             {buildInputFields(login).map(elem => (
-              <Input 
-                customStyle='authentication'
-                key={elem.name} 
-                name={elem.name} 
-              /> 
+              <Input key={elem.name} name={elem.name} inputStyle='input-authentication'/> 
             ))}
             {/* control group: reset password */}
             <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 
@@ -93,6 +98,8 @@ export default function Login() {
             </div>
           </Form>
         }
+        {/* submit form button */}
+        {loginButton}
         {/* status message container */}
         <div className='auth-modal-status-message'> <p> {message} </p> </div>
         {/* login-register navigation button */}

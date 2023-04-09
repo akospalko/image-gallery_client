@@ -17,8 +17,8 @@ import { statusMessages } from '../../helper/dataStorage'
 import './CreateUpdatePhotoEntry.css'
 
 export default function CreateUpdatePhotoEntry(props) {
-  const {operation, formTemplate, collection, formStyle, inputStyle, label, disabled} = props;
-  
+  // PROPS
+  const {operation, formTemplate, collection, label, disabled} = props;
   // CONTEXT
   const {activeID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, setData, setMessage, setPhotoFile} = useFormContext();
@@ -62,10 +62,10 @@ export default function CreateUpdatePhotoEntry(props) {
   // BUTTON
   // submit photo entry (create/udate) or close modal
   const photoEntryButton = (
-    <div className='form-button-container'> 
+    <div className='shared-button-wrapper shared-button-wrapper--create-update-photo-entry'> 
       { toggleModalHandler ?  
         <Button 
-          customStyle={'form-submit'} 
+          buttonStyle='button-form-submit' 
           type='button' 
           disabled={disabled}
           clicked={() => {
@@ -75,16 +75,16 @@ export default function CreateUpdatePhotoEntry(props) {
           }}
         > Cancel 
         </Button> : null }      
-      <Button 
-        customStyle={'form-submit'}
-        form='form-create-update-photo-entry'
-        type='submit' 
-        disabled={disabled}
-        clicked={ (e) => {
-          operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
-          setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
-        }}
-      > Submit </Button>      
+        <Button 
+          buttonStyle='button-form-submit'
+          form='form-create-update-photo-entry'
+          type='submit' 
+          disabled={disabled}
+          clicked={ (e) => {
+            operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
+            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
+          }}
+        > Submit </Button>      
     </div> 
   );
   // MODAL ELEMENTS  
@@ -92,25 +92,23 @@ export default function CreateUpdatePhotoEntry(props) {
   return (
     <>
       {/* FORM WRAPPER */}
-      <div className='wrapper-create-update-photo-entry-modal'>
+      <div className='create-update-photo-entry-modal-wrapper'>
         {/* FORM */}
-        <Form 
-          id='form-create-update-photo-entry'
-          operation={operation}
-          // formStyle={'form--padding-default'}
-          // titleStyle={formStyle}
-        > 
+        <Form id='form-create-update-photo-entry'> 
           {/* { formData && buildInputFields(formTemplate).map(elem => ( */}
           { buildInputFields(formTemplate).map(elem => (
           <Input 
             key={elem.name} 
             name={elem.name} 
             label={label}
-            customStyle={inputStyle}
+            inputStyle='input-create-update-photo-entry' 
+            textareaStyle='textarea-create-update-photo-entry'
+            labelStyle='input-create-update-photo-entry-label'
           /> 
         )) }
         </Form>
         {/* STATUS MESSAGE */}
+        <div className='auth-modal-status-message'> <p> {'test status'} </p> </div>
         {/* SUBMIT FORM BUTTON */}
         {photoEntryButton}
       </div>
