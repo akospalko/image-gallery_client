@@ -29,10 +29,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* flex-grow: 1; */
   width: 50px;
-  height: 100%;
-  /* background-color: blueviolet; */
+  height: 50px;
   border: none;
   padding: var(--padding-default);
 }

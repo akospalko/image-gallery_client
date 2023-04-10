@@ -18,27 +18,6 @@
 .photo-entry-admin-container:last-child {
   margin-bottom: 0rem;
 }
-/* control panel */
-.photo-entry-admin-control-panel {
-  display: flex;
-  height: 50px;
-  width: 100%;
-  flex-direction: row;
-  background-color: rgb(244, 164, 60);
-}
-/* control panel groups */
-.photo-entry-admin-control-panel--1,
-.photo-entry-admin-control-panel--2 {
-  display: flex;
-  width: 50%;
-  align-items: center;
-}
-.photo-entry-admin-control-panel--1 {
-  justify-content: flex-start;
-}
-.photo-entry-admin-control-panel--2 {
-  justify-content: flex-end;
-}
 /* content */
 .photo-entry-admin-content-container {
   display: flex;

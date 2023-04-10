@@ -13,6 +13,7 @@ import Button from '../UI/Button';
 import { getAllGalleryPhotoEntries, getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
 import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/ControlPanel'
 import PhotoEntryContentElement from './PhotoEntryContentElement'
+import ControlPanelWrapper from '../ControlPanelWrapper'
 
 const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIsLoading}) => {
   // PROPS
@@ -54,88 +55,87 @@ const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIs
       setIsLoading(false);
     }
   }
-
-// control panel buttons
-const controlPanel = (
-  <div className='photo-entry-admin-control-panel'>
-    <span className='photo-entry-admin-control-panel--1'>
-      {/* edit */}
-      <Button 
-        buttonStyle='button-control-panel-edit'
-        clicked={() => editPhotoEntryHandler(id)}
-      > <Edit /> </Button>
-      {/* view */}
-      <Button 
-        buttonStyle='button-control-panel-edit'
-        clicked={() => {
-          setID(id)
-          toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
-      > <ViewPhoto height='100%' width='100%'/> </Button>
-      {/* map */}
-      <Button 
-        buttonStyle='button-control-panel-edit'
-        clicked={() => {
-          setID(id)
-          toggleModalHandler(OPERATIONS.MAP_VIEW) }}
-      > <LocationMark height='100%' width='100%' /> </Button>  
-    </span>
-    <span className='photo-entry-admin-control-panel--2'> 
-      <Button 
+  // control panel buttons
+  const controlPanel = (
+    <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={50} backgroundColor='rgb(244, 164, 60)'>
+      <span className='control-panel-photo-entry-group-1'>
+        {/* edit */}
+        <Button 
+          buttonStyle='button-control-panel-edit'
+          clicked={() => editPhotoEntryHandler(id)}
+        > <Edit /> </Button>
+        {/* view */}
+        <Button 
+          buttonStyle='button-control-panel-edit'
+          clicked={() => {
+            setID(id)
+            toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
+        > <ViewPhoto height='100%' width='100%'/> </Button>
+        {/* map */}
+        <Button 
+          buttonStyle='button-control-panel-edit'
+          clicked={() => {
+            setID(id)
+            toggleModalHandler(OPERATIONS.MAP_VIEW) }}
+        > <LocationMark height='100%' width='100%' /> </Button>  
+      </span>
+      <span className='control-panel-photo-entry-group-2'> 
+        <Button 
           buttonStyle='button-control-panel-edit'
           clicked={() => deletePhotoEntryHandler(id)} 
-      > <Delete /> </Button>
-    </span>
-  </div>
-)
+        > <Delete /> </Button>
+      </span>
+    </ControlPanelWrapper>
+  )
 
-const photoContent = (
-  <div className='photo-entry-admin-content-container'>
-    {/* TIMESTAMP */}
-    <PhotoEntryContentElement 
-      contentStyle='photo-entry-admin-content--timestamp' 
-      type='timestamp' 
-      dateCreation={createdAt} 
-      dateLastUpdate={updatedAt} 
-    />
-    {/* ID */}
-    <PhotoEntryContentElement 
-      label='ID' 
-      data={id} 
-      dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' 
-    />
-    {/* Title */}
-    <PhotoEntryContentElement 
-      label='Title' data={title} 
-      dataPositionTreshold={40} 
-      dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' />
-    {/* Author */}
-    <PhotoEntryContentElement 
-      label='Author' data={author} 
-      dataPositionTreshold={45} 
-    />
-    {/* Capture date */}
-    <PhotoEntryContentElement 
-      label='Captured' 
-      data={transformDate(captureDate, '-', '.')} 
-    />
-    {/* GPS latitude */}
-    <PhotoEntryContentElement 
-      label='GPS lat' 
-      data={gpsLatitude} 
-    />
-    {/* GPS longitude */}
-    <PhotoEntryContentElement 
-      label='GPS lon' 
-      data={gpsLongitude} 
-    />
-    {/* Description */}
-    <PhotoEntryContentElement 
-      label='Description' 
-      data={description} 
-      dataPositionTreshold={40} contentStyle='photo-entry-admin-content--fill-remaining-height' dataStyle='photo-entry-admin-content-data--description' labelStyle='photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'
-    />
-  </div>
-)
+  const photoContent = (
+    <div className='photo-entry-admin-content-container'>
+      {/* TIMESTAMP */}
+      <PhotoEntryContentElement 
+        contentStyle='photo-entry-admin-content--timestamp' 
+        type='timestamp' 
+        dateCreation={createdAt} 
+        dateLastUpdate={updatedAt} 
+      />
+      {/* ID */}
+      <PhotoEntryContentElement 
+        label='ID' 
+        data={id} 
+        dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' 
+      />
+      {/* Title */}
+      <PhotoEntryContentElement 
+        label='Title' data={title} 
+        dataPositionTreshold={40} 
+        dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' />
+      {/* Author */}
+      <PhotoEntryContentElement 
+        label='Author' data={author} 
+        dataPositionTreshold={45} 
+      />
+      {/* Capture date */}
+      <PhotoEntryContentElement 
+        label='Captured' 
+        data={transformDate(captureDate, '-', '.')} 
+      />
+      {/* GPS latitude */}
+      <PhotoEntryContentElement 
+        label='GPS lat' 
+        data={gpsLatitude} 
+      />
+      {/* GPS longitude */}
+      <PhotoEntryContentElement 
+        label='GPS lon' 
+        data={gpsLongitude} 
+      />
+      {/* Description */}
+      <PhotoEntryContentElement 
+        label='Description' 
+        data={description} 
+        dataPositionTreshold={40} contentStyle='photo-entry-admin-content--fill-remaining-height' dataStyle='photo-entry-admin-content-data--description' labelStyle='photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'
+      />
+    </div>
+  )
 
   return (
     <div className='photo-entry-admin-container'>

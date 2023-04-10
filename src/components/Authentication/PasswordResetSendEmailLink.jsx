@@ -33,7 +33,7 @@ export default function PasswordResetSendLink() {
   const requestPasswordResetLinkButton = (
     <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
       <Button 
-        customStyle='authentication' 
+        buttonStyle='button-authentication' 
         type='submit' 
         form='form-password-reset-link'
         disabled={false}

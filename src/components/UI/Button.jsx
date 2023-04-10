@@ -13,7 +13,7 @@ export default function Button(props) {
           onClick={clicked}
           disabled= {disabled}
         > {children}  
-        </button>
+      </button>
     </>
   )
 }
