@@ -15,7 +15,7 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
   const {formData, setFormData} = useFormContext();
   // STATE
   const [isFormReady, setIsFormReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   // EFFECTS
   // set up form if formTemplate value is passed
   useEffect(() => {
@@ -43,7 +43,6 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
       formTemplate={formTemplate} 
       collection={collection}
       label={true}
-      disabled={isLoading}
     />
   // update photo entry
   const updatePhotoEntryModal = 
@@ -52,7 +51,6 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
       formTemplate={formTemplate} 
       collection={collection}
       label={true} 
-      disabled={isLoading}
     />
   // view entry's photo file
   const fullScreenViewModal = <FullScreenView/>;

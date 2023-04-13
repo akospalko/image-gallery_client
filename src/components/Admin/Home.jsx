@@ -6,11 +6,10 @@ import PhotoEntries from './PhotoEntries'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import PhotoEntryModalGroup from './PhotoEntryModalGroup'
 import {COLLECTIONS, OPERATIONS} from '../../helper/dataStorage'
-import {useFormContext} from '../contexts/FormContext'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
-import {getAllHomePhotos} from '../../helper/axiosRequests'
 import {useNavigate, useLocation} from 'react-router'
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
+import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
+import { useFormContext } from '../contexts/FormContext'
 
 export default function Home() {
   // ROUTING
@@ -18,37 +17,39 @@ export default function Home() {
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // STATE
-  const [isLoading, setIsLoading] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(true);
   // CONTEXT
   const {toggleModalHandler} = useModalContext();
-  const {setData} = useFormContext();
+  const {setMessage} = useFormContext();
   // HOOK
-  const axiosPrivate = useAxiosPrivate();
+  const {fetchHomePhotoEntries} = useFetchPhotoEntries(); 
   // EFFECT
-  useEffect(() => { // get all data on initial render
+  // get all data on initial render
+  useEffect(() => { 
     (async () => {
       try {
-        const response = await getAllHomePhotos(axiosPrivate); // fetch entries, update state  
-        console.log(response);
-        setData(response.photoEntries); // store entries in state
+        await fetchHomePhotoEntries(navToPrevPage); 
       } catch(error) {
-        navToPrevPage(); // navigate unauth user back to login page
+        navToPrevPage(); 
       } finally {
-        setIsLoading(false);
+        setShowSkeleton(false);
       }
     })() 
   }, []) 
 
   // RENDERED ELEMENTS
   // data is loading -> skeleton loader || photo entries
-  const renderedElement = isLoading ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.HOME} /> 
+  const renderedElement = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.HOME} /> 
   return (
     <div className='shared-page-container shared-page-container--with-padding'>
       {/* header title */}
       <h1> Home Dashboard </h1>  
       {/* add new photo entry button */}
       <Button 
-        clicked={() => toggleModalHandler(OPERATIONS.CREATE_PHOTO)}
+        clicked={() => {
+          toggleModalHandler(OPERATIONS.CREATE_PHOTO);
+          setMessage('');
+        }}
         buttonStyle='button-photo-new'
       > Create Photo Entry 
       </Button>

@@ -4,10 +4,12 @@ import PageContent from './layout/PageContent'
 import ToggleModalContext from './components/contexts/ToggleModalContext'
 import FormContext from './components/contexts/FormContext'
 import AuthenticationContext from './components/contexts/AuthenticationContext'
+import LoaderContext from './components/contexts/LoaderContext'
 
 function App() {
   return (
     <div className="App">
+      <LoaderContext>
       <ToggleModalContext>
       <AuthenticationContext>
       <FormContext>
@@ -19,6 +21,7 @@ function App() {
       </FormContext>
       </AuthenticationContext>
       </ToggleModalContext>
+      </LoaderContext>
     </div>
   )
 }

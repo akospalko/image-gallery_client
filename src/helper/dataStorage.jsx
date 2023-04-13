@@ -294,3 +294,9 @@ export const OPERATIONS = {
   HEADER_AUTH: 'HEADER_AUTH',
   HEADER_NAV: 'HEADER_NAV'
 }
+
+// LOADER STATE INTIIALIZER
+export const LOADER = {
+  PHOTO_ENTRY_MODAL: false, // full pg loader, when opening modal (when opening update photo entry modal)
+  PHOTO_ENTRY_BUTTON: false // display loader inside the submit button
+}

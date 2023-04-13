@@ -7,12 +7,10 @@ import PhotoEntries from './PhotoEntries'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import PhotoEntryModalGroup from './PhotoEntryModalGroup'
 import {COLLECTIONS, OPERATIONS} from '../../helper/dataStorage'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import {useNavigate, useLocation} from 'react-router';
-import {getAllGalleryPhotoEntries} from '../../helper/axiosRequests'
-import {useFormContext} from '../contexts/FormContext'
-import {useAuthContext} from '../contexts/AuthenticationContext'
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
+import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
+import { useFormContext } from '../contexts/FormContext'
 
 export default function Gallery() {
   // ROUTING
@@ -20,37 +18,39 @@ export default function Gallery() {
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // STATE
-  const [isLoading, setIsLoading] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(true);
   // CONTEXT
   const {toggleModalHandler} = useModalContext();
-  const {setData} = useFormContext();
-  const {auth} = useAuthContext();
-  // HOOK
-  const axiosPrivate = useAxiosPrivate();
+  const {setMessage} = useFormContext();
+  // HOOKS
+  const {fetchGalleryPhotoEntries} = useFetchPhotoEntries();
   // EFFECT
-  useEffect(() => { // get all data on initial render
-    (async () => {
+  // get all data on initial render
+  useEffect(() => {
+    (async ()=> {
       try {
-        const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
-        setData(response.photoEntries); // store entries in state
+        await fetchGalleryPhotoEntries(navToPrevPage);
       } catch(error) {
-        navToPrevPage(); // navigate unauth user back to login page
+        navToPrevPage(); 
       } finally {
-        setIsLoading(false);
+        setShowSkeleton(false);
       }
-    })() 
+    })()
   }, []) 
-
   // RENDERED ELEMENTS
-  // data is loading -> skeleton loader || photo entries
-  const renderedElement = isLoading ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
+  // data is loading -> display skeleton -> data is loaded -> display photo entries
+  const renderedElement = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
+  
   return (
     <div className='shared-page-container shared-page-container--with-padding'>
       {/* header title */}
       <h1> Gallery Dashboard </h1>  
-      {/* add new photo entry button */}
+      {/* add new photo entry button */ }
       <Button 
-        clicked={() => toggleModalHandler(OPERATIONS.CREATE_PHOTO)}
+        clicked={() => {
+          toggleModalHandler(OPERATIONS.CREATE_PHOTO);
+          setMessage('');
+        }}
         buttonStyle='button-photo-new'
       > Create Photo Entry 
       </Button>
@@ -61,5 +61,5 @@ export default function Gallery() {
       {/* control group modals */}
       <PhotoEntryModalGroup collection={COLLECTIONS.GALLERY}/>
     </div>
-    )
-  }
+  )
+}

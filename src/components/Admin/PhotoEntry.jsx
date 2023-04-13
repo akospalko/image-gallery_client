@@ -5,25 +5,28 @@ import '../Shared.css'
 import {transformDate} from '../../helper/dateUtilities'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
-import {useAuthContext} from '../contexts/AuthenticationContext'
 import {useNavigate, useLocation} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import Button from '../UI/Button';
-import { getAllGalleryPhotoEntries, getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
+import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
 import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/ControlPanel'
 import PhotoEntryContentElement from './PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
+import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
+import { useLoaderContext } from '../contexts/LoaderContext'
 
-const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIsLoading}) => {
+const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle}) => {
   // PROPS
   const {title, description, createdAt, captureDate, updatedAt, _id:id, gpsLatitude, gpsLongitude, author} = photoEntry ?? {};
-  // // CONTEXT
-  const {setData, setMessage} = useFormContext();
+  // CONTEXT
+  const {setMessage} = useFormContext();
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
-  const {auth} = useAuthContext();
-  // HOOK
+  const {loaderToggleHandler} = useLoaderContext();
+  // HOOKS
   const axiosPrivate = useAxiosPrivate();
+  const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
+  
   // NAVIGATION & ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -32,27 +35,31 @@ const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIs
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
     try {
-      setIsLoading(true);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
-      const responseGetAll = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
-      setData(responseGetAll.photoEntries); // store entries in state
+      collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
+      setMessage(responseDelete.message);
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      setIsLoading(false);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', false);
     }
   }
   // fetch photo data (of the clicked id) to populate update photo entry modal 
   const editPhotoEntryHandler = async (id) => {
     try {
-      setIsLoading(true);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
       setActiveID(response.photoEntry); // set active entry
+      if(response.success === false) {
+        // setMessage(response.message);
+        return;
+      }
       toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      setIsLoading(false);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', false);
     }
   }
   // control panel buttons
@@ -62,7 +69,10 @@ const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIs
         {/* edit */}
         <Button 
           buttonStyle='button-control-panel-edit'
-          clicked={() => editPhotoEntryHandler(id)}
+          clicked={() => {
+            editPhotoEntryHandler(id);
+            setMessage('');
+          }}
         > <Edit /> </Button>
         {/* view */}
         <Button 
@@ -87,7 +97,6 @@ const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIs
       </span>
     </ControlPanelWrapper>
   )
-
   const photoContent = (
     <div className='photo-entry-admin-content-container'>
       {/* TIMESTAMP */}
@@ -147,4 +156,4 @@ const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle, setIs
   )
 }
 
-export default React.memo(PhotoEntry);
+export default React.memo(PhotoEntry); // NOTE: memo won't work here as long as each refetch will have a freshly signed img url

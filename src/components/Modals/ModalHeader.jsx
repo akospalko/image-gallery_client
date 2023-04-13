@@ -9,7 +9,7 @@ import {useFormContext} from '../contexts/FormContext';
 export default function ModalHeader({title, operation}) {
     // CONTEXTS
     const {toggleModalHandler} = useModalContext();
-    const {setFormData} = useFormContext();
+    const {setMessage, setFormData} = useFormContext();
 
   return (
     // modal header: title, close button 
@@ -20,6 +20,7 @@ export default function ModalHeader({title, operation}) {
         <Button 
           customStyle='button-modal-close'
           clicked={() => {
+            setMessage('');
             setFormData(undefined);
             toggleModalHandler(operation, false);
           }}

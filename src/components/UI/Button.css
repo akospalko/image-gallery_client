@@ -56,6 +56,9 @@
   border: none;
   margin: 0 1rem;
 }
+.button-form-submit--disabled {
+  background-color: rgb(45, 45, 45);
+}
 /* CLOSE MODAL (X) */
 .button-modal-close {
   width: 100%;
