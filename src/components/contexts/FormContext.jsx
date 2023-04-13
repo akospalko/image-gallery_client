@@ -13,37 +13,39 @@ export const useFormContext = () => {
 export default function FormContext({children}) {
   // STATES
   const [formData, setFormData] = useState();
-  const [photoFile, setPhotoFile] = useState(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
-  const [exifExtractedValues, setExifExtractedValues] = useState({}); // extracted values from uploaded(selected) img (date of capture and gps coordinates)
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
   const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
   // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [isGalleryFetched, setIsGalleryFetched] = useState(false);
-
+  // handle photo file, read photo exif data
+  const [exifExtractedValues, setExifExtractedValues] = useState({}); // extracted values from uploaded(selected) img (date of capture and gps coordinates)
+  const [photoFile, setPhotoFile] = useState(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
   // EFFECT
   // read exif data of the added photo file, if exist
-useEffect(() => {
+  useEffect(() => {
     if(!photoFile) return;
     if(typeof photoFile !== 'object') {return}
     (async () => {
       const tags = await ExifReader.load(photoFile, {expanded: true});
-      //update formData with the fetched gps data
+      // update formData with the fetched gps data
       if(tags) {
-        const captureDate = transformDate(tags.exif?.DateTimeDigitized?.value || '');
-        const gpsLatitude = Number(tags.gps?.Latitude) || undefined;
-        const gpsLongitude = Number(tags.gps?.Longitude) || undefined;
-        const extractedData = {captureDate, gpsLatitude, gpsLongitude };
-
+        const extractedExif = {
+          captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined) ,
+          gpsLatitude: Number(tags.gps?.Latitude) || undefined,
+          gpsLongitude: Number(tags.gps?.Longitude) || undefined,
+        }
         let updatedForm = {...formData}; // copy form
-        for(let entry in extractedData) {
-          const updatedItem = {...updatedForm[entry]}; // copy and update nested form properties
-          updatedItem.value = extractedData[entry]; 
-          updatedForm[entry] = updatedItem; // update form with updated property
+        for(let entry in extractedExif) {
+          if(extractedExif[entry] !== undefined) { // update form if exif data is present 
+            const updatedItem = {...updatedForm[entry]}; // copy and update nested form properties
+            updatedItem.value = extractedExif[entry]; 
+            updatedForm[entry] = updatedItem; // update form with updated property
+          }
         }
         setFormData(updatedForm); // update state
-        setExifExtractedValues(extractedData);
+        setExifExtractedValues(extractedExif);
       }
     })()
   }, [photoFile, setFormData, setExifExtractedValues])
