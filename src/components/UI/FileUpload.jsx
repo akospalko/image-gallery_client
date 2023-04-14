@@ -1,0 +1,156 @@
+// Input field to handle file (photo) upload, read photo's exif data, update form data   
+// Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
+// TODO: add photo container
+// TODO: add margins around input field
+import React, {useState, useEffect, useRef} from 'react'
+import './FileUpload.css'
+import { useFormContext } from '../contexts/FormContext'
+import { statusMessages } from '../../helper/dataStorage';
+import { transformDate } from '../../helper/dateUtilities';
+import ExifReader from 'exifreader';
+import { cropString } from '../../helper/cropStringInput';
+import Button from '../UI/Button';
+
+export default function FileUpload() {
+  // CONSTANTS
+  const maxFileSizeInBytes = 5000000; // 5 MB // allowed upload file size 
+  const convertBytesToMBConstant = 1000000;
+  const types = ['image/png', "image/jpeg"]; // allowed photo file types
+  // CONTEXT
+  const {
+    photoFile, setPhotoFile,
+    formData, setFormData,
+  } = useFormContext();
+  // STATE
+  const [dragActive, setDragActive] = useState(false);
+  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: ` Use JPEG or PNG up to ${maxFileSizeInBytes / convertBytesToMBConstant} MB in size`}); // status -> successful/default state for adding file to the File API
+  // REF
+  const inputRef = useRef(null); 
+  // EFFECT
+  // read exif data of the added photo file, if exist
+  useEffect(() => {
+    if(!photoFile || typeof photoFile !== 'object') return;
+    (async () => {
+      const tags = await ExifReader.load(photoFile, {expanded: true});
+      // extract exif data(GPS coord.s, capture date), update formData
+      if(tags) {
+        const extractedExif = {
+          captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined) ,
+          gpsLatitude: Number(tags.gps?.Latitude) || undefined,
+          gpsLongitude: Number(tags.gps?.Longitude) || undefined,
+        }
+        let updatedForm = {...formData}; // copy form
+        for(let entry in extractedExif) {
+          if(extractedExif[entry] !== undefined) { // update form if exif data is present 
+            const updatedItem = {...updatedForm[entry]}; // copy and update nested form properties
+            updatedItem.value = extractedExif[entry]; 
+            updatedForm[entry] = updatedItem; // update form with updated property
+          }
+        }
+        setFormData(updatedForm); // update state
+      }
+    })()
+  }, [photoFile, setFormData])
+  // FUNCTIONALITIES
+  // reusable state setter, used after a browsed/dropped photo is being validated 
+  const fileUploadStatusSetter = (status, message) => {
+    if(typeof status !== 'string' || typeof status !== 'string') return;
+    setFileUploadStatus(prev => {
+      prev.status = status;
+      prev.message = message; 
+      return prev;
+    });
+  }
+  // validate selected file: file extension, size && update state
+  const validatePhotoFile = (selected) => {
+    // TODO: outsource setter 
+    if(!selected) {
+      fileUploadStatusSetter('error', 'No photo selected');
+      return false;
+    }
+    // if type is not ok -> file not supported message  
+    if (!types.includes(selected.type)) { // not allowed file format
+      fileUploadStatusSetter('error', statusMessages.UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT);
+      return false;
+    }
+    // check photo max file size
+    if (selected.size > maxFileSizeInBytes) { // file size is exceeded
+      fileUploadStatusSetter('error', `Maximum file size should be ${ maxFileSizeInBytes / convertBytesToMBConstant } MB`);
+      return false;
+    }
+    // store file in state  
+    setPhotoFile(selected);
+    fileUploadStatusSetter('ok', selected.name);
+    return true;
+  }
+  // HANDLERS
+  // file change listener, browse file -> select -> validate -> store in state
+  const browseFileChangeHandler = (e) => {
+    e.preventDefault();
+    let selectedFile = e.target.files[0]  
+    validatePhotoFile(selectedFile); // validate file
+    // update form with photo file
+    let updatedForm = {...formData}; // copy form
+    const updatedItem = {...updatedForm['photoFile']}; // copy and update nested form properties
+    updatedItem.value = selectedFile; // update prop value
+    updatedForm['photoFile'] = updatedItem; // update form with updated property
+    setFormData(updatedForm); // update state
+  }
+  // triggered while file dragging is active
+  const handleDrag = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+  // triggers when file is dropped
+  const handleDrop = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    let selectedFile = e.dataTransfer.files[0];
+    validatePhotoFile(selectedFile); // validate file, update state
+    // update form with photo file
+    let updatedForm = {...formData}; // copy form
+    const updatedItem = {...updatedForm['photoFile']}; // copy and update nested form properties
+    updatedItem.value = selectedFile; // update prop value
+    updatedForm['photoFile'] = updatedItem; // update form with updated property
+    setFormData(updatedForm); // update state
+    }
+  };
+  // triggers the input when the button is clicked
+  const onButtonClick = (e) => {
+    e.preventDefault();
+    inputRef.current.click();
+  };
+
+  return(
+    <div className='file-upload-container'>
+      <label 
+        className={`file-upload-input-label ${dragActive ? "label-drag-active" : ""}`} 
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag} 
+        onDragOver={handleDrag} 
+        onDrop={handleDrop}
+      >
+        <div className='file-upload-input-field'>
+          <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
+          <div className='file-upload-instruction'> 
+            <span> Drop Your Photo In the Box <br/> </span> 
+            <span>  OR  </span> 
+            <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
+          </div>
+          <div className='file-upload-status'>
+            <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
+            { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
+            </span> 
+          </div>
+        </div>
+      </label>
+    </div>
+  );
+}

@@ -59,6 +59,12 @@
 .button-form-submit--disabled {
   background-color: rgb(45, 45, 45);
 }
+/* submit form button for authentication pages: login/register  */
+.button-authentication {
+  width: 80%;
+  height: 50px;
+  background-color: rgba(171, 171, 171, 0.5);
+}
 /* CLOSE MODAL (X) */
 .button-modal-close {
   width: 100%;
@@ -69,9 +75,12 @@
 .button-modal-close:active {
   background-color: rgb(102, 3, 3);
 }
-/* submit form button for authentication pages: login/register  */
-.button-authentication {
-  width: 80%;
+/* UPLOAD FILE */
+/* browse file to add to file api  */
+.button-upload-file {
+  width: 100px;
   height: 50px;
-  background-color: rgba(171, 171, 171, 0.5);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  background-color: rgb(120, 120, 120);
 }
