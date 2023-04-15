@@ -13,7 +13,7 @@ import Button from '../UI/Button';
 
 export default function FileUpload() {
   // CONSTANTS
-  const maxFileSizeInBytes = 5000000; // 5 MB // allowed upload file size 
+  const maxFileSizeInBytes = 10000000; // 10 MB // allowed upload file size 
   const convertBytesToMBConstant = 1000000;
   const types = ['image/png', "image/jpeg"]; // allowed photo file types
   // CONTEXT
@@ -51,10 +51,10 @@ export default function FileUpload() {
       }
     })()
   }, [photoFile, setFormData])
-  // FUNCTIONALITIES
+  // FUNCTIONS
   // reusable state setter, used after a browsed/dropped photo is being validated 
   const fileUploadStatusSetter = (status, message) => {
-    if(typeof status !== 'string' || typeof status !== 'string') return;
+    if(!status || !message || typeof status !== 'string' || typeof status !== 'string') return;
     setFileUploadStatus(prev => {
       prev.status = status;
       prev.message = message; 
@@ -63,24 +63,18 @@ export default function FileUpload() {
   }
   // validate selected file: file extension, size && update state
   const validatePhotoFile = (selected) => {
-    // TODO: outsource setter 
-    if(!selected) {
-      fileUploadStatusSetter('error', 'No photo selected');
-      return false;
-    }
-    // if type is not ok -> file not supported message  
-    if (!types.includes(selected.type)) { // not allowed file format
+    if(!selected) return false;
+    if (!types.includes(selected.type)) { // check file's extension
       fileUploadStatusSetter('error', statusMessages.UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT);
       return false;
     }
-    // check photo max file size
-    if (selected.size > maxFileSizeInBytes) { // file size is exceeded
+    if (selected.size > maxFileSizeInBytes) { // check photo max file size
       fileUploadStatusSetter('error', `Maximum file size should be ${ maxFileSizeInBytes / convertBytesToMBConstant } MB`);
       return false;
     }
-    // store file in state  
-    setPhotoFile(selected);
-    fileUploadStatusSetter('ok', selected.name);
+    // selected file is OK
+    setPhotoFile(selected); // store file in state  
+    fileUploadStatusSetter('ok', selected.name); // set ok status
     return true;
   }
   // HANDLERS
@@ -131,24 +125,22 @@ export default function FileUpload() {
   return(
     <div className='file-upload-container'>
       <label 
-        className={`file-upload-input-label ${dragActive ? "label-drag-active" : ""}`} 
+        className={`file-upload-label ${dragActive ? "file-upload-label--drag-active" : ""}`} 
         onDragEnter={handleDrag}
         onDragLeave={handleDrag} 
         onDragOver={handleDrag} 
         onDrop={handleDrop}
       >
-        <div className='file-upload-input-field'>
-          <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
-          <div className='file-upload-instruction'> 
-            <span> Drop Your Photo In the Box <br/> </span> 
-            <span>  OR  </span> 
-            <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
-          </div>
-          <div className='file-upload-status'>
-            <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
-            { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
-            </span> 
-          </div>
+        <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
+        <div className='file-upload-instruction'> 
+          <span> Drop Your Photo In the Box <br/> </span> 
+          <span>  OR  </span> 
+          <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
+        </div>
+        <div className='file-upload-status'>
+          <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
+          { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
+          </span> 
         </div>
       </label>
     </div>

@@ -1,16 +1,11 @@
-.file-upload-container,
-.file-upload-input-label,
-.file-upload-input-field {
-  display: flex ;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-}
+/* CONTAINER */
 .file-upload-container {
+  display: flex ;
+  flex-direction: column;
   width: 90%;
 }
-.file-upload-input-label {
+/* INPUT FIELD LABEL   */
+.file-upload-label {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -18,19 +13,13 @@
   padding: var(--padding-default);
   cursor: pointer;
 }
-.file-upload-input-label input {
+/* INPUT FIELD */
+.file-upload-label input {
   display: none;
 }
-/* LABEL */
-.label-drag-active {
-  border: 3px dashed rgb(239, 182, 9);
-}
-.file-upload-invalid {
-  color: #e61414;
-}
+/* FILE UPLOAD INSTRUCTION */
 .file-upload-instruction {
   display: flex;
-  /* height: 100%; */
   min-height: 150px;
   width: 100%;
   flex-direction: column;
@@ -48,6 +37,7 @@
 .file-upload-instruction span:last-of-type {
   font-size: 1rem;
 }
+/* FILE UPLOAD STATUS */
 .file-upload-status {
   display: flex;
   min-height: 25px;
@@ -66,4 +56,13 @@
   overflow-wrap: anywhere;
   margin-top: var(--padding-default);
   letter-spacing: 0.5px;
+}
+/* ______MODIFIERS______ */
+/* DRAG ACTIVE LABEL STYLE */
+.file-upload-label--drag-active {
+  border: 3px dashed rgb(239, 182, 9);
+}
+/* INVALID FILE UPLOAD INSTRUCTION STYLING  */
+.file-upload-invalid {
+  color: #e61414;
 }
