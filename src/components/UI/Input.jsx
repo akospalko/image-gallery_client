@@ -1,7 +1,7 @@
 // reusable input field component 
 import React from 'react'
 import './Input.css'
-import PhotoUpload from './PhotoUpload'
+import FileUpload from './FileUpload'
 import DatePicker from './DatePicker'
 import {useFormContext} from '../contexts/FormContext'
 
@@ -54,7 +54,7 @@ const Input = (props) => {
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
     /> )
-  const file = <PhotoUpload />
+  const file = <FileUpload />
   const date = <DatePicker />
   // CONDITIONAL RENDER INPUT ELEMENTS
   let renderedElement; 

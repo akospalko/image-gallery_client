@@ -23,13 +23,13 @@ export default function FileUpload() {
   } = useFormContext();
   // STATE
   const [dragActive, setDragActive] = useState(false);
-  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: ` Use JPEG or PNG up to ${maxFileSizeInBytes / convertBytesToMBConstant} MB in size`}); // status -> successful/default state for adding file to the File API
+  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant)}); // status -> successful/default state for adding file to the File API
   // REF
   const inputRef = useRef(null); 
   // EFFECT
   // read exif data of the added photo file, if exist
   useEffect(() => {
-    if(!photoFile || typeof photoFile !== 'object') return;
+    if( !photoFile || typeof photoFile !== 'object') return;
     (async () => {
       const tags = await ExifReader.load(photoFile, {expanded: true});
       // extract exif data(GPS coord.s, capture date), update formData
@@ -65,11 +65,11 @@ export default function FileUpload() {
   const validatePhotoFile = (selected) => {
     if(!selected) return false;
     if (!types.includes(selected.type)) { // check file's extension
-      fileUploadStatusSetter('error', statusMessages.UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT);
+      fileUploadStatusSetter('error', statusMessages.FILE_UPLOAD_EXTENSION_ERROR);
       return false;
     }
     if (selected.size > maxFileSizeInBytes) { // check photo max file size
-      fileUploadStatusSetter('error', `Maximum file size should be ${ maxFileSizeInBytes / convertBytesToMBConstant } MB`);
+      fileUploadStatusSetter('error', statusMessages.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant));
       return false;
     }
     // selected file is OK

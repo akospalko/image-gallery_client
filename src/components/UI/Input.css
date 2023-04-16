@@ -16,7 +16,7 @@
 }
 /* TEXTAREA */
 .textarea-default {
-  min-height: 150px;
+  min-height: 100px;
   resize: vertical;
   border: 2px solid rgb(192, 204, 228);
   text-align: justify;
@@ -62,9 +62,10 @@
 }
 /* create-update photo entry textarea fields */
 .textarea-create-update-photo-entry {
-  margin-top: var(--padding-default);
+  /* margin-top: var(--padding-default); */
 }
 /* create-update photo entry input/textarea fields */
 .input-create-update-photo-entry-label {
   width: 90%;
+  margin-bottom: 0.35rem;
 }

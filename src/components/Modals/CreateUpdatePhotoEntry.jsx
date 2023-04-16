@@ -42,7 +42,6 @@ export default function CreateUpdatePhotoEntry(props) {
       loaderToggleHandler('PHOTO_ENTRY_BUTTON', true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
-      console.log(responseCreate)
       setMessage(responseCreate.message);
       if(responseCreate.success === true) {
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
@@ -84,8 +83,8 @@ export default function CreateUpdatePhotoEntry(props) {
           type='button' 
           clicked={() => {
             setFormData(undefined);
-            setMessage('');
-            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
+            setMessage(statusMessages.EMPTY);
+            setPhotoFile(statusMessages.EMPTY);
             toggleModalHandler(operation);
           }}
         > Cancel 
@@ -97,7 +96,7 @@ export default function CreateUpdatePhotoEntry(props) {
           disabled={isLoading.PHOTO_ENTRY_BUTTON}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
-            setPhotoFile(statusMessages.UPLOAD_PHOTO_FILE_INITIAL);
+            setPhotoFile(statusMessages.EMPTY);
           }}
         >  { isLoading.PHOTO_ENTRY_BUTTON ? <ButtonLoader height='50%' width='50%'/> : 'Submit' } 
         </Button>      

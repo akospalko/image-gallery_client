@@ -1,4 +1,4 @@
-// TODO: handle loading, disable button, img skeleton loader 
+// TODO: img skeleton loader 
 import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import FullScreenView from '../Modals/FullScreenView'
@@ -15,7 +15,6 @@ export default function PhotoEntryModal({operation, collection, formTemplate}) {
   const {formData, setFormData} = useFormContext();
   // STATE
   const [isFormReady, setIsFormReady] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
   // EFFECTS
   // set up form if formTemplate value is passed
   useEffect(() => {

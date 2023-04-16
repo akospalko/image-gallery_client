@@ -28,18 +28,18 @@ export const createPhoto = {
     value: '',
     label: 'GPS longitude'
   },
-  description: {
-    field: 'textarea',
-    placeholder: 'description',
-    value: '',
-    label: 'Description'
-  },
   captureDate: {
     type: 'date',
     field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
+  },
+  description: {
+    field: 'textarea',
+    placeholder: 'description',
+    value: '',
+    label: 'Description'
   },
   photoFile: {
     type: 'file',
@@ -93,18 +93,18 @@ export const updatePhoto = {
     value: '',
     label: 'GPS longitude'
   },
-  description: {
-    field: 'textarea',
-    placeholder: 'description',
-    value: '',
-    label: 'Description'
-  },
   captureDate: {
     type: 'date',
     field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
+  },
+  description: {
+    field: 'textarea',
+    placeholder: 'description',
+    value: '',
+    label: 'Description'
   },
   photoFile: {
     type: 'file',
@@ -195,12 +195,16 @@ export const passwordResetSaveNewPassword = {
   }
 }
 // STATUS MESSAGES
+
 export const statusMessages = {
   // DEFAULT
   EMPTY: '',
-  // UPLOAD PHOTO
-  UPLOAD_PHOTO_FILE_INITIAL: 'Select photo to upload (png or jpg)',
-  UPLOAD_PHOTO_FILE_NOT_SUPPORTED_FORMAT: 'Not supported file format',
+  // FILE UPLOAD
+  FILE_UPLOAD_INITIAL: function(fileSize) { return ` Use JPEG or PNG up to ${fileSize} MB in size` },
+  FILE_UPLOAD_EXTENSION_ERROR: 'Not supported file extension! (only PNG or JPEG)',
+  FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`}
+  
+  ,
   // AXIOS
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }

@@ -4,7 +4,7 @@ import './DatePicker.css'
 import { useFormContext } from '../contexts/FormContext' 
 
 export default function DatePicker() {
-  const {formData, exifExtractedValues, dateInputChangeHandler} = useFormContext();
+  const {formData, dateInputChangeHandler} = useFormContext();
 
   return (
     <div className='date-picker-container'>
