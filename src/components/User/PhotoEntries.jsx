@@ -50,7 +50,7 @@ export default function PhotoEntries() {
       {/* data is fetched but images are still being loaded: display amount of fetched array.length skeleton component */}
       { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} theme={'dark'} /> })}
       {/* photo entry is ready to be displayed: display photo entries */}
-      {data && data.map(photoEntry => { return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} imgFile={getImageFile} isImageLoadingStyle={isImageLoadingStyle} />
+      {data && data.map(photoEntry => { return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} getImageFile={getImageFile} isImageLoadingStyle={isImageLoadingStyle} />
       })}
     </div>
   )

@@ -4,12 +4,13 @@
   flex-direction: column;
   width: 90%;
 }
-/* INPUT FIELD LABEL   */
+/* INPUT FIELD LABEL */
 .file-upload-label {
   display: flex;
   width: 100%;
   flex-direction: column;
-  border: 3px dashed rgb(192, 204, 228);
+  border: 2px dashed rgb(192, 204, 228);
+  /* border-bottom: 0; */
   padding: var(--padding-default);
   cursor: pointer;
 }
@@ -60,9 +61,29 @@
 /* ______MODIFIERS______ */
 /* DRAG ACTIVE LABEL STYLE */
 .file-upload-label--drag-active {
-  border: 3px dashed rgb(239, 182, 9);
+  border: 2px dashed rgb(239, 182, 9);
+  /* border-bottom: 0; */
 }
 /* INVALID FILE UPLOAD INSTRUCTION STYLING  */
 .file-upload-invalid {
   color: #e61414;
+}
+
+/* display file */
+.file-upload-display {
+  display: flex;
+  height: 350px;
+  width: 100%;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.624);
+  border: 2px solid rgb(192, 204, 228);
+  border-top: 0;
+  /* padding: var(--padding-default); */
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+
+.file-upload-display span {
+  font-size: 1.5rem;
 }

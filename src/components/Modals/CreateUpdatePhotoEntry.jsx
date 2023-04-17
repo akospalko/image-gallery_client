@@ -28,7 +28,7 @@ export default function CreateUpdatePhotoEntry(props) {
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
-  const {activeID, toggleModalHandler} = useModalContext();
+  const {activeID, setActiveID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, message, setMessage, setPhotoFile} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   // HOOKS
@@ -47,6 +47,8 @@ export default function CreateUpdatePhotoEntry(props) {
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
+        setPhotoFile({});
+        setActiveID({})
       } 
     } catch (error) { 
       navToPrevPage();
@@ -66,6 +68,8 @@ export default function CreateUpdatePhotoEntry(props) {
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
+        setPhotoFile({});
+        setActiveID({})
       }
     } catch(error) { 
       navToPrevPage();
@@ -84,8 +88,9 @@ export default function CreateUpdatePhotoEntry(props) {
           clicked={() => {
             setFormData(undefined);
             setMessage(statusMessages.EMPTY);
-            setPhotoFile(statusMessages.EMPTY);
             toggleModalHandler(operation);
+            setPhotoFile({});
+            setActiveID({})
           }}
         > Cancel 
         </Button> : null }   
@@ -96,7 +101,6 @@ export default function CreateUpdatePhotoEntry(props) {
           disabled={isLoading.PHOTO_ENTRY_BUTTON}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
-            setPhotoFile(statusMessages.EMPTY);
           }}
         >  { isLoading.PHOTO_ENTRY_BUTTON ? <ButtonLoader height='50%' width='50%'/> : 'Submit' } 
         </Button>      
@@ -122,7 +126,7 @@ export default function CreateUpdatePhotoEntry(props) {
       )) }
       </Form>
       {/* STATUS MESSAGE */}
-      <div className='auth-mosdal-status-message'> <p> {message || ''} </p> </div>
+      <div className='auth-modal-status-message'> <p> {message || ''} </p> </div>
       {/* SUBMIT FORM BUTTON */}
       {photoEntryButton}
     </div>

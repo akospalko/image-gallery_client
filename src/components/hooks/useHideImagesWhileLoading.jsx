@@ -1,4 +1,3 @@
-// TODO: handle class && inline styles
 import React, {useState} from 'react'
 
 export default function useHideImagesWhileLoading() {
@@ -8,14 +7,29 @@ export default function useHideImagesWhileLoading() {
   const onLoadHandler = () => {
     setTimeout(() => { // force display skeleton loader (avoid jumping screens when resources are loaded too quickly))
       setIsImageLoaded(true);
-    }, [500])
+    }, [300])
   }
   // hide img while it is being loaded
   const isImageLoadingStyle = isImageLoaded ? {} : {visibility: 'hidden', position: 'fixed'};
-  // img tag to return
+  // return an img element
   const getImageFile = (src, style, key, alt) => {
-    console.log(src, style, key, alt)
-    return <img key={key || ''} src={src} style={style || {}} onLoad={() => onLoadHandler()} alt={alt || ''}/>
+    // img styling
+    const imgStyle = { 
+      height: '100%',
+      width: '100%', 
+      backgroundColor: 'rgb(59, 59, 59)',
+      ...style
+    }
+
+    return (
+      <img 
+      key={key || ''} 
+      src={src} 
+      style={imgStyle || {}} 
+      onLoad={() => onLoadHandler()} 
+      alt={alt || ''}
+    />
+    )
   }
   return {isImageLoaded, isImageLoadingStyle, getImageFile}
 }

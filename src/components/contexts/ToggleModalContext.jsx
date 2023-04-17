@@ -23,6 +23,7 @@ export default function ToggleModalContext({children}) {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [activeID, setActiveID] = useState({});
   const [id, setID] = useState(''); // id passed from PhotoCards to ViewPhoto. Helps in finding the clicked entry's corresponding img
+
   // HANDLERS
   // handle toggle state for multiple modals (e.g. create, update photo, etc). Can set a specified value(true||false) if provided (forcedValue) 
   const toggleModalHandler = (operation, forcedValue) => {

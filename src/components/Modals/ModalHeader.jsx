@@ -8,8 +8,8 @@ import {useFormContext} from '../contexts/FormContext';
 
 export default function ModalHeader({title, operation}) {
     // CONTEXTS
-    const {toggleModalHandler} = useModalContext();
-    const {setMessage, setFormData} = useFormContext();
+    const {activeID, setActiveID, toggleModalHandler} = useModalContext();
+    const {setMessage, setFormData, photoFile,  setPhotoFile} = useFormContext();
 
   return (
     // modal header: title, close button 
@@ -22,6 +22,8 @@ export default function ModalHeader({title, operation}) {
           clicked={() => {
             setMessage('');
             setFormData(undefined);
+            photoFile.name && setPhotoFile({});
+            activeID && setActiveID({});
             toggleModalHandler(operation, false);
           }}
           > X 

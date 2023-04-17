@@ -36,11 +36,12 @@ export default function Home() {
     </div>
   )
   // photo carousel
+  const customImgStyle = {objectFit: 'cover'};
   const carousel = (
     <Carousel isImageLoadingStyle={isImageLoadingStyle}>
       {homePhotos?.map((photo) => (
         <div key={photo._id} className='home-photo'>
-          {getImageFile(photo.photoURL)}
+          {getImageFile(photo.photoURL, customImgStyle)}
         </div>
       ))}
     </Carousel>

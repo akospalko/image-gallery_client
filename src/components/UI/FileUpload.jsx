@@ -1,7 +1,5 @@
 // Input field to handle file (photo) upload, read photo's exif data, update form data   
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
-// TODO: add photo container
-// TODO: add margins around input field
 import React, {useState, useEffect, useRef} from 'react'
 import './FileUpload.css'
 import { useFormContext } from '../contexts/FormContext'
@@ -10,6 +8,8 @@ import { transformDate } from '../../helper/dateUtilities';
 import ExifReader from 'exifreader';
 import { cropString } from '../../helper/cropStringInput';
 import Button from '../UI/Button';
+import { useModalContext } from '../contexts/ToggleModalContext';
+import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
 
 export default function FileUpload() {
   // CONSTANTS
@@ -21,6 +21,9 @@ export default function FileUpload() {
     photoFile, setPhotoFile,
     formData, setFormData,
   } = useFormContext();
+  const {activeID} = useModalContext();
+  // HOOKS 
+  const {getImageFile} = useHideImagesWhileLoading();
   // STATE
   const [dragActive, setDragActive] = useState(false);
   const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant)}); // status -> successful/default state for adding file to the File API
@@ -29,7 +32,7 @@ export default function FileUpload() {
   // EFFECT
   // read exif data of the added photo file, if exist
   useEffect(() => {
-    if( !photoFile || typeof photoFile !== 'object') return;
+    if( !photoFile || typeof photoFile !== 'object' || !photoFile.name) return;
     (async () => {
       const tags = await ExifReader.load(photoFile, {expanded: true});
       // extract exif data(GPS coord.s, capture date), update formData
@@ -51,6 +54,7 @@ export default function FileUpload() {
       }
     })()
   }, [photoFile, setFormData])
+
   // FUNCTIONS
   // reusable state setter, used after a browsed/dropped photo is being validated 
   const fileUploadStatusSetter = (status, message) => {
@@ -121,28 +125,47 @@ export default function FileUpload() {
     e.preventDefault();
     inputRef.current.click();
   };
+  // ELEMENTS
+  // upload file input field
+  const uploadFile = (
+    <label 
+      className={`file-upload-label ${dragActive ? "file-upload-label--drag-active" : ""}`} 
+      onDragEnter={handleDrag}
+      onDragLeave={handleDrag} 
+      onDragOver={handleDrag} 
+      onDrop={handleDrop}
+    >
+      <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
+      <div className='file-upload-instruction'> 
+        <span> Drop Your Photo In the Box <br/> </span> 
+        <span>  OR  </span> 
+        <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
+      </div>
+      <div className='file-upload-status'>
+        <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
+        { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
+        </span> 
+      </div>
+    </label>
+  );
+  // display file
+  const customImgStyle = {objectFit: 'contain'};
+  const displayFile = (
+    <div className='file-upload-display'>
+      { photoFile.name ? 
+        getImageFile(URL.createObjectURL(photoFile) || {}, customImgStyle) 
+      : 
+        activeID.photoURL ? 
+          getImageFile(activeID.photoURL, customImgStyle) 
+        :
+          <span> NO IMG </span> }
+    </div>
+  );
 
   return(
     <div className='file-upload-container'>
-      <label 
-        className={`file-upload-label ${dragActive ? "file-upload-label--drag-active" : ""}`} 
-        onDragEnter={handleDrag}
-        onDragLeave={handleDrag} 
-        onDragOver={handleDrag} 
-        onDrop={handleDrop}
-      >
-        <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
-        <div className='file-upload-instruction'> 
-          <span> Drop Your Photo In the Box <br/> </span> 
-          <span>  OR  </span> 
-          <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
-        </div>
-        <div className='file-upload-status'>
-          <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
-          { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
-          </span> 
-        </div>
-      </label>
+      {uploadFile}
+      {displayFile}
     </div>
   );
 }

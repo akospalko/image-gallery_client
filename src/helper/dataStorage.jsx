@@ -200,11 +200,9 @@ export const statusMessages = {
   // DEFAULT
   EMPTY: '',
   // FILE UPLOAD
-  FILE_UPLOAD_INITIAL: function(fileSize) { return ` Use JPEG or PNG up to ${fileSize} MB in size` },
+  FILE_UPLOAD_INITIAL: function(fileSize) { return `JPEG or PNG up to ${fileSize} MB in size` },
   FILE_UPLOAD_EXTENSION_ERROR: 'Not supported file extension! (only PNG or JPEG)',
-  FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`}
-  
-  ,
+  FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`},
   // AXIOS
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }

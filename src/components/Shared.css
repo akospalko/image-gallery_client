@@ -80,7 +80,7 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
 }
 .shared-button-wrapper--modal-close {
   justify-content: center;

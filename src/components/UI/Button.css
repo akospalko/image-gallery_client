@@ -52,10 +52,10 @@
   justify-content: center;
   align-items: center;
   height: 50px;
-  width: 40%;
+  width: 150px;
   background-color: rgb(244, 164, 60);
   border: none;
-  margin: 0 1rem;
+  /* margin: 0 1rem; */
 }
 .button-form-submit--disabled {
   background-color: rgb(45, 45, 45);

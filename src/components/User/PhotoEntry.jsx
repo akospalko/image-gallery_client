@@ -17,7 +17,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanelWrapper from '../ControlPanelWrapper';
 import '../ControlPanelWrapper.css';
 
-const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
+const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
   // PROPS
   const {title, photoURL, captureDate, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
@@ -117,17 +117,11 @@ const PhotoEntry = ({photoEntry, imgFile, isImageLoadingStyle}) => {
     </div>
   )
   // photo (img file) + style and capture date
-  // img tag style 
-  const imageStyle = {
-    height: '100%',
-    width: '100%',
-    objectFit: 'cover',
-    verticalAlign: 'bottom'
-  } 
+  const customImgStyle = {objectFit: 'contain'};
   const photo = (
     <div className='photo-entry-photo'>
       {/* photo */}
-      {imgFile(photoURL, imageStyle)} 
+      {getImageFile(photoURL, customImgStyle)} 
       {/* capture date */}
       <div className='photo-entry-capture-date'>
         <strong> {captureDate} </strong>
