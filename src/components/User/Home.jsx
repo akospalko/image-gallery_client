@@ -39,7 +39,7 @@ export default function Home() {
   const carousel = (
     <Carousel isImageLoadingStyle={isImageLoadingStyle}>
       {homePhotos?.map((photo) => (
-        <div key={photo._id}>
+        <div key={photo._id} className='home-photo'>
           {getImageFile(photo.photoURL)}
         </div>
       ))}

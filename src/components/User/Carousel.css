@@ -55,12 +55,6 @@ img {
   right: 1px;
   transform: translateY(-50%);
 }
-/* BUTTON */
-button {
-  border: 0;
-  background-color: Transparent;
-  font-size: 20px;
-}
 .page {
   text-align: center;
 }
@@ -73,7 +67,6 @@ button {
   display: inline-flex;
   transition: background-color 0.6s ease;
 }
-button:hover,
 .dot:hover,
 .active {
   background-color: #1d1d1d;

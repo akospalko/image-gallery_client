@@ -1,6 +1,7 @@
 // Responsive photo carousel wrapper with animation. SRC: https://codesandbox.io/s/wl29r?file=/src/Carousel.js
 import React, { useState, useEffect } from "react";
 import "./Carousel.css";
+import Button from "../UI/Button";
 
 const Carousel = ({ children, isImageLoadingStyle }) => {
   // STATES
@@ -54,12 +55,8 @@ const Carousel = ({ children, isImageLoadingStyle }) => {
           > {item}
           </div>
         ))}
-        <button className="prev" onClick={handlePre}>
-          &#10094;
-        </button>
-        <button className="next" onClick={handleNext}>
-          &#10095;
-        </button>
+        <Button buttonStyle='button-carousel prev' clicked={handlePre}> &#10094; </Button>
+        <Button buttonStyle='button-carousel next' clicked={handleNext}> &#10095; </Button>
       </div>
       <div className="page">
         {content.map((item, index) => (
