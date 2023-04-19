@@ -20,12 +20,16 @@ export default function PhotoEntries() {
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const {isImageLoaded, isImageLoadingStyle, getImageFile} = useHideImagesWhileLoading();
+  const {
+    allImagesLoaded,  
+    hideImageStyle, 
+    getImageFile,
+    setCurrentlyLoadingImages
+  } = useHideImagesWhileLoading();
   // ROUTING
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
   // HANDLER
   const fetchPhotoEntries = useCallback( async () => {
-    // setIsLoading(true);
     try {
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
       setData(response.photoEntries); // store entries in state
@@ -33,7 +37,7 @@ export default function PhotoEntries() {
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
       setIsLoading(false);
-    }
+    } 
   }, [])
   // EFFECT
   useEffect(() => { // get all data on initial render
@@ -47,11 +51,26 @@ export default function PhotoEntries() {
   )
   const photoEntries = (
     <div className='photo-entries-container'>
-      {/* data is fetched but images are still being loaded: display amount of fetched array.length skeleton component */}
-      { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} theme={'dark'} /> })}
-      {/* photo entry is ready to be displayed: display photo entries */}
-      {data && data.map(photoEntry => { return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} getImageFile={getImageFile} isImageLoadingStyle={isImageLoadingStyle} />
-      })}
+      {/* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */}
+      { !allImagesLoaded && data && data.map(photoEntry => { 
+        return (
+          <SkeletonUserPhotoEntry 
+            key={photoEntry._id} 
+            theme={'dark'} 
+          /> 
+        )
+        })}
+      {/* render photo entry && hide from view until ready to be displayed */}
+      { data && data.map(photoEntry => (
+          <PhotoEntry 
+            key={photoEntry._id} 
+            photoEntry={photoEntry} 
+            getImageFile={getImageFile} 
+            hideImageStyle={hideImageStyle} 
+            setCurrentlyLoadingImages={setCurrentlyLoadingImages}
+          />
+        )
+      )}
     </div>
   )
   return (

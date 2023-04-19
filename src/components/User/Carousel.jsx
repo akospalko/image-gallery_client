@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./Carousel.css";
 import Button from "../UI/Button";
 
-const Carousel = ({ children, isImageLoadingStyle }) => {
+const Carousel = ({ children, hideImageStyle }) => {
   // STATES
   const [counter, setCounter] = useState(1);
   const [pause, setPause] = useState(false);
@@ -42,7 +42,7 @@ const Carousel = ({ children, isImageLoadingStyle }) => {
   });
 
   return (
-    <div style={isImageLoadingStyle} className="carousel-container">
+    <div style={hideImageStyle} className="carousel-container">
       <div
         className="carousel-slide"
         onMouseEnter={handleMouse}

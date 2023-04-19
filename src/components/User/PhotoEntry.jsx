@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
 import Button from '../UI/Button';
@@ -17,7 +17,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanelWrapper from '../ControlPanelWrapper';
 import '../ControlPanelWrapper.css';
 
-const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
+const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadingImages}) => {
   // PROPS
   const {title, photoURL, captureDate, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
@@ -29,11 +29,22 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
   const navigate = useNavigate();
   // NAVIGATION
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
+  // EFFECT
+  // add currently loading image to loading state
+  useEffect(()=> {
+    setCurrentlyLoadingImages(prev => {
+      const isDuplicate =  Object.keys(prev ?? {}).includes(String(_id)) // img already added to the loading lis
+      if(!isDuplicate) {// if img id is not yet in state -> add
+        const updatedState = {...prev, [_id]: false};
+        return updatedState
+      }
+    })
+  }, [])
   // HANDLERS
   // add photo entry to collection
   const addPhotoEntryToCollectionHandler = useCallback(async (userID, photoEntryID) => {
     const responseAddToCollection = await addPhotoEntryToCollection(userID, photoEntryID, axiosPrivate);
-    setMessage(responseAddToCollection.message); 
+    setMessage(responseAddToCollection.message);
     setData(prev => {
       const copyData = [...prev];
       const updatedData = copyData.map(entry => {
@@ -42,7 +53,7 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
       })
       return updatedData;
     })
-    navToPrevPage(); // navigate unauth user back to login page
+    // navToPrevPage(); // navigate unauth user back to login page
   }, [])
   // remove photo entry from collection
   const removePhotoEntryFromCollectionHandler = useCallback(async (userID, photoEntryID) => {
@@ -57,7 +68,7 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
       return updatedData;
     })
     setMessage(responseRemoveFromCollection.message); // set message
-    navToPrevPage(); // navigate unauth user back to login page
+    // navToPrevPage(); // navigate unauth user back to login page
   }, [])
 
   // add like to photo entry
@@ -71,15 +82,13 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
       setData(prev => {
         const copyData = [...prev];
         const updatedData = copyData.map(entry => {
-          if(entry._id === responseAddLike?.photoEntry?._id) { 
+          if(entry._id === responseAddLike?.photoEntry?._id) {
             // console.log('photoid', photoEntryID, 'mapped entry id', entry._id, 'response data id', responseAddLike.photoEntry['_id']);
-            return {...entry, ...responseAddLike.photoEntry} 
+            return {...entry, ...responseAddLike.photoEntry}
           } // update entry in state with the fetched entry (if state entry id === fetched entry id)
           else { return {...entry} }
         })
-        console.log('updated data after added like', updatedData);
         return updatedData;
-       // return prev;
       })
     } catch(error) {
       console.log(error)
@@ -95,8 +104,8 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
     setData(prev => {
       const copyData = [...prev];
       const updatedData = copyData.map(entry => {
-        if(entry._id === responseRemoveLike?.photoEntry?._id) { 
-          return {...entry, ...responseRemoveLike.photoEntry} 
+        if(entry._id === responseRemoveLike?.photoEntry?._id) {
+          return {...entry, ...responseRemoveLike.photoEntry}
         } // update entry in state with the fetched entry (if state entry id === fetched entry id)
         else { return {...entry} }
       })
@@ -106,7 +115,7 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
   } catch(error) {
     console.log(error)
   }
-    navToPrevPage(); // navigate unauth user back to login page
+    // navToPrevPage(); // navigate unauth user back to login page
   }, [])
 
   // ELEMENTS
@@ -116,12 +125,11 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
       <p> {title} </p>
     </div>
   )
-  // photo (img file) + style and capture date
-  const customImgStyle = {objectFit: 'contain'};
+  // photo (img file) and capture date
   const photo = (
     <div className='photo-entry-photo'>
       {/* photo */}
-      {getImageFile(photoURL, customImgStyle)} 
+      {getImageFile(photoURL, {objectFit: 'contain'}, _id)}
       {/* capture date */}
       <div className='photo-entry-capture-date'>
         <strong> {captureDate} </strong>
@@ -131,17 +139,17 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
   // display basic info about photo: num of users liked/collectionized the photo
   const photoDisplayInfo = (
     <div className={'photo-entry-display-additional-info'}>
-      <div className={'photo-entry-display-additional-info-like'}>  
+      <div className={'photo-entry-display-additional-info-like'}>
         <b>{`${likes || 0} ${likes > 1 ? 'likes' : 'like'}`} </b>
       </div>
-      <div className={'photo-entry-display-additional-info-collection'}>  
+      <div className={'photo-entry-display-additional-info-collection'}>
         <b> {`saved: ${inCollection || 0}`} </b>
       </div>
     </div>
   )
   // control panel buttons
   const controlPanel = (
-  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='rgb(244, 164, 60)'> 
+  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='rgb(244, 164, 60)'>
     {/* group 1 */}
     <span className='control-panel-photo-entry-group-1 control-panel-padding-default-left'>
       {/* add/remove photo to/from collection toggler */}
@@ -189,10 +197,10 @@ const PhotoEntry = ({photoEntry, getImageFile, isImageLoadingStyle}) => {
           toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}
       > Info </Button>
     </span>
-  </ControlPanelWrapper> ); 
+  </ControlPanelWrapper> );
 
   return (
-    <div style={isImageLoadingStyle} className='photo-entry-container'>
+    <div style={hideImageStyle} className='photo-entry-container'>
       {photoTitle}
       {photo}
       {photoDisplayInfo}

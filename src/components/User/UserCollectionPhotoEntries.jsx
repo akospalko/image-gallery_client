@@ -20,14 +20,17 @@ export default function UserCollectionPhotoEntries() {
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const {isImageLoaded, isImageLoadingStyle, getImageFile} = useHideImagesWhileLoading();
+  const {
+    allImagesLoaded,  
+    hideImageStyle, 
+    getImageFile,
+    setCurrentlyLoadingImages
+  } = useHideImagesWhileLoading();
   // ROUTING
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
   // HANDLER
-
   const fetchUserCollection = useCallback( async () => {
     try {
-      console.log('get user collection');
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'own'); // get user's collection photo entries
       setData(response.photoEntries); // store entries in state
       // setMessage(response.message); // set message
@@ -50,16 +53,27 @@ export default function UserCollectionPhotoEntries() {
   )
   const photoEntries = (
     <div className='photo-entries-container'>
-      {/* data is fetched but images are still being loaded: display amount of fetched array.length skeleton component */}
-      { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} /> })}
-      {/* photo entry is ready to be displayed: display photo entries */}
-      {data && data.map(photoEntry => { return <PhotoEntry key={photoEntry._id} photoEntry={photoEntry} imgFile={getImageFile} isImageLoadingStyle={isImageLoadingStyle} />
+      {/* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */}
+      { !allImagesLoaded && data && data.map(photoEntry => { 
+        return (
+          <SkeletonUserPhotoEntry 
+            key={photoEntry._id} 
+            theme={'dark'} 
+          /> 
+        )
       })}
+      {/* render photo entry && hide from view until ready to be displayed */}
+      { data && data.map(photoEntry => (
+          <PhotoEntry 
+            key={photoEntry._id} 
+            photoEntry={photoEntry} 
+            getImageFile={getImageFile} 
+            hideImageStyle={hideImageStyle} 
+            setCurrentlyLoadingImages={setCurrentlyLoadingImages}
+          />
+        )
+      )}
     </div>
   )
-    return (
-      <>
-        {isLoading ? loader : photoEntries}
-      </>
-    )
+  return ( <> {isLoading ? loader : photoEntries} </> )
 }

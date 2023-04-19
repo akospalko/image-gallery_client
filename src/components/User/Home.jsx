@@ -1,4 +1,3 @@
-// TODO: delete prev photo slider 
 import React, {useState, useEffect} from 'react'
 import './Home.css'
 import '../Shared.css'
@@ -9,12 +8,13 @@ import Loader from '../SVG/Loader'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import SkeletonHome from '../../skeletons/SkeletonHome'
 import Carousel from './Carousel'
+import HomePhoto from './HomePhoto'
 
 export default function Home() {
   // CONTEXT
   const {homePhotos, setHomePhotos} = useFormContext();
   // HOOK
-  const {isImageLoaded, isImageLoadingStyle, getImageFile} = useHideImagesWhileLoading();
+  const {allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile} = useHideImagesWhileLoading();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
@@ -35,14 +35,17 @@ export default function Home() {
       <Loader height='50%' width='50%'/>
     </div>
   )
-  // photo carousel
-  const customImgStyle = {objectFit: 'cover'};
+  // photo carousel with rendered home photos
   const carousel = (
-    <Carousel isImageLoadingStyle={isImageLoadingStyle}>
-      {homePhotos?.map((photo) => (
-        <div key={photo._id} className='home-photo'>
-          {getImageFile(photo.photoURL, customImgStyle)}
-        </div>
+    <Carousel hideImageStyle={hideImageStyle} >
+      { homePhotos && homePhotos.map(photo => (
+        <HomePhoto 
+          key={photo._id} 
+          photo={photo} 
+          getImageFile={getImageFile} 
+          hideImageStyle={hideImageStyle} 
+          setCurrentlyLoadingImages={setCurrentlyLoadingImages}
+        /> 
       ))}
     </Carousel>
   )
@@ -50,14 +53,14 @@ export default function Home() {
   const home = (
     <>
       {/* Header title */}
-      <div style={isImageLoadingStyle} className='home-title'>
+      <div style={hideImageStyle} className='home-title'>
         <h1> Photo Gallery </h1>
       </div>
       {/* Skeleton loader */}
-      {!isImageLoaded && <SkeletonHome/>}
+      {!allImagesLoaded && <SkeletonHome/>}
       {carousel}
       {/* Subtitle */}
-      <div style={isImageLoadingStyle} className='home-subtitle'>
+      <div style={hideImageStyle} className='home-subtitle'>
         <p> footages for you </p>
       </div>
     </>
