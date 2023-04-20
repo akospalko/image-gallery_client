@@ -6,10 +6,12 @@ export default function useHideImagesWhileLoading() {
   const [currentlyLoadingImages, setCurrentlyLoadingImages] = useState({}); // stores the loading state for each loading image 
   // EFFECT
   useEffect(() => {
-    const isAllImgLoaded = Object.values(currentlyLoadingImages || {}).every(img => img === true);
-    isAllImgLoaded === true ? setAllImagesLoaded(isAllImgLoaded) : null;
+    const loadingImagesArr = Object.values(currentlyLoadingImages || {});
+    const isAllImageLoaded = loadingImagesArr.every(img => img === true);
+    isAllImageLoaded === true ? setAllImagesLoaded(isAllImageLoaded) : null;
     return () => {setAllImagesLoaded(false)};
   }, [allImagesLoaded, currentlyLoadingImages, setAllImagesLoaded])
+  
   // HANDLER 
   // actions done when the image is loaded 
   const onLoadHandler = (photoID) => {
@@ -23,7 +25,7 @@ export default function useHideImagesWhileLoading() {
   // add style to hide rendered photo entry while the img is being loaded
   const hideImageStyle = allImagesLoaded ? {} : { visibility: 'hidden', position: 'fixed' };
   // return an img element
-  const getImageFile = (src, style, key, alt) => {
+  const getImageFile = (src, style, photoID, alt) => {
     // img styling
     const imgStyle = { 
       height: '100%',
@@ -34,17 +36,16 @@ export default function useHideImagesWhileLoading() {
 
     return (
       <img 
-        key={key || '1'} 
         src={src} 
         style={imgStyle || {}} 
-        onLoad={() => onLoadHandler(key || '1')} 
+        onLoad={() => onLoadHandler(photoID)} 
         alt={alt || ''}
       />
     )
   }
   return {
     currentlyLoadingImages, setCurrentlyLoadingImages,
-    allImagesLoaded, 
+    allImagesLoaded, setAllImagesLoaded, 
     hideImageStyle, 
     getImageFile
   }

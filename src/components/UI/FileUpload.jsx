@@ -10,6 +10,7 @@ import { cropString } from '../../helper/cropStringInput';
 import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
+import Loader from '../SVG/Loader';
 
 export default function FileUpload() {
   // CONSTANTS
@@ -23,7 +24,10 @@ export default function FileUpload() {
   } = useFormContext();
   const {activeID} = useModalContext();
   // HOOKS 
-  const {getImageFile} = useHideImagesWhileLoading();
+  const {    
+    allImagesLoaded, setAllImagesLoaded, 
+    hideImageStyle, 
+    getImageFile,} = useHideImagesWhileLoading();
   // STATE
   const [dragActive, setDragActive] = useState(false);
   const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant)}); // status -> successful/default state for adding file to the File API
@@ -38,7 +42,7 @@ export default function FileUpload() {
       // extract exif data(GPS coord.s, capture date), update formData
       if(tags) {
         const extractedExif = {
-          captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined) ,
+          captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined),
           gpsLatitude: Number(tags.gps?.Latitude) || undefined,
           gpsLongitude: Number(tags.gps?.Longitude) || undefined,
         }
@@ -53,6 +57,13 @@ export default function FileUpload() {
         setFormData(updatedForm); // update state
       }
     })()
+  }, [photoFile, setFormData])
+  // 
+  useEffect(() => {
+    console.log(activeID)
+    if(photoFile && Object.keys(activeID).length === 0) { return } 
+    setAllImagesLoaded(false);
+    
   }, [photoFile, setFormData])
 
   // FUNCTIONS
@@ -151,15 +162,23 @@ export default function FileUpload() {
   // display file
   const customImgStyle = {objectFit: 'contain'};
   const displayFile = (
-    <div className='file-upload-display'>
+    <>
+    { !allImagesLoaded && <div className='file-upload-display'>
+        <Loader height='50%' width='50%'/> 
+      </div> 
+    } 
+      <div className='file-upload-display' style={hideImageStyle}>
       { photoFile.name ? 
-        getImageFile(URL.createObjectURL(photoFile) || {}, customImgStyle) 
-      : 
-        activeID.photoURL ? 
-          getImageFile(activeID.photoURL, customImgStyle) 
-        :
-          <span> NO IMG </span> }
-    </div>
+          <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', backgroundColor: 'rgb(59, 59, 59)', ...customImgStyle}} />
+          // getImageFile(URL.createObjectURL(photoFile) || {}, customImgStyle) 
+          : 
+          activeID.photoURL ? 
+          getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
+          :
+          <span> NO IMG </span> 
+        }
+      </div> 
+    </>
   );
 
   return(

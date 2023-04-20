@@ -57,12 +57,13 @@ img {
 }
 .page {
   text-align: center;
+  height: 30px;
 }
 .dot {
   cursor: pointer;
   height: 5px;
   width: 20px;
-  margin: 0 2px;
+  margin: 0 3px;
   background-color: #ddd;
   display: inline-flex;
   transition: background-color 0.6s ease;

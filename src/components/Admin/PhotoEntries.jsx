@@ -10,7 +10,7 @@ export default function PhotoEntries({collection}) {
   const {data} = useFormContext();
   const {isLoading} = useLoaderContext();
   // HOOKS
-  // const {isImageLoaded, isImageLoadingStyle, getImageFile} = useHideImagesWhileLoading();
+  // const {allImagesLoaded, hideImageStyle, getImageFile} = useHideImagesWhileLoading();
   // RENDERED ELEMENTS
   const loader = (
     <div className='photo-entries-admin-container'>
@@ -26,7 +26,7 @@ export default function PhotoEntries({collection}) {
   }
   const renderedContent = (
     <div className='photo-entries-admin-container'>
-      {/* { !isImageLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} theme={'dark'} /> })} */}
+      {/* { !allImagesLoaded && data && data.map(photoEntry => { return <SkeletonUserPhotoEntry key={photoEntry._id} theme={'dark'} /> })} */}
       {/* photo entry is ready to be displayed: display photo entries */}
       {photoEntries}
     </div>

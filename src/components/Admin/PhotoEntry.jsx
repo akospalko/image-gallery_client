@@ -16,7 +16,7 @@ import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
 
-const PhotoEntry = ({collection, photoEntry, imgFile, isImageLoadingStyle}) => {
+const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
   // PROPS
   const {title, description, createdAt, captureDate, updatedAt, _id:id, gpsLatitude, gpsLongitude, author} = photoEntry ?? {};
   // CONTEXT

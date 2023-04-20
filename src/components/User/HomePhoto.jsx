@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import "./Home.css";
 
-export default function HomePhoto({photo , getImageFile , hideImageStyle , setCurrentlyLoadingImages}) {
+export default function HomePhoto({photo, getImageFile, setCurrentlyLoadingImages}) {
   // PROPS
   const {photoURL, _id } = photo ?? {};
   // EFFECT
@@ -19,7 +19,7 @@ export default function HomePhoto({photo , getImageFile , hideImageStyle , setCu
   
   return(
     <>
-      <div style={hideImageStyle} className='home-photo'>
+      <div className='home-photo'>
         {getImageFile(photoURL, {objectFit: 'cover'}, _id)}
       </div>
     </>

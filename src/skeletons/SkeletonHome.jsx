@@ -9,10 +9,8 @@ export default function SkeletonHome({theme}) {
   return (
     <div className={`skeleton-wrapper skeleton-wrapper-home ${themeStyle}`}>
       <div className='skeleton-home'>
-        <SkeletonElement type='element--100px element-margin-bottom--1rem' />
-        <SkeletonElement type='element--350px' />
-        <SkeletonElement type='element--50px-30p element-margin-bottom--1rem' /> 
-        <SkeletonElement type='element--45px-60p element-margin-bottom--0' />
+        <SkeletonElement type='element--350px '/>
+        <SkeletonElement type='element--30px-30p element-margin-bottom--0' /> 
       </div>
       <ShimmerEffect />
     </div>

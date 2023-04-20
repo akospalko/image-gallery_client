@@ -16,23 +16,27 @@ export default function Home() {
   // HOOK
   const {allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile} = useHideImagesWhileLoading();
   // STATE
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   // EFFECT
    useEffect(() => {  
-     // TODO: maybe should use isFetched state instead of checking for arr.length
-     if(homePhotos.length > 0) return; // get all home photos if photo container is empty
-     setIsLoading(true);  
-     (async () => {
-      const response = await getAllHomePhotos(axios); // fetch entries, update state
-      setHomePhotos(response?.photoEntries); // store entries in state
-      setIsLoading(false); 
-    })() 
+    if(!isLoading) return; // get home photos only when data is not yet loaded   
+      (async () => {
+        const response = await getAllHomePhotos(axios); // fetch entries, update state
+        response.success ? setHomePhotos(response?.photoEntries) : setHomePhotos(null) // set state with fetched photo-s || []  
+        setIsLoading(false); 
+      })() 
   }, []) 
   // RENDERED ELEMENTS
   // loader
   const loader = (
     <div className='shared-page-container shared-page-container--centered'>
       <Loader height='50%' width='50%'/>
+    </div>
+  )
+  // photo placeholder if fetch was unsuccessfull && no data
+  const photoPlaceholder = (
+    <div className='home-photo photo-placeholder'>
+      <span> error displaying images </span>
     </div>
   )
   // photo carousel with rendered home photos
@@ -43,24 +47,30 @@ export default function Home() {
           key={photo._id} 
           photo={photo} 
           getImageFile={getImageFile} 
-          hideImageStyle={hideImageStyle} 
           setCurrentlyLoadingImages={setCurrentlyLoadingImages}
         /> 
       ))}
     </Carousel>
   )
-  // home 
+  // display photo || skeleton loader
+  const photos =  ( 
+    <>
+      {/* SkeletonLoader for photo */}
+      {!allImagesLoaded && <SkeletonHome/>}
+      {/* Photo carousel */}
+      { homePhotos && homePhotos.length && carousel }
+    </>
+  )
+  // home page content
   const home = (
     <>
       {/* Header title */}
-      <div style={hideImageStyle} className='home-title'>
+      <div className='home-title'>
         <h1> Photo Gallery </h1>
       </div>
-      {/* Skeleton loader */}
-      {!allImagesLoaded && <SkeletonHome/>}
-      {carousel}
+      { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
       {/* Subtitle */}
-      <div style={hideImageStyle} className='home-subtitle'>
+      <div className='home-subtitle'>
         <p> footages for you </p>
       </div>
     </>

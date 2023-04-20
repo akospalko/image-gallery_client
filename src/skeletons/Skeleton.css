@@ -9,7 +9,7 @@
   height: 30px;
 }
 /* ______ELEMENT TYPES______ */
-.element--50px-30p {
+.element--30px-30p {
   height: calc(30px - var(--padding-default));
   width: 30%;
   margin-top: 0;
@@ -56,7 +56,7 @@
 }
 .element--350px {
   width: 100%;
-  height: calc(350px - var(--padding-default));
+  height: calc(350px - var(--padding-default) - var(--margin-default));
   margin-top: 0;
 }
 .element--450px {
@@ -110,6 +110,8 @@
 }
 .skeleton-wrapper-home {
   width: 90%;
+  margin: 0;
+  padding: 0;
 }
 /* ADMIN GALLERY/HOME PHOTO ENTRIES */ 
 .skeleton-admin-photo-entry {
