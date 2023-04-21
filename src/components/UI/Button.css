@@ -94,3 +94,9 @@
 .button-carousel:hover {
   background-color: #1d1d1d;
 }
+/* PHOTO VIEW TOOLS: ZOOM, RESET */
+.button-photo-view-tools {
+  height: 30px;
+  width: 30px;
+  background-color: rgba(0,0,0,0.5);
+}

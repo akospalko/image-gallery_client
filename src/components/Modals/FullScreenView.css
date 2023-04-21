@@ -5,11 +5,21 @@
   width: 100%;
   height: 100%;
 }
-
-.full-screen-view-photo {
+.full-screen-view-photo-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  flex-direction: column;
+}
+.full-screen-view-photo {
+  position: relative;
+}
+.full-screen-view-tools {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 1; 
+  padding: var(--padding-default);
 }

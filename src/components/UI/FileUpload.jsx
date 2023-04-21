@@ -60,10 +60,8 @@ export default function FileUpload() {
   }, [photoFile, setFormData])
   // 
   useEffect(() => {
-    console.log(activeID)
     if(photoFile && Object.keys(activeID).length === 0) { return } 
     setAllImagesLoaded(false);
-    
   }, [photoFile, setFormData])
 
   // FUNCTIONS

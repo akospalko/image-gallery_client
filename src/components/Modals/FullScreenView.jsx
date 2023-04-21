@@ -1,9 +1,13 @@
+// RESOURCE: zoom/pan functionality - https://www.npmjs.com/package/react-zoom-pan-pinch
+// TODO: add icon to btn-s
 import React, {useEffect, useState} from 'react'
 import './FullScreenView.css' 
-import {useModalContext} from './../contexts/ToggleModalContext'
-import {useFormContext} from './../contexts/FormContext'
+import {useModalContext} from '../contexts/ToggleModalContext'
+import {useFormContext} from '../contexts/FormContext'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import Loader from '../SVG/Loader'
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import Button from '../UI/Button'
 
 export default function FullScreenView() {
   // CONTEXTS
@@ -32,20 +36,39 @@ export default function FullScreenView() {
       }
     })
   }, [])
-  //RENDERED ELEMENT
-  const displayedPhoto = (
-    <>
-      { !allImagesLoaded && <div className='full-screen-view-photo'> <Loader height='50%' width='50%'/> </div> }
-      {photo &&  
-      <div className='full-screen-view-photo' style={hideImageStyle} >
-        {getImageFile(photo.url, {objectFit: 'contain'}, id)}
-      </div>}
-    </> 
+  // RENDERED ELEMENT
+  // loader: shown while photo is being loaded  
+  const loader = (!allImagesLoaded && 
+    <div className='full-screen-view-photo-container'> 
+      <Loader height='50%' width='50%'/> 
+    </div> 
+  )
+  // photo with zoom/pan/reset functionality
+  const displayedPhoto = (photo && 
+    <div className='full-screen-view-photo-container' style={hideImageStyle}>
+      <TransformWrapper>
+        {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+          <>
+           <div className="full-screen-view-photo">
+              <div className="full-screen-view-tools"> {/* TODO: rename, photo-view-tools */}
+                <Button clicked={() => zoomIn()} buttonStyle='button-photo-view-tools'>+</Button>
+                <Button clicked={() => zoomOut()} buttonStyle='button-photo-view-tools'>-</Button>
+                <Button clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'>x</Button>
+              </div>
+              <TransformComponent>
+                {getImageFile(photo.url, {objectFit: 'contain'}, id)}
+              </TransformComponent>
+            </div>
+          </>
+        )}
+      </TransformWrapper>
+    </div>
   )
 
   return( 
     <div className='full-screen-view-container'> 
+      {loader}
       {displayedPhoto} 
-    </div> 
+     </div> 
   )
 }
