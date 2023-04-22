@@ -100,3 +100,10 @@
   width: 30px;
   background-color: rgba(0,0,0,0.5);
 }
+/* HOME CALL TO ACTION BUTTON: VIEW GALLERY */
+.button-home-call-to-action {
+  width: 200px;
+  height: 50px;
+  background-color: rgb(105, 6, 6);
+  font-size: 1.1rem;
+}

@@ -18,6 +18,7 @@
 .shared-page-container--with-padding {
   padding: var(--padding-default);
 }
+
 /* modals */
 .shared-modal {
   display: flex;

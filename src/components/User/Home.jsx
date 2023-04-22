@@ -9,10 +9,16 @@ import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import SkeletonHome from '../../skeletons/SkeletonHome'
 import Carousel from './Carousel'
 import HomePhoto from './HomePhoto'
+import Button from '../UI/Button'
+import { useNavigate } from 'react-router'
+import { useAuthContext } from '../contexts/AuthenticationContext'
 
 export default function Home() {
+  // ROUTE
+  const navigate =  useNavigate(); 
   // CONTEXT
   const {homePhotos, setHomePhotos} = useFormContext();
+  const {auth} = useAuthContext();
   // HOOK
   const {allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile} = useHideImagesWhileLoading();
   // STATE
@@ -35,7 +41,7 @@ export default function Home() {
   )
   // photo placeholder if fetch was unsuccessfull && no data
   const photoPlaceholder = (
-    <div className='home-photo photo-placeholder'>
+    <div className='home-photo'>
       <span> error displaying images </span>
     </div>
   )
@@ -68,15 +74,23 @@ export default function Home() {
       <div className='home-title'>
         <h1> Photo Gallery </h1>
       </div>
-      { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
       {/* Subtitle */}
       <div className='home-subtitle'>
-        <p> footages for you </p>
+        <h2> footages for you </h2>
+      </div>
+      <div className={`home-photo ${homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder'}`}>
+        { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
+      </div>
+      {/* Button container */}
+      <div className='home-button'>
+        <Button clicked={() => navigate(auth.userID ? '/gallery' : '/login')} buttonStyle='button-home-call-to-action'>
+          Check out Gallery
+        </Button>
       </div>
     </>
   ) 
   return (
-    <div className='shared-page-container shared-page-container--centered'>
+    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
       {isLoading ? loader : home}
     </div>
   )
