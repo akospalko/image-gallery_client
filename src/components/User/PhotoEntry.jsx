@@ -16,6 +16,9 @@ import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanelWrapper from '../ControlPanelWrapper';
 import '../ControlPanelWrapper.css';
+import { useLoaderContext } from '../contexts/LoaderContext'
+import ButtonLoader from '../SVG/ButtonLoader';
+import { LikeIcon, AddToCollectionIcon, RemoveFromCollectionIcon, ViewPhoto, LocationMark, InfoIcon } from '../SVG/ControlPanel';
 
 const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadingImages}) => {
   // PROPS
@@ -24,6 +27,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   const {setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
   const {auth} = useAuthContext();
+  const {isLoading, loaderToggleHandler} = useLoaderContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -43,42 +47,57 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   // HANDLERS
   // add photo entry to collection
   const addPhotoEntryToCollectionHandler = useCallback(async (userID, photoEntryID) => {
-    const responseAddToCollection = await addPhotoEntryToCollection(userID, photoEntryID, axiosPrivate);
-    setMessage(responseAddToCollection.message);
-    setData(prev => {
-      const copyData = [...prev];
-      const updatedData = copyData.map(entry => {
-        if(entry._id === responseAddToCollection.photoEntry._id) { return {...entry, ...responseAddToCollection.photoEntry} } // update entry in state with the entry fetched (if state entry id === fetched entry id)
-        else { return {...entry} }
+    try {
+      loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, true);
+      const responseAddToCollection = await addPhotoEntryToCollection(userID, photoEntryID, axiosPrivate);
+      setMessage(responseAddToCollection.message);
+      setData(prev => {
+        const copyData = [...prev];
+        const updatedData = copyData.map(entry => {
+          if(entry._id === responseAddToCollection.photoEntry._id) { return {...entry, ...responseAddToCollection.photoEntry} } // update entry in state with the entry fetched (if state entry id === fetched entry id)
+          else { return {...entry} }
+        })
+        return updatedData;
       })
-      return updatedData;
-    })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, false);
+    }
+
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
   // remove photo entry from collection
   const removePhotoEntryFromCollectionHandler = useCallback(async (userID, photoEntryID) => {
-    const responseRemoveFromCollection = await removePhotoEntryFromCollection(userID, photoEntryID, axiosPrivate);
-    setMessage(responseRemoveFromCollection.message);
-    setData(prev => {
-      const copyData = [...prev];
-      const updatedData = copyData.map(entry => {
-        if(entry._id === responseRemoveFromCollection.photoEntry._id) { return {...entry, ...responseRemoveFromCollection.photoEntry} } // update entry in state with the entry fetched (if state entry id === fetched entry id)
-        else { return {...entry} }
+    try {
+      loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, true);
+      const responseRemoveFromCollection = await removePhotoEntryFromCollection(userID, photoEntryID, axiosPrivate);
+      setMessage(responseRemoveFromCollection.message);
+      setData(prev => {
+        const copyData = [...prev];
+        const updatedData = copyData.map(entry => {
+          if(entry._id === responseRemoveFromCollection.photoEntry._id) { return {...entry, ...responseRemoveFromCollection.photoEntry} } // update entry in state with the entry fetched (if state entry id === fetched entry id)
+          else { return {...entry} }
+        })
+        return updatedData;
       })
-      return updatedData;
-    })
-    setMessage(responseRemoveFromCollection.message); // set message
+      setMessage(responseRemoveFromCollection.message); // set message
+    } catch (error) {
+      console.log(error)
+    } finally {
+      loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, false);
+    }
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
 
   // add like to photo entry
   const addLikeHandler = useCallback(async (userID, photoEntryID) => {
     try {
+      loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
       // send request to server get response
       const responseAddLike = await addPhotoEntryLike(userID, photoEntryID, axiosPrivate);
       setMessage(responseAddLike.message);
       // upate state with new data
-      console.log(responseAddLike)
       setData(prev => {
         const copyData = [...prev];
         const updatedData = copyData.map(entry => {
@@ -92,12 +111,15 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
       })
     } catch(error) {
       console.log(error)
+    } finally {
+      loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
     }
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
   // remove like from photo entry
   const removeLikeHandler = useCallback(async (userID, photoEntryID) => {
     try {
+      loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
     // send request to server get response
     const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
     // upate state with new data
@@ -114,6 +136,8 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
     setMessage(responseRemoveLike.message); // set message
   } catch(error) {
     console.log(error)
+  } finally {
+    loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
   }
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
@@ -148,44 +172,56 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
     </div>
   )
   // control panel buttons
-  const controlPanel = (
+  const controlPanel = ( 
   <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='rgb(244, 164, 60)'>
     {/* group 1 */}
     <span className='control-panel-photo-entry-group-1 control-panel-padding-default-left'>
-      {/* add/remove photo to/from collection toggler */}
+      {/* like/remove photo like toggler */}
       <Button
         buttonStyle='button-control-panel-view'
-        clicked={
-          isLiked ?
+        title={isLiked ? 'like photo' : 'remove like'}
+        disabled={isLoading.PHOTO_ENTRY_LIKE[_id]}
+        clicked={ isLiked ?
           async () => removeLikeHandler(auth.userID, _id)
           :
           async () => addLikeHandler(auth.userID, _id)
         }
-      > {isLiked ? 'X' : '<3'}
+      > {isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
+          <ButtonLoader width='75%' height='75%'/> : <LikeIcon width='100%' height='100%' stroke='#b30202' fill='#b30202'/>
+        :  isLoading.PHOTO_ENTRY_LIKE[_id]  ? 
+        <ButtonLoader width='75%' height='75%'/>  : <LikeIcon width='100%' height='100%' stroke='#b30202'/>} 
       </Button>
+      {/* add/remove photo to/from collection */}
       <Button
         buttonStyle='button-control-panel-view'
+        title={isInCollection ? 'remove photo from collection' : 'add photo to collection'}
+        disabled={isLoading.PHOTO_ENTRY_COLLECTION[_id]}
         clicked={
           isInCollection ?
             async () => removePhotoEntryFromCollectionHandler(auth.userID, _id)
             :
             async () => addPhotoEntryToCollectionHandler(auth.userID, _id)
         }
-      > {isInCollection ? '-' : '+'}
+      > {isInCollection ? isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
+          <ButtonLoader width='75%' height='75%'/> : <AddToCollectionIcon width='100%' height='100%'/>
+        :  isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
+        <ButtonLoader width='75%' height='75%'/> : <RemoveFromCollectionIcon width='100%' height='100%'/>}
       </Button>
       <Button
         buttonStyle='button-control-panel-view'
+        title='show in image view'
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
-      > View </Button>
+      > <ViewPhoto height='100%' width='100%'/> </Button>
       {/* map */}
       <Button
         buttonStyle='button-control-panel-view'
+        title='show geographic location'
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.MAP_VIEW)}}
-      > Map </Button>
+      > <LocationMark height='100%' width='100%'/> </Button>
     </span>
     {/* group 2 */}
     <span className='control-panel-photo-entry-group-2 control-panel-padding-default-right'>
@@ -195,7 +231,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}
-      > Info </Button>
+      > <InfoIcon height='100%' width='100%'/> </Button>
     </span>
   </ControlPanelWrapper> );
 
@@ -209,4 +245,4 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   )
 }
 
-export default React.memo(PhotoEntry);
+export default React.memo(PhotoEntry); 

@@ -1,6 +1,4 @@
-// TODO: add remember me + forgot password group (crate page)
 // TODO: outsource client side status messages
-
 import React, {useEffect, useState} from 'react'
 import '../Shared.css'
 import './Authentication.css'
@@ -45,7 +43,7 @@ export default function Login() {
       setMessage(message); // set status message (for both success and failed auth)
       if(success) { // auth successfull
         setAuth({username: convertedData.username, roles, accessToken, userID}); // store auth data in state
-        navigate(from, { replace: true }); // navigate user to default resource 
+        navigate('/gallery', { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
         setFormData({username: {...formData.username}, password: {...login.password}}); // empty password field before next login attempt

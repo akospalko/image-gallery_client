@@ -39,7 +39,7 @@ export default function CreateUpdatePhotoEntry(props) {
   const createPhotoEntryHandler = async(e, formData) => {
     e.preventDefault();
     try {
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', true);
+      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
       setMessage(responseCreate.message);
@@ -53,14 +53,14 @@ export default function CreateUpdatePhotoEntry(props) {
     } catch (error) { 
       navToPrevPage();
     } finally {      
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', false);
+      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, false);
     }
   }
   // submit form for createPhoto (update new photo entry)
   const updatePhotoEntryHandler = async (e, formData) => {
     e.preventDefault();
     try {
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', true);
+      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, true);
       const convertedData = convertFormData(formData); 
       const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
       setMessage(responseUpdate.message) 
@@ -74,7 +74,7 @@ export default function CreateUpdatePhotoEntry(props) {
     } catch(error) { 
       navToPrevPage();
     } finally { 
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', false);
+      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, false);
     }
   }
   // BUTTON

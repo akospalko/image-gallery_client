@@ -1,5 +1,4 @@
 // RESOURCE: zoom/pan functionality - https://www.npmjs.com/package/react-zoom-pan-pinch
-// TODO: add icon to btn-s
 import React, {useEffect, useState} from 'react'
 import './FullScreenView.css' 
 import {useModalContext} from '../contexts/ToggleModalContext'
@@ -8,6 +7,7 @@ import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import Loader from '../SVG/Loader'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Button from '../UI/Button'
+import { ZoomInIcon, ZoomOutIcon, ResoreViewIcon } from '../SVG/ControlPanel'
 
 export default function FullScreenView() {
   // CONTEXTS
@@ -51,9 +51,20 @@ export default function FullScreenView() {
           <>
            <div className="full-screen-view-photo">
               <div className="full-screen-view-tools"> {/* TODO: rename, photo-view-tools */}
-                <Button clicked={() => zoomIn()} buttonStyle='button-photo-view-tools'>+</Button>
-                <Button clicked={() => zoomOut()} buttonStyle='button-photo-view-tools'>-</Button>
-                <Button clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'>x</Button>
+                <Button 
+                  clicked={() => zoomIn()} 
+                  buttonStyle='button-photo-view-tools'
+                > <ZoomInIcon height='100%' width='100%' fill='#fff'/>
+                </Button>
+                <Button 
+                  clicked={() => zoomOut()} 
+                  buttonStyle='button-photo-view-tools'
+                > <ZoomOutIcon height='100%' width='100%' fill='#fff'/>
+                </Button>
+                <Button 
+                  clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'
+                  > <ResoreViewIcon height='100%' width='100%' fill='#fff'/>
+                </Button>
               </div>
               <TransformComponent>
                 {getImageFile(photo.url, {objectFit: 'contain'}, id)}

@@ -35,20 +35,20 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
     try {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', true);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
       collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
       setMessage(responseDelete.message);
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', false);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, false);
     }
   }
   // fetch photo data (of the clicked id) to populate update photo entry modal 
   const editPhotoEntryHandler = async (id) => {
     try {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', true);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
       setActiveID(response.photoEntry); // set active entry
       if(response.success === false) {
@@ -59,7 +59,7 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
     } catch(error) {
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', false);
+      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, false);
     }
   }
   // control panel buttons

@@ -9,22 +9,22 @@ export default function LoaderContext({children}) {
 	// STATE
 	const [isLoading, setIsLoading] = useState(LOADER);
 	// HANDLER
-	// toggle loader(type) to the specified value (toggleValue) state
-	const loaderToggleHandler = (type, toggleValue) => {
-		if(!type || typeof toggleValue !== 'boolean') { 
-			return;
-		}
+	// toggle nested (LIKE:{e.g. id1: true, id:2 false} and simple(e.g. MODAL: true)) 
+	const loaderToggleHandler = (type, id, toggleValue) => {
+		if(!type || typeof toggleValue !== 'boolean') { return } 
 		setIsLoading(prev => {
-			let updatedLoader = {...prev};
-			// hide all modals -> set to false
-			for(let loader in updatedLoader) {
-				updatedLoader = {...updatedLoader, [loader]: false}
-			}
-			// show the specified loader(named type)
-			updatedLoader = {...updatedLoader, [type]: toggleValue}
+			let updatedLoader = {...prev}; // {LIKE: {...}, MODAL: false} 
+			if(typeof updatedLoader[type] === 'object' && id && typeof id === 'string') { // toggle nested loader
+				let nestedLoadingStates = {...updatedLoader[type]}; // {...}
+				nestedLoadingStates[id] = toggleValue; // {..., id: boolean} 	
+				updatedLoader = { ...updatedLoader, [type]: nestedLoadingStates };
+			} else if (typeof updatedLoader[type] === 'boolean') {  // toggle simple loader
+				updatedLoader = {...updatedLoader, [type]: toggleValue}; // {LIKE: {...}, type: boolean} 
+			} else { return updatedLoader; }
 			return updatedLoader;
 		})
 	}
+
 	return(
 		<LoaderLayoutPrvoider.Provider value={{isLoading, setIsLoading, loaderToggleHandler}}> 
 			{children}

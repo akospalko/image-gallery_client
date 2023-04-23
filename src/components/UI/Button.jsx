@@ -3,7 +3,7 @@ import React from 'react'
 import './Button.css'
 
 export default function Button(props) {
-  const {children, buttonStyle, clicked, type, disabled} = props;
+  const {children, buttonStyle, clicked, type, title, disabled} = props;
 
   return (
     <>
@@ -11,6 +11,7 @@ export default function Button(props) {
           type={type}
           className={`button-default ${buttonStyle}`}
           onClick={clicked}
+          title={title || ''}
           disabled= {disabled}
         > {children}  
       </button>
