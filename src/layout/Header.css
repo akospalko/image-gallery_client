@@ -6,6 +6,7 @@
 .header-container-menu-modal,
 .header-menu-modal-icon,
 .header-modal-container,
+.header-theme-toggler,
 .header-navigation,
 .header-navigation-item {
   display: flex;
@@ -30,18 +31,27 @@
 }
 /* menu modal && user profile modal */
 .header-modal-container {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: var(--header-height);
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  background-color: rgb(134, 134, 134);
   overflow-y: scroll;
+}
+/* theme toggle wrapper */
+.header-theme-toggler {
+  height: 75px;
+  align-items: center;
+  padding: var(--padding-default);
 }
 /* header modal navigation */
 .header-modal-navigation {
   width: 100%;
-  background-color: rgb(134, 134, 134);
+  /* background-color: rgb(134, 134, 134); */
   height: auto;
   flex-direction: column;
 }

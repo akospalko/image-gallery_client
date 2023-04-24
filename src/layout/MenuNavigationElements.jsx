@@ -6,6 +6,7 @@ import './Header.css'
 import {NavLink} from 'react-router-dom'
 import {useModalContext} from '../components/contexts/ToggleModalContext'
 import {OPERATIONS} from '../helper/dataStorage'
+import ThemeToggler from '../components/UI/ThemeToggler'
 
 export default function useMenuNavigationElements(navElements) {
   // CONTEXT 
@@ -15,6 +16,10 @@ export default function useMenuNavigationElements(navElements) {
   const menuModalNavigationElements = (
     toggleModal.HEADER_NAV && 
       <div className='header-modal-container'>
+        {/* theme toggler */}
+        <div className='header-theme-toggler'>
+          <ThemeToggler/>
+        </div>
         <div className='header-modal-navigation'>
         {/* <div className='header-modal-navigation'> */}
           {navElements && navElements.map((elem) => {
