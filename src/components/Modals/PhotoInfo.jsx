@@ -52,7 +52,7 @@ return (
         </div>
         <div className='photo-info-group'> 
           <div className='photo-info-information photo-info-information--dates'>
-          <Timestamp dateCreation={photoInfo.createdAt} dateLastUpdate={photoInfo.updatedAt}/>
+            <Timestamp dateCreation={photoInfo.createdAt} dateLastUpdate={photoInfo.updatedAt}/>
           </div>
         </div>
       </div> : null }

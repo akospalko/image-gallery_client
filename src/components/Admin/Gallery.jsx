@@ -47,6 +47,7 @@ export default function Gallery() {
       <h1> Gallery Dashboard </h1>  
       {/* add new photo entry button */ }
       <Button 
+        title='create new photo entry'
         clicked={() => {
           toggleModalHandler(OPERATIONS.CREATE_PHOTO);
           setMessage('');

@@ -4,7 +4,7 @@ import './PhotoEntries.css'
 import Timestamp from '../Timestamp';
 
 export default function PhotoEntryContentElement(props) {
-  const {label, data, dataPositionTreshold, contentStyle, dataStyle, labelStyle, type, dateCreation, dateLastUpdate} = props;
+  const {title, label, data, dataPositionTreshold, contentStyle, dataStyle, labelStyle, type, dateCreation, dateLastUpdate} = props;
   // CONDITIONAL STYLING
   // position text inside data container (start or center) depending on provided value  
   const positionTextConditionally = dataPositionTreshold && String(data)?.length >= dataPositionTreshold ? {justifyContent: 'initial'} : null; 
@@ -13,13 +13,20 @@ export default function PhotoEntryContentElement(props) {
   let contentType = (
     <>
       {/* label */}
-      <div className={`photo-entry-admin-content-label ${labelStyle}`}>  <span> {label} </span> </div>
+      <div title={title} className={`photo-entry-admin-content-label ${labelStyle}`}>  <span> {label} </span> </div>
       {/* data */}
       <div style={positionTextConditionally} className={`photo-entry-admin-content-data ${dataStyle}`}> {data} </div>
     </>
   )
   if(type === 'timestamp') {
-    contentType = (<Timestamp dateCreation={dateCreation} dateLastUpdate={dateLastUpdate} ></Timestamp>)    
+    contentType = (
+    <>
+      {/* label */}
+      <div className={`photo-entry-admin-content-label ${labelStyle}`}>  <span> {label} </span> </div>
+      {/* data */}
+      <Timestamp dateCreation={dateCreation} dateLastUpdate={dateLastUpdate}></Timestamp>
+    </>
+    )    
   }
 
   return (

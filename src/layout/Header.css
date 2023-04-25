@@ -19,7 +19,8 @@
   align-items: center;
   width: 100%;
   height: var(--header-height);
-  background-color: rgb(191, 58, 17);
+  background-color: var(--bg-color--secondary);
+  border-bottom: 2px solid var(--bg-color--main);
 }
 /* icon container for menu modal && menu bar */
 .header-menu-modal-icon {
@@ -39,7 +40,7 @@
   left: 0;
   right: 0;
   /* background-color: rgba(0, 0, 0, 0.7); */
-  background-color: rgb(134, 134, 134);
+  background-color: var(--bg-color--secondary);
   overflow-y: scroll;
 }
 /* theme toggle wrapper */
@@ -66,14 +67,14 @@
 }
 /* menu navigation item text */
 .header-navigation-item p {
-  font-size: 1.4rem;
-  color: white;
+  font-size: 1.5rem;
+  color: var(--text-color--high-emphasis);
   padding: 0;
   margin: 0;
 }
 /* navigation item active for menu modal and menu bar items */
 .header-navigation-item--active {
-  background-color: rgb(54, 54, 54);
+  background-color: var(--bg-color--main);
 }
 
 @media(min-width: 1024px) {

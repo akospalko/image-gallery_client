@@ -173,7 +173,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   )
   // control panel buttons
   const controlPanel = ( 
-  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='rgb(244, 164, 60)'>
+  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='var(--bg-color--accent)'>
     {/* group 1 */}
     <span className='control-panel-photo-entry-group-1 control-panel-padding-default-left'>
       {/* like/remove photo like toggler */}
@@ -209,7 +209,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
       </Button>
       <Button
         buttonStyle='button-control-panel-view'
-        title='show in image view'
+        title='view image'
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
@@ -217,7 +217,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
       {/* map */}
       <Button
         buttonStyle='button-control-panel-view'
-        title='show geographic location'
+        title='view geographic location'
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.MAP_VIEW)}}

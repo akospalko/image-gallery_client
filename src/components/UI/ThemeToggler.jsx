@@ -12,4 +12,5 @@ export default function ThemeToggler() {
         <span className="ball"></span>
       </label>
     </>
-  )}
+  )
+}

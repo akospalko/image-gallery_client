@@ -64,84 +64,101 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
   }
   // control panel buttons
   const controlPanel = (
-    <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={50} backgroundColor='rgb(244, 164, 60)'>
+    <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={50} backgroundColor='var(--bg-color--secondary)'>
       <span className='control-panel-photo-entry-group-1'>
         {/* edit */}
         <Button 
           buttonStyle='button-control-panel-edit'
+          title='edit photo entry'
           clicked={() => {
             editPhotoEntryHandler(id);
             setMessage('');
           }}
-        > <Edit /> </Button>
+        > <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>
         {/* view */}
         <Button 
           buttonStyle='button-control-panel-edit'
+          title='view photo'
           clicked={() => {
             setID(id)
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
-        > <ViewPhoto height='100%' width='100%'/> </Button>
+        > <ViewPhoto height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>
         {/* map */}
         <Button 
           buttonStyle='button-control-panel-edit'
+          title='view geographic location'
           clicked={() => {
             setID(id)
             toggleModalHandler(OPERATIONS.MAP_VIEW) }}
-        > <LocationMark height='100%' width='100%' /> </Button>  
+        > <LocationMark height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>  
       </span>
       <span className='control-panel-photo-entry-group-2'> 
         <Button 
           buttonStyle='button-control-panel-edit'
+          title='delete photo entry'
           clicked={() => deletePhotoEntryHandler(id)} 
-        > <Delete /> </Button>
+        > <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> </Button>
       </span>
     </ControlPanelWrapper>
   )
   const photoContent = (
     <div className='photo-entry-admin-content-container'>
-      {/* TIMESTAMP */}
-      <PhotoEntryContentElement 
-        contentStyle='photo-entry-admin-content--timestamp' 
-        type='timestamp' 
-        dateCreation={createdAt} 
-        dateLastUpdate={updatedAt} 
-      />
       {/* ID */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='photo entry ID' 
         label='ID' 
+        labelStyle='photo-entry-admin-content-data--border-top' 
         data={id} 
-        dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' 
+        dataStyle='photo-entry-admin-content-data--border-top' 
       />
       {/* Title */}
-      <PhotoEntryContentElement 
-        label='Title' data={title} 
+      <PhotoEntryContentElement
+        title='photo title' 
+        label='Title' 
+        data={title} 
         dataPositionTreshold={40} 
-        dataStyle='photo-entry-admin-content-data--border-top' labelStyle='photo-entry-admin-content-data--border-top' />
+      />
       {/* Author */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='the person who captured the photo' 
         label='Author' data={author} 
         dataPositionTreshold={45} 
       />
       {/* Capture date */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='time when photo was captured' 
         label='Captured' 
         data={transformDate(captureDate, '-', '.')} 
       />
       {/* GPS latitude */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='geographic coordinate: latitude' 
         label='GPS lat' 
         data={gpsLatitude} 
       />
       {/* GPS longitude */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='geographic coordinate: longitude' 
         label='GPS lon' 
         data={gpsLongitude} 
       />
       {/* Description */}
-      <PhotoEntryContentElement 
+      <PhotoEntryContentElement
+        title='a few words about the photo' 
         label='Description' 
+        labelStyle='photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'
         data={description} 
-        dataPositionTreshold={40} contentStyle='photo-entry-admin-content--fill-remaining-height' dataStyle='photo-entry-admin-content-data--description' labelStyle='photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'
+        dataPositionTreshold={40} 
+        contentStyle='photo-entry-admin-content--fill-remaining-height' 
+        dataStyle='photo-entry-admin-content-data--description ' 
+      />
+      {/* TIMESTAMP */}
+      <PhotoEntryContentElement
+        title='photo entry related date' 
+        contentStyle='photo-entry-admin-content--timestamp' 
+        type='timestamp' 
+        dateCreation={createdAt} 
+        dateLastUpdate={updatedAt} 
       />
     </div>
   )

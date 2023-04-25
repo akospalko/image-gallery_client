@@ -6,8 +6,22 @@ import './Timestamp.css'
 export default function Timestamp({dateCreation, dateLastUpdate}) {
   return (
     <div className='timestamp-container'>
-      <span> <i> Created: {generateDateString(dateCreation)} </i>  </span> 
-      <span> <i> Updated: {generateDateString(dateLastUpdate)} </i> </span>  
+      <div className='timestamp-content' title='photo entry created'>
+        <div className='timestamp-title' > 
+          <span> Created </span> 
+        </div>
+        <div className='timestamp-date'> 
+          <span> {generateDateString(dateCreation)} </span> 
+        </div>
+      </div>
+      <div className='timestamp-content' title='photo entry last updated' >
+        <div className='timestamp-title'> 
+          <span> Updated </span>  
+        </div>
+        <div className='timestamp-date'> 
+          <span> {generateDateString(dateLastUpdate)} </span>  
+        </div>
+      </div>
     </div>
   )
 } 

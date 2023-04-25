@@ -52,7 +52,7 @@ export default function PasswordResetSendLink() {
         {formData && 
           <Form id='form-password-reset-link' title='Reset your password'> 
             {buildInputFields(passwordResetSendEmailLink).map(elem => (
-              <Input inputStyle='input-authentication'  key={elem.name} name={elem.name}/> 
+              <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/> 
             ))}
           </Form>
         }

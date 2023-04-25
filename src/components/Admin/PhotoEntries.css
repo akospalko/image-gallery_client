@@ -10,10 +10,10 @@
 .photo-entry-admin-container {
   display: flex;
   flex-direction: column;
-  height: 600px;
-  background-color: rgba(0, 0, 0, 0.75);
+  height: 550px; 
+  background-color: var(--bg-color--ternary);
   margin-bottom: var(--margin-default);
-  border: 1px solid var(--border-color-1);
+  border: 1px solid var(--bg-color--secondary);
 }
 .photo-entry-admin-container:last-child {
   margin-bottom: 0rem;
@@ -24,7 +24,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: rgb(59, 59, 59);
+  /* background-color: rgb(59, 59, 59); */
 }
 .photo-entry-admin-content {
   display: flex;
@@ -42,7 +42,7 @@
   height: 50px;
   align-items: initial;
   justify-content: initial;
-  background-color: rgb(59, 59, 59);
+  /* background-color: var(--bg-color--secondary); */
 }
 /* content label */
 .photo-entry-admin-content-label {
@@ -51,13 +51,11 @@
   justify-content: center;
   height: 100%;
   width: 60px;
-  font-size: 0.70rem;
-  letter-spacing: 0.1rem;
-  line-height: 100%;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
   word-break: break-word;
   padding: var(--padding-default);
-  background-color: rgb(59, 59, 59);
-  /* color: #000; */
+  background-color: var(--bg-color--secondary);
 }
 /* content label - modified */
 .photo-entry-admin-content-label--vertical-text {
@@ -78,12 +76,14 @@
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  border-left: 1px solid var(--border-color-1);
-  border-bottom: 1px solid var(--border-color-1);
+  border-bottom: 1px solid var(--bg-color--secondary);
 }
 /* content data - modified */
 .photo-entry-admin-content-data--border-top {
-  border-top: 1px solid var(--border-color-1);
+  border-top: 1px solid var(--bg-color--secondary);
+}
+.photo-entry-admin-content-data--border-right {
+  border-right: 1px solid var(--bg-color--secondary);
 }
 .photo-entry-admin-content-data--description {
   align-items: initial;
@@ -91,5 +91,5 @@
   overflow-y: auto;
   overflow-x: hidden;
   white-space: normal;
-  border-bottom: 0;
+  /* border-bottom: 0; */
 }
