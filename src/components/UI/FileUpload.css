@@ -9,7 +9,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  border: 2px dashed rgb(192, 204, 228);
+  border: 2px dashed var(--bg-color--secondary);
   /* border-bottom: 0; */
   padding: var(--padding-default);
   cursor: pointer;
@@ -34,6 +34,7 @@
   letter-spacing: 0.5px;
   height: auto;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 } 
 .file-upload-instruction span:last-of-type {
   font-size: 1rem;
@@ -58,32 +59,40 @@
   margin-top: var(--padding-default);
   letter-spacing: 0.5px;
 }
+
 /* ______MODIFIERS______ */
 /* DRAG ACTIVE LABEL STYLE */
 .file-upload-label--drag-active {
-  border: 2px dashed rgb(239, 182, 9);
+  border: 2px dashed var(--bg-color--accent);
   /* border-bottom: 0; */
 }
 /* INVALID FILE UPLOAD INSTRUCTION STYLING  */
 .file-upload-invalid {
-  color: #e61414;
+  color: var(--bg-color--accent);
 }
-
 /* display file */
 .file-upload-display {
+  position: relative;
   display: flex;
   height: 350px;
   width: 100%;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.624);
-  border: 2px solid rgb(192, 204, 228);
+  /* background-color: var(--bg-color--secondary); */
+  border: 2px solid var(--bg-color--secondary);
   border-top: 0;
-  /* padding: var(--padding-default); */
   justify-content: center;
   align-items: center;
   cursor: default;
 }
-
 .file-upload-display span {
   font-size: 1.5rem;
+}
+/* ______BUTTON WRAPPER______ */
+.file-upload-button-wrapper {
+  position: absolute;
+  display: flex;
+  height: 35px;
+  width: 35px;
+  top: 0;
+  right: 0;
 }

@@ -7,6 +7,7 @@
   width: 100%;
   height: 50px;
   background-color: var(--bg-color--accent);
+  font-size: 1.1rem;
 }
 /* hover */
 .button-default:hover {
@@ -53,6 +54,7 @@
   height: 50px;
   width: 150px;
   border: none;
+
   /* margin: 0 1rem; */
 }
 .button-form-submit--disabled {
@@ -68,18 +70,20 @@
 .button-modal-close {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
 }
 .button-modal-close:hover,
 .button-modal-close:active {
-  background-color: rgb(102, 3, 3);
+  /* background-color: rgb(102, 3, 3); */
+}
+.button-modal-close:disabled {
+  opacity: 0.38;
 }
 /* UPLOAD FILE */
 /* browse file to add to file api  */
 .button-upload-file {
   width: 100px;
   height: 50px;
-  font-size: 1.1rem;
   letter-spacing: 1px;
 }
 /* HOME PHOTO CAROUSEL */
@@ -93,14 +97,13 @@
 }
 /* PHOTO VIEW TOOLS: ZOOM, RESET */
 .button-photo-view-tools {
-  height: 30px;
-  width: 30px;
-  background-color: rgba(0,0,0,0.5);
+  height: 35px;
+  width: 35px;
+  background-color: var(--bg-color--main);
 }
 /* HOME CALL TO ACTION BUTTON: VIEW GALLERY */
 .button-home-call-to-action {
   width: 200px;
   height: 50px;
   /* background-color: var(--bg-color--accent); */
-  font-size: 1.1rem;
 }

@@ -30,7 +30,6 @@ export default function useHideImagesWhileLoading() {
     const imgStyle = { 
       height: '100%',
       width: '100%', 
-      backgroundColor: 'rgb(59, 59, 59)',
       ...style
     }
 

@@ -1,6 +1,6 @@
 /* ______BASIC______ */
 .skeleton {
-  background-color: #dadada;
+  background-color: var(--skeleton-content);
   margin: var(--margin-default) 0;
 }
 /* text */
@@ -83,6 +83,7 @@
   margin: var(--margin-default) 0;
   position: relative;
   overflow: hidden;
+  background-color: var(--skeleton-container);
 }
 .skeleton-user-photo-entry, 
 .skeleton-home,
@@ -120,20 +121,6 @@
 .skeleton-admin-photo-entry:last-child {
   margin-bottom: 0;
 }
-/* ______THEME______ */
-/* skeleton component background */
-/* light / default */
-.skeleton-wrapper.light { 
-  background-color: #a1a1a1;
-}
-/* dark / default */
-.skeleton-wrapper.dark { 
-  background-color: #343434;
- }
-/* skeleton element background color for dark theme */
-.skeleton-wrapper.dark .skeleton {
-  background-color: #747474;
-}
 /* ______ANIMATION EFFECTS______ */
 .shimmer-wrapper {
   position: absolute;
@@ -146,12 +133,9 @@
 .shimmer {
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--skeleton-shimmer);
   transform: skewX(-20deg);
-  box-shadow: 0 0 30px 30px rgba(255, 255, 255, 0.1);
-}
-.dark .shimmer {
-  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px 30px var();
 }
 /* animation */
 @keyframes loading {

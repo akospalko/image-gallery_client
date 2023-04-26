@@ -5,40 +5,41 @@
   width: 100%;
   border: none;
   outline: none;
-  padding: var(--padding-default);
-  background-color: rgba(0, 0, 0, 0);
-  font-size: 1rem;
+  background-color: transparent;
+  font-size: 1.1rem;
+  color: var(--text-color--high-emphasis);
 }
 /* INPUT */
 .input-default {
-  height: 45px;
-  border-bottom: 2px solid rgb(192, 204, 228);
+  height: 40px;
+  border-bottom: 2px solid var(--bg-color--secondary);
 }
 /* TEXTAREA */
 .textarea-default {
   min-height: 100px;
   resize: vertical;
-  border: 2px solid rgb(192, 204, 228);
+  border: 2px solid var(--bg-color--secondary);
   text-align: justify;
+  padding: var(--padding-default);
 }
 /* PLACEHOLDER */
 .input-default::placeholder,
 .textarea-default::placeholder {
-  color: rgb(163, 163, 163);
+  color: var(--text-color--medium-emphasis);
 }
 /* DISABLED */
 .input-default:disabled {
-  color: rgb(37, 37, 37);
+  color: var(--text-color--low-emphasis);
 }    
 /* LABEL */
 .label-default {
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 25px;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 /* ______MODIFIERS______ */
 /* COMPONENTS */
@@ -52,14 +53,13 @@
 /* create-update photo entry input/textarea fields */
 .input-create-update-photo-entry,
 .textarea-create-update-photo-entry {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   width: 90%;
-  color: rgb(189, 189, 189);
 }
 /* create-update photo entry input fields */
-.input-create-update-photo-entry {
+/* .input-create-update-photo-entry {
   padding: 0;
-}
+} */
 /* create-update photo entry textarea fields */
 .textarea-create-update-photo-entry {
   /* margin-top: var(--padding-default); */

@@ -15,7 +15,7 @@ export default function ModalHeader({title, operation}) {
     // modal header: title, close button 
     <>
       <div className='shared-modal-dummy'> </div>
-      <div className='shared-modal-title'> <b> {title} </b> </div>
+      <div className='shared-modal-title'> <h2> {title} </h2> </div>
       <div className='shared-button-wrapper shared-button-wrapper--modal-close'>  
         <Button 
           customStyle='button-modal-close'

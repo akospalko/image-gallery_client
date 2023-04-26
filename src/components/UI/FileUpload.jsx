@@ -11,11 +11,15 @@ import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
 import Loader from '../SVG/Loader';
+import { Delete } from '../SVG/ControlPanel';
 
 export default function FileUpload() {
   // CONSTANTS
   const maxFileSizeInBytes = 10000000; // 10 MB // allowed upload file size 
   const convertBytesToMBConstant = 1000000;
+  const defaultStatusMessage = statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant); // upload file default status message
+  const fileUploadMaxSizeErrorStatusMessage = statusMessages.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant) // file input: size limit is reached
+  const fileUploadExtensionErrorStatusMessage = statusMessages.FILE_UPLOAD_EXTENSION_ERROR; // file input: not supported extension
   const types = ['image/png', "image/jpeg"]; // allowed photo file types
   // CONTEXT
   const {
@@ -27,10 +31,10 @@ export default function FileUpload() {
   const {    
     allImagesLoaded, setAllImagesLoaded, 
     hideImageStyle, 
-    getImageFile,} = useHideImagesWhileLoading();
+    getImageFile} = useHideImagesWhileLoading();
   // STATE
   const [dragActive, setDragActive] = useState(false);
-  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant)}); // status -> successful/default state for adding file to the File API
+  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: defaultStatusMessage}); // status -> successful/default state for adding file to the File API
   // REF
   const inputRef = useRef(null); 
   // EFFECT
@@ -78,11 +82,11 @@ export default function FileUpload() {
   const validatePhotoFile = (selected) => {
     if(!selected) return false;
     if (!types.includes(selected.type)) { // check file's extension
-      fileUploadStatusSetter('error', statusMessages.FILE_UPLOAD_EXTENSION_ERROR);
+      fileUploadStatusSetter('error', fileUploadExtensionErrorStatusMessage); 
       return false;
     }
     if (selected.size > maxFileSizeInBytes) { // check photo max file size
-      fileUploadStatusSetter('error', statusMessages.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant));
+      fileUploadStatusSetter('error', fileUploadMaxSizeErrorStatusMessage);
       return false;
     }
     // selected file is OK
@@ -134,6 +138,14 @@ export default function FileUpload() {
     e.preventDefault();
     inputRef.current.click();
   };
+  // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
+  const removePhotoHandler = (e) => {
+    e.preventDefault();
+    console.log('photoFile', photoFile,'activeID', activeID);
+    activeID.photoURL
+    setPhotoFile({}); // remove photo
+    fileUploadStatusSetter('default', defaultStatusMessage); // remove status (file name) 
+  }
   // ELEMENTS
   // upload file input field
   const uploadFile = (
@@ -161,21 +173,33 @@ export default function FileUpload() {
   const customImgStyle = {objectFit: 'contain'};
   const displayFile = (
     <>
-    { !allImagesLoaded && <div className='file-upload-display'>
-        <Loader height='50%' width='50%'/> 
-      </div> 
-    } 
-      <div className='file-upload-display' style={hideImageStyle}>
-      { photoFile.name ? 
-          <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', backgroundColor: 'rgb(59, 59, 59)', ...customImgStyle}} />
-          // getImageFile(URL.createObjectURL(photoFile) || {}, customImgStyle) 
-          : 
-          activeID.photoURL ? 
-          getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
-          :
-          <span> NO IMG </span> 
+      {/* Loader */}
+      { !allImagesLoaded && 
+        <div className='file-upload-display'>
+          <Loader height='50%' width='50%'/> 
+        </div> 
+      } 
+      {/* Displayed photo */}
+      { (photoFile.name || activeID.photoURL) && 
+        <div className='file-upload-display' style={hideImageStyle}>
+          {/* Button wrapper */}
+          <div className='file-upload-button-wrapper'>
+            <Button
+              title='remove photo'
+              clicked={removePhotoHandler}
+              buttonStyle='button-modal-close'
+              disabled={!photoFile.name}
+            > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
+          </div>
+        { photoFile.name ? 
+            <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
+            : activeID.photoURL ? 
+            getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
+            :
+            <span> NO IMG </span> 
         }
-      </div> 
+        </div> 
+      }
     </>
   );
 

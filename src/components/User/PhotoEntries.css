@@ -17,7 +17,6 @@
 .photo-entry-container {
   height: auto;
   flex-direction: column;
-  background-color: rgb(59, 59, 59);
   border-bottom: 1px solid rgb(255, 255, 255);
   margin-bottom: 1.5rem;
 }

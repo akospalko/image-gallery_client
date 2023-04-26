@@ -80,7 +80,7 @@ export default function CreateUpdatePhotoEntry(props) {
   // BUTTON
   // submit photo entry (create/udate) or close modal
   const photoEntryButton = (
-    <div className='shared-button-wrapper shared-button-wrapper--create-update-photo-entry'> 
+    <div className='shared-button-wrapper shared-button-wrapper--create-update-photo-entry shared-button-wrapper--margin-top'> 
       { toggleModalHandler ?  
         <Button 
           buttonStyle={'button-form-submit'}
@@ -126,7 +126,7 @@ export default function CreateUpdatePhotoEntry(props) {
       )) }
       </Form>
       {/* STATUS MESSAGE */}
-      <div className='auth-modal-status-message'> <p> {message || ''} </p> </div>
+      {message && <div className='auth-modal-status-message'> <p> {message || ''} </p> </div>}
       {/* SUBMIT FORM BUTTON */}
       {photoEntryButton}
     </div>

@@ -49,11 +49,11 @@
   height: 100%;
 }
 .shared-modal-title {
-  width: auto;
+  /* width: auto; */
+  flex-grow: 1;
 }
-.shared-modal-title b {
+.shared-modal-title h2 {
   margin: 0;
-  font-size: 1.5rem;
 }
 .shared-modal-dummy {
   width: 50px;
@@ -63,6 +63,7 @@
   display: flex;
   width: 100%;
   flex-grow: 1;
+  background-color: var(--bg-color--main);
 }
 /* home && gallery image cards container */
 .shared-image-cards-container {
@@ -93,6 +94,7 @@
 .shared-button-wrapper--create-update-photo-entry {
 /* ... */
 }
+
 /* COMPONENTS */
 /* auth specific style */
 .shared-button-wrapper--authentication {
@@ -103,4 +105,7 @@
 /* centering button (only if single button is present) for auth containers */
 .shared-button-wrapper--centered {
   flex-direction: column;
+}
+.shared-button-wrapper--margin-top {
+  margin-top: 1.25rem;
 }

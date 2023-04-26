@@ -54,14 +54,7 @@ export default function UserCollectionPhotoEntries() {
   const photoEntries = (
     <div className='photo-entries-container'>
       {/* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */}
-      { !allImagesLoaded && data && data.map(photoEntry => { 
-        return (
-          <SkeletonUserPhotoEntry 
-            key={photoEntry._id} 
-            theme={'dark'} 
-          /> 
-        )
-      })}
+      { !allImagesLoaded && data && data.map(photoEntry => <SkeletonUserPhotoEntry key={photoEntry._id}/> )}
       {/* render photo entry && hide from view until ready to be displayed */}
       { data && data.map(photoEntry => (
           <PhotoEntry 

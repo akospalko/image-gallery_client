@@ -18,8 +18,9 @@
 }
 .full-screen-view-tools {
   position: absolute;
+  top: calc(-35px - calc(2 * var(--padding-default)));
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   z-index: 1; 
   padding: var(--padding-default);
 }

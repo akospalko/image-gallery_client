@@ -45,35 +45,36 @@ export default function FullScreenView() {
   )
   // photo with zoom/pan/reset functionality
   const displayedPhoto = (photo && 
-    <div className='full-screen-view-photo-container' style={hideImageStyle}>
+    <>
       <TransformWrapper>
         {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-          <>
+          <div className='full-screen-view-photo-container' style={hideImageStyle}>
            <div className="full-screen-view-photo">
               <div className="full-screen-view-tools"> {/* TODO: rename, photo-view-tools */}
                 <Button 
                   clicked={() => zoomIn()} 
                   buttonStyle='button-photo-view-tools'
-                > <ZoomInIcon height='100%' width='100%' fill='#fff'/>
+                > <ZoomInIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
+                {/* > <ZoomInIcon height='100%' width='100%' fill='#fff'/> */}
                 </Button>
                 <Button 
                   clicked={() => zoomOut()} 
                   buttonStyle='button-photo-view-tools'
-                > <ZoomOutIcon height='100%' width='100%' fill='#fff'/>
+                > <ZoomOutIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
                 </Button>
                 <Button 
                   clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'
-                  > <ResoreViewIcon height='100%' width='100%' fill='#fff'/>
+                  > <ResoreViewIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
                 </Button>
               </div>
               <TransformComponent>
                 {getImageFile(photo.url, {objectFit: 'contain'}, id)}
               </TransformComponent>
             </div>
-          </>
+          </div>
         )}
       </TransformWrapper>
-    </div>
+    </>
   )
 
   return( 
