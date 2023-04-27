@@ -22,10 +22,6 @@
 .date-picker-container input::placeholder {
   color: var(--text-color--medium-emphasis);
 }
-/* date picker calendar text */
-.date-picker-container input::-webkit-datetime-edit {
-  color: var(--text-color--medium-emphasis);
-} 
 /* date picker calendar icon */
 /* convert hexa color to filter value: https://codepen.io/sosuke/pen/Pjoqqp */
 .date-picker-container input::-webkit-calendar-picker-indicator {
@@ -33,3 +29,4 @@
   height: 20px;
   width: 20px;
 } 
+

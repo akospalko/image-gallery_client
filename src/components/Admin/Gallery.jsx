@@ -39,7 +39,7 @@ export default function Gallery() {
   }, []) 
   // RENDERED ELEMENTS
   // data is loading -> display skeleton -> data is loaded -> display photo entries
-  const renderedElement = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
+  const renderedElement = showSkeleton ? <SkeletonAdminPhotoEntry/> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
   
   return (
     <div className='shared-page-container shared-page-container--with-padding'>
