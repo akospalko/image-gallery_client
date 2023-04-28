@@ -12,31 +12,24 @@ export default function DatePicker() {
   const datePickerRef = useRef();
   // EFFECT
   useEffect(() => {
+    if (!datePickerRef.current) return;
+    let localRef = null; // store ref locally, later used as a reference in cleanup function 
+    localRef = datePickerRef.current;
     if(formData.captureDate.value) {
       datePickerRef.current.style.color = 'var(--text-color--high-emphasis)';
     } else {
       datePickerRef.current.style.color = 'var(--text-color--medium-emphasis)';
     }
-  }, [])
+    return () => localRef = null;  
+  }, [formData.captureDate.value])
   
-  const dateInputCheckContentHandler = (e) => {
-    e.preventDefault();
-    if(formData.captureDate.value) {
-      datePickerRef.current.style.color = 'var(--text-color--high-emphasis)';
-    } else {
-      datePickerRef.current.style.color = 'var(--text-color--medium-emphasis)';
-    }
-  }  
   return (
     <div className='date-picker-container'>
       <input
         ref={datePickerRef}
         style={{colorScheme: theme}} 
         type='date' 
-        onChange={(e) => {
-          dateInputChangeHandler(e);
-          dateInputCheckContentHandler();
-        }}
+        onChange={(e) => dateInputChangeHandler(e)}
         value={formData?.captureDate.value || ''}
       />
     </div>

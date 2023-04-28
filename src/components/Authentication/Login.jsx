@@ -67,16 +67,7 @@ export default function Login() {
       > Login </Button>      
     </div> 
   )
-  // STYLING
-  // modal background
-  // const backgroundStyle= {
-    // backgroundImage: `url(${'https://images.unsplash.com/photo-1524369609384-10ce89e42d14?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2077&q=80'})`,
-  //   backgroundColor: 'rgba(100, 0, 0, 0.5)',
-  //   backgroundSize: 'cover',
-  //   backgroundRepeat: 'no-repeat',
-  //   backgroundPosition: 'center center'
-  // }
-// style={backgroundStyle}
+
   return (
     <div  className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
@@ -96,10 +87,10 @@ export default function Login() {
             </div>
           </Form>
         }
+        {/* status message container */}
+        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
         {/* submit form button */}
         {loginButton}
-        {/* status message container */}
-        <div className='auth-modal-status-message'> <p> {message} </p> </div>
         {/* login-register navigation button */}
         <div className='auth-modal-navigate'>
           <div className='auth-modal-navigate auth-modal-navigate--active'> 

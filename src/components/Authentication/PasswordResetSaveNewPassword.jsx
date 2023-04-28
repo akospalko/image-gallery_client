@@ -93,7 +93,7 @@ export default function PasswordResetSaveNewPassword() {
         {/* submit form button */}
         {saveNewPasswordButton}
         {/* status message container */}
-        <div className='auth-modal-status-message'> <p> {message} </p> </div>
+        <div className='shared-status-message'> <p> {message} </p> </div>
       </div>
     </div>
   )

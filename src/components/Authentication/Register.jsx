@@ -71,17 +71,9 @@ export default function Register() {
       > Register </Button>      
     </div> 
   )
-  // STYLING
-  // modal background
-  const backgroundStyle= {
-    backgroundImage: `url(${'https://images.unsplash.com/photo-1554570731-63bcddda4dcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2127&q=80'})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center center'
-  }
 
   return (
-    <div style={backgroundStyle} className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
+    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
       <div className='auth-modal'>
         {/* modal loader */}
         {isLoading ? <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div> : null }
@@ -95,10 +87,10 @@ export default function Register() {
           ))}
           </Form>
         }
+        {/* status message container */}
+        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
         {/* submit form button */}
         {registerButton}
-        {/* status message container */}
-        <div className='auth-modal-status-message'> <p> {message} </p> </div>
         {/* login-register navigation button */}
         <div className='auth-modal-navigate'>
           <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 

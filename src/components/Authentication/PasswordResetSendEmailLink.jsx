@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { passwordResetSendEmailLink, OPERATIONS } from '../../helper/dataStorage';
+import { passwordResetSendEmailLink } from '../../helper/dataStorage';
 import { useFormContext } from '../contexts/FormContext';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
@@ -50,16 +50,16 @@ export default function PasswordResetSendLink() {
         <div className='auth-modal-background'></div>
         {/* send reset password form */}
         {formData && 
-          <Form id='form-password-reset-link' title='Reset your password'> 
+          <Form id='form-password-reset-link' title='Password reset'> 
             {buildInputFields(passwordResetSendEmailLink).map(elem => (
               <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/> 
             ))}
           </Form>
         }
+        {/* status message container */}
+        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
         {/* submit form button */}
         {requestPasswordResetLinkButton}
-        {/* status message container */}
-        <div className='auth-modal-status-message'> <p> {message} </p> </div>
       </div>
     </div>
   )

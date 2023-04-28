@@ -126,7 +126,7 @@ export default function CreateUpdatePhotoEntry(props) {
       )) }
       </Form>
       {/* STATUS MESSAGE */}
-      {message && <div className='auth-modal-status-message'> <p> {message || ''} </p> </div>}
+      {message && <div className='shared-status-message'> <p> {message || ''} </p> </div>}
       {/* SUBMIT FORM BUTTON */}
       {photoEntryButton}
     </div>

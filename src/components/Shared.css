@@ -88,6 +88,20 @@
   height: 100%;
   width: 50px;
 }
+/* ______STATUS MESSAGE______ */
+/* status message */
+.shared-status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: auto;
+  padding: var(--padding-default);
+}
+.shared-status-message p {
+  margin: 0;
+  color: var(--text-color--medium-emphasis);
+}
 /* ______MODIFIERS______ */
 /* TODO: place it to shared.css */
 /* WRAPPER */
@@ -99,7 +113,8 @@
 /* auth specific style */
 .shared-button-wrapper--authentication {
   justify-content: center;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
+  margin: 1.5rem 0;
 }
 /* ELEMENTS */
 /* centering button (only if single button is present) for auth containers */

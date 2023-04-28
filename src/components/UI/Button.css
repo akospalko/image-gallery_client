@@ -62,7 +62,7 @@
 }
 /* submit form button for authentication pages: login/register  */
 .button-authentication {
-  width: 80%;
+  width: 150px;
   height: 50px;
   /* background-color: var(--bg-color--accent); */
 }
@@ -91,9 +91,12 @@
   background-color: Transparent;
   font-size: 1.3rem;
   width: auto;
+  color: var(--bg-color--accent);
+  opacity: 0.5;
 }
 .button-carousel:hover {
-  background-color: #1d1d1d;
+  opacity: .75;
+  background-color:  var(--bg-color--main);
 }
 /* PHOTO VIEW TOOLS: ZOOM, RESET */
 .button-photo-view-tools {
@@ -105,5 +108,6 @@
 .button-home-call-to-action {
   width: 200px;
   height: 50px;
+  margin: 1.5rem 0;
   /* background-color: var(--bg-color--accent); */
 }
