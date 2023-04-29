@@ -8,10 +8,14 @@ import {buildInputFields} from '../../helper/buildInputFields'
 import {requestPasswordResetLink} from '../../helper/axiosRequests'
 import Loader from '../SVG/Loader';
 import Button from '../UI/Button';
+import { useThemeContext } from '../contexts/ThemeContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PasswordResetSendLink() {
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
+  const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
@@ -23,12 +27,33 @@ export default function PasswordResetSendLink() {
   // send a mail with a password reset link to the provided email address
   const sendPasswordResetEmailHandler = async (e, formData) => {
     e.preventDefault();
-    setIsLoading(true);
-    const response = await requestPasswordResetLink({email: formData?.email?.value }); // get reet link by posting email
-    setMessage(response.message);
-    setIsLoading(false);
-  }
-  // BUTTON
+    try {
+      setIsLoading(true);
+      const response = await requestPasswordResetLink({email: formData?.email?.value }); // get reet link by posting email
+      const {success, message} = response ?? {};
+      if(success) {
+        console.log(response);
+        toast(`${message}`, {
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
+        } else {
+          setMessage(response.message);
+        }
+      }
+      catch (error) {
+        setMessage('Error. Try again later!'); 
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  // BUTTONS
   // submit form: request password reset link 
   const requestPasswordResetLinkButton = (
     <div className='shared-button-wrapper shared-button-wrapper--authentication'> 

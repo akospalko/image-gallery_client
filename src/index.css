@@ -33,7 +33,6 @@
   --border-color-1: rgb(73, 72, 72); 
 }
 
-
 :root.light {
   --bg-color--main: #ced4da; /*6c757d*/
   --bg-color--secondary: #adb5bd;
@@ -53,6 +52,10 @@
   --skeleton-content:#ced4da;
   --skeleton-shimmer:#adb5bd5e;
   --skeleton-shimmer--box-shadow:#adb5bd38;
+
+  /* TOASTIFY CUSTOM STYLE */
+  --toastify-color-light: #bc4749;
+  --toastify-text-color-light: rgba(0, 0, 0, 0.86);
 }
 :root.dark {
   --bg-color--main: #212529;
@@ -73,6 +76,9 @@
   --skeleton-content:#50575c;
   --skeleton-shimmer:#343a4075;
   --skeleton-shimmer--box-shadow:#343a404a;
+  /* TOASTIFY CUSTOM STYLE */
+  --toastify-color-dark: #bc4749;
+  --toastify-text-color-dark: rgba(255, 255, 255, 0.86);
 }
 body {
   margin: 0;

@@ -11,6 +11,9 @@ import {checkPasswordResetLinkValidity, resetPassword} from '../../helper/axiosR
 import Loader from '../SVG/Loader';
 import {useNavigate} from 'react-router'
 import Button from '../UI/Button';
+import { useThemeContext } from '../contexts/ThemeContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PasswordResetSaveNewPassword() {
   // ROUTES
@@ -18,6 +21,7 @@ export default function PasswordResetSaveNewPassword() {
   const {id, token} = useParams(); // get url parameters (id, token)
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
+  const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(true);
   // EFFECT
@@ -48,19 +52,40 @@ export default function PasswordResetSaveNewPassword() {
     setIsLoading(true); 
     const convertedData = convertFormData(formData); // simplify data before sending request  
     const response = await resetPassword(id, token, convertedData); 
-    setMessage(response.message);
-    if(response?.isTokenValid === false) { // invalid token -> nav to error page 
-      navigate('/error-page'); 
-    } 
-    if(response?.errorField === 'email') { // wrong email: reset input 
-      setFormData({email: {...passwordResetSaveNewPassword.email}, password: {...formData.password}, passwordConfirm: {...formData.passwordConfirm}}); // empty password field before next login attempt
-    }  
-    if(response?.errorField === 'password') {  // wrong password: reset input 
-      setFormData({email: {...formData.email}, password: {...passwordResetSaveNewPassword.password}, passwordConfirm: {...passwordResetSaveNewPassword.passwordConfirm}}); 
-    } 
-    setIsLoading(false);
-    if(response?.success) { setTimeout(()=> { navigate('/login'); return }, 1000) } // success: nav to login page
+    const {success, message, errorField, isTokenValid } = response ?? {};
+    try {
+      if(success) {
+        toast(`${message}`, {
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
+      } else {
+        setMessage(message);
+        if(isTokenValid === false) { // invalid token -> nav to error page 
+          navigate('/error-page'); 
+        } 
+        if(errorField === 'email') { // wrong email: reset input 
+          setFormData({email: {...passwordResetSaveNewPassword.email}, password: {...formData.password}, passwordConfirm: {...formData.passwordConfirm}}); // empty password field before next login attempt
+        }  
+        if(errorField === 'password') {  // wrong password: reset input 
+          setFormData({email: {...formData.email}, password: {...passwordResetSaveNewPassword.password}, passwordConfirm: {...passwordResetSaveNewPassword.passwordConfirm}}); 
+        } 
+      }
+    }
+      catch (error) {
+      setMessage('Error. Try again later!'); 
+    } finally {
+      setIsLoading(false);
+      if(success) { setTimeout(()=> { navigate('/login'); return }, 1000) } // success: nav to login page
+    }
   }
+
   // BUTTON
   // submit form: create and save new password
   const saveNewPasswordButton = (

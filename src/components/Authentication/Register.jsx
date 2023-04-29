@@ -12,6 +12,9 @@ import {createNewUser} from '../../helper/axiosRequests'
 import {useNavigate} from 'react-router'
 import Loader from '../SVG/Loader'
 import Button from '../UI/Button'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useThemeContext } from '../contexts/ThemeContext'
 
 export default function Register() {
   // CONSTANTS
@@ -20,7 +23,8 @@ export default function Register() {
   const navigate = useNavigate(); 
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
-    // STATE
+  const {theme} = useThemeContext();
+  // STATE
     const [isLoading, setIsLoading] = useState(false);
   // EFFECT
   useEffect(() => {
@@ -45,11 +49,21 @@ export default function Register() {
       delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
       const response = await createNewUser(convertedData);
       const {success, message} = response ?? {}; // destructure response values
-      setMessage(message); 
       if(success) {  // register successfull
+        toast(`${message}`, {
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
         navigate('/login'); //navigate to login page after successful registration
         setFormData(register); // reset form 
       } else { // register failed
+        setMessage(message); 
         setFormData(resetPassword); // empty pasword fields
       }
     } catch(error) {

@@ -13,6 +13,9 @@ import {useAuthContext} from '../contexts/AuthenticationContext'
 import {useNavigate} from 'react-router'
 import Loader from '../SVG/Loader'
 import Button from '../UI/Button'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useThemeContext } from '../contexts/ThemeContext'
 
 export default function Login() {
   // CONSTANTS
@@ -24,6 +27,7 @@ export default function Login() {
   // CONTEXT
   const {formData, setFormData, message, setMessage} = useFormContext();
   const {setAuth} = useAuthContext(); 
+  const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
@@ -40,12 +44,22 @@ export default function Login() {
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
       const {roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
-      setMessage(message); // set status message (for both success and failed auth)
       if(success) { // auth successfull
+        toast(`${message}`, {
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
         setAuth({username: convertedData.username, roles, accessToken, userID}); // store auth data in state
         navigate('/gallery', { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
+        setMessage(message); // set status message (for both success and failed auth)
         setFormData({username: {...formData.username}, password: {...login.password}}); // empty password field before next login attempt
       }
     } catch(error) {
