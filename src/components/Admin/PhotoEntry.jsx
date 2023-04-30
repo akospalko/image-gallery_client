@@ -15,18 +15,22 @@ import PhotoEntryContentElement from './PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
+import ButtonLoader from '../SVG/ButtonLoader'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useThemeContext } from '../contexts/ThemeContext'
 
-const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
+const PhotoEntry = ({collection, photoEntry}) => {
   // PROPS
   const {title, description, createdAt, captureDate, updatedAt, _id:id, gpsLatitude, gpsLongitude, author} = photoEntry ?? {};
   // CONTEXT
   const {setMessage} = useFormContext();
   const {toggleModalHandler, setActiveID, setID} = useModalContext();
-  const {loaderToggleHandler} = useLoaderContext();
+  const {isLoading, loaderToggleHandler} = useLoaderContext();
+  const {theme} = useThemeContext();
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
-  
   // NAVIGATION & ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -35,33 +39,45 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
     try {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, true);
+      loaderToggleHandler('PHOTO_ENTRY_DELETE', id, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
-      collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
-      setMessage(responseDelete.message);
+      console.log(responseDelete)
+      const {success, message, photoEntry } = responseDelete ?? {};
+        toast(`${message}`, { // send toast
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+        });
+        collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
     } catch(error) {
+      setMessage('Error. Try again later!'); 
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, false);
+      loaderToggleHandler('PHOTO_ENTRY_DELETE', id, false);
     }
   }
   // fetch photo data (of the clicked id) to populate update photo entry modal 
   const editPhotoEntryHandler = async (id) => {
     try {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, true);
+      loaderToggleHandler('PHOTO_ENTRY_EDIT', id, true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
-      setActiveID(response.photoEntry); // set active entry
-      if(response.success === false) {
-        // setMessage(response.message);
-        return;
-      }
+      const {success, message, photoEntry } = response ?? {};
+      if(success === false) return;
+      setActiveID(photoEntry); // set active entry
       toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
     } catch(error) {
+      setMessage('Error. Try again later!'); 
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
-      loaderToggleHandler('PHOTO_ENTRY_MODAL', undefined, false);
+      loaderToggleHandler('PHOTO_ENTRY_EDIT', id, false);
     }
   }
+  // ELEMENTS
   // control panel buttons
   const controlPanel = (
     <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={50} backgroundColor='var(--bg-color--secondary)'>
@@ -74,7 +90,11 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
             editPhotoEntryHandler(id);
             setMessage('');
           }}
-        > <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>
+        > {isLoading.PHOTO_ENTRY_EDIT[id] ? 
+          <ButtonLoader width='75%' height='75%'/> 
+          : 
+          <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> } 
+        </Button>
         {/* view */}
         <Button 
           buttonStyle='button-control-panel-edit'
@@ -97,7 +117,12 @@ const PhotoEntry = ({collection, photoEntry, imgFile, hideImageStyle}) => {
           buttonStyle='button-control-panel-edit'
           title='delete photo entry'
           clicked={() => deletePhotoEntryHandler(id)} 
-        > <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> </Button>
+        > 
+        {isLoading.PHOTO_ENTRY_DELETE[id] ? 
+          <ButtonLoader width='75%' height='75%'/> 
+          : 
+          <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> } 
+        </Button>
       </span>
     </ControlPanelWrapper>
   )

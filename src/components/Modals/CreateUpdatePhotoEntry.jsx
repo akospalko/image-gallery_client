@@ -19,6 +19,9 @@ import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import {useNavigate, useLocation} from 'react-router';
 import { useLoaderContext } from '../contexts/LoaderContext'
 import ButtonLoader from '../SVG/ButtonLoader'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useThemeContext } from '../contexts/ThemeContext'
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS
@@ -31,50 +34,79 @@ export default function CreateUpdatePhotoEntry(props) {
   const {activeID, setActiveID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, message, setMessage, setPhotoFile} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
+  const {theme} = useThemeContext();
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
   const createPhotoEntryHandler = async(e, formData) => {
+    // TODO: set (refetch) photo entry data state here 
     e.preventDefault();
     try {
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, true);
+      loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
-      setMessage(responseCreate.message);
-      if(responseCreate.success === true) {
+      console.log(responseCreate)
+      const {success, message, photoEntry } = responseCreate ?? {};
+      if(success === true) {
+        toast(`${message}`, { // send toast
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
         setActiveID({})
-      } 
+      } else {
+        setMessage(message);
+      }
     } catch (error) { 
+      setMessage('Error. Try again later!'); 
       navToPrevPage();
     } finally {      
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, false);
+      loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
     }
   }
   // submit form for createPhoto (update new photo entry)
   const updatePhotoEntryHandler = async (e, formData) => {
     e.preventDefault();
     try {
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, true);
+      loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
       const convertedData = convertFormData(formData); 
       const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
-      setMessage(responseUpdate.message) 
-      if(responseUpdate.success === true) {
+      const {success, message, photoEntry } = responseUpdate ?? {};
+      if(success === true) {
+        toast(`${message}`, { // send toast
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+          });
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
         setActiveID({})
+      } else {
+        setMessage(message);
       }
     } catch(error) { 
+      setMessage('Error. Try again later!'); 
       navToPrevPage();
     } finally { 
-      loaderToggleHandler('PHOTO_ENTRY_BUTTON', undefined, false);
+      loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
     }
   }
   // BUTTON
@@ -95,14 +127,14 @@ export default function CreateUpdatePhotoEntry(props) {
         > Cancel 
         </Button> : null }   
         <Button 
-          buttonStyle={isLoading.PHOTO_ENTRY_BUTTON ? 'button-form-submit button-form-submit--disabled' : 'button-form-submit'}
+          buttonStyle={isLoading.PHOTO_ENTRY_SUBMIT ? 'button-form-submit button-form-submit--disabled' : 'button-form-submit'}
           form='form-create-update-photo-entry'
           type='submit' 
-          disabled={isLoading.PHOTO_ENTRY_BUTTON}
+          disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
           }}
-        >  { isLoading.PHOTO_ENTRY_BUTTON ? <ButtonLoader height='50%' width='50%'/> : 'Submit' } 
+        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <ButtonLoader height='50%' width='50%'/> : 'Submit' } 
         </Button>      
     </div> 
   );

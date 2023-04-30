@@ -141,8 +141,7 @@ export default function FileUpload() {
   // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
   const removePhotoHandler = (e) => {
     e.preventDefault();
-    console.log('photoFile', photoFile,'activeID', activeID);
-    activeID.photoURL
+    activeID.photoURL;
     setPhotoFile({}); // remove photo
     fileUploadStatusSetter('default', defaultStatusMessage); // remove status (file name) 
   }
@@ -191,13 +190,13 @@ export default function FileUpload() {
               disabled={!photoFile.name}
             > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
           </div>
-        { photoFile.name ? 
-            <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
-            : activeID.photoURL ? 
-            getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
-            :
-            <span> NO IMG </span> 
-        }
+          { photoFile.name ? 
+              <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
+              : activeID.photoURL ? 
+              getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
+              :
+              <span> NO IMG </span> 
+          }
         </div> 
       }
     </>

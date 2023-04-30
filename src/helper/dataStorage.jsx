@@ -300,7 +300,9 @@ export const OPERATIONS = {
 // LOADER STATE INTIIALIZER
 export const LOADER = {
   PHOTO_ENTRY_MODAL: false, // full pg loader, when opening modal (when opening update photo entry modal)
-  PHOTO_ENTRY_BUTTON: false, // display loader inside the submit button
+  PHOTO_ENTRY_SUBMIT: false, // display loader inside the submit button
+  PHOTO_ENTRY_EDIT: {}, // edit photo entry button loader 
+  PHOTO_ENTRY_DELETE: {}, // delete photo entry button loader 
   PHOTO_ENTRY_LIKE: {}, // { photoID1: false, photoID2: true } - loader state of photo entry like toggle
   PHOTO_ENTRY_COLLECTION: {} // add/remove photo item to/from collection
 }

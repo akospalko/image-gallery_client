@@ -48,7 +48,7 @@ export default function Login() {
         toast(`${message}`, {
           className: "shared-toast",
           position: "bottom-center",
-          autoClose: 4000,
+          autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
