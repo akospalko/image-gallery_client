@@ -225,7 +225,7 @@ export const RemoveFromCollectionIcon = ({height, width, stroke, strokeWidth, fi
   );
 }
 // ADDITIONAL INFORMATION ICON
-export const InfoIcon = ({height, width}) => {
+export const InfoIcon = ({height, width, fill, stroke}) => {
   return (
     <div style={{display:'flex', height: height, width: width}}> 
       <svg
@@ -236,8 +236,8 @@ export const InfoIcon = ({height, width}) => {
       >
         <g>
           <g
-            fill="none"
-            stroke="#000"
+            fill={fill || "none"}
+            stroke={stroke || "#000"}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"

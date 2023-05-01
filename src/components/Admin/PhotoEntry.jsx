@@ -63,11 +63,23 @@ const PhotoEntry = ({collection, photoEntry}) => {
   }
   // fetch photo data (of the clicked id) to populate update photo entry modal 
   const editPhotoEntryHandler = async (id) => {
+    console.log(id);
     try {
       loaderToggleHandler('PHOTO_ENTRY_EDIT', id, true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
       const {success, message, photoEntry } = response ?? {};
-      if(success === false) return;
+      if(success === false) {
+        toast(`${message}`, { // send toast
+          className: "shared-toast",
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: theme,
+        });
+      };
       setActiveID(photoEntry); // set active entry
       toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
     } catch(error) {
@@ -86,6 +98,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
         <Button 
           buttonStyle='button-control-panel-edit'
           title='edit photo entry'
+          disabled={isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id]}
           clicked={() => {
             editPhotoEntryHandler(id);
             setMessage('');
@@ -116,6 +129,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
         <Button 
           buttonStyle='button-control-panel-edit'
           title='delete photo entry'
+          disabled={isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id]}
           clicked={() => deletePhotoEntryHandler(id)} 
         > 
         {isLoading.PHOTO_ENTRY_DELETE[id] ? 

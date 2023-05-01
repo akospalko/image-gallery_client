@@ -17,8 +17,8 @@
 .photo-entry-container {
   height: auto;
   flex-direction: column;
-  border-bottom: 1px solid rgb(255, 255, 255);
-  margin-bottom: 1.5rem;
+  border-top: 2px solid var(--bg-color--secondary);
+  /* margin-bottom: 1.5rem; */
 }
 /* title */
 .photo-entry-title {
@@ -42,32 +42,27 @@
   position: relative;
   width: 100%;
 }
-/* capture date */
-.photo-entry-capture-date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  font-size: 0.75rem;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: var(--padding-default);
-  background-color: rgba(0, 0, 0, 0.15);
-}
 /* additional info: like/collection count */
-.photo-entry-display-additional-info { 
+.photo-entry-info-panel { 
   display: flex;
   height: 30px;
   align-items: center;
   width: 100%;
-  font-size: 0.75rem;
+  font-size: 0.70rem;
   line-height: 1rem;
 }
-.photo-entry-display-additional-info-like,
-.photo-entry-display-additional-info-collection {
+.photo-entry-info-panel--like,
+.photo-entry-info-panel--collection,
+.photo-entry-info-panel--capture-date {
   display: flex;
   width: 100%;
+  justify-content: flex-start;
+  padding: var(--padding-default);
+}
+.photo-entry-info-panel--collection {
   justify-content: center;
-  padding-left: calc(2 * var(--padding-default));
+}
+/* capture date */
+.photo-entry-info-panel--capture-date {
+  justify-content: flex-end;
 }

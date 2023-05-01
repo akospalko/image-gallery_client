@@ -9,6 +9,7 @@ export default function MapView() {
   // CONTEXT
   const {id} = useModalContext();
   const {data} = useFormContext();
+  console.log(data);
   // STATE
   const [gpsCoordinates, setGPSCoordinates] = useState({gpsLatitude: null, gpsLongitude: null}); 
   // EFFECT
@@ -28,16 +29,16 @@ export default function MapView() {
       zoom={12} 
       scrollWheelZoom={true}
     >
-    <TileLayer
-      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-    <Marker position={[gpsCoordinates.gpsLatitude, gpsCoordinates.gpsLongitude]}>
-      <Popup>
-        A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-    </Marker>
-  </MapContainer>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[gpsCoordinates.gpsLatitude, gpsCoordinates.gpsLongitude]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    </MapContainer>
   )
   // displayed element if no gps is provided
   let displayNoGPS = (

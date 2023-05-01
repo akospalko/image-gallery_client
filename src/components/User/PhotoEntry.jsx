@@ -22,7 +22,8 @@ import { LikeIcon, AddToCollectionIcon, RemoveFromCollectionIcon, ViewPhoto, Loc
 
 const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadingImages}) => {
   // PROPS
-  const {title, photoURL, captureDate, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
+  const {title, photoURL, captureDate, gpsLatitude, gpsLongitude, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
+  console.log(!gpsLatitude, !gpsLongitude)
   // CONTEXT
   const {setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
@@ -64,7 +65,6 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, false);
     }
-
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
   // remove photo entry from collection
@@ -154,26 +154,22 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
     <div className='photo-entry-photo'>
       {/* photo */}
       {getImageFile(photoURL, {objectFit: 'contain'}, _id)}
-      {/* capture date */}
-      <div className='photo-entry-capture-date'>
-        <strong> {captureDate} </strong>
-      </div>
     </div>
   )
   // display basic info about photo: num of users liked/collectionized the photo
   const photoDisplayInfo = (
-    <div className={'photo-entry-display-additional-info'}>
-      <div className={'photo-entry-display-additional-info-like'}>
-        <b>{`${likes || 0} ${likes > 1 ? 'likes' : 'like'}`} </b>
-      </div>
-      <div className={'photo-entry-display-additional-info-collection'}>
-        <b> {`saved: ${inCollection || 0}`} </b>
-      </div>
+    <div className='photo-entry-info-panel'>
+      {/* counter: amount of users liked photo */}
+      <div className='photo-entry-info-panel--like'> <b>{`${likes > 1 ? 'likes' : 'like'}: ${likes || 0} `} </b> </div>
+      {/* counter: amount of users added photo to their collection */}
+      <div className='photo-entry-info-panel--collection'> <b> {`saved: ${inCollection || 0}`} </b> </div>
+      {/* photo capture date */}
+      <div className='photo-entry-info-panel--capture-date'> <strong> {captureDate} </strong>  </div>
     </div>
   )
   // control panel buttons
   const controlPanel = ( 
-  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40} backgroundColor='var(--bg-color--accent)'>
+  <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={40}>
     {/* group 1 */}
     <span className='control-panel-photo-entry-group-1 control-panel-padding-default-left'>
       {/* like/remove photo like toggler */}
@@ -187,9 +183,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
           async () => addLikeHandler(auth.userID, _id)
         }
       > {isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
-          <ButtonLoader width='75%' height='75%'/> : <LikeIcon width='100%' height='100%' stroke='#b30202' fill='#b30202'/>
+          <ButtonLoader width='75%' height='75%'/> : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)' fill='var(--bg-color--accent)'/>
         :  isLoading.PHOTO_ENTRY_LIKE[_id]  ? 
-        <ButtonLoader width='75%' height='75%'/>  : <LikeIcon width='100%' height='100%' stroke='#b30202'/>} 
+        <ButtonLoader width='75%' height='75%'/>  : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)'/>} 
       </Button>
       {/* add/remove photo to/from collection */}
       <Button
@@ -203,9 +199,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
             async () => addPhotoEntryToCollectionHandler(auth.userID, _id)
         }
       > {isInCollection ? isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-          <ButtonLoader width='75%' height='75%'/> : <AddToCollectionIcon width='100%' height='100%'/>
+          <ButtonLoader width='75%' height='75%'/> : <RemoveFromCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>
         :  isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-        <ButtonLoader width='75%' height='75%'/> : <RemoveFromCollectionIcon width='100%' height='100%'/>}
+        <ButtonLoader width='75%' height='75%'/> : <AddToCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> }
       </Button>
       <Button
         buttonStyle='button-control-panel-view'
@@ -213,15 +209,16 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
-      > <ViewPhoto height='100%' width='100%'/> </Button>
+      > <ViewPhoto height='100%' width='100%' fill='var(--text-color--high-emphasis)'/> </Button>
       {/* map */}
       <Button
         buttonStyle='button-control-panel-view'
         title='view geographic location'
+        disabled={!gpsLatitude || !gpsLongitude}
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.MAP_VIEW)}}
-      > <LocationMark height='100%' width='100%'/> </Button>
+      > <LocationMark height='100%' width='100%' fill='var(--text-color--high-emphasis)'/> </Button>
     </span>
     {/* group 2 */}
     <span className='control-panel-photo-entry-group-2 control-panel-padding-default-right'>
@@ -231,7 +228,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
         clicked={() => {
           setID(_id)
           toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}
-      > <InfoIcon height='100%' width='100%'/> </Button>
+      > <InfoIcon height='100%' width='100%' stroke='var(--text-color--high-emphasis)'/> </Button>
     </span>
   </ControlPanelWrapper> );
 
