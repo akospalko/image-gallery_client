@@ -6,7 +6,7 @@ import Input from '../UI/Input';
 import './Authentication.css'
 import {buildInputFields} from '../../helper/buildInputFields'
 import {requestPasswordResetLink} from '../../helper/axiosRequests'
-import Loader from '../SVG/Loader';
+import LoaderIcon from '../SVG/Loader';
 import Button from '../UI/Button';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { toast } from 'react-toastify';
@@ -70,7 +70,7 @@ export default function PasswordResetSendLink() {
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
         {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> </div> : null }
+        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
         {/* send reset password form */}

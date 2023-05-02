@@ -8,7 +8,7 @@ import {buildInputFields} from '../../helper/buildInputFields'
 import {convertFormData} from '../../helper/convertFormData'
 import {useParams} from 'react-router-dom';
 import {checkPasswordResetLinkValidity, resetPassword} from '../../helper/axiosRequests'
-import Loader from '../SVG/Loader';
+import LoaderIcon from '../SVG/Loader';
 import {useNavigate} from 'react-router'
 import Button from '../UI/Button';
 import { useThemeContext } from '../contexts/ThemeContext';
@@ -104,7 +104,7 @@ export default function PasswordResetSaveNewPassword() {
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
         {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> </div> : null }
+        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
         {/* save new password form */}

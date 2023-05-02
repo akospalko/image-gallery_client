@@ -34,7 +34,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(100, 0, 0, 1);
+  background-color: var(--bg-color--secondary);
   z-index: 10;
   /* position: fixed; */
 }

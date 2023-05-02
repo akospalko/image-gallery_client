@@ -10,7 +10,7 @@ import { cropString } from '../../helper/cropStringInput';
 import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
-import Loader from '../SVG/Loader';
+import LoaderIcon from '../SVG/Loader';
 import { Delete } from '../SVG/Icons';
 
 export default function FileUpload() {
@@ -175,7 +175,7 @@ export default function FileUpload() {
       {/* Loader */}
       { !allImagesLoaded && 
         <div className='file-upload-display'>
-          <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> 
+          <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> 
         </div> 
       } 
       {/* Displayed photo */}

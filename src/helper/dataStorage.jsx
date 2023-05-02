@@ -240,7 +240,7 @@ export const navElementsAdmin = [
   {
     id: 0,
     name: 'home',
-    path: '/admin/'
+    path: '/admin/home'
   }, {
     id: 1,
     name: 'gallery',

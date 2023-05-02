@@ -4,7 +4,7 @@ import '../Shared.css'
 import {useFormContext } from '../contexts/FormContext'
 import {getAllHomePhotos} from '../../helper/axiosRequests'
 import axios from '../../helper/axiosInstances'
-import Loader from '../SVG/Loader'
+import LoaderIcon from '../SVG/Loader'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import SkeletonHome from '../../skeletons/SkeletonHome'
 import Carousel from './Carousel'
@@ -35,8 +35,8 @@ export default function Home() {
   // RENDERED ELEMENTS
   // loader
   const loader = (
-    <div className='shared-page-container shared-page-container--centered'>
-      <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/>
+    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
+    <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/>
     </div>
   )
   // photo placeholder if fetch was unsuccessfull && no data
@@ -69,7 +69,7 @@ export default function Home() {
   )
   // home page content
   const home = (
-    <>
+    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
       {/* Header title */}
       <div className='home-title'>
         <h1> Photo Gallery </h1>
@@ -87,11 +87,11 @@ export default function Home() {
           Check out Gallery
         </Button>
       </div>
-    </>
+    </div>
   ) 
   return (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
+    <>
       {isLoading ? loader : home}
-    </div>
+    </>
   )
 }

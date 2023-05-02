@@ -4,7 +4,7 @@ import './FullScreenView.css'
 import {useModalContext} from '../contexts/ToggleModalContext'
 import {useFormContext} from '../contexts/FormContext'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
-import Loader from '../SVG/Loader'
+import LoaderIcon from '../SVG/Loader'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Button from '../UI/Button'
 import { ZoomInIcon, ZoomOutIcon, RestoreViewIcon } from '../SVG/Icons'
@@ -40,7 +40,7 @@ export default function FullScreenView() {
   // loader: shown while photo is being loaded  
   const loader = (!allImagesLoaded && 
     <div className='full-screen-view-photo-container'> 
-      <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> 
+      <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> 
     </div> 
   )
   // photo with zoom/pan/reset functionality

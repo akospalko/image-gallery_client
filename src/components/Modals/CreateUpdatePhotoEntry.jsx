@@ -18,7 +18,7 @@ import './CreateUpdatePhotoEntry.css'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import {useNavigate, useLocation} from 'react-router';
 import { useLoaderContext } from '../contexts/LoaderContext'
-import Loader from '../SVG/Loader'
+import LoaderIcon from '../SVG/Loader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeContext } from '../contexts/ThemeContext'
@@ -127,14 +127,14 @@ export default function CreateUpdatePhotoEntry(props) {
         > Cancel 
         </Button> : null }   
         <Button 
-          buttonStyle={isLoading.PHOTO_ENTRY_SUBMIT ? 'button-form-submit button-form-submit--disabled' : 'button-form-submit'}
+          buttonStyle='button-form-submit'
           form='form-create-update-photo-entry'
           type='submit' 
           disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
           }}
-        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
+        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
         </Button>      
     </div> 
   );

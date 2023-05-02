@@ -214,6 +214,7 @@ export const logoutUser = async () => {
   let fetchResult; 
   try {
     const response = await axiosAuthentication.get('/api/v1/logout', { withCredentials: true });
+    console.log(response)
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {

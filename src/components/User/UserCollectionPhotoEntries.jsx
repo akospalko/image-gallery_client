@@ -8,7 +8,7 @@ import {useAuthContext} from '../contexts/AuthenticationContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import PhotoEntry from './PhotoEntry';
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
-import Loader from '../SVG/Loader';
+import LoaderIcon from '../SVG/Loader';
 import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry';
 
 export default function UserCollectionPhotoEntries() {
@@ -48,7 +48,7 @@ export default function UserCollectionPhotoEntries() {
   // RENDERED ELEMENTS
   const loader = (
     <div className='photo-entries-container'>
-      <div className='auth-modal-loader'> <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> </div>
+      <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
   const photoEntries = (

@@ -15,6 +15,7 @@ import {useAuthContext} from '../components/contexts/AuthenticationContext'
 import PasswordResetSendEmailLink from '../components/Authentication/PasswordResetSendEmailLink'
 import PasswordResetSaveNewPassword from '../components/Authentication/PasswordResetSaveNewPassword'
 import ErrorPage from '../error/ErrorPage'
+import Logout from '../components/Authentication/Logout'
 
 // set up context with role here
 export default function PageContent() {
@@ -38,10 +39,11 @@ export default function PageContent() {
       {/* protected routes */}
       {/* User */}
       <Routes> 
-         {/* gallery */}
+        {/* gallery */}
         <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
           <Route path={'/gallery'} element={ <Gallery/> } />
         </Route>
+        {/* map view */}
         <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
           <Route path={'/map'} element={<MapOverview/>}/>
         </Route>
@@ -53,22 +55,28 @@ export default function PageContent() {
       </Routes>
       {/* Admin */}
       <Routes>
+        {/* home photo entries */}
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
-          <Route path={'/admin/'} element={<HomeAdmin/>}/>
+          <Route path={'/admin/home'} element={<HomeAdmin/>}/>
         </Route>
+        {/* gallery photo entries */}
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
           <Route path={'/admin/gallery'} element={<GalleryAdmin/>}/>
         </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
+        {/* map view */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
           <Route path={'/admin/mapoverview'} element={<MapOverview/>}/>
         </Route>
-  
-        
+
         {/* <Route path={'*'} element={ <PageNotFound/> } /> */}
         {/* <Route path={'*'} element={ <PageNotFound/> } />  */}
       </Routes>
       {/* Shared??? */}
-  
+      <Routes>
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.user]} />}>
+          <Route path={`/${auth.username}/logout`} element={<Logout/>}/>
+        </Route>
+      </Routes>
       {/* <Routes>
         <Route path={'*'} element={ <ErrorPage/> } />
       </Routes> */}

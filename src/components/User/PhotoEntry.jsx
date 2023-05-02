@@ -17,13 +17,12 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanelWrapper from '../ControlPanelWrapper';
 import '../ControlPanelWrapper.css';
 import { useLoaderContext } from '../contexts/LoaderContext'
-import Loader from '../SVG/Loader';
+import LoaderIcon from '../SVG/Loader';
 import { LikeIcon, AddToCollectionIcon, RemoveFromCollectionIcon, ViewPhoto, LocationMark, InfoIcon } from '../SVG/Icons';
 
 const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadingImages}) => {
   // PROPS
   const {title, photoURL, captureDate, gpsLatitude, gpsLongitude, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
-  console.log(!gpsLatitude, !gpsLongitude)
   // CONTEXT
   const {setData, setMessage} = useFormContext();
   const {toggleModalHandler, setID} = useModalContext();
@@ -36,7 +35,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   const navToPrevPage = () => navigate('/login', {state: {from: location}, replace: true});
   // EFFECT
   // add currently loading image to loading state
-  useEffect(()=> {
+  useEffect(() => {
     setCurrentlyLoadingImages(prev => {
       const isDuplicate =  Object.keys(prev ?? {}).includes(String(_id)) // img already added to the loading lis
       if(!isDuplicate) {// if img id is not yet in state -> add
@@ -183,9 +182,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
           async () => addLikeHandler(auth.userID, _id)
         }
       > {isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
-          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)' fill='var(--bg-color--accent)'/>
+          <LoaderIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)' fill='var(--bg-color--accent)'/>
         :  isLoading.PHOTO_ENTRY_LIKE[_id]  ? 
-          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>  : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)'/>} 
+          <LoaderIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>  : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)'/>} 
       </Button>
       {/* add/remove photo to/from collection */}
       <Button
@@ -199,9 +198,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
             async () => addPhotoEntryToCollectionHandler(auth.userID, _id)
         }
       > {isInCollection ? isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <RemoveFromCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>
+          <LoaderIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <RemoveFromCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>
         :  isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-        <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <AddToCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> }
+        <LoaderIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <AddToCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> }
       </Button>
       <Button
         buttonStyle='button-control-panel-view'

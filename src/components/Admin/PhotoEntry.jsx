@@ -15,7 +15,7 @@ import PhotoEntryContentElement from './PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
-import Loader from '../SVG/Loader'
+import LoaderIcon from '../SVG/Loader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeContext } from '../contexts/ThemeContext'
@@ -104,7 +104,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
             setMessage('');
           }}
         > {isLoading.PHOTO_ENTRY_EDIT[id] ? 
-          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> 
+          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)'/> 
           : 
           <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> } 
         </Button>
@@ -120,6 +120,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
         <Button 
           buttonStyle='button-control-panel-edit'
           title='view geographic location'
+          disabled={!gpsLatitude || !gpsLongitude}
           clicked={() => {
             setID(id)
             toggleModalHandler(OPERATIONS.MAP_VIEW) }}
@@ -133,7 +134,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           clicked={() => deletePhotoEntryHandler(id)} 
         > 
         {isLoading.PHOTO_ENTRY_DELETE[id] ? 
-          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> 
+          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)'/> 
           : 
           <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> } 
         </Button>
