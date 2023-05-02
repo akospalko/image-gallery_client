@@ -7,7 +7,7 @@ import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import Loader from '../SVG/Loader'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Button from '../UI/Button'
-import { ZoomInIcon, ZoomOutIcon, ResoreViewIcon } from '../SVG/ControlPanel'
+import { ZoomInIcon, ZoomOutIcon, RestoreViewIcon } from '../SVG/Icons'
 
 export default function FullScreenView() {
   // CONTEXTS
@@ -40,7 +40,7 @@ export default function FullScreenView() {
   // loader: shown while photo is being loaded  
   const loader = (!allImagesLoaded && 
     <div className='full-screen-view-photo-container'> 
-      <Loader height='50%' width='50%'/> 
+      <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> 
     </div> 
   )
   // photo with zoom/pan/reset functionality
@@ -55,7 +55,6 @@ export default function FullScreenView() {
                   clicked={() => zoomIn()} 
                   buttonStyle='button-photo-view-tools'
                 > <ZoomInIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
-                {/* > <ZoomInIcon height='100%' width='100%' fill='#fff'/> */}
                 </Button>
                 <Button 
                   clicked={() => zoomOut()} 
@@ -64,7 +63,7 @@ export default function FullScreenView() {
                 </Button>
                 <Button 
                   clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'
-                  > <ResoreViewIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
+                  > <RestoreViewIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
                 </Button>
               </div>
               <TransformComponent>

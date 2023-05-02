@@ -18,7 +18,7 @@ import './CreateUpdatePhotoEntry.css'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import {useNavigate, useLocation} from 'react-router';
 import { useLoaderContext } from '../contexts/LoaderContext'
-import ButtonLoader from '../SVG/ButtonLoader'
+import Loader from '../SVG/Loader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeContext } from '../contexts/ThemeContext'
@@ -134,7 +134,7 @@ export default function CreateUpdatePhotoEntry(props) {
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
           }}
-        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <ButtonLoader height='50%' width='50%'/> : 'Submit' } 
+        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
         </Button>      
     </div> 
   );

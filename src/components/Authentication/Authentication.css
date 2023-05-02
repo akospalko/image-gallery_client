@@ -56,6 +56,7 @@
   align-items: center;
   width: 100%;
   height: 30px;
+  cursor: pointer;
 }
 .auth-modal-navigate--active {
   background-color: var(--bg-color--ternary);

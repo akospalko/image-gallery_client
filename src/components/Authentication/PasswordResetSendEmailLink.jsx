@@ -70,7 +70,7 @@ export default function PasswordResetSendLink() {
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
       <div className='auth-modal'>
         {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <Loader width='50%'/> </div> : null }
+        {isLoading ? <div className='auth-modal-loader'> <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> </div> : null }
         {/* modal background */}
         <div className='auth-modal-background'></div>
         {/* send reset password form */}

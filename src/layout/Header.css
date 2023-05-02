@@ -21,6 +21,7 @@
   height: var(--header-height);
   background-color: var(--bg-color--secondary);
   border-bottom: 2px solid var(--bg-color--main);
+  padding: 0 var(--padding-default) 0 var(--padding-default);
 }
 /* user profile container */
 .header-container-user-profile {
@@ -34,13 +35,13 @@
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  max-width: 150px;
+  max-width: 100px;
 }
 .header-container-user-profile-name span {
   word-wrap: break-word;
   width: 100%;
   font-size: 0.8rem;
-  line-height: 1rem;
+  line-height: 0.8rem;
 }
 /* menu modal && user profile modal */
 .header-modal-container {

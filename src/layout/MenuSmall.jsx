@@ -28,7 +28,10 @@ export default function MenuSmall({navElements}) {
     <Button 
       buttonStyle='button-header-menu' 
       clicked={() => toggleModalHandler(OPERATIONS.HEADER_NAV)}
-    > {toggleModal.HEADER_NAV ? <MenuCloseIcon width='50%' height='50%' fill='var(--text-color--high-emphasis)'/> : <MenuOpenIcon width='50%' height='50%' fill='var(--text-color--high-emphasis)'/>} 
+    > {toggleModal.HEADER_NAV ? 
+      <MenuCloseIcon width='50%' height='50%' fill='var(--text-color--high-emphasis)'/> 
+    : 
+      <MenuOpenIcon width='50%' height='50%' fill='var(--text-color--high-emphasis)'/>} 
     </Button>
   )
   // button to toggle modal with user profile details: logout, etc. (only for small screens) 
@@ -44,7 +47,10 @@ export default function MenuSmall({navElements}) {
           toggleModalHandler(OPERATIONS.HEADER_NAV, false) // close modal 
         }  // unauth user: nav to login pg
       }
-    > { auth.username ? <UserIcon width='50%' height='50%' stroke='var(--text-color--high-emphasis)'/> : 'Login'} 
+    > { auth.username ? 
+      <UserIcon width='50%' height='50%' stroke='var(--text-color--high-emphasis)'/> 
+      : <span> login </span>
+    } 
     </Button>
   )
   return (

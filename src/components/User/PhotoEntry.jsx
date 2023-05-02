@@ -17,8 +17,8 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanelWrapper from '../ControlPanelWrapper';
 import '../ControlPanelWrapper.css';
 import { useLoaderContext } from '../contexts/LoaderContext'
-import ButtonLoader from '../SVG/ButtonLoader';
-import { LikeIcon, AddToCollectionIcon, RemoveFromCollectionIcon, ViewPhoto, LocationMark, InfoIcon } from '../SVG/ControlPanel';
+import Loader from '../SVG/Loader';
+import { LikeIcon, AddToCollectionIcon, RemoveFromCollectionIcon, ViewPhoto, LocationMark, InfoIcon } from '../SVG/Icons';
 
 const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadingImages}) => {
   // PROPS
@@ -183,9 +183,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
           async () => addLikeHandler(auth.userID, _id)
         }
       > {isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
-          <ButtonLoader width='75%' height='75%'/> : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)' fill='var(--bg-color--accent)'/>
+          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)' fill='var(--bg-color--accent)'/>
         :  isLoading.PHOTO_ENTRY_LIKE[_id]  ? 
-        <ButtonLoader width='75%' height='75%'/>  : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)'/>} 
+          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>  : <LikeIcon width='100%' height='100%' stroke='var(--bg-color--accent)'/>} 
       </Button>
       {/* add/remove photo to/from collection */}
       <Button
@@ -199,9 +199,9 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
             async () => addPhotoEntryToCollectionHandler(auth.userID, _id)
         }
       > {isInCollection ? isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-          <ButtonLoader width='75%' height='75%'/> : <RemoveFromCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>
+          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <RemoveFromCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/>
         :  isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
-        <ButtonLoader width='75%' height='75%'/> : <AddToCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> }
+        <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> : <AddToCollectionIcon width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> }
       </Button>
       <Button
         buttonStyle='button-control-panel-view'

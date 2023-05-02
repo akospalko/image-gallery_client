@@ -46,7 +46,7 @@ export default function PhotoEntries() {
   // RENDERED ELEMENTS
   const loader = (
     <div className='photo-entries-container'>
-      <div className='auth-modal-loader'> <Loader height='50%' width='50%'/> </div>
+      <div className='auth-modal-loader'> <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
   const photoEntries = (

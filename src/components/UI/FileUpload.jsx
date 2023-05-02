@@ -11,7 +11,7 @@ import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
 import Loader from '../SVG/Loader';
-import { Delete } from '../SVG/ControlPanel';
+import { Delete } from '../SVG/Icons';
 
 export default function FileUpload() {
   // CONSTANTS
@@ -175,7 +175,7 @@ export default function FileUpload() {
       {/* Loader */}
       { !allImagesLoaded && 
         <div className='file-upload-display'>
-          <Loader height='50%' width='50%'/> 
+          <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/> 
         </div> 
       } 
       {/* Displayed photo */}

@@ -36,7 +36,7 @@ export default function Home() {
   // loader
   const loader = (
     <div className='shared-page-container shared-page-container--centered'>
-      <Loader height='50%' width='50%'/>
+      <Loader height='30%' width='30%' stroke='var(--text-color--high-emphasis)'/>
     </div>
   )
   // photo placeholder if fetch was unsuccessfull && no data

@@ -10,12 +10,12 @@ import {OPERATIONS} from '../../helper/dataStorage'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import Button from '../UI/Button';
 import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
-import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/ControlPanel'
+import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/Icons'
 import PhotoEntryContentElement from './PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
-import ButtonLoader from '../SVG/ButtonLoader'
+import Loader from '../SVG/Loader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeContext } from '../contexts/ThemeContext'
@@ -104,7 +104,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
             setMessage('');
           }}
         > {isLoading.PHOTO_ENTRY_EDIT[id] ? 
-          <ButtonLoader width='75%' height='75%'/> 
+          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> 
           : 
           <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> } 
         </Button>
@@ -133,7 +133,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           clicked={() => deletePhotoEntryHandler(id)} 
         > 
         {isLoading.PHOTO_ENTRY_DELETE[id] ? 
-          <ButtonLoader width='75%' height='75%'/> 
+          <Loader width='100%' height='100%' stroke='var(--text-color--high-emphasis)'/> 
           : 
           <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> } 
         </Button>
