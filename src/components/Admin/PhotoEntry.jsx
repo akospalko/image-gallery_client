@@ -41,7 +41,6 @@ const PhotoEntry = ({collection, photoEntry}) => {
     try {
       loaderToggleHandler('PHOTO_ENTRY_DELETE', id, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
-      console.log(responseDelete)
       const {success, message, photoEntry } = responseDelete ?? {};
         toast(`${message}`, { // send toast
           className: "shared-toast",
@@ -51,7 +50,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          theme: theme,
+          theme: theme
         });
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
     } catch(error) {
@@ -63,7 +62,6 @@ const PhotoEntry = ({collection, photoEntry}) => {
   }
   // fetch photo data (of the clicked id) to populate update photo entry modal 
   const editPhotoEntryHandler = async (id) => {
-    console.log(id);
     try {
       loaderToggleHandler('PHOTO_ENTRY_EDIT', id, true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data

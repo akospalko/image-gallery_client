@@ -63,7 +63,10 @@ export default function PageContent() {
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
           <Route path={'/admin/gallery'} element={<GalleryAdmin/>}/>
         </Route>
-        {/* map view */}
+        {/* map view:  */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
+          <Route path={'/admin/mapoverview'} element={<MapOverview/>}/>
+        </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
           <Route path={'/admin/mapoverview'} element={<MapOverview/>}/>
         </Route>

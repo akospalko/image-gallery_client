@@ -56,6 +56,8 @@
   /* TOASTIFY CUSTOM STYLE */
   --toastify-color-light: #bc4749;
   --toastify-text-color-light: rgba(0, 0, 0, 0.86);
+  /* DISABLED */
+  --color--disabled: #
 }
 :root.dark {
   --bg-color--main: #212529;

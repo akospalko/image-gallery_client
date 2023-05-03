@@ -6,3 +6,53 @@
   flex-direction: column;
   z-index: var(--z1);
 }
+/* layers container: overwrite background */
+.leaflet-control-layers {
+  background-color: var(--bg-color--main);
+  border: 0;
+  border-radius: 4px;
+}
+
+/* layer toggle: overwrite default icon */
+.leaflet-top.leaflet-right .leaflet-control-layers .leaflet-control-layers-toggle {
+  background-image: url('../assets/layers.svg');
+  background-repeat: no-repeat;
+}
+/* set custom margin around control buttons */
+.leaflet-right .leaflet-control,
+.leaflet-left .leaflet-control {
+  margin: var(--margin-default);
+}
+/* opened(toggled) layers content label */
+.leaflet-control-layers label {
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-color--high-emphasis);
+}
+/* control panel: zoom in - out  */
+.leaflet-bar a {
+  background-color: var(--bg-color--main);
+  color: var(--bg-color--accent);
+} 
+.leaflet-bar a:hover, .leaflet-bar a:focus {
+  background-color: var(--bg-color--secondary);
+}
+/* disabled button: max-min zoom lvl reached */
+.leaflet-bar a.leaflet-disabled {
+  opacity: 0.7;
+  background-color: var(--bg-color--secondary);
+}
+/* border around control buttons */
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  /* border: 1px solid var(--bg-color--secondary); */
+}
+/* attribution: remove margin */
+.leaflet-container .leaflet-control-attribution {
+  margin: 0;
+  background-color: var(--bg-color--secondary);
+  color: var(--text-color--high-emphasis);
+}
+/* invert basemap style to dark */
+.custom-layer {
+  filter: invert(100%) hue-rotate(180deg) brightness(1.25);
+}
