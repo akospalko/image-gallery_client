@@ -41,7 +41,7 @@ export default function BaseMapLayers() {
   return (
     <LayersControl> 
       {baseLayers.map(layer => (
-        <BaseLayer checked={layer?.checked} name={layer.name}>  
+        <BaseLayer key={layer.name} checked={layer?.checked} name={layer.name}>  
           <TileLayer attribution={layer.attribution} url={layer.url} className={layer?.customClass}/>
         </BaseLayer>
       ))}
