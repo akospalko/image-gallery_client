@@ -1,11 +1,14 @@
+/* MAP CONTAINER */
 .map-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 500px;
+  height: 350px;
   flex-direction: column;
   z-index: var(--z1);
 }
+/* LAYER BUTTON AND CONTENT */
 /* layers container: overwrite background */
 .leaflet-control-layers {
   background-color: var(--bg-color--main);
@@ -17,6 +20,7 @@
 .leaflet-top.leaflet-right .leaflet-control-layers .leaflet-control-layers-toggle {
   background-image: url('../assets/layers.svg');
   background-repeat: no-repeat;
+  background-size: 50%;
 }
 /* set custom margin around control buttons */
 .leaflet-right .leaflet-control,
@@ -33,7 +37,8 @@
 .leaflet-bar a {
   background-color: var(--bg-color--main);
   color: var(--bg-color--accent);
-} 
+  border-bottom: var(--bg-color-main);
+}
 .leaflet-bar a:hover, .leaflet-bar a:focus {
   background-color: var(--bg-color--secondary);
 }
@@ -55,4 +60,75 @@
 /* invert basemap style to dark */
 .custom-layer {
   filter: invert(100%) hue-rotate(180deg) brightness(1.25);
+}
+
+/* FULLSCREEN BUTTON */
+/* fullscreen: open */
+.leaflet-control-fullscreen a {
+  background-color: var(--bg-color--main);
+  background-image: url('../assets/fullscreen.svg'); 
+  background-repeat: no-repeat;
+  background-size: 65%;
+}
+.leaflet-touch .leaflet-control-fullscreen a {
+  background-position: 5.5px 5.5px;
+}
+/* fullscreen: close */
+.leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
+  background-position: 5.5px -26px;
+}
+/* STATISTICS */
+.statistics-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  /* height: 200px; */
+  margin: 1rem 0; 
+
+  width: 100%;
+  /* padding: var(--padding-default); */
+  /* margin: var(--margin-default) 0; */
+  background-color: var(--bg-color--secondary);
+}
+
+.statistics-elem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.statistics-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 75px;
+  padding: var(--padding-default) 0;
+}
+.statistics-icon { 
+  width: 90%;
+  transition: all .2s ease-in-out;
+}
+.statistics-icon:hover { 
+  transform: scale(1.1);
+}
+
+.statistics-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* height: 50px; */
+  padding: var(--padding-default) 0;
+}
+
+.statistics-label > span {
+  font-size: 1.5rem;
+  /* line-height: 2rem; */
+  font-weight: bold;
+  color: var(--bg-color--accent);
 }

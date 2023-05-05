@@ -1,7 +1,10 @@
-// TODO: outsource STATE template
-// display all the photos with coordinates on maps
-import React, { useState, useEffect } from 'react'
-import {MapContainer, TileLayer, LayersControl, Marker, Popup} from 'react-leaflet'
+// display map with photo entry locations as markers
+import React, { useEffect } from 'react';
+import { MapContainer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import "leaflet/dist/leaflet.css";
 import './MapOverview.css'
 import './Shared.css'
@@ -13,7 +16,10 @@ import CustomPopup from './CustomPopup';
 import {useNavigate, useLocation} from 'react-router';
 import {useAuthContext} from './contexts/AuthenticationContext';
 import BaseMapLayers from './BaseMapLayers';
-
+import PhotoStatistics from './PhotoStatistics';
+import FullscreenControl from './FullScreenControl';
+import {LocationIcon} from './SVG/Icons';
+import ReactDOMServer from 'react-dom/server';
 
 export default function MapOverview() {
   // ROUTING
@@ -21,15 +27,8 @@ export default function MapOverview() {
     const location = useLocation(); 
     const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // STATE
-  // template
-  const statisticsTemplate = {
-    numberOfEntries: 0, // photos w + w/o coordinates
-    numberOfPlaces: 0, // photos w coordinates
-    authors: 0
-  };
-  const [statistics, setStatistics] = useState(statisticsTemplate);
   // CONTEXT
-  const {data, setData, setMessage} = useFormContext();
+  const {data, setData} = useFormContext();
   const {auth} = useAuthContext();
   // HOOK 
   const axiosPrivate = useAxiosPrivate();
@@ -47,45 +46,16 @@ export default function MapOverview() {
       }
     })() 
   }, [])
-  // EFFECTS
-  // calculate statistics on each state change
-  useEffect(() => {
-    if(!data) return;
-    calculateStatistics(data);
-    return () => {setStatistics(statisticsTemplate)} 
-  }, [data])
-  
-  // FUNCTIONS
-  // collect all entries' coordinates: used for calculating marker bounds 
-  const collectMarkerCoordinates = (data) => {
-    if(!data) return
-    // transform data to array of arrays
-    const markerCoordinates = data.map(entryCoordinate => {
-      if(!entryCoordinate.gpsLatitude || !entryCoordinate.gpsLongitude) return;
-      return [[entryCoordinate.gpsLatitude, entryCoordinate.gpsLongitude]]
-    })
-    return markerCoordinates;
-  } 
-  // calculate statistics, update state with new values
-  const calculateStatistics = (data) => {
-    if(!data) return
-    setStatistics(prev => {
-      let statTemp = { ...prev } // create state copy
-      let authors = []; // store unique authors (no duplicate values) 
-      data.map((elem, i) => {
-        statTemp['numberOfEntries']++; // calc photos: total No. entries 
-        if(elem?.gpsLatitude && elem?.gpsLongitude) {
-          statTemp['numberOfPlaces']++; // calc places: entries with lat-long coord.s 
-        }
-        if(!authors.includes(elem.author)) { // calc authors
-          authors = [...authors, elem.author];
-          statTemp['authors']++;
-        }
-      })
-      return statTemp;
-    });
-  }
-  // RENDERED ELEMENTS 
+
+  // ELEMENTS
+  // custom svg marker
+  const customMarker = L.divIcon({
+    className: 'leaflet-svg-icon',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    html: ReactDOMServer.renderToStaticMarkup(<LocationIcon/>),
+  });
+  // map
   const mapElement = (
   <MapContainer
     className='map-container'
@@ -95,33 +65,34 @@ export default function MapOverview() {
   >
     {/* Layer control for base map selection */}
     <BaseMapLayers />
-    {/* place all markers in view */}
-    <FitMarkersToBounds markerCoordinates={collectMarkerCoordinates(data)}/>
-    { data?.map((marker) => {
+    {/* Full screen control */}
+    <FullscreenControl />
+    {/* Place all markers in view */}
+    <FitMarkersToBounds /> 
+    <MarkerClusterGroup chunkedLoading>
+      { data?.map((marker) => {
         if(!marker.gpsLatitude || !marker.gpsLongitude) return
+        console.log(data);
         return <Marker 
-          position={[marker.gpsLatitude, marker.gpsLongitude] || [0,0]} 
           key={marker._id}
-        > <Popup> <CustomPopup marker={marker} />  </Popup>
-      </Marker>
-    })}
+          position={[marker.gpsLatitude, marker.gpsLongitude] || [0,0]} 
+          icon={customMarker}
+          >
+          {/* <Popup> <CustomPopup marker={marker} />  </Popup> */}
+        </Marker>
+      })}
+    </MarkerClusterGroup>
   </MapContainer>)
 
-  const statisticsElement = (
-    <div>
-      <p> Authors: {statistics.authors} </p>
-      <p> Number of Photos: {statistics.numberOfEntries} </p>
-      <p> Number of Places: {statistics.numberOfPlaces} </p>
-    </div>
-  )
 
 return (
   <div className='shared-page-container'>
     {data && data.length > 0 && 
       <> 
-        <p> Map overview </p>
+        {/* Map  */}
         {mapElement}
-        {statisticsElement}  
+        {/* Photo statistics */}
+        <PhotoStatistics/>
       </>
     }
   </div>
