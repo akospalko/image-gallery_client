@@ -78,7 +78,7 @@ export default function MapOverview() {
           position={[marker.gpsLatitude, marker.gpsLongitude] || [0,0]} 
           icon={customMarker}
           >
-          {/* <Popup> <CustomPopup marker={marker} />  </Popup> */}
+          <Popup> <CustomPopup marker={marker} />  </Popup>
         </Marker>
       })}
     </MarkerClusterGroup>
@@ -86,7 +86,7 @@ export default function MapOverview() {
 
 
 return (
-  <div className='shared-page-container'>
+  <div className='shared-page-container shared-page-container--with-padding'>
     {data && data.length > 0 && 
       <> 
         {/* Map  */}

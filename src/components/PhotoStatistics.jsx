@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './MapOverview.css'
 import {useFormContext} from './contexts/FormContext'
 import { PhotographerMaleIcon, PhotoEntryIcon, PhotoEntryIcon2, LocationsIcon, LocationsIcon2 } from './SVG/Icons';
+import './PhotoStatistics.css'
 
 export default function PhotoStatistics() {
   // STATE
@@ -47,12 +48,20 @@ export default function PhotoStatistics() {
 
 return (
     <div className='statistics-container'>
-      {statistics.map(stat => (
-      <div key={stat.name} title={stat.name} className='statistics-elem'>
-        <div className='statistics-icon'> {stat?.icon} </div>
-        <div className='statistics-label'> <span> {stat.amount} </span> </div>
-      </div>
-      ))}
+      {/* title */}
+      <h2> Overall statistics </h2>
+      {/* statistics card */}
+      <div className='statistics-card'>
+        {statistics.map(stat => (
+        <div key={stat.name} title={`number of ${stat.name}`} className='statistics-elem'>
+          <div className='statistics-icon'> {stat?.icon} </div>
+          <div className='statistics-label'> 
+            <span> {stat.amount} </span> 
+            <span> {stat.name} </span> 
+          </div>
+        </div>
+        ))}
+        </div>
     </div> 
   )
 }
