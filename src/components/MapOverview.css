@@ -1,22 +1,26 @@
+/* MAP CONTAINER */
 .map-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 500px;
+  height: 350px;
   flex-direction: column;
   z-index: var(--z1);
+  background: var(--bg-color--main);
 }
+/* LAYER BUTTON AND CONTENT */
 /* layers container: overwrite background */
 .leaflet-control-layers {
   background-color: var(--bg-color--main);
   border: 0;
   border-radius: 4px;
 }
-
 /* layer toggle: overwrite default icon */
 .leaflet-top.leaflet-right .leaflet-control-layers .leaflet-control-layers-toggle {
   background-image: url('../assets/layers.svg');
   background-repeat: no-repeat;
+  background-size: 50%;
 }
 /* set custom margin around control buttons */
 .leaflet-right .leaflet-control,
@@ -33,7 +37,8 @@
 .leaflet-bar a {
   background-color: var(--bg-color--main);
   color: var(--bg-color--accent);
-} 
+  border-bottom: var(--bg-color-main);
+}
 .leaflet-bar a:hover, .leaflet-bar a:focus {
   background-color: var(--bg-color--secondary);
 }
@@ -55,4 +60,106 @@
 /* invert basemap style to dark */
 .custom-layer {
   filter: invert(100%) hue-rotate(180deg) brightness(1.25);
+}
+/* FULLSCREEN BUTTON */
+/* fullscreen: open */
+.leaflet-control-fullscreen a {
+  background-color: var(--bg-color--main);
+  background-image: url('../assets/fullscreen.svg'); 
+  background-repeat: no-repeat;
+  background-size: 65%;
+}
+.leaflet-touch .leaflet-control-fullscreen a {
+  background-position: 5.5px 5.5px;
+}
+/* fullscreen: close */
+.leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
+  background-position: 5.5px -26px;
+}
+/* MARKER */
+/* marker cluster outer circle */
+.marker-cluster-small {
+  background-color: var(--bg-color--accent-transparent-medium);
+}
+/* marker cluster inner circle */
+.marker-cluster-small div {
+  background-color: var(--bg-color--accent);
+}
+
+/* STATISTICS */
+.statistics-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: var(--margin-default) 0; 
+  width: 100%;
+  background-color: var(--bg-color--secondary);
+}
+
+.statistics-container h2 {
+  color: var(--text-color--high-emphasis);
+  margin: 1rem 0;
+}
+
+.statistics-card {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.statistics-elem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color--main);
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid var(--bg-color--main);
+}
+.statistics-elem:first-child {
+  margin-left: 0.5rem;
+}
+.statistics-elem:hover {
+  background-color: var(--bg-color--main-transparent-medium);
+}
+.statistics-elem:hover .statistics-icon {
+  transform: scale(1.1);
+}
+
+.statistics-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 1rem 0;
+}
+.statistics-icon { 
+  width: 90%;
+  transition: all .2s ease-in-out;
+}
+.statistics-icon:hover { 
+  transform: scale(1.1);
+}
+.statistics-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  font-weight: bold;
+}
+.statistics-label span:first-child {
+  font-size: 1.5rem;
+  line-height: 1.5rem;  
+  color: var(--bg-color--accent);
+}
+.statistics-label span:last-child {
+  font-size: 1rem;
+  line-height: 2rem;
+  color: var(--text-color--high-emphasis);
 }

@@ -34,12 +34,18 @@
 }
 
 :root.light {
-  --bg-color--main: #ced4da; /*6c757d*/
+  --bg-color--main: #ced4da;
+  --bg-color--main-transparent-high: rgba(206, 212, 218, 0.25);  /*25%*/
+  --bg-color--main-transparent-medium: rgba(206, 212, 218, 0.50);  /*50%*/
+  --bg-color--main-transparent-low: rgba(206, 212, 218, 0.75);  /*75%*/
   --bg-color--secondary: #adb5bd;
   --bg-color--ternary: #6c757d;
   --bg-color--accent: #bc4749;
+  --bg-color--accent-transparent-high: rgba(188, 71, 73, 0.25);
+  --bg-color--accent-transparent-medium: rgba(188, 71, 73, 0.50);
+  --bg-color--accent-transparent-low: rgba(188, 71, 73, 0.75);
   /* calendar icon - only works with filter, currently uses --bg-color--ternary's color */
-  --color-picker--calendar-icon: invert(46%) sepia(24%) saturate(180%) hue-rotate(167deg) brightness(91%) contrast(83%);
+  --color-picker--calendar-icon: invertrgba(188, 71, 73, 0.6)ia(24%) saturate(180%) hue-rotate(167deg) brightness(91%) contrast(83%);
   /* FONT COLOR */
   /* default */
   color: rgba(0, 0, 0, 0.86);
@@ -61,9 +67,15 @@
 }
 :root.dark {
   --bg-color--main: #212529;
+  --bg-color--main-transparent-high: rgb(33, 37, 41, 25%);  /*25%*/
+  --bg-color--main-transparent-medium: rgb(33, 37, 41, 50%);  /*50%*/
+  --bg-color--main-transparent-low: rgb(33, 37, 41, 75%);  /*75%*/
   --bg-color--secondary: #343a40;
   --bg-color--ternary: #495057;
   --bg-color--accent: #bc4749;
+  --bg-color--accent-transparent-high: rgba(188, 71, 73, 0.25);
+  --bg-color--accent-transparent-medium: rgba(188, 71, 73, 0.50);
+  --bg-color--accent-transparent-low: rgba(188, 71, 73, 0.75);
   /* calendar icon - only works with filter, currently uses --bg-color--ternary's color */
   --color-picker--calendar-icon: invert(30%) sepia(10%) saturate(492%) hue-rotate(169deg) brightness(93%) contrast(88%);
   /* FONT COLOR */
