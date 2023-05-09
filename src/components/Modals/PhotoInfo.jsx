@@ -1,61 +1,82 @@
-// TODO: dont render label/content for entries w/o data
+// TODO: handle empty data fields
+// TODO: make jsx more reusable by mapping through vlaues ??? 
+// add img view button
 import React, {useState, useEffect} from 'react'
 import './PhotoInfo.css'
 import '../Shared.css'
-import {useModalContext} from './../contexts/ToggleModalContext'
-import {useFormContext} from './../contexts/FormContext'
+import {useModalContext} from '../contexts/ToggleModalContext'
 import Timestamp from '../Timestamp'
+import PhotoEntryContentElement from '../Admin/PhotoEntryContentElement'
+import { transformDate } from '../../helper/dateUtilities'
+import Button from '../UI/Button'
+import { OPERATIONS } from '../../helper/dataStorage'
+import { ViewPhoto } from '../SVG/Icons'
+
 
 export default function PhotoInfo() {
   // CONTEXTS
-  const {id} = useModalContext();
-  const {data} = useFormContext();
-  // STATE
-  const [photoInfo, setPhotoInfo] = useState({}); 
-  // EFFECT
-  // filter out photoURL for the current entry with the help of id (from modal context) 
-  useEffect(() => {
-    if(!data) return;
-    console.log(data);
-    const filtered = data.filter(elem => elem._id === id);
-    console.log(filtered)
-    setPhotoInfo(prev => {
-      return {...prev, ...filtered[0]}
-    });
-  }, [data, id, setPhotoInfo])
+  const {activePhotoEntry, toggleModalHandler} = useModalContext();
+  console.log(activePhotoEntry)
+  const {title, author, captureDate, description, gpsLatitude, gpsLongitude, createdAt, updatedAt} = activePhotoEntry ?? {};
+  
+  const photoContent = (
+    <div className="_photo-entry-container"> 
+      {/* View Photo Button */}
+      <Button buttonStyle='button-photo-info' clicked={ () => {
+        toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW, false);
+        toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW); }} 
+      > <ViewPhoto height='30px' width='30px' fill='var(--text-color--high-emphasis)'/> 
+        <span>  View Photo </span> 
+      </Button>
+      {/* Title */}
+      <PhotoEntryContentElement
+        title='photo title' 
+        label='Title' 
+        data={title} 
+        dataPositionTreshold={40} 
+        labelStyle='photo-entry-content--border-right'
+        />
+      {/* Author */}
+      <PhotoEntryContentElement
+        title='the person who captured the photo' 
+        label='Author' data={author} 
+        dataPositionTreshold={45} 
+        labelStyle='photo-entry-content--border-right'
+      />
+      {/* Capture date */}
+      <PhotoEntryContentElement
+        title='time when photo was captured' 
+        label='Captured' 
+        data={transformDate(captureDate, '-', '.')} 
+        labelStyle='photo-entry-content--border-right' 
+      />
+      {/* GPS latitude */}
+      <PhotoEntryContentElement
+        title='geographic coordinate: latitude' 
+        label='GPS lat' 
+        data={gpsLatitude} 
+        labelStyle='photo-entry-content--border-right' 
+      />
+      {/* GPS longitude */}
+      <PhotoEntryContentElement
+        title='geographic coordinate: longitude' 
+        label='GPS lon' 
+        data={gpsLongitude} 
+        labelStyle='photo-entry-content--border-right' 
+      />
+      {/* Description */}
+      <PhotoEntryContentElement
+        title='a few words about the photo' 
+        label='Description' 
+        data={description} 
+        dataPositionTreshold={40} 
+        labelStyle='photo-entry-content-label--vertical-text photo-entry-content--border-bottom photo-entry-content--border-right'
+        recordStyle='_photo-entry-content-record--description' 
+        dataStyle='_photo-entry-content-data--description' 
+      />
+      <Timestamp dateCreation={createdAt} dateLastUpdate={updatedAt} customStyle='timestamp-container--photo-info' />
+    </div>
+  );
 
-return (
-    <>
-      { photoInfo ? <div className='photo-info-container'> 
-        <div className='photo-info-group'>  
-          <div className='photo-info-label'> Title </div>
-          <div className='photo-info-information'> {photoInfo.title} </div>
-        </div>
-        <div className='photo-info-group'> 
-          <div className='photo-info-label'> Author </div>
-          <div className='photo-info-information'> {photoInfo.author} </div>
-        </div>
-        <div className='photo-info-group'> 
-          <div className='photo-info-label'> Capture date </div>      
-          <div className='photo-info-information'> {photoInfo.captureDate} </div>
-        </div> 
-        <div className='photo-info-group'> 
-          <div className='photo-info-label'> Description </div>
-          <div className='photo-info-information photo-info-information--justify-text'> {photoInfo.description} </div>
-        </div>
-        <div className='photo-info-group'> 
-          <div className='photo-info-label'> Coordinates </div>
-          <div className='photo-info-information'>
-            <div className='photo-info-information-coordinates'> {`Lat. ${photoInfo?.gpsLatitude ? photoInfo?.gpsLatitude.toFixed(3): 0}`} </div>
-            <div className='photo-info-information-coordinates'> {`Lon. ${photoInfo?.gpsLongitude ? photoInfo?.gpsLongitude.toFixed(3): 0}`} </div>
-          </div>
-        </div>
-        <div className='photo-info-group'> 
-          <div className='photo-info-information photo-info-information--dates'>
-            <Timestamp dateCreation={photoInfo.createdAt} dateLastUpdate={photoInfo.updatedAt}/>
-          </div>
-        </div>
-      </div> : null }
-    </>
-  )
+return photoContent;
 }
