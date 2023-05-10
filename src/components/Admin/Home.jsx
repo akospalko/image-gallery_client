@@ -1,15 +1,19 @@
-// content management for home photo collection 
+// closeModal management for photo home collection 
 import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Button from '../UI/Button'
 import PhotoEntries from './PhotoEntries'
 import {useModalContext} from '../contexts/ToggleModalContext'
-import PhotoEntryModalGroup from './PhotoEntryModalGroup'
-import {COLLECTIONS, OPERATIONS} from '../../helper/dataStorage'
+import {COLLECTIONS, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
 import {useNavigate, useLocation} from 'react-router'
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useFormContext } from '../contexts/FormContext'
+import PhotoEntryModal from './PhotoEntryModal'
+import MapModal from '../Modals/MapModal'
+import FullScreenView from '../Modals/FullScreenView'
+import CreateUpdatePhotoEntry from '../Modals/CreateUpdatePhotoEntry'
+import { createPhoto, updatePhoto } from '../../helper/dataStorage'
 
 export default function Home() {
   // ROUTING
@@ -19,7 +23,7 @@ export default function Home() {
   // STATE
   const [showSkeleton, setShowSkeleton] = useState(true);
   // CONTEXT
-  const {toggleModalHandler} = useModalContext();
+  const {toggleModal, toggleModalHandler} = useModalContext();
   const {setMessage} = useFormContext();
   // HOOK
   const {fetchHomePhotoEntries} = useFetchPhotoEntries(); 
@@ -54,11 +58,48 @@ export default function Home() {
       > Create Photo Entry 
       </Button>
       {/* photo cards container */}
-      <div className='shared-image-cards-container'>
-        {renderedElement}
-      </div>
-      {/* control group modals */}
-      <PhotoEntryModalGroup collection={COLLECTIONS.HOME}/>
+      {renderedElement}
+      {/* Modals */}
+      {/* create photo entry*/}
+      { toggleModal[OPERATIONS.CREATE_PHOTO] && 
+        <PhotoEntryModal  
+          modalTitle={ MODAL_TITLES[OPERATIONS.CREATE_PHOTO] }
+          closeModal={ OPERATIONS.CREATE_PHOTO } 
+          modalContent={
+            <CreateUpdatePhotoEntry 
+              operation={OPERATIONS.CREATE_PHOTO} 
+              collection={COLLECTIONS.HOME}
+              formTemplate={createPhoto} 
+              label={true} /> }
+        />}
+      {/* update photo entry*/} 
+      { toggleModal[OPERATIONS.UPDATE_PHOTO] && 
+        <PhotoEntryModal  
+          modalTitle={ MODAL_TITLES[OPERATIONS.UPDATE_PHOTO] }
+          closeModal={ OPERATIONS.UPDATE_PHOTO } 
+          modalContent={
+            <CreateUpdatePhotoEntry 
+              operation={OPERATIONS.UPDATE_PHOTO} 
+              collection={COLLECTIONS.HOME}
+              formTemplate={updatePhoto} 
+              label={true} /> }
+        />}
+      {/* map view */}
+      { toggleModal[OPERATIONS.MAP_VIEW] && 
+        <PhotoEntryModal 
+          modalTitle={ MODAL_TITLES[OPERATIONS.MAP_VIEW] }
+          modalContent={ <MapModal/> } 
+          contentStyle='shared-page-container--with-padding' 
+          closeModal={ OPERATIONS.MAP_VIEW } 
+        /> }
+      {/* photo view */}
+      { toggleModal[OPERATIONS.FULLSCREEN_VIEW] && 
+        <PhotoEntryModal 
+          modalTitle={ MODAL_TITLES[OPERATIONS.FULLSCREEN_VIEW] }
+          modalContent={ <FullScreenView/> } 
+          contentStyle='shared-modal-content--centered' 
+          closeModal={ OPERATIONS.FULLSCREEN_VIEW } 
+        /> }
     </div>
     )
 }
