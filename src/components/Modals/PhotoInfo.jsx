@@ -1,7 +1,7 @@
 // TODO: handle empty data fields
 // TODO: make jsx more reusable by mapping through vlaues ??? 
 // add img view button
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import './PhotoInfo.css'
 import '../Shared.css'
 import {useModalContext} from '../contexts/ToggleModalContext'
