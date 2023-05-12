@@ -1,7 +1,7 @@
-// Photo entry related modal wrapper (modals: create/update, photo, map, info )
+// Photo entry related modal wrapper
 import React from 'react'
 import '../Shared.css'
-import ModalHeader from '../Modals/ModalHeader'
+import ModalHeader from './ModalHeader'
 
 export default function PhotoEntryModal(props) {
   // PROPS
@@ -9,7 +9,7 @@ export default function PhotoEntryModal(props) {
     closeModal, // reference to the active modal which is to be closed when button is clicked  
     returnToModal, // reference to which modal to return when button is clicked 
     modalTitle,  // modal header title 
-    modalContent, // component to hold the modal's unique content    
+    modalContent, // component to hold the modal's unique content:  create/update, photo, map, info 
     contentStyle // modal component's content style 
   } = props;
 
@@ -28,4 +28,3 @@ export default function PhotoEntryModal(props) {
     </div>
   )
 }
- 
