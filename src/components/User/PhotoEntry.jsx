@@ -4,11 +4,9 @@ import '../Shared.css'
 import Button from '../UI/Button';
 import {useFormContext} from '../contexts/FormContext'
 import {useModalContext} from '../contexts/ToggleModalContext';
-import {
-  addPhotoEntryLike,
-  removePhotoEntryLike,
-  addPhotoEntryToCollection,
-  removePhotoEntryFromCollection
+import { 
+  addPhotoEntryLike, removePhotoEntryLike, 
+  addPhotoEntryToCollection, removePhotoEntryFromCollection
 } from '../../helper/axiosRequests'
 import {useNavigate} from 'react-router'
 import {OPERATIONS} from '../../helper/dataStorage';
@@ -25,7 +23,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
   const {title, photoURL, captureDate, gpsLatitude, gpsLongitude, _id, inCollection, isInCollection, isLiked, likes} = photoEntry ?? {};
   // CONTEXT
   const {setData, setMessage} = useFormContext();
-  const {toggleModalHandler, setID} = useModalContext();
+  const {setActivePhotoEntry, toggleModalHandler} = useModalContext();
   const {auth} = useAuthContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   // HOOK
@@ -206,7 +204,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
         buttonStyle='button-control-panel-view'
         title='view image'
         clicked={() => {
-          setID(_id)
+          setActivePhotoEntry(photoEntry)
           toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW)}}
       > <ViewPhoto height='100%' width='100%' fill='var(--text-color--high-emphasis)'/> </Button>
       {/* map */}
@@ -215,7 +213,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
         title='view geographic location'
         disabled={!gpsLatitude || !gpsLongitude}
         clicked={() => {
-          setID(_id)
+          setActivePhotoEntry(photoEntry);
           toggleModalHandler(OPERATIONS.MAP_VIEW)}}
       > <LocationMark height='100%' width='100%' fill='var(--text-color--high-emphasis)'/> </Button>
     </span>
@@ -225,7 +223,7 @@ const PhotoEntry = ({photoEntry, getImageFile, hideImageStyle, setCurrentlyLoadi
       <Button
         buttonStyle='button-control-panel-view'
         clicked={() => {
-          setID(_id)
+          setActivePhotoEntry(photoEntry);
           toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW)}}
       > <InfoIcon height='100%' width='100%' stroke='var(--text-color--high-emphasis)'/> </Button>
     </span>

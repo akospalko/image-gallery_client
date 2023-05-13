@@ -1,8 +1,9 @@
 // TODO: replace string labels with CONSTANTs 
 // TODO: pass title/form styling to Form elem 
 // TODO: when cancel || X buttons are pressed: abort request 
+// TODO: navToPrevPage - navigates to login after operation 
 // Reusable modal for create/update photo entry 
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Form from '../UI/Form'
 import Input from '../UI/Input'
 import { buildInputFields } from '../../helper/buildInputFields'
@@ -31,13 +32,38 @@ export default function CreateUpdatePhotoEntry(props) {
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
-  const {activeID, setActiveID, toggleModalHandler} = useModalContext();
+  const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
   const {formData, setFormData, message, setMessage, setPhotoFile} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
+   // STATE
+  const [isFormReady, setIsFormReady] = useState(false);
+  // EFFECTS
+  // set up form on mount
+  useEffect(() => { 
+    setFormData(formTemplate);
+    return () => {
+      setFormData(null);
+      setPhotoFile({});
+    } 
+  }, [])
+  // update photo entry: populate form with active id on first render
+  useEffect(() => {
+    if(operation !== OPERATIONS.UPDATE_PHOTO || !activePhotoEntry || !formData || isFormReady) return;
+    // update form with filtered fields' values
+    let updatedForm = {...formData}; // copy form
+    for(let elem in formData) {
+      const updatedItem = {...updatedForm[elem]}; 
+      updatedItem.value = activePhotoEntry[elem];
+      updatedForm[elem] = updatedItem; 
+    }
+    setFormData(updatedForm);  
+    setIsFormReady(true);      
+  }, [formData, operation, isFormReady, setIsFormReady])
+
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
   const createPhotoEntryHandler = async(e, formData) => {
@@ -60,7 +86,8 @@ export default function CreateUpdatePhotoEntry(props) {
           draggable: true,
           theme: theme,
           });
-        collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
+        // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
+        collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
@@ -70,7 +97,7 @@ export default function CreateUpdatePhotoEntry(props) {
       }
     } catch (error) { 
       setMessage('Error. Try again later!'); 
-      navToPrevPage();
+      // navToPrevPage();
     } finally {      
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
     }
@@ -81,7 +108,7 @@ export default function CreateUpdatePhotoEntry(props) {
     try {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
       const convertedData = convertFormData(formData); 
-      const responseUpdate = await updatePhotoEntry(activeID._id, convertedData, axiosPrivate, collection);
+      const responseUpdate = await updatePhotoEntry(activePhotoEntry._id, convertedData, axiosPrivate, collection);
       const {success, message, photoEntry } = responseUpdate ?? {};
       if(success === true) {
         toast(`${message}`, { // send toast
@@ -94,7 +121,8 @@ export default function CreateUpdatePhotoEntry(props) {
           draggable: true,
           theme: theme,
           });
-        collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
+        // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
+        collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
         setFormData(undefined); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
@@ -104,7 +132,7 @@ export default function CreateUpdatePhotoEntry(props) {
       }
     } catch(error) { 
       setMessage('Error. Try again later!'); 
-      navToPrevPage();
+      // navToPrevPage();
     } finally { 
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
     }
@@ -122,7 +150,7 @@ export default function CreateUpdatePhotoEntry(props) {
             setMessage(statusMessages.EMPTY);
             toggleModalHandler(operation);
             setPhotoFile({});
-            setActiveID({})
+            // setActiveID({})
           }}
         > Cancel 
         </Button> : null }   
@@ -145,8 +173,7 @@ export default function CreateUpdatePhotoEntry(props) {
     <div className='create-update-photo-entry-modal-wrapper'>
       {/* FORM */}
       <Form id='form-create-update-photo-entry'> 
-        {/* { formData && buildInputFields(formTemplate).map(elem => ( */}
-        { buildInputFields(formTemplate).map(elem => (
+        { formData && buildInputFields(formTemplate).map(elem => (
         <Input 
           key={elem.name} 
           name={elem.name} 

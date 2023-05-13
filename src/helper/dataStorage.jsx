@@ -228,7 +228,7 @@ export const navElementsUser = [
   }, {
     id: 1,
     name: 'gallery',
-    path: '/gallery'
+    path: function(username) { return `${username}/gallery`}
   }, {
     id: 2,
     name: 'map overview',
@@ -244,7 +244,7 @@ export const navElementsAdmin = [
   }, {
     id: 1,
     name: 'gallery',
-    path: '/admin/gallery'
+    path: function(username) { return `/admin/${username}/gallery`}
   }, {
     id: 2,
     name: 'map overview',

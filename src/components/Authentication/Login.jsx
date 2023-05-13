@@ -1,3 +1,4 @@
+// authentication: login 
 // TODO: outsource client side status messages
 import React, {useEffect, useState} from 'react'
 import '../Shared.css'
@@ -56,7 +57,7 @@ export default function Login() {
           theme: theme,
           });
         setAuth({username: convertedData.username, roles, accessToken, userID}); // store auth data in state
-        navigate('/gallery', { replace: true }); // navigate user to default resource 
+        navigate(`/${success && convertedData.username}/gallery`, { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
         setMessage(message); // set status message (for both success and failed auth)

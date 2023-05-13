@@ -1,11 +1,13 @@
-// map layer toggle button: toggle and select from list of basemap layers
-import React from 'react'
-import {TileLayer, LayersControl} from 'react-leaflet'
-import { useThemeContext } from './contexts/ThemeContext';
+// Map layer toggle button: toggle and select from list of basemap layers
+import React from 'react';
+import './Map.css';
+import {TileLayer, LayersControl} from 'react-leaflet';
+
+import { useThemeContext } from '../contexts/ThemeContext';
 export default function BaseMapLayers() {
   // CONTEXT
   const {theme} = useThemeContext(); 
-
+  // TEMPLATE
   // map base layer data
   const baseLayers = [
     {
@@ -40,8 +42,8 @@ export default function BaseMapLayers() {
   return (
     <LayersControl> 
       {baseLayers.map(layer => (
-        <BaseLayer key={layer.name} checked={layer?.checked} name={layer.name}>  
-          <TileLayer attribution={layer.attribution} url={layer.url} className={layer?.customClass}/>
+        <BaseLayer key={layer?.name} checked={layer?.checked} name={layer?.name}>  
+          <TileLayer attribution={layer?.attribution} url={layer?.url} className={layer?.customClass}/>
         </BaseLayer>
       ))}
     </LayersControl>

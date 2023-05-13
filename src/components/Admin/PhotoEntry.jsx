@@ -1,4 +1,5 @@
-// photo entry with control panel buttons
+// TODO: reusable PhotoEntryContentElement 
+// Admin mode photo entry: control panel & photo content 
 import React from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
@@ -11,7 +12,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import Button from '../UI/Button';
 import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
 import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/Icons'
-import PhotoEntryContentElement from './PhotoEntryContentElement'
+import PhotoEntryContentElement from '../PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
@@ -19,13 +20,14 @@ import LoaderIcon from '../SVG/Loader'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeContext } from '../contexts/ThemeContext'
+import Timestamp from '../Timestamp'
 
 const PhotoEntry = ({collection, photoEntry}) => {
   // PROPS
   const {title, description, createdAt, captureDate, updatedAt, _id:id, gpsLatitude, gpsLongitude, author} = photoEntry ?? {};
   // CONTEXT
   const {setMessage} = useFormContext();
-  const {toggleModalHandler, setActiveID, setID} = useModalContext();
+  const {toggleModalHandler, setActivePhotoEntry} = useModalContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -78,7 +80,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           theme: theme,
         });
       };
-      setActiveID(photoEntry); // set active entry
+      setActivePhotoEntry(photoEntry); // set active entry
       toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
     } catch(error) {
       setMessage('Error. Try again later!'); 
@@ -111,7 +113,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           buttonStyle='button-control-panel-edit'
           title='view photo'
           clicked={() => {
-            setID(id)
+            setActivePhotoEntry(photoEntry); 
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
         > <ViewPhoto height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>
         {/* map */}
@@ -120,7 +122,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
           title='view geographic location'
           disabled={!gpsLatitude || !gpsLongitude}
           clicked={() => {
-            setID(id)
+            setActivePhotoEntry(photoEntry); 
             toggleModalHandler(OPERATIONS.MAP_VIEW) }}
         > <LocationMark height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>  
       </span>
@@ -140,73 +142,72 @@ const PhotoEntry = ({collection, photoEntry}) => {
     </ControlPanelWrapper>
   )
   const photoContent = (
-    <div className='photo-entry-admin-content-container'>
+    <>
       {/* ID */}
       <PhotoEntryContentElement
         title='photo entry ID' 
         label='ID' 
-        labelStyle='photo-entry-admin-content-data--border-top' 
         data={id} 
-        dataStyle='photo-entry-admin-content-data--border-top' 
-      />
+        labelStyle='photo-entry-content--border-right' 
+        />
       {/* Title */}
       <PhotoEntryContentElement
         title='photo title' 
         label='Title' 
         data={title} 
         dataPositionTreshold={40} 
-      />
+        labelStyle='photo-entry-content--border-right'
+        />
       {/* Author */}
       <PhotoEntryContentElement
         title='the person who captured the photo' 
         label='Author' data={author} 
         dataPositionTreshold={45} 
+        labelStyle='photo-entry-content--border-right'
       />
       {/* Capture date */}
       <PhotoEntryContentElement
         title='time when photo was captured' 
         label='Captured' 
         data={transformDate(captureDate, '-', '.')} 
+        labelStyle='photo-entry-content--border-right' 
       />
       {/* GPS latitude */}
       <PhotoEntryContentElement
         title='geographic coordinate: latitude' 
         label='GPS lat' 
         data={gpsLatitude} 
+        labelStyle='photo-entry-content--border-right' 
       />
       {/* GPS longitude */}
       <PhotoEntryContentElement
         title='geographic coordinate: longitude' 
         label='GPS lon' 
         data={gpsLongitude} 
+        labelStyle='photo-entry-content--border-right' 
       />
       {/* Description */}
       <PhotoEntryContentElement
         title='a few words about the photo' 
         label='Description' 
-        labelStyle='photo-entry-admin-content-label--vertical-text photo-entry-admin-content-label--border-bottom-0'
         data={description} 
         dataPositionTreshold={40} 
-        contentStyle='photo-entry-admin-content--fill-remaining-height' 
-        dataStyle='photo-entry-admin-content-data--description ' 
+        labelStyle='photo-entry-content-label--vertical-text photo-entry-content--border-bottom photo-entry-content--border-right'
+        recordStyle='_photo-entry-content-record--description' 
+        dataStyle='_photo-entry-content-data--description' 
       />
-      {/* TIMESTAMP */}
-      <PhotoEntryContentElement
-        title='photo entry related date' 
-        contentStyle='photo-entry-admin-content--timestamp' 
-        type='timestamp' 
-        dateCreation={createdAt} 
-        dateLastUpdate={updatedAt} 
-      />
-    </div>
+      <Timestamp dateCreation={createdAt} dateLastUpdate={updatedAt}/>
+    </>
   )
 
   return (
-    <div className='photo-entry-admin-container'>
+    <div className='_photo-entry-container _photo-entry--admin'>
       {/* CONTROL PANEL */}
       {controlPanel}
       {/* CONTENT */}
-      {photoContent}
+      <div className='_photo-entry-content'>
+        {photoContent}
+      </div>
     </div>
   )
 }

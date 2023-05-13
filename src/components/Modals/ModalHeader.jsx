@@ -1,32 +1,44 @@
-// TODO: replace button icon
-// header for modals containing title and close modal button
+// modals header with title, return & close modal buttons
 import React from 'react'
 import '../Shared.css'
 import Button from '../UI/Button';
 import {useModalContext} from '../contexts/ToggleModalContext';
 import {useFormContext} from '../contexts/FormContext';
+import { ArrowIcon, MenuCloseIcon } from '../SVG/Icons';
 
-export default function ModalHeader({title, operation}) {
-    // CONTEXTS
-    const {activeID, setActiveID, toggleModalHandler} = useModalContext();
-    const {setMessage, setFormData, photoFile,  setPhotoFile} = useFormContext();
-
+export default function ModalHeader(props) {
+  // PROPS
+  const {title, closeModal, returnToModal} = props;
+  // CONTEXTS
+  const {activePhotoEntry, setActivePhotoEntry, toggleModalHandler} = useModalContext();
+  const {setMessage, setFormData, photoFile, setPhotoFile} = useFormContext();
+  
   return (
-    // modal header: title, close button 
     <>
-      <div className='shared-modal-dummy'> </div>
+      <div className='shared-modal-dummy'> 
+      {returnToModal && <Button 
+            buttonStyle='button-modal-close'
+            clicked={() => {
+              setMessage('');
+              setFormData(undefined);
+              photoFile.name && setPhotoFile({});
+              toggleModalHandler(returnToModal);
+            }}
+          > <ArrowIcon height='70%' width='70%' fill={ 'var(--text-color--high-emphasis)' } />
+        </Button>}
+      </div>
       <div className='shared-modal-title'> <h2> {title} </h2> </div>
       <div className='shared-button-wrapper shared-button-wrapper--modal-close'>  
         <Button 
-          customStyle='button-modal-close'
+          buttonStyle='button-modal-close'
           clicked={() => {
             setMessage('');
             setFormData(undefined);
             photoFile.name && setPhotoFile({});
-            activeID && setActiveID({});
-            toggleModalHandler(operation, false);
+            activePhotoEntry && setActivePhotoEntry({});
+            toggleModalHandler(closeModal);
           }}
-          > X 
+          > <MenuCloseIcon height='50%' width='50%' fill={ 'var(--text-color--high-emphasis)' } /> 
         </Button>
       </div>
     </>

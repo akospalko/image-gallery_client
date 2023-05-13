@@ -1,8 +1,7 @@
 // RESOURCE: zoom/pan functionality - https://www.npmjs.com/package/react-zoom-pan-pinch
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import './FullScreenView.css' 
 import {useModalContext} from '../contexts/ToggleModalContext'
-import {useFormContext} from '../contexts/FormContext'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import LoaderIcon from '../SVG/Loader'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -11,9 +10,7 @@ import { ZoomInIcon, ZoomOutIcon, RestoreViewIcon } from '../SVG/Icons'
 
 export default function FullScreenView() {
   // CONTEXTS
-  const {id} = useModalContext();
-  const {data} = useFormContext();
-  const [photo, setPhoto] = useState();
+  const {activePhotoEntry} = useModalContext();
   // HOOKS
   const {
     allImagesLoaded, setAllImagesLoaded, 
@@ -24,18 +21,9 @@ export default function FullScreenView() {
   // EFFECT
   // filter out photoURL for the current entry with the help of id (from modal context) 
   useEffect(() => {
-    // console.log(allImagesLoaded)
-    if(!data) return;
+    if(!activePhotoEntry) return;
     setAllImagesLoaded(false); 
-    const filtered = data.filter(elem => elem._id === id);
-    setPhoto(prev => {
-      return {
-        ...prev, 
-        title: filtered[0].title, 
-        url: filtered[0].photoURL
-      }
-    })
-  }, [])
+  }, [activePhotoEntry])
   // RENDERED ELEMENT
   // loader: shown while photo is being loaded  
   const loader = (!allImagesLoaded && 
@@ -44,7 +32,7 @@ export default function FullScreenView() {
     </div> 
   )
   // photo with zoom/pan/reset functionality
-  const displayedPhoto = (photo && 
+  const displayedPhoto = (
     <>
       <TransformWrapper>
         {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
@@ -63,11 +51,11 @@ export default function FullScreenView() {
                 </Button>
                 <Button 
                   clicked={() => resetTransform()} buttonStyle='button-photo-view-tools'
-                  > <RestoreViewIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
+                > <RestoreViewIcon height='100%' width='100%' fill='var(--text-color--high-emphasis)'/>
                 </Button>
               </div>
               <TransformComponent>
-                {getImageFile(photo.url, {objectFit: 'contain'}, id)}
+                {getImageFile(activePhotoEntry.photoURL, {objectFit: 'contain'}, activePhotoEntry._id)}
               </TransformComponent>
             </div>
           </div>
@@ -80,6 +68,6 @@ export default function FullScreenView() {
     <div className='full-screen-view-container'> 
       {loader}
       {displayedPhoto} 
-     </div> 
+    </div> 
   )
 }

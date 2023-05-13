@@ -1,5 +1,5 @@
 // TODO: replace status message strings with CONSTANTS 
-// list of requests made to the api
+// List of requests made to the api
 import axios from 'axios';
 import {axiosAuthentication} from '../helper/axiosInstances'
 import {statusMessages} from './dataStorage';
@@ -35,11 +35,11 @@ export const getAllHomePhotos = async (axiosInstance) => {
   return fetchedData;
 }
 // GET single entry, update state with fetched response data
-export const getSinglePhotoEntry = async (activeID, axiosInstance, collection, userID) => {
-  if(!activeID) return;
+export const getSinglePhotoEntry = async (activePhotoEntry, axiosInstance, collection, userID) => {
+  if(!activePhotoEntry) return;
   let fetchedData; 
   try { 
-    const response = await axiosInstance.get(`/api/v1/photo-gallery/${collection}/${activeID}/?userID=${userID}`);
+    const response = await axiosInstance.get(`/api/v1/photo-gallery/${collection}/${activePhotoEntry}/?userID=${userID}`);
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
@@ -67,11 +67,11 @@ export const postPhotoEntry = async (entryData, axiosInstance, collection, userI
   return fetchResult;
 }
 // PATCH (update)
-export const updatePhotoEntry = async (activeID, entryData, axiosInstance, collection) => {
-  if(!activeID || !entryData) return;
+export const updatePhotoEntry = async (activePhotoEntry, entryData, axiosInstance, collection) => {
+  if(!activePhotoEntry || !entryData) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.patch(`/api/v1/photo-gallery/${collection}/${activeID}`, entryData);
+    const response = await axiosInstance.patch(`/api/v1/photo-gallery/${collection}/${activePhotoEntry}`, entryData);
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -83,11 +83,11 @@ export const updatePhotoEntry = async (activeID, entryData, axiosInstance, colle
   return fetchResult;
 }
 // DELETE
-export const deletePhotoEntry = async (activeID, axiosInstance, collection) => { 
-  if(!activeID) return;
+export const deletePhotoEntry = async (activePhotoEntry, axiosInstance, collection) => { 
+  if(!activePhotoEntry) return;
   let fetchResult; 
   try { 
-    const response = await axiosInstance.delete(`/api/v1/photo-gallery/${collection}/${activeID}`)
+    const response = await axiosInstance.delete(`/api/v1/photo-gallery/${collection}/${activePhotoEntry}`)
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
@@ -214,7 +214,6 @@ export const logoutUser = async () => {
   let fetchResult; 
   try {
     const response = await axiosAuthentication.get('/api/v1/logout', { withCredentials: true });
-    console.log(response)
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
@@ -238,7 +237,6 @@ export const requestPasswordResetLink = async (email) => {
       fetchResult = {...error?.response.data};
     }
   }
-  console.log(fetchResult)
   return fetchResult;
 }
 // GET, verify password reset link (token) validity before allowing users to change their password
@@ -270,6 +268,5 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
         fetchResult = {...error?.response.data};
       }
     }
-    console.log(fetchResult)
     return fetchResult;
   }
