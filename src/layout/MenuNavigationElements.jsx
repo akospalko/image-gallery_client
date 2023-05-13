@@ -7,10 +7,11 @@ import {NavLink} from 'react-router-dom'
 import {useModalContext} from '../components/contexts/ToggleModalContext'
 import {OPERATIONS} from '../helper/dataStorage'
 import ThemeToggler from '../components/UI/ThemeToggler'
-
+import { useAuthContext } from '../components/contexts/AuthenticationContext'
 export default function useMenuNavigationElements(navElements) {
   // CONTEXT 
   const {toggleModal, toggleModalHandler} = useModalContext();
+  const {auth} = useAuthContext(); 
   // RENDERED ELEMENTS
   // menu modal navigation elements
   const menuModalNavigationElements = (
@@ -25,7 +26,7 @@ export default function useMenuNavigationElements(navElements) {
           {navElements && navElements.map((elem) => {
             return <NavLink 
               key={elem.id} 
-              to={elem.path}
+              to={typeof elem.path === 'function' ? elem.path(auth.username) : elem.path }
               onClick={() => toggleModalHandler(OPERATIONS.HEADER_NAV, false)}
               className={ ({isActive}) => 
               (isActive ? 'header-navigation-item header-navigation-item--active' : 'header-navigation-item')}

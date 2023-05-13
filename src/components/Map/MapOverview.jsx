@@ -1,23 +1,23 @@
-// display map with photo entry locations as markers
+// Display map with photo entry locations as markers
 import React, { useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import "leaflet/dist/leaflet.css";
-import './MapOverview.css'
-import './Shared.css'
-import {useFormContext} from './contexts/FormContext'
-import {getAllGalleryPhotoEntries} from '../helper/axiosRequests'
-import useAxiosPrivate from './hooks/useAxiosPrivate';
+import '../Shared.css'
+import './Map.css'
+import {useFormContext} from '../contexts/FormContext'
+import {getAllGalleryPhotoEntries} from '../../helper/axiosRequests'
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {useNavigate, useLocation} from 'react-router';
-import {useAuthContext} from './contexts/AuthenticationContext';
-import PhotoStatistics from './PhotoStatistics';
-import Map from './Map/Map';
-import PhotoEntryModal from './Admin/PhotoEntryModal';
-import { useModalContext } from './contexts/ToggleModalContext';
-import { OPERATIONS, MODAL_TITLES } from '../helper/dataStorage';
-import PhotoInfo from './Modals/PhotoInfo';
-import FullScreenView from './Modals/FullScreenView';
+import {useAuthContext} from '../contexts/AuthenticationContext';
+import PhotoStatistics from '../PhotoStatistics';
+import Map from './Map';
+import PhotoEntryModal from '../Modals/PhotoEntryModal';
+import { useModalContext } from '../contexts/ToggleModalContext';
+import { OPERATIONS, MODAL_TITLES } from '../../helper/dataStorage';
+import PhotoInfo from '../Modals/PhotoInfo';
+import FullScreenView from '../Modals/FullScreenView';
 
 export default function MapOverview() {
   // ROUTING
@@ -55,14 +55,14 @@ export default function MapOverview() {
           {/* Photo statistics */}
           <PhotoStatistics/>
           {/* Modals */}
-          { toggleModal.PHOTO_INFO_VIEW && 
+          { toggleModal[OPERATIONS.PHOTO_INFO_VIEW] && 
             <PhotoEntryModal 
               modalTitle={ MODAL_TITLES[OPERATIONS.PHOTO_INFO_VIEW] }
-              modalContent={ <PhotoInfo/> } 
+              modalContent={ <PhotoInfo displayPhotoView displayTimestamp/> } 
               contentStyle='shared-page-container--with-padding' 
               closeModal={ OPERATIONS.PHOTO_INFO_VIEW } 
             /> }
-          { toggleModal.FULLSCREEN_VIEW && 
+          { toggleModal[OPERATIONS.FULLSCREEN_VIEW] && 
             <PhotoEntryModal 
               modalTitle={ MODAL_TITLES[OPERATIONS.FULLSCREEN_VIEW] }
               modalContent={ <FullScreenView/> } 

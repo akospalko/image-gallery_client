@@ -26,7 +26,7 @@ export default function FileUpload() {
     photoFile, setPhotoFile,
     formData, setFormData,
   } = useFormContext();
-  const {activeID} = useModalContext();
+  const {activePhotoEntry} = useModalContext();
   // HOOKS 
   const {    
     allImagesLoaded, setAllImagesLoaded, 
@@ -64,7 +64,7 @@ export default function FileUpload() {
   }, [photoFile, setFormData])
   // 
   useEffect(() => {
-    if(photoFile && Object.keys(activeID).length === 0) { return } 
+    if(photoFile && Object.keys(activePhotoEntry).length === 0) { return } 
     setAllImagesLoaded(false);
   }, [photoFile, setFormData])
 
@@ -141,7 +141,7 @@ export default function FileUpload() {
   // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
   const removePhotoHandler = (e) => {
     e.preventDefault();
-    activeID.photoURL;
+    activePhotoEntry.photoURL;
     setPhotoFile({}); // remove photo
     fileUploadStatusSetter('default', defaultStatusMessage); // remove status (file name) 
   }
@@ -179,7 +179,7 @@ export default function FileUpload() {
         </div> 
       } 
       {/* Displayed photo */}
-      { (photoFile.name || activeID.photoURL) && 
+      { (photoFile.name || activePhotoEntry.photoURL) && 
         <div className='file-upload-display' style={hideImageStyle}>
           {/* Button wrapper */}
           <div className='file-upload-button-wrapper'>
@@ -192,8 +192,8 @@ export default function FileUpload() {
           </div>
           { photoFile.name ? 
               <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
-              : activeID.photoURL ? 
-              getImageFile(activeID.photoURL, customImgStyle, activeID._id) 
+              : activePhotoEntry.photoURL ? 
+              getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id) 
               :
               <span> NO IMG </span> 
           }

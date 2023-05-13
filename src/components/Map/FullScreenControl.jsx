@@ -1,11 +1,11 @@
-// map full screen functionality 
+// Map full screen functionality 
 import { useState, useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
-import "leaflet/dist/leaflet.css";
-import './MapOverview.css'
+import 'leaflet/dist/leaflet.css';
+import './Map.css'
 
 export default function FullscreenControl() {
   const map = useMap();
@@ -14,13 +14,10 @@ export default function FullscreenControl() {
   useEffect(() => {
     if (!fullscreenControl) {
       setFullscreenControl(L.control.fullscreen());
-      return;
+    } else {
+      fullscreenControl.addTo(map);
     }
-    fullscreenControl.addTo(map);
-    return () => {
-      fullscreenControl.remove();
-    };
+    return () => { fullscreenControl?.remove(); };
   }, [fullscreenControl, map]);
-
   return null;
 }

@@ -1,4 +1,4 @@
-// modal to display active (single) photo entry on a map
+// Modal to display active (single) photo entry on a map
 import React from 'react'
 import './MapModal.css'
 import "leaflet/dist/leaflet.css";
@@ -19,7 +19,7 @@ export default function MapModal() {
 
   return (
     <> 
-      { isNaN(gpsLongitude) && isNaN(gpsLatitude) ? mapDisplayError : <Map mapData={activePhotoEntry}/>  }
+      { isNaN(gpsLongitude) && isNaN(gpsLatitude) ? mapDisplayError : <Map mapData={[activePhotoEntry]}/>  }
     </>
   )
 }

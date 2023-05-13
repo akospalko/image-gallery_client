@@ -1,4 +1,5 @@
-// photo entry with control panel buttons
+// TODO: reusable PhotoEntryContentElement 
+// Admin mode photo entry: control panel & photo content 
 import React from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
@@ -11,7 +12,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import Button from '../UI/Button';
 import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
 import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/Icons'
-import PhotoEntryContentElement from './PhotoEntryContentElement'
+import PhotoEntryContentElement from '../PhotoEntryContentElement'
 import ControlPanelWrapper from '../ControlPanelWrapper'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useLoaderContext } from '../contexts/LoaderContext'
@@ -26,7 +27,7 @@ const PhotoEntry = ({collection, photoEntry}) => {
   const {title, description, createdAt, captureDate, updatedAt, _id:id, gpsLatitude, gpsLongitude, author} = photoEntry ?? {};
   // CONTEXT
   const {setMessage} = useFormContext();
-  const {toggleModalHandler, setActivePhotoEntry, setID} = useModalContext();
+  const {toggleModalHandler, setActivePhotoEntry} = useModalContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -112,7 +113,6 @@ const PhotoEntry = ({collection, photoEntry}) => {
           buttonStyle='button-control-panel-edit'
           title='view photo'
           clicked={() => {
-            setID(id)
             setActivePhotoEntry(photoEntry); 
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
         > <ViewPhoto height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>

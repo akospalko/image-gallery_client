@@ -83,7 +83,7 @@ export default function Home() {
       </div>
       {/* Button container */}
       <div className='home-button'>
-        <Button clicked={() => navigate(auth.userID ? '/gallery' : '/login')} buttonStyle='button-home-call-to-action'>
+        <Button clicked={() => navigate(auth.userID ? `/${auth.username}/gallery` : '/login')} buttonStyle='button-home-call-to-action'>
           Check out Gallery
         </Button>
       </div>

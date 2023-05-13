@@ -1,4 +1,5 @@
-// closeModal management for photo home collection 
+// Close modal management for photo home collection 
+// Admin view home photos content managment logic
 import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Button from '../UI/Button'
@@ -9,7 +10,7 @@ import {useNavigate, useLocation} from 'react-router'
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useFormContext } from '../contexts/FormContext'
-import PhotoEntryModal from './PhotoEntryModal'
+import PhotoEntryModal from '../Modals/PhotoEntryModal'
 import MapModal from '../Modals/MapModal'
 import FullScreenView from '../Modals/FullScreenView'
 import CreateUpdatePhotoEntry from '../Modals/CreateUpdatePhotoEntry'

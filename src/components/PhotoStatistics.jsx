@@ -1,13 +1,12 @@
-// basic statistics component about photo: number of authors, locations, photos   
+// TODO: remove unecessary icons
+// Basic statistics component about photo: number of authors, locations, photos   
 import React, { useState, useEffect } from 'react';
-import './MapOverview.css'
 import {useFormContext} from './contexts/FormContext'
 import { PhotographerMaleIcon, PhotoEntryIcon, PhotoEntryIcon2, LocationsIcon, LocationsIcon2 } from './SVG/Icons';
 import './PhotoStatistics.css'
 
 export default function PhotoStatistics() {
-  // STATE
-  // template
+  // TEMPLATE
   const statisticsTemplate = [
     {name: 'photos', icon: <PhotoEntryIcon2 height='100%' width='100%' />, amount: 0}, // add icon: <icon/> // photos w + w/o coordinates
     {name: 'locations', icon: <LocationsIcon2 height='100%' width='100%' /> , amount: 0}, // photos w coordinates
@@ -25,7 +24,7 @@ export default function PhotoStatistics() {
       let statsCopy = [...prev]; // create state copy
       let authors = []; // store unique authors (no duplicate values)
       statsCopy = statsCopy.map(stat => {
-        // copied obj -> we update this
+        // copied (update) obj
         const statCopy = { ...stat };
         data.forEach(entry => {
           // update statistics based on entry content

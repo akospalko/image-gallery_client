@@ -4,15 +4,16 @@ import '../Shared.css'
 import Button from '../UI/Button';
 import {useModalContext} from '../contexts/ToggleModalContext';
 import {useFormContext} from '../contexts/FormContext';
-import { ArrowIcon } from '../SVG/Icons';
+import { ArrowIcon, MenuCloseIcon } from '../SVG/Icons';
 
-export default function ModalHeader({title, closeModal, returnToModal}) {
-    // CONTEXTS
-    const {activeID, setActiveID, toggleModalHandler} = useModalContext();
-    const {setMessage, setFormData, photoFile, setPhotoFile} = useFormContext();
-    
+export default function ModalHeader(props) {
+  // PROPS
+  const {title, closeModal, returnToModal} = props;
+  // CONTEXTS
+  const {activePhotoEntry, setActivePhotoEntry, toggleModalHandler} = useModalContext();
+  const {setMessage, setFormData, photoFile, setPhotoFile} = useFormContext();
+  
   return (
-    // modal header: title, close button 
     <>
       <div className='shared-modal-dummy'> 
       {returnToModal && <Button 
@@ -21,10 +22,9 @@ export default function ModalHeader({title, closeModal, returnToModal}) {
               setMessage('');
               setFormData(undefined);
               photoFile.name && setPhotoFile({});
-              activeID && setActiveID({});
-              toggleModalHandler(closeModal, true);
+              toggleModalHandler(returnToModal);
             }}
-          > <ArrowIcon height='70%' width='70%' fill={'var(--text-color--high-emphasis)'} />
+          > <ArrowIcon height='70%' width='70%' fill={ 'var(--text-color--high-emphasis)' } />
         </Button>}
       </div>
       <div className='shared-modal-title'> <h2> {title} </h2> </div>
@@ -35,10 +35,10 @@ export default function ModalHeader({title, closeModal, returnToModal}) {
             setMessage('');
             setFormData(undefined);
             photoFile.name && setPhotoFile({});
-            activeID && setActiveID({});
-            toggleModalHandler(returnToModal, false);
+            activePhotoEntry && setActivePhotoEntry({});
+            toggleModalHandler(closeModal);
           }}
-          > X 
+          > <MenuCloseIcon height='50%' width='50%' fill={ 'var(--text-color--high-emphasis)' } /> 
         </Button>
       </div>
     </>

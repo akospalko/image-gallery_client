@@ -1,6 +1,5 @@
 .shared-page-container,
-.shared-modal-container,
-.shared-image-cards-container {
+.shared-modal-container {
   display: flex;
 }
 .shared-page-container {
@@ -62,17 +61,10 @@
 .shared-modal-content {
   display: flex;
   width: 100%;
-  flex-grow: 1;
   background-color: var(--bg-color--main);
 }
-/* home && gallery image cards container */
-.shared-image-cards-container {
-  justify-content: center;
-  width: 100%;
-  flex-direction: column;
-}
-.shared-image-cards-container {
-  height: auto;
+.shared-modal-content--centered {
+  flex-grow: 1;
 }
 /* ______BUTTON WRAPPER______ */
 /* wrapper */

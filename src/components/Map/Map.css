@@ -18,7 +18,7 @@
 }
 /* layer toggle: overwrite default icon */
 .leaflet-top.leaflet-right .leaflet-control-layers .leaflet-control-layers-toggle {
-  background-image: url('../assets/layers.svg');
+  background-image: url('../../assets/layers.svg');
   background-repeat: no-repeat;
   background-size: 50%;
 }
@@ -65,7 +65,7 @@
 /* fullscreen: open */
 .leaflet-control-fullscreen a {
   background-color: var(--bg-color--main);
-  background-image: url('../assets/fullscreen.svg'); 
+  background-image: url('../../assets/fullscreen.svg'); 
   background-repeat: no-repeat;
   background-size: 65%;
 }
@@ -76,12 +76,30 @@
 .leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
   background-position: 5.5px -26px;
 }
-/* MARKER */
-/* marker cluster outer circle */
-.marker-cluster-small {
-  background-color: var(--bg-color--accent-transparent-medium);
-}
-/* marker cluster inner circle */
-.marker-cluster-small div {
+/* CLUSTER */
+/* custom cluster icon */
+.custom--marker-cluster {
   background-color: var(--bg-color--accent);
+  border-radius: 50%;
+  color: var(--text-color--high-emphasis);
+  font-size: 14px;
+  font-weight: bold;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.custom--marker-cluster::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background-color: var(--bg-color--accent-transparent-medium);
+  border-radius: 50%;
+  opacity: 1;
+  z-index: -1;
 }

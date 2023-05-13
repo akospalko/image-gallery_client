@@ -1,3 +1,5 @@
+// TODO: outsource  activePhotoEntry to dataContext
+// storage for loader/modal toggle states, handlers 
 import React, {useState, createContext, useContext} from 'react'
 // DEFINE && EXPORT CONTEXT
 // create context
@@ -10,33 +12,30 @@ export const useModalContext = () => {
 export default function ToggleModalContext({children}) {
   // INIT VALUES
   const modalTemplate = {
-    CREATE_PHOTO: false,
-    UPDATE_PHOTO: false,
-    FULLSCREEN_VIEW: false,
-    MAP_VIEW: false,
-    PHOTO_INFO_VIEW: false,
+    CREATE_PHOTO: false, // create photo entry
+    UPDATE_PHOTO: false, // update photo entry
+    FULLSCREEN_VIEW: false, // photo view modal 
+    MAP_VIEW: false, // map modal
+    PHOTO_INFO_VIEW: false, // photo info: for user photo entry & map overview popup modal 
     HEADER_NAV: false, // header navigation menu containing the pages (hamburger menu) 
     HEADER_AUTH: false, // header authentication menu: shows login page if unauth else show a modal (profile info, logout )  
   }
   // STATES
   const [toggleModal, setToggleModal] = useState(modalTemplate);
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [activeID, setActiveID] = useState({});
-  const [id, setID] = useState(''); // id passed from PhotoCards to ViewPhoto. Helps in finding the clicked entry's corresponding img
-
+  const [activePhotoEntry, setActivePhotoEntry] = useState({}); // photo entry data, used with displayed modals
   // HANDLERS
   // handle toggle state for multiple modals (e.g. create, update photo, etc). Can set a specified value(true||false) if provided (forcedValue) 
   const toggleModalHandler = (operation, forcedValue) => {
     setToggleModal(prev => {
       if(!operation) return;
       let updatedModal = {...prev};
-      let newValue = forcedValue === false ? false : !prev[operation]; 
       // hide all modals -> set to false
       for(let modal in updatedModal) {
         updatedModal = {...updatedModal, [modal]: false}
       }
       // show the specified modal(named operation)
-        updatedModal = {...updatedModal, [operation]: newValue}
+      updatedModal = {...updatedModal, [operation]: forcedValue || !prev[operation]}
       return updatedModal;
     })
   }
@@ -52,13 +51,11 @@ export default function ToggleModalContext({children}) {
       value={{
         toggleModal, setToggleModal,
         toggleDropdown, setToggleDropdown,
-        activeID, setActiveID,
-        id, setID,
+        activePhotoEntry, setActivePhotoEntry,
         toggleModalHandler,
         toggleDropdownHandler
       }}
-    > 
-      {children}
+    > {children}
     </ModalContext.Provider>
   )
 }

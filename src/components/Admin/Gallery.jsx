@@ -1,20 +1,19 @@
 // TODO: outsource home - gallery header titles -> more reusable
-// Content management for photo gallery collection 
+// Admin view photo gallery content managment logic
 import React, {useState, useEffect} from 'react'
 import '../Shared.css'
 import Button from '../UI/Button'
 import PhotoEntries from './PhotoEntries'
 import {useModalContext} from '../contexts/ToggleModalContext'
-import {COLLECTIONS, OPERATIONS, MODAL_TITLES} from '../../helper/dataStorage'
+import {COLLECTIONS, OPERATIONS, MODAL_TITLES, createPhoto, updatePhoto} from '../../helper/dataStorage'
 import {useNavigate, useLocation} from 'react-router';
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import { useFormContext } from '../contexts/FormContext'
-import PhotoEntryModal from './PhotoEntryModal'
+import PhotoEntryModal from '../Modals/PhotoEntryModal'
 import MapModal from '../Modals/MapModal'
 import FullScreenView from '../Modals/FullScreenView'
 import CreateUpdatePhotoEntry from '../Modals/CreateUpdatePhotoEntry'
-import { createPhoto, updatePhoto } from '../../helper/dataStorage'
 
 export default function Gallery() {
   // ROUTING
@@ -41,7 +40,7 @@ export default function Gallery() {
       }
     })()
   }, []) 
-  // RENDERED ELEMENTS
+  // ELEMENTS
   // data is loading -> display skeleton -> data is loaded -> display photo entries
   const renderedElement = showSkeleton ? <SkeletonAdminPhotoEntry/> : <PhotoEntries collection={COLLECTIONS.GALLERY} /> 
   

@@ -964,7 +964,7 @@ export function ArrowIcon({height, width, fill}) {
     <div style={{display:'flex', height: height, width: width}}> 
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill={"#000" || fill}
+        fill={fill || "#000"}
         data-name="Layer 1"
         viewBox="0 0 512 512"
       > <path d="M34 256L210 80l21.21 21.2L91.4 241H478v30H91.4l139.85 139.84L210 432z"></path>
@@ -972,4 +972,3 @@ export function ArrowIcon({height, width, fill}) {
     </div>
   );
 }
-
