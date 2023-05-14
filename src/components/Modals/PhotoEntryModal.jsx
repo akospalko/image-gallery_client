@@ -14,7 +14,6 @@ export default function PhotoEntryModal(props) {
   } = props;
 
   return (
-    <div className='shared-modal-backdrop'>
       <div className='shared-modal'>
         {/* modal header */}
         <div className='shared-modal-header'> 
@@ -25,6 +24,5 @@ export default function PhotoEntryModal(props) {
           {modalContent ? modalContent :<p> Couldn't display modal </p>  }
         </div>
       </div>
-    </div>
   )
 }

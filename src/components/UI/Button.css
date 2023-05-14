@@ -7,11 +7,16 @@
   width: 100%;
   height: 50px;
   background-color: var(--bg-color--accent);
+  color: var(--text-color--high-emphasis);
   font-size: 1.1rem;
 }
 /* hover */
 .button-default:hover {
   /* background-color: var(--bg-color--accent); */
+}
+/* disabled */
+.button-default:disabled { 
+  background-color: var(--bg-color--accent-transparent-low);
 }
 /* ______MODIFIERS______ */
 /* CREATE - UPDATE PHOTO ENTRY */
@@ -140,4 +145,8 @@
 }
 .button-photo-info span {
   margin-left: 1rem;
+}
+/* map content switch button */
+.button-map-content-switch {
+  height: 40px;
 }
