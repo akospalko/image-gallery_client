@@ -1,5 +1,6 @@
 /* MAP CONTAINER */
 .map-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,6 +10,42 @@
   z-index: var(--z1);
   background: var(--bg-color--main);
 }
+
+.map-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  z-index: -1; /* put the background behind the modal*/
+}
+
+.map-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--bg-color--secondary);
+  z-index: 999;
+  /* position: fixed; */
+}
+
+.map-content-switch {
+  display: flex;
+}
+
+
+
 /* LAYER BUTTON AND CONTENT */
 /* layers container: overwrite background */
 .leaflet-control-layers {

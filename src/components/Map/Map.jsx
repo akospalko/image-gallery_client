@@ -1,5 +1,5 @@
 // Display map: map overview for 1+ marker(s)  & map modal for 1 marker 
-import React, {useMemo, useCallback} from 'react';
+import React, {useEffect, useMemo, useCallback} from 'react';
 import L from 'leaflet';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
@@ -14,17 +14,21 @@ import ReactDOMServer from 'react-dom/server';
 import { LocationIcon } from '../SVG/Icons';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { OPERATIONS } from '../../helper/dataStorage';
+import { useLoaderContext } from '../contexts/LoaderContext';
+import LoaderIcon from '../SVG/Loader';
 
 export default function Map({mapData = []}) {
   // PROP: mapData - array of object(s) ([{...}, ...]) - photo entry display data   
   // CONTEXT
   const {setActivePhotoEntry, toggleModalHandler} = useModalContext();
+  const { isLoading } = useLoaderContext();
   // HANDLERS
   // memoize handler to filter out active entry on marker click 
   const setActivePhotoEntryHandler = useCallback((id) => {
     const filteredData = Array?.isArray(mapData) && mapData.filter(elem => elem._id === id);
     setActivePhotoEntry(filteredData?.[0]);
   }, [mapData, setActivePhotoEntry]);
+  useEffect(() => {}, [isLoading] )
   // ELEMENTS
   // memoized custom svg marker
   const customMarker = useMemo(() => {
@@ -79,6 +83,10 @@ export default function Map({mapData = []}) {
       minZoom={2}
       zoom={12} 
     >
+      {/* map loader */}
+      {isLoading?.MAP_FETCH_DATA ? <div className='map-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
+      {/*  map loader background */}
+      <div className='map-background'></div>
       {/* Layer control for base map selection */}
       <BaseMapLayers />
       {/* Full screen control */}
