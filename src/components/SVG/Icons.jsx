@@ -972,3 +972,23 @@ export function ArrowIcon({height, width, fill}) {
     </div>
   );
 }
+
+
+// Arrow tip with default top rotation: toggle full/preview text
+export function ArrowTipIcon({height, width, fill, rotate}) {
+  return (
+    <div style={{transform: rotate, display:'flex', height: height, width: width}}> 
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -4.5 20 20">
+        <g>
+          <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
+            <g fill={ fill || "#000"} transform="translate(-140 -6683)">
+              <g transform="translate(56 160)">
+                <path d="M84 6532.61l1.405 1.39 8.608-8.261.918.88-.005-.004 7.647 7.34 1.427-1.369-9.987-9.586L84 6532.61"></path>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
