@@ -28,41 +28,41 @@ export default function PhotoInfo({displayPhotoView, displayTimestamp}) {
       title: 'photo title', // on hover elem - info about the record
       label: 'Title' ,
       dataPositionTreshold: 40,
-      labelStyle: 'photo-entry-content--border-right', 
+      labelStyle: 'photo-entry-content--border-left', 
     }, { // author
       name: 'author', 
       data: author,
       title: 'the person who captured the photo',
       label: 'Author',
       dataPositionTreshold: 45,
-      labelStyle: 'photo-entry-content--border-right',
+      labelStyle: 'photo-entry-content--border-left',
     }, {  // capture date
       name: 'captureDate', 
       data: transformDate(captureDate, '-', '.'),
       title: 'photo capture date',
       label: 'Captured',
-      labelStyle: 'photo-entry-content--border-right',
+      labelStyle: 'photo-entry-content--border-left',
     }, { // gpsLatitude
       name: 'gpsLatitude', 
       data: gpsLatitude, 
       title: 'geographic coordinate: latitude', 
       label: 'GPS lat',
-      labelStyle: 'photo-entry-content--border-right', 
+      labelStyle: 'photo-entry-content--border-left', 
     }, { // gpsLongitude
       name: 'gpsLongitude', 
       data: gpsLongitude, 
       title: 'geographic coordinate: longitude', 
       label: 'GPS lon',
-      labelStyle: 'photo-entry-content--border-right', 
+      labelStyle: 'photo-entry-content--border-left', 
     }, { // description
       name: 'description', 
       data: <ToggleText text={description} />, 
       title: 'few words about the photo', 
       label: 'Description',
       dataPositionTreshold: 40,
-      labelStyle: 'photo-entry-content--border-bottom photo-entry-content--border-right',
       recordStyle: '_photo-entry-content-record--description', 
-      dataStyle: '_photo-entry-content-data--description' 
+      labelStyle: 'photo-entry-content-label--vertical-text',
+      dataStyle: '_photo-entry-content-data--description photo-entry--border-bottom-0 photo-entry-content--height-150px' 
     }
   ];
   // ELEMENTS
@@ -97,7 +97,6 @@ export default function PhotoInfo({displayPhotoView, displayTimestamp}) {
       { displayTimestamp && <Timestamp dateCreation={createdAt} dateLastUpdate={updatedAt} customStyle='timestamp-container--photo-info' /> }
     </>
   )
- 
 
   return (
     <div className="_photo-entry-container"> 

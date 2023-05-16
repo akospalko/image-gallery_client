@@ -17,6 +17,7 @@
 }
 /* timestamp container for photo info modal */
 .timestamp-container--photo-info {
+  border-top: 1px solid var(--bg-color--secondary);
   height: 50px;
 }
 .timestamp-content { 

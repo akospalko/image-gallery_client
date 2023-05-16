@@ -2,21 +2,19 @@
 import { useState } from 'react';
 
 export default function useToggleText(initialText='') {
-  const [text] = useState(initialText);
   const [isTextVisible, setIsTextVisible] = useState(false);
   const [maxCharLength, setMaxCharLength] = useState(50);
-
   // HANDLERS
   const toggleTextHandler = () => {
     setIsTextVisible(prev => !prev);
   };
   // return shortened version of text if (reaches a specified length) or return initialText 
   const getShortText = () => {
-    if (typeof text !== 'string') return '';
-    if (text.length > maxCharLength) {
-      return `${text.substring(0, maxCharLength)}...`;
+    if (typeof initialText !== 'string') return '';
+    if (initialText.length > maxCharLength) {
+      return `${initialText.substring(0, maxCharLength)}...`;
     }
-    return text;
+    return initialText;
   };
 
   return {

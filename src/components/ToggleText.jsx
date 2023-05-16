@@ -7,6 +7,7 @@ import { ArrowTipIcon } from './SVG/Icons';
 export default function ToggleText({text}) {
   // HOOK
   const { isTextVisible, toggleTextHandler, getShortText, maxCharLength } = useToggleText(text);
+
   return (
     <>
       {isTextVisible ?  <p> { text } </p> : <p> { getShortText() } </p>}
