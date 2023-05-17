@@ -3,26 +3,25 @@
 // TODO: when cancel || X buttons are pressed: abort request 
 // TODO: navToPrevPage - navigates to login after operation 
 // Reusable modal for create/update photo entry 
-import React, {useEffect, useState} from 'react'
-import Form from '../UI/Form'
-import Input from '../UI/Input'
-import { buildInputFields } from '../../helper/buildInputFields'
-import { useFormContext } from '../contexts/FormContext'
-import { OPERATIONS } from '../../helper/dataStorage'
-import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests'
-import { convertFormData } from '../../helper/convertFormData'
-import { useModalContext } from '../contexts/ToggleModalContext'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
-import Button from '../UI/Button'
-import { statusMessages } from '../../helper/dataStorage'
-import './CreateUpdatePhotoEntry.css'
-import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
-import {useNavigate, useLocation} from 'react-router';
-import { useLoaderContext } from '../contexts/LoaderContext'
-import LoaderIcon from '../SVG/Loader'
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import './CreateUpdatePhotoEntry.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { useThemeContext } from '../contexts/ThemeContext'
+import Form from '../UI/Form';
+import Input from '../UI/Input';
+import Button from '../UI/Button';
+import LoaderIcon from '../SVG/Loader';
+import { buildInputFields, convertFormData } from '../../helper/utilities;';
+import { OPERATIONS } from '../../helper/dataStorage';
+import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
+import { statusMessages } from '../../helper/dataStorage';
+import { useNavigate, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useFormContext } from '../contexts/FormContext';
+import { useModalContext } from '../contexts/ToggleModalContext';
+import { useLoaderContext } from '../contexts/LoaderContext';
+import { useThemeContext } from '../contexts/ThemeContext';
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS

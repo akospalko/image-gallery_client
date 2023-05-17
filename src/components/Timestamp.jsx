@@ -1,7 +1,7 @@
 // Date timestamp for photo entries 
-import React from 'react'
-import {generateDateString} from '../helper/dateUtilities'
-import './Timestamp.css'
+import React from 'react';
+import './Timestamp.css';
+import { generateDateString } from '../helper/utilities';
 
 export default function Timestamp({dateCreation, dateLastUpdate, customStyle}) {
   return (

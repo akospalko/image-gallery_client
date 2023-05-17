@@ -1,11 +1,11 @@
-// menu bar for large screens
-import React from 'react'
-import './Header.css'
-import {useModalContext} from '../components/contexts/ToggleModalContext';
-import {useAuthContext} from '../components/contexts/AuthenticationContext';
-import {useNavigate} from 'react-router-dom';
+// Menu bar for large screens
+import React from 'react';
+import './Header.css';
 import MenuUserProfile from './MenuUserProfile';
 import MenuNavigationElements from './MenuNavigationElements';
+import { useNavigate } from 'react-router-dom';
+import { useModalContext } from '../components/contexts/ToggleModalContext';
+import { useAuthContext } from '../components/contexts/AuthenticationContext';
 
 export default function MenuLarge({navElements}) {
   // ROUTE
