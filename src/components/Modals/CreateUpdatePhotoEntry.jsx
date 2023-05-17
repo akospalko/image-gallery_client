@@ -10,7 +10,7 @@ import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
-import { buildInputFields, convertFormData } from '../../helper/utilities;';
+import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
 import { statusMessages } from '../../helper/dataStorage';
