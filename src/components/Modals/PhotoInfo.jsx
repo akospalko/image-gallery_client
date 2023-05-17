@@ -1,15 +1,15 @@
 // Display info about the currently opened modal 
-import React from 'react'
-import '../Shared.css'
-import '../Admin/PhotoEntries.css'
-import {useModalContext} from '../contexts/ToggleModalContext'
-import Timestamp from '../Timestamp'
-import PhotoEntryContentElement from '../PhotoEntryContentElement'
-import { transformDate } from '../../helper/dateUtilities'
-import Button from '../UI/Button'
-import { OPERATIONS } from '../../helper/dataStorage'
-import { ViewPhoto } from '../SVG/Icons'
-import ToggleText from '../ToggleText'
+import React from 'react';
+import '../Shared.css';
+import '../Admin/PhotoEntries.css';
+import Timestamp from '../Timestamp';
+import ToggleText from '../ToggleText';
+import PhotoEntryContentElement from '../PhotoEntryContentElement';
+import Button from '../UI/Button';
+import { transformDate } from '../../helper/utilities';
+import { OPERATIONS } from '../../helper/dataStorage';
+import { ViewPhoto } from '../SVG/Icons';
+import { useModalContext } from '../contexts/ToggleModalContext';
 
 export default function PhotoInfo({displayPhotoView, displayTimestamp}) {
   // PROPS

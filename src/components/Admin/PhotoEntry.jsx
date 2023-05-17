@@ -1,13 +1,13 @@
 // Admin mode photo entry content 
-import React from 'react'
-import './PhotoEntries.css'
-import '../Shared.css'
-import {transformDate} from '../../helper/dateUtilities'
-import PhotoEntryContentElement from '../PhotoEntryContentElement'
+import React from 'react';
+import './PhotoEntries.css';
+import '../Shared.css';
 import 'react-toastify/dist/ReactToastify.css';
-import Timestamp from '../Timestamp'
-import ToggleText from '../ToggleText'
-import PhotoEntryControlPanel from './PhotoEntryControlPanel'
+import { transformDate } from '../../helper/utilities';
+import PhotoEntryContentElement from '../PhotoEntryContentElement';
+import PhotoEntryControlPanel from './PhotoEntryControlPanel';
+import Timestamp from '../Timestamp';
+import ToggleText from '../ToggleText';
 
 const PhotoEntry = ({collection, photoEntry}) => {
   // PROPS

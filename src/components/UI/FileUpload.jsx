@@ -1,17 +1,16 @@
 // Input field to handle file (photo) upload, read photo's exif data, update form data   
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
-import React, {useState, useEffect, useRef} from 'react'
-import './FileUpload.css'
-import { useFormContext } from '../contexts/FormContext'
+import React, { useState, useEffect, useRef } from 'react';
+import './FileUpload.css';
 import { statusMessages } from '../../helper/dataStorage';
-import { transformDate } from '../../helper/dateUtilities';
+import { transformDate, cropString } from '../../helper/utilities';
 import ExifReader from 'exifreader';
-import { cropString } from '../../helper/cropStringInput';
 import Button from '../UI/Button';
-import { useModalContext } from '../contexts/ToggleModalContext';
-import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading'
+import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading';
 import LoaderIcon from '../SVG/Loader';
 import { Delete } from '../SVG/Icons';
+import { useModalContext } from '../contexts/ToggleModalContext';
+import { useFormContext } from '../contexts/FormContext';
 
 export default function FileUpload() {
   // CONSTANTS

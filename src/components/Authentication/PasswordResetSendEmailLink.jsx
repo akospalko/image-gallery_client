@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react'
-import { passwordResetSendEmailLink } from '../../helper/dataStorage';
-import { useFormContext } from '../contexts/FormContext';
+import React, { useState, useEffect } from 'react';
+import './Authentication.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
-import './Authentication.css'
-import {buildInputFields} from '../../helper/buildInputFields'
-import {requestPasswordResetLink} from '../../helper/axiosRequests'
-import LoaderIcon from '../SVG/Loader';
 import Button from '../UI/Button';
-import { useThemeContext } from '../contexts/ThemeContext';
+import LoaderIcon from '../SVG/Loader';
+import { buildInputFields } from '../../helper/utilities';
+import { requestPasswordResetLink } from '../../helper/axiosRequests';
+import { passwordResetSendEmailLink } from '../../helper/dataStorage';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useThemeContext } from '../contexts/ThemeContext';
+import { useFormContext } from '../contexts/FormContext';
 
 export default function PasswordResetSendLink() {
   // CONTEXT

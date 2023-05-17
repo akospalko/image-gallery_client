@@ -1,22 +1,21 @@
-// authentication: login 
+// Authentication: login 
 // TODO: outsource client side status messages
-import React, {useEffect, useState} from 'react'
-import '../Shared.css'
-import './Authentication.css'
-import Form from '../UI/Form'
-import Input from '../UI/Input'
-import {useFormContext} from '../contexts/FormContext'
-import {login, OPERATIONS} from '../../helper/dataStorage'
-import {buildInputFields} from '../../helper/buildInputFields'
-import {convertFormData} from '../../helper/convertFormData'
-import {loginUser} from '../../helper/axiosRequests'
-import {useAuthContext} from '../contexts/AuthenticationContext'
-import {useNavigate} from 'react-router'
-import LoaderIcon from '../SVG/Loader'
-import Button from '../UI/Button'
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import '../Shared.css';
+import './Authentication.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { useThemeContext } from '../contexts/ThemeContext'
+import Form from '../UI/Form';
+import Input from '../UI/Input';
+import Button from '../UI/Button';
+import LoaderIcon from '../SVG/Loader';
+import { login, OPERATIONS } from '../../helper/dataStorage';
+import { buildInputFields, convertFormData} from '../../helper/utilities';
+import { loginUser } from '../../helper/axiosRequests';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { useFormContext } from '../contexts/FormContext';
+import { useAuthContext} from '../contexts/AuthenticationContext';
+import { useThemeContext } from '../contexts/ThemeContext';
 
 export default function Login() {
   // CONSTANTS
