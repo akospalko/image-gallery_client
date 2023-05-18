@@ -2,56 +2,58 @@
 export const createPhoto = {
   title: {
     type: 'text',
-    field: 'input', // custom type used for conditional rendering of input fields
     placeholder: 'title',
     value: '',
-    label: 'Title'
+    label: 'Title',
+    required: true,
+    minLength: 5,
+    maxLength: 30
   },
   author: {
     type: 'text',
-    field: 'input',
     placeholder: 'author',
     value: '',
-    label: 'Author'
+    label: 'Author',
+    required: true,
+    minLength: 3,
+    maxLength: 20
   },
   gpsLatitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS latitude'
   },
   gpsLongitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'longitude coordinate of the photo',
     value: '',
     label: 'GPS longitude'
   },
   captureDate: {
     type: 'date',
-    field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
+    // required: true
   },
   description: {
-    field: 'textarea',
+    type: 'textarea',
     placeholder: 'description',
     value: '',
-    label: 'Description'
+    label: 'Description',
+    maxLength: 250
   },
   photoFile: {
     type: 'file',
-    field: 'file',
     value: {},
     // label: ''
+    // required: true
   }
 }
 export const updatePhoto = {
   _id : {
     type: 'text',
-    field: 'input',
     placeholder: 'photo entry id',
     value: '',
     disabled: true,
@@ -59,7 +61,6 @@ export const updatePhoto = {
   },
   photoName: {
     type: 'text',
-    field: 'input',
     placeholder: 'file name',
     value: '',
     disabled: true,
@@ -67,48 +68,48 @@ export const updatePhoto = {
   },
   title: {
     type: 'text',
-    field: 'input',
     placeholder: 'title',
     value: '',
-    label: 'Title'
+    label: 'Title',
+    required: true,
+    minLength: 5,
+    maxLength: 30
   },
   author: {
     type: 'text',
-    field: 'input',
     placeholder: 'author',
     value: '',
-    label: 'Author'
+    label: 'Author',
+    required: true,
+    minLength: 3,
+    maxLength: 20
   },
   gpsLatitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS latitude'
   },
   gpsLongitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS longitude'
   },
   captureDate: {
     type: 'date',
-    field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
   },
   description: {
-    field: 'textarea',
     placeholder: 'description',
     value: '',
-    label: 'Description'
+    label: 'Description',
+    maxLength: 250
   },
   photoFile: {
     type: 'file',
-    field: 'file',
     value: {},
     // label: ''
   }
@@ -117,81 +118,84 @@ export const updatePhoto = {
 export const login = {
   username: {
     type: 'text',
-    field: 'input',
     placeholder: 'Username',
     value: '1',
-    label: 'Username'
+    label: 'Username',
+    required: true,
   },
   password: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password',
     value: '111',
-    label: 'Password'
+    label: 'Password',
+    required: true
   }
 }
 export const register = {
   username: {
     type: 'text',
-    field: 'input',
     placeholder: 'Username',
     value: '',
-    label: 'Username'
+    label: 'Username',
+    required: true,
+    minLength: 3,
+    maxLength: 40
   },
   email: {
     type: 'email',
-    field: 'email',
     placeholder: 'Email',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true
   },
   password: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true,
+    minLength: 8
   },
   passwordConfirm: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password Confirm',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true
   }
 }
 // form to get email where the password reset link is to be sent
 export const passwordResetSendEmailLink = {
   email: {
     type: 'email',
-    field: 'email',
     placeholder: 'Email',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true
   }
 }
 // form to get new password which are to be saved as the new password for the account
 export const passwordResetSaveNewPassword = {
   email: {
     type: 'email',
-    field: 'email',
     placeholder: 'Email',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true
   },
   password: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true
   },
   passwordConfirm: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password Confirm',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true
   }
 }
 // STATUS MESSAGES

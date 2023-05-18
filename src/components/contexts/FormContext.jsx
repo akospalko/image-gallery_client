@@ -1,5 +1,8 @@
 import React, { useState, createContext, useContext } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
+import { validateInputField } from '../Valiadation';
+
+
 // DEFINE && EXPORT CONTEXT
 // create context
 const FormLayoutProvider = createContext();
@@ -7,12 +10,16 @@ const FormLayoutProvider = createContext();
 export const useFormContext = () => useContext(FormLayoutProvider);
 // define layout provider
 export default function FormContext({children}) {
+  // TEMPLATE
+  const errorMessageTemplate = {username: '', password: ''};
   // STATES
   const [formData, setFormData] = useState();
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
   const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
+  const [validationMessages, setValidationMessages] = useState(errorMessageTemplate);
+
   // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [isGalleryFetched, setIsGalleryFetched] = useState(false);
   // file upload
@@ -25,7 +32,13 @@ export default function FormContext({children}) {
     const updatedItem = {...updatedForm[name]}; // copy and update nested form properties
     updatedItem.value = value; // update prop value
     updatedForm[name] = updatedItem; // update form with updated property
-    setFormData(updatedForm);  // update state
+    setFormData(updatedForm); // update state
+    // validate input field
+    const {required, minLength, maxLength} = updatedForm[name];
+    console.log(updatedForm[name]);
+    const validationMessage = validateInputField(name, value, required, minLength, maxLength);
+    setValidationMessages(prev => ({...prev, [name]: validationMessage}))
+    console.log(validationMessage);
   };
   // date input 
   const dateInputChangeHandler = (e) => {
@@ -44,6 +57,7 @@ export default function FormContext({children}) {
         formData, setFormData,
         photoFile, setPhotoFile,
         statusMessage, setStatusMessage,
+        validationMessages, setValidationMessages,
         data, setData,
         homePhotos, setHomePhotos,
         message, setMessage,
