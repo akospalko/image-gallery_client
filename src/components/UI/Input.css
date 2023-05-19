@@ -46,13 +46,15 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 25px;
+  height: 35px;
   width: 90%;
   margin-bottom: 1rem;
 }
 .validation-message span {
   color: var(--text-color--validation-message);
   font-size: 0.9rem;
+  line-height: 1rem;
+  text-align: left;
 }
 /* ______MODIFIERS______ */
 /* COMPONENTS */

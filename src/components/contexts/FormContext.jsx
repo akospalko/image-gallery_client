@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
-import { validateInputField } from '../Valiadation';
+import { validateInputField } from '../../helper/formValiadation';
 
 
 // DEFINE && EXPORT CONTEXT
@@ -11,7 +11,7 @@ export const useFormContext = () => useContext(FormLayoutProvider);
 // define layout provider
 export default function FormContext({children}) {
   // TEMPLATE
-  const errorMessageTemplate = {username: '', password: ''};
+  const errorMessageTemplate = {username: 'required', password: 'required'};
   // STATES
   const [formData, setFormData] = useState();
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);

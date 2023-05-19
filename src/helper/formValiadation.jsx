@@ -5,7 +5,9 @@ const MIN_LENGTH = minLength => `Min. ${minLength} characters`;
 const MAX_LENGTH = maxLength => `Max. ${maxLength} characters`;
 const COORDINATE_LAT = 'Values between -90 and 90';
 const COORDINATE_LON = 'Values between -180 and 180';
-const PASSWORD_REGISTER = minLength => `Min. ${minLength} characters. Contains both upper and lowercase letters, number`
+const USERNAME = "Allowed characters: a-z A-Z 0-9, _ ."
+const PASSWORD_REGISTER = minLength => `Min. ${minLength} characters. Contains: A-Z, a-z, 0-9, special characters`
+const EMAIL = 'Wrong email format'
 // check if value has reached min/max length
 const minLengthReached = (length, minLength) => minLength && length < minLength;
 const maxLengthReached = (length, maxLength) => maxLength && length > maxLength;
@@ -17,6 +19,7 @@ const maxLengthReached = (length, maxLength) => maxLength && length > maxLength;
 // + proper messages
 // + empty validation messages on unmount
 // + required field show up from the beginning
+// delete pw field content if login was unsuccessfull
 /* + fields to validate: 
 types: string, number, date, file
  , passwordConfirm ,
@@ -40,20 +43,20 @@ export const validateInputField = (name, value='', required, minLength, maxLengt
   // USERNAME
   if(name === 'username') { 
     // TODO: login should not check for max - min length only for required data 
-    if( !new RegExp(/^[a-zA-Z0-9_.]/).test(value)) { 
-      errorMessage = 'unusable characters'; 
+    if(!new RegExp(/^[a-zA-Z0-9_.]/).test(value)) { 
+      errorMessage = USERNAME; 
     }
   } 
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
-    if(!new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
-      errorMessage = PASSWORD_REGISTER;
+    if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
+      errorMessage = PASSWORD_REGISTER(minLength);
     }
   } 
   // EMAIL
   else if (name === 'email') {
     if(!new RegExp(/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/).test(value)) {
-      errorMessage = 'incorrect email';
+      errorMessage = EMAIL;
     }
   }
   // GPS LAT
