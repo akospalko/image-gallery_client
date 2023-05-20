@@ -35,6 +35,7 @@ const Input = (props) => {
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
       disabled={formData[name]?.disabled}
+      maxLength={formData[name]?.maxLength + 1 || null}
     /> )
   const textarea = ( 
     <textarea 
@@ -43,7 +44,7 @@ const Input = (props) => {
       placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
-      maxlength={formData[name]?.maxLength + 1}
+      maxLength={formData[name]?.maxLength + 1 || null}
     /> )
   const file = <FileUpload />
   const date = <DatePicker />

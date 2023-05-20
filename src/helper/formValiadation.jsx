@@ -5,16 +5,16 @@ const MIN_LENGTH = minLength => `Min. ${minLength} characters`;
 const MAX_LENGTH = maxLength => `Max. ${maxLength} characters`;
 const COORDINATE_LAT = 'Values between -90 and 90';
 const COORDINATE_LON = 'Values between -180 and 180';
-const USERNAME = "Allowed characters: a-z A-Z 0-9, _ ."
+const USERNAME = "Allowed characters: a-z A-Z 0-9 _ . "
 const PASSWORD_REGISTER = minLength => `Min. ${minLength} characters. Contains: A-Z, a-z, 0-9, special characters`
 const EMAIL = 'Wrong email format'
-// check if value has reached min/max length
-const minLengthReached = (length, minLength) => minLength && length < minLength;
-const maxLengthReached = (length, maxLength) => maxLength && length > maxLength;
+// check if value's length has reached min/max
+const lengthReached = (lengthValue, lengthMinOrMax) => lengthMinOrMax && lengthValue > lengthMinOrMax; 
 
 // TODOs
 // add form Touched state to form context?
 // + date & file validation  
+// + merge validation field messages in a shared file (e.g. 'field is required' + required )
 // + compare password + password confirm when registering user
 // + proper messages
 // + empty validation messages on unmount
@@ -32,20 +32,20 @@ username, password, pwConfirm, title, author, description - same length, differe
 export const validateInputField = (name, value='', required, minLength, maxLength) => {
   // if(!name || !value) return;
   console.log(name, required, minLength, maxLength);
-  console.log(value);
+  // console.log(value);
   let errorMessage = '';
-  
   // Check string min/max length  
   if (name === 'title' || name === 'author' || name === 'description' || name === 'username') {
-    minLengthReached(value.length, minLength) ? errorMessage = MIN_LENGTH(minLength) : null;
-    maxLengthReached(value.length, maxLength) ? errorMessage = MAX_LENGTH(maxLength) : null;
-  }  
+    // TODO: login should not check for max - min length only for required data 
+    const isMinLengthReached = lengthReached(value.length, minLength);
+    const isMaxLengthReached = lengthReached(value.length, maxLength);
+    errorMessage = !isMinLengthReached ? MIN_LENGTH(minLength) : isMaxLengthReached ? MAX_LENGTH(maxLength) : null;
+  } 
   // USERNAME
   if(name === 'username') { 
-    // TODO: login should not check for max - min length only for required data 
-    if(!new RegExp(/^[a-zA-Z0-9_.]/).test(value)) { 
-      errorMessage = USERNAME; 
-    }
+    // check for invalid characters
+    // TODO: dont check length restrictions for login form  
+    errorMessage = !new RegExp(/^[a-zA-Z0-9_.]+$/).test(value) ? USERNAME : errorMessage;  // TODO: add invalid character check only to register username field  && fieldName === 'usernameLogin'
   } 
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
@@ -66,17 +66,14 @@ export const validateInputField = (name, value='', required, minLength, maxLengt
   // GPS LON
   else if(name === 'gpsLongitude') { 
     errorMessage = !new RegExp(/^-?((([0-9]|[1-9][0-9]|1[0-7][0-9])(\.[0-9]+)?)|180(\.0+)?)$/).test(value) && COORDINATE_LON;
-  }
+  } 
   // REQUIRED / EMPTY
   if(required && (!value || value.trim() === '')) {
     errorMessage = REQUIRED;
-  }
-
+  } 
   return errorMessage;
 }
-// } else if(!checkStringLength(trimmedValue.length, 4, 25)) { // length restrictions
-// } else if(!new RegExp(/^[a-zA-Z0-9_.]/).test(trimmedValue)) { return 'unusable characters'; }
-  
+ 
 // check validity:
 // 1. if a condition returns true: we dont assign mssg / empty mssg
 // 2. if a condition returns false: assign new mssg

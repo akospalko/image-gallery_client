@@ -122,13 +122,24 @@ export const login = {
     value: '1',
     label: 'Username',
     required: true,
+    validation: {
+      required: true,
+      fieldName: 'usernameLogin'
+      //touched: false???
+      // min-max length values
+    }
   },
   password: {
     type: 'password',
     placeholder: 'Password',
     value: '111',
     label: 'Password',
-    required: true
+    required: true,
+    validation: {
+      required: true,
+      fieldName: 'passwordLogin'
+      //touched: false???
+    }
   }
 }
 export const register = {
