@@ -8,8 +8,6 @@ const COORDINATE_LON = 'Values between -180 and 180';
 const USERNAME = "Allowed characters: a-z A-Z 0-9 _ . "
 const PASSWORD_REGISTER = minLength => `Min. ${minLength} characters. Contains: A-Z, a-z, 0-9, special characters`
 const EMAIL = 'Wrong email format'
-// check if value's length has reached min/max
-const lengthReached = (lengthValue, lengthMinOrMax) => lengthMinOrMax && lengthValue > lengthMinOrMax; 
 
 // TODOs
 // add form Touched state to form context?
@@ -29,24 +27,34 @@ username, password, pwConfirm, title, author, description - same length, differe
  
 */
 // + login: don't check for correct password format, register: check for correct pw format 
-export const validateInputField = (name, value='', required, minLength, maxLength) => {
+export const validateInputField = (name, value='', required, minLength, maxLength, fieldName) => {
   // if(!name || !value) return;
   console.log(name, required, minLength, maxLength);
-  // console.log(value);
+
+  // returned validation message
   let errorMessage = '';
-  // Check string min/max length  
-  if (name === 'title' || name === 'author' || name === 'description' || name === 'username') {
+  // check if value's length has reached min/max
+  const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
+  const isMinLengthReached = minLength ? lengthReached(value.length, minLength) : null;
+  const isMaxLengthReached = maxLength ? lengthReached(value.length, maxLength) : null;
+  // MISC
+  // check string min/max length  
+  if (name === 'title' || name === 'author' || name === 'description') {
     // TODO: login should not check for max - min length only for required data 
-    const isMinLengthReached = lengthReached(value.length, minLength);
-    const isMaxLengthReached = lengthReached(value.length, maxLength);
     errorMessage = !isMinLengthReached ? MIN_LENGTH(minLength) : isMaxLengthReached ? MAX_LENGTH(maxLength) : null;
   } 
   // USERNAME
-  if(name === 'username') { 
-    // check for invalid characters
-    // TODO: dont check length restrictions for login form  
-    errorMessage = !new RegExp(/^[a-zA-Z0-9_.]+$/).test(value) ? USERNAME : errorMessage;  // TODO: add invalid character check only to register username field  && fieldName === 'usernameLogin'
-  } 
+  // check register username field   
+  if(name === 'username' && fieldName==='usernameRegister') { 
+    // check for length 
+    if(!isMinLengthReached) {
+      errorMessage = MIN_LENGTH(minLength);
+    } else if(isMaxLengthReached) {
+      errorMessage = MAX_LENGTH(maxLength);
+    }
+    // check invalid characters
+      errorMessage = !new RegExp(/^[a-zA-Z0-9_.]+$/).test(value) ? USERNAME : errorMessage; 
+  }
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
     if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {

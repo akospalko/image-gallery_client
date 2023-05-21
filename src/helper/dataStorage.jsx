@@ -122,12 +122,8 @@ export const login = {
     value: '1',
     label: 'Username',
     required: true,
-    validation: {
-      required: true,
-      fieldName: 'usernameLogin'
-      //touched: false???
-      // min-max length values
-    }
+    fieldName: 'usernameLogin'
+    // touched: false???
   },
   password: {
     type: 'password',
@@ -150,7 +146,8 @@ export const register = {
     label: 'Username',
     required: true,
     minLength: 3,
-    maxLength: 40
+    maxLength: 40,
+    fieldName: 'usernameRegister'
   },
   email: {
     type: 'email',

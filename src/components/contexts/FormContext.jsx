@@ -2,7 +2,6 @@ import React, { useState, createContext, useContext } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
 import { validateInputField } from '../../helper/formValiadation';
 
-
 // DEFINE && EXPORT CONTEXT
 // create context
 const FormLayoutProvider = createContext();
@@ -34,9 +33,9 @@ export default function FormContext({children}) {
     updatedForm[name] = updatedItem; // update form with updated property
     setFormData(updatedForm); // update state
     // validate input field
-    const {required, minLength, maxLength} = updatedForm[name];
+    const {required, minLength, maxLength, fieldName} = updatedForm[name];
     console.log(updatedForm[name]);
-    const validationMessage = validateInputField(name, value, required, minLength, maxLength);
+    const validationMessage = validateInputField(name, value, required, minLength, maxLength, fieldName);
     setValidationMessages(prev => ({...prev, [name]: validationMessage}))
     console.log(validationMessage);
   };
