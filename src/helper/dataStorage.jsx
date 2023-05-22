@@ -35,7 +35,6 @@ export const createPhoto = {
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
-    // required: true
   },
   description: {
     type: 'textarea',
@@ -103,6 +102,7 @@ export const updatePhoto = {
     label: 'Capture date'
   },
   description: {
+    type: 'textarea',
     placeholder: 'description',
     value: '',
     label: 'Description',
@@ -119,7 +119,7 @@ export const login = {
   username: {
     type: 'text',
     placeholder: 'Username',
-    value: '1',
+    value: 'akos',
     label: 'Username',
     required: true,
     fieldName: 'usernameLogin'
@@ -128,7 +128,7 @@ export const login = {
   password: {
     type: 'password',
     placeholder: 'Password',
-    value: '111',
+    value: '1',
     label: 'Password',
     required: true,
     validation: {
@@ -162,14 +162,17 @@ export const register = {
     value: '',
     label: 'Password',
     required: true,
-    minLength: 8
+    minLength: 8,
+    fieldName: 'passwordRegister'
   },
   passwordConfirm: {
     type: 'password',
     placeholder: 'Password Confirm',
     value: '',
     label: 'Password',
-    required: true
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordConfirmRegister'
   }
 }
 // form to get email where the password reset link is to be sent

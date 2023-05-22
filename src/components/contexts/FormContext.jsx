@@ -1,6 +1,6 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
-import { validateInputField } from '../../helper/formValiadation';
+import { validateInputField, dateValidation,  } from '../../helper/formValiadation';
 
 // DEFINE && EXPORT CONTEXT
 // create context
@@ -10,7 +10,8 @@ export const useFormContext = () => useContext(FormLayoutProvider);
 // define layout provider
 export default function FormContext({children}) {
   // TEMPLATE
-  const errorMessageTemplate = {username: 'required', password: 'required'};
+  const REQUIRED = 'Required field';
+  const errorMessageTemplate = {username: REQUIRED, password: REQUIRED, email: REQUIRED, passwordConfirm: REQUIRED};
   // STATES
   const [formData, setFormData] = useState();
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
@@ -18,7 +19,10 @@ export default function FormContext({children}) {
   const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
   const [validationMessages, setValidationMessages] = useState(errorMessageTemplate);
-
+  // EFFECT
+  // useEffect(() => {
+  //   return () => {setValidationMessages({})};
+  // }, []) 
   // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [isGalleryFetched, setIsGalleryFetched] = useState(false);
   // file upload
@@ -37,19 +41,31 @@ export default function FormContext({children}) {
     console.log(updatedForm[name]);
     const validationMessage = validateInputField(name, value, required, minLength, maxLength, fieldName);
     setValidationMessages(prev => ({...prev, [name]: validationMessage}))
-    console.log(validationMessage);
   };
-  // date input 
+  // date input  
+  // limit input value's year to 4 digits (20222 -> 2022)
+  const formatDateYear = dateValue => {
+    const dateArr = dateValue.split('-');
+    dateArr[0] = dateArr[0].trim().slice(0, 4);
+    return dateArr.join('-');
+  } 
+  
   const dateInputChangeHandler = (e) => {
     e.preventDefault();
     // update form captureDate field
     let updatedForm = {...formData}; // copy form
     const updatedItem = {...updatedForm['captureDate']}; // copy and update nested form properties
-    updatedItem.value = e.target.value; // update prop value
+    const formattedValue = formatDateYear(e.target.value);
+    updatedItem.value = formattedValue; // update prop value, limit year digit count
     updatedForm['captureDate'] = updatedItem; // update form with updated property
     setFormData(updatedForm); // update state
+    // validate input field
+    const {value} = updatedForm['captureDate'];
+    const validationMessage = dateValidation(value);
+    setValidationMessages(prev => ({...prev, ['captureDate']: validationMessage}))
+    console.log(validationMessage);
   }
-  
+
   return (
     <FormLayoutProvider.Provider
       value={{

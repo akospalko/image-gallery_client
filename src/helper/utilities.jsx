@@ -1,12 +1,15 @@
 // Storage for various utility functions:
 
 // DATE:
+// assign 0 in front of single-digit stringified date obj values (month/day), return double-digit as is: e.g. 5 -> 05; 15 -> 15
+export const formatSingleDigitDateValue = dateObj => dateObj < 10 ? `0${dateObj}` : `${dateObj}`;
+
 // generate date from passed dateObj (fetched from db) -> to string (yyyy.mm.dd)
 export const generateDateString = (date, separator='.') => {
   const dateObj = new Date(date); 
   const year = dateObj.getFullYear();
-  let month = (dateObj.getMonth() + 1) < 10 ? (`0${dateObj.getMonth()}`) : (`${dateObj.getMonth()}`); 
-  let day = dateObj.getDate() < 10 ? (`0${dateObj.getDate()}`) : (`${dateObj.getDate()}`);
+  let month = formatSingleDigitDateValue(dateObj.getMonth() + 1); 
+  let day = formatSingleDigitDateValue(dateObj.getDate());
   return `${year}${separator}${month}${separator}${day}${separator}`;
 }
 

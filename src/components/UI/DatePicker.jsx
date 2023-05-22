@@ -29,7 +29,9 @@ export default function DatePicker() {
         ref={datePickerRef}
         style={{colorScheme: theme}} 
         type='date' 
-        onChange={(e) => dateInputChangeHandler(e)}
+        onChange={dateInputChangeHandler}
+        // min='1900-01-01'
+        // max={new Date().toISOString().split('T')[0];}
         value={formData?.captureDate.value || ''}
       />
     </div>
