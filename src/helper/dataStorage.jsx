@@ -7,7 +7,7 @@ export const createPhoto = {
     label: 'Title',
     required: true,
     minLength: 5,
-    maxLength: 30
+    maxLength: 50
   },
   author: {
     type: 'text',
@@ -15,8 +15,8 @@ export const createPhoto = {
     value: '',
     label: 'Author',
     required: true,
-    minLength: 3,
-    maxLength: 20
+    minLength: 4,
+    maxLength: 50
   },
   gpsLatitude: {
     type: 'number',
@@ -41,7 +41,7 @@ export const createPhoto = {
     placeholder: 'description',
     value: '',
     label: 'Description',
-    maxLength: 250
+    maxLength: 500
   },
   photoFile: {
     type: 'file',
@@ -72,7 +72,7 @@ export const updatePhoto = {
     label: 'Title',
     required: true,
     minLength: 5,
-    maxLength: 30
+    maxLength: 50
   },
   author: {
     type: 'text',
@@ -80,8 +80,8 @@ export const updatePhoto = {
     value: '',
     label: 'Author',
     required: true,
-    minLength: 3,
-    maxLength: 20
+    minLength: 4,
+    maxLength: 50
   },
   gpsLatitude: {
     type: 'number',
@@ -106,7 +106,7 @@ export const updatePhoto = {
     placeholder: 'description',
     value: '',
     label: 'Description',
-    maxLength: 250
+    maxLength: 500
   },
   photoFile: {
     type: 'file',
@@ -131,11 +131,8 @@ export const login = {
     value: '1',
     label: 'Password',
     required: true,
-    validation: {
-      required: true,
-      fieldName: 'passwordLogin'
-      //touched: false???
-    }
+    minLength: 8,
+    fieldName: 'passwordLogin'
   }
 }
 export const register = {
@@ -145,8 +142,7 @@ export const register = {
     value: '',
     label: 'Username',
     required: true,
-    minLength: 3,
-    maxLength: 40,
+    minLength: 4,
     fieldName: 'usernameRegister'
   },
   email: {

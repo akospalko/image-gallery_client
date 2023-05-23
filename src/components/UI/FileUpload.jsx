@@ -1,6 +1,7 @@
 // Input field to handle file (photo) upload, read photo's exif data, update form data   
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
 import React, { useState, useEffect, useRef } from 'react';
+import './Input.css';
 import './FileUpload.css';
 import { statusMessages } from '../../helper/dataStorage';
 import { transformDate, cropString } from '../../helper/utilities';
@@ -161,8 +162,9 @@ export default function FileUpload() {
         <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
       </div>
       <div className='file-upload-status'>
-        <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
-        { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
+        
+        <span className={fileUploadStatus.status === "ok" ? "" : fileUploadStatus.status === "error" ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } > 
+          { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
         </span> 
       </div>
     </label>

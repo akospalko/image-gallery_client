@@ -15,9 +15,11 @@ const Input = (props) => {
   const {formData, inputChangeHandler, validationMessages} = useFormContext();
   // ELEMENTS
   // label 
+  const labelWithRequiredMarkerStyle = formData[name]?.required ? 'label-with-required-marker' : ''; 
   const renderedLabel = (label && formData[name]?.label ? 
-    <label className={`label-default ${labelStyle}`}> {formData[name]?.label} </label>
+    <label className={`label-default ${labelStyle} ${labelWithRequiredMarkerStyle}`}> {formData[name]?.label} </label>
   : null ) 
+
   // error message container
   const renderedErrorMessage = (  
   <div className='validation-message'> 
@@ -44,7 +46,7 @@ const Input = (props) => {
       placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
-      maxLength={formData[name]?.maxLength + 1 || null}
+      maxLength={formData[name]?.maxLength || null}
     /> )
   const file = <FileUpload />
   const date = <DatePicker />

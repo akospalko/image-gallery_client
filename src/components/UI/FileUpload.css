@@ -68,7 +68,7 @@
 }
 /* INVALID FILE UPLOAD INSTRUCTION STYLING  */
 .file-upload-invalid {
-  color: var(--bg-color--accent);
+  color: var(--text-color--validation-message);
 }
 /* display file */
 .file-upload-display {

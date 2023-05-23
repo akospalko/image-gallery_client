@@ -53,3 +53,12 @@ export const buildInputFields = (formData) => {
   }
   return inputFieldsArray;
 }
+
+
+// CHARACTER COUNTER
+// basic chracter counter display: requires current length and max allowed length
+export const characterCounter = (currentLength, maxLength) => {
+  !currentLength && !maxLength;
+  let trackedLength = currentLength > maxLength ? maxLength : currentLength;
+  return `(${trackedLength} / ${maxLength})`;
+}  

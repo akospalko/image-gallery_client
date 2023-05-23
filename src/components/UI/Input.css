@@ -41,6 +41,15 @@
   font-size: 1.1rem;
   font-weight: 500;
 }
+/* label required marker */
+.label-with-required-marker::after {
+  content: "*";
+  color: var(--bg-color--accent);
+} 
+/* some places default marker color would make a proper emphasis */
+.label-with-required-marker--inverted-color::after {
+  color: var(--text-color--high-emphasis);
+}
 /* VALIDATION MESSAGES */
 .validation-message { 
   display: flex;

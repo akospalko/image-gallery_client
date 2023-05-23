@@ -1,6 +1,7 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+// TODO: validation data from backend -> update validation data storage -> update validationmessage state on mount 
+import React, { useState, createContext, useContext } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
-import { validateInputField, dateValidation,  } from '../../helper/formValiadation';
+import { basicInputFieldValidator, dateValidator  } from '../../helper/formValiadation';
 
 // DEFINE && EXPORT CONTEXT
 // create context
@@ -19,14 +20,8 @@ export default function FormContext({children}) {
   const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
   const [validationMessages, setValidationMessages] = useState(errorMessageTemplate);
-  // EFFECT
-  // useEffect(() => {
-  //   return () => {setValidationMessages({})};
-  // }, []) 
-  // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
-  const [isGalleryFetched, setIsGalleryFetched] = useState(false);
-  // file upload
-  const [photoFile, setPhotoFile] = useState({});
+  const [isGalleryFetched, setIsGalleryFetched] = useState(false); // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
+  const [photoFile, setPhotoFile] = useState({}); // file upload
   // HANDLERS (used in multiple components)
   //input, textarea change handler
   const inputChangeHandler = (e) => {
@@ -39,7 +34,7 @@ export default function FormContext({children}) {
     // validate input field
     const {required, minLength, maxLength, fieldName} = updatedForm[name];
     console.log(updatedForm[name]);
-    const validationMessage = validateInputField(name, value, required, minLength, maxLength, fieldName);
+    const validationMessage = basicInputFieldValidator(name, value, required, minLength, maxLength, fieldName);
     setValidationMessages(prev => ({...prev, [name]: validationMessage}))
   };
   // date input  
@@ -61,7 +56,7 @@ export default function FormContext({children}) {
     setFormData(updatedForm); // update state
     // validate input field
     const {value} = updatedForm['captureDate'];
-    const validationMessage = dateValidation(value);
+    const validationMessage = dateValidator(value);
     setValidationMessages(prev => ({...prev, ['captureDate']: validationMessage}))
     console.log(validationMessage);
   }
