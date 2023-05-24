@@ -1,23 +1,22 @@
 import { formatSingleDigitDateValue, characterCounter } from './utilities';
 import { INPUT_VALIDATION_MESSAGES } from './statusMessages';
+import { CONSTANT_VALUES } from './constantValues';
 
 // TODO:
 // + reset validationMessages on modal close / submit || empty validation messages on unmount
 // + add form Touched state to form context?
 // + connect validation result with submit button disable status
-// + file validation (format, size, etc)
 // + compare password + password confirm when registering user
-
 // basic input validator, returns valiation msg
 // check for: username, (confirm)password, email, gps coordinates, title, description, author 
 export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName) => {
   if(!name || !value) return;
-  
-  let validationMessage = ''; // to be returned validation message
+  // CONSTANTS
+  let validationMessage = ''; 
   // check if value's length has reached min/max
   const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
   const isMinLengthReached = minLength ? lengthReached(value.length, minLength) : false;
-  const isMaxLengthReached = maxLength ? lengthReached(value.length, maxLength) : false;
+  // const isMaxLengthReached = maxLength ? lengthReached(value.length, maxLength) : false;
   
   // VALIDATION
   // USERNAME
@@ -68,16 +67,13 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   return validationMessage;
 }
 
-
-// DATE
-const earliestYear = 1900; 
-// TOO: invalid input is considered empty on submit (-> valid or no date)
+// DATE INPUT
+// TODO: invalid input is considered empty on submit (-> valid or no date)
 export const dateValidator = (dateInputString) => {
   // check for invalid date input string
   if(isNaN(Date.parse(dateInputString))) return INPUT_VALIDATION_MESSAGES.INVALID_DATE;
+  // CONSTANTS
   let validationMessage = '';
-  // MESSAGES
-  // VALUES
   // input date
   const inputDate = new Date(dateInputString);
   const inputDay = inputDate.getDate();
@@ -94,7 +90,7 @@ export const dateValidator = (dateInputString) => {
   // VALIDATION
   if(isDateValid(inputDate)) {
     // force input year between current year and earliest year values
-    validationMessage = inputYear > currentYear || inputYear < earliestYear ? INPUT_VALIDATION_MESSAGES.ALLOWED_YEAR_RANGE(earliestYear, currentYear) : validationMessage;
+    validationMessage = inputYear > currentYear || inputYear < CONSTANT_VALUES.earliestYear ? INPUT_VALIDATION_MESSAGES.ALLOWED_YEAR_RANGE(CONSTANT_VALUES.earliestYear, currentYear) : validationMessage;
     // limit input month not to exceed current month. Triggers if input + current years are equal
     validationMessage = inputYear === currentYear && inputMonth > currentMonth ? INPUT_VALIDATION_MESSAGES.EXCEEDED_MONTH(formatSingleDigitDateValue(currentMonth)) : validationMessage ;
     // limit input day not to exceed current day. Triggers if input + current years and months are equal 
@@ -103,4 +99,21 @@ export const dateValidator = (dateInputString) => {
     validationMessage = INPUT_VALIDATION_MESSAGES.INVALID_DATE;
   }
   return validationMessage;
+}
+
+// FILE INPUT (photo): validate input file, return appropriate status & message
+export const photoFileValidator = (selectedFile) => {
+  if(!selectedFile) { return; }
+  // CONSTANTS
+  const maxFileSizeInBytes = CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES; 
+  const convertBytesToMBConstant = CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT;
+  const fileUploadExtensionErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_EXTENSION_ERROR; 
+  const fileUploadMaxSizeErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant)
+  // validate selected file: check file extension, size
+  if (!CONSTANT_VALUES.ALLOWED_FILE_TYPES.includes(selectedFile.type)) { // check file extension
+    return { status: 'error', message: fileUploadExtensionErrorStatusMessage };
+  } if (selectedFile.size > maxFileSizeInBytes) { // check photo max file size
+    return { status: 'error', message: fileUploadMaxSizeErrorStatusMessage };
+  } 
+  return { status: 'ok', message: selectedFile.name };
 }

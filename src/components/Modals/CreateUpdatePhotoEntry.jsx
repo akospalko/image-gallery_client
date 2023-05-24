@@ -32,7 +32,7 @@ export default function CreateUpdatePhotoEntry(props) {
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
   const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
-  const {formData, setFormData, message, setMessage, setPhotoFile} = useFormContext();
+  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -65,12 +65,11 @@ export default function CreateUpdatePhotoEntry(props) {
 
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
-  const createPhotoEntryHandler = async(e, formData) => {
-    // TODO: set (refetch) photo entry data state here 
+  const createPhotoEntryHandler = async(e, formData, photoFile) => {
     e.preventDefault();
     try {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
-      const convertedData = convertFormData(formData); // simplyfy data before sending request  
+      const convertedData = {...convertFormData(formData), photoFile}; // simplyfy data before sending request, merge form data with photoFile  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
       console.log(responseCreate)
       const {success, message, photoEntry } = responseCreate ?? {};
@@ -102,11 +101,11 @@ export default function CreateUpdatePhotoEntry(props) {
     }
   }
   // submit form for createPhoto (update new photo entry)
-  const updatePhotoEntryHandler = async (e, formData) => {
+  const updatePhotoEntryHandler = async (e, formData, photoFile) => {
     e.preventDefault();
     try {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
-      const convertedData = convertFormData(formData); 
+      const convertedData = {...convertFormData(formData), photoFile}; // simplyfy data before sending request, merge form data with photoFile  
       const responseUpdate = await updatePhotoEntry(activePhotoEntry._id, convertedData, axiosPrivate, collection);
       const {success, message, photoEntry } = responseUpdate ?? {};
       if(success === true) {
@@ -159,7 +158,7 @@ export default function CreateUpdatePhotoEntry(props) {
           type='submit' 
           disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
-            operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData) : updatePhotoEntryHandler(e, formData) 
+            operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData, photoFile) : updatePhotoEntryHandler(e, formData, photoFile) 
           }}
         >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
         </Button>      

@@ -15,5 +15,8 @@ export const INPUT_VALIDATION_MESSAGES = {
   EXCEEDED_MONTH: currentMonth => `Input month must not exceed current month (${currentMonth}.) `,
   EXCEEDED_DAY: currentDay => `Input day must not exceed today (${currentDay}.) `,
   INVALID_DATE: 'Invalid date',
+  // file input
+  FILE_UPLOAD_INITIAL: function(fileSize) { return `JPEG or PNG up to ${fileSize} MB in size` },
+  FILE_UPLOAD_EXTENSION_ERROR: 'Unsupported file extension! (use JPEG or PNG)',
+  FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`},
 } 
- 
