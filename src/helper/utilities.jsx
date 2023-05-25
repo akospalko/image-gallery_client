@@ -25,6 +25,13 @@ export const transformDate = (date, separatorOriginal=':', separatorReplace='-')
   } else { return }
 }
 
+// limit date input year value to 4 digits (20222 -> 2022)
+export const formatDateYear = dateValue => {
+  const dateArr = dateValue.split('-');
+  dateArr[0] = dateArr[0].trim().slice(0, 4);
+  return dateArr.join('-');
+} 
+
 // STRING MANIPULATION
 // crop input string's length above || return original below maxLength.
 // cropped string length is cropLength + '...' 
@@ -36,15 +43,6 @@ export const cropString = (inputString, maxLength, cropLength) => {
   const end = inputString.slice(inputString.length - cropEndLength); // extract string after crop (from )
   return `${start}...${end}`;
 }
-
-
-
-
-
-
-
-
-
 
 // FORM & INPUT
 // convert and simplify form data that we can pass to the backend ({key1:value1, ...})  

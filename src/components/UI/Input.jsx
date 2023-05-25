@@ -23,7 +23,7 @@ const Input = (props) => {
   // error message container
   const renderedErrorMessage = (  
   <div className='validation-message'> 
-    { validationMessages?.[name] && <span> {validationMessages?.[name]} </span> }
+    { validationMessages?.[name]?.message && <span> {validationMessages?.[name]?.message} </span> }
   </div>
   );
   

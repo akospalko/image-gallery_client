@@ -6,13 +6,20 @@ import { CONSTANT_VALUES } from './constantValues';
 // + reset validationMessages on modal close / submit || empty validation messages on unmount
 // + add form Touched state to form context?
 // + connect validation result with submit button disable status
-// + compare password + password confirm when registering user
+// + password regex not matching special characters: e.g. /, \, $, etc.
 // basic input validator, returns valiation msg
+// validation return value for basic input field validator: {status/result: bool, message: '...'}
+
+
+// compare passwords, return match result 
+export const isPasswordMatching = (password, confirmPassword) => {
+  return (password && confirmPassword) && password === confirmPassword ? true : false;
+}
 // check for: username, (confirm)password, email, gps coordinates, title, description, author 
-export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName) => {
-  if(!name || !value) return;
+export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName, passwordValue, confirmPasswordValue) => {
+  if(!name || !value) { return { name: name, status: false, message: '' } };
+  console.log('validate') 
   // CONSTANTS
-  let validationMessage = ''; 
   // check if value's length has reached min/max
   const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
   const isMinLengthReached = minLength ? lengthReached(value.length, minLength) : false;
@@ -22,56 +29,101 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   // USERNAME
   // check register username field   
   if(name === 'username' && fieldName==='usernameRegister') { 
-    // check for length 
-    validationMessage = !isMinLengthReached ? INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength) : validationMessage;
     // check invalid characters
-    validationMessage = !new RegExp(/^[a-zA-Z0-9_.]+$/).test(value) ? INPUT_VALIDATION_MESSAGES.USERNAME : validationMessage; 
+    if (!new RegExp(/^[a-zA-Z0-9_.]+$/).test(value)) {
+      const usernameInvalidCharacters = INPUT_VALIDATION_MESSAGES.USERNAME;
+      return { name: name, status: false, message: usernameInvalidCharacters };
+    }
+    // check for length 
+    if(!isMinLengthReached) {
+      const minLengthError = INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength);
+      return { name: name, status: false, message: minLengthError };
+    } 
   } 
   // PASSWORD
-  // check password validity
-  else if((name === 'password' || name === 'passwordConfirm') && (fieldName==='passwordRegister' || fieldName==='passwordConfirmRegister')) {
-    validationMessage = minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value) ? 
-    INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength) : '';
+  else if(name === 'password' || name === 'passwordConfirm') {
+    if(name === 'password' && fieldName ==='passwordRegister') {
+      if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
+        console.log(value);
+        const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
+        return { name: name, status: false, message: invalidPassword };
+      }
+    } 
+    // if (isPasswordMatching(passwordValue, confirmPasswordValue)) {
+    //   validationMessage = 'Password is matching';
+    // } else {
+    //   validationMessage = 'Password is not matching';
+    // }
+    // console.log(validationMessage);
+    // console.log('pw', passwordValue, 'confirmPW', confirmPasswordValue);
   } 
+  // check password matching passwords 
+  // else if(name === 'passwordConfirm') { // && fieldName==='passwordConfirmRegister'
+  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
+  //   console.log( isPasswordMatching(password, value), value, password);
+  // } 
+  // else if(name === 'password' && fieldName==='passwordRegister') {
+  //   // validationMessage = minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value) ? INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength) : '';
+  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
+  //   console.log(isPasswordMatching(password, value), value, password);
+  // } 
+  // // check password matching passwords 
+  // else if(name === 'passwordConfirm') { // && fieldName==='passwordConfirmRegister'
+  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
+  //   console.log( isPasswordMatching(password, value), value, password);
+  // } 
   // EMAIL
   else if (name === 'email') {
     if(!new RegExp(/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/).test(value)) {
-      validationMessage = INPUT_VALIDATION_MESSAGES.EMAIL;
+      const emailError = INPUT_VALIDATION_MESSAGES.EMAIL;
+      return { name: name, status: false, message: emailError };
     }
   }
   // GPS LAT
   else if(name === 'gpsLatitude') { 
-    validationMessage = !new RegExp(/^-?([0-8]?[0-9](\.[0-9]+)?|90(\.0+)?)$/).test(value) && INPUT_VALIDATION_MESSAGES.COORDINATE_LAT;
+    if(!new RegExp(/^-?([0-8]?[0-9](\.[0-9]+)?|90(\.0+)?)$/).test(value)) {
+      const gpsLatCoordinateError = INPUT_VALIDATION_MESSAGES.COORDINATE_LAT;
+      return { name: name, status: false, message: gpsLatCoordinateError };
+    }
   }
   // GPS LON
   else if(name === 'gpsLongitude') { 
-    validationMessage = !new RegExp(/^-?((([0-9]|[1-9][0-9]|1[0-7][0-9])(\.[0-9]+)?)|180(\.0+)?)$/).test(value) && INPUT_VALIDATION_MESSAGES.COORDINATE_LON;
+    if(!new RegExp(/^-?((([0-9]|[1-9][0-9]|1[0-7][0-9])(\.[0-9]+)?)|180(\.0+)?)$/).test(value)) {
+      const gpsLongCoordinateError = INPUT_VALIDATION_MESSAGES.COORDINATE_LON;
+      return { name: name, status: false, message: gpsLongCoordinateError };
+    }
   }  
   // MISC
   // check string min/max length  
   else if (name === 'description') {
-    validationMessage = characterCounter(value.length, maxLength);
-    console.log(validationMessage);
+    return { name: name, status: true, message: characterCounter(value.length, maxLength) };  
   } 
   // MISC
   // check string min/max length  
   else if (name === 'title' || name === 'author') {
     const isMinLengthEqualOrReached = minLength ? lengthReached(value.length + 1, minLength) : false;
-    validationMessage = !isMinLengthEqualOrReached ? INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength) : characterCounter(value.length, maxLength);
+    if (!isMinLengthEqualOrReached) {
+      const minLengthError = INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength);
+      return { name: name, status: false, message: minLengthError };
+    } else {
+      return { name: name, status: true, message: characterCounter(value.length, maxLength) };
+    }
   } 
-
   // CHECK IF REQUIRED FIELD IS EMPTY
   if(required && (!value || value.trim() === '')) {
-    validationMessage = INPUT_VALIDATION_MESSAGES.REQUIRED;
+    const isRequired = INPUT_VALIDATION_MESSAGES.REQUIRED;
+    return { name: name, status: false, message: isRequired };
   } 
-  return validationMessage;
+  return { name: name, status: true, message: '' };
 }
-
 // DATE INPUT
 // TODO: invalid input is considered empty on submit (-> valid or no date)
 export const dateValidator = (dateInputString) => {
   // check for invalid date input string
-  if(isNaN(Date.parse(dateInputString))) return INPUT_VALIDATION_MESSAGES.INVALID_DATE;
+  const invalidDate = INPUT_VALIDATION_MESSAGES.INVALID_DATE;
+  if(isNaN(Date.parse(dateInputString))) {
+    return { name: 'captureDate' , status: false, message: invalidDate };    
+  }
   // CONSTANTS
   let validationMessage = '';
   // input date
@@ -90,15 +142,24 @@ export const dateValidator = (dateInputString) => {
   // VALIDATION
   if(isDateValid(inputDate)) {
     // force input year between current year and earliest year values
-    validationMessage = inputYear > currentYear || inputYear < CONSTANT_VALUES.earliestYear ? INPUT_VALIDATION_MESSAGES.ALLOWED_YEAR_RANGE(CONSTANT_VALUES.earliestYear, currentYear) : validationMessage;
+    if(inputYear > currentYear || inputYear < CONSTANT_VALUES.earliestYear) {
+      const yearRangeError = INPUT_VALIDATION_MESSAGES.ALLOWED_YEAR_RANGE(CONSTANT_VALUES.earliestYear, currentYear);
+      return { name: 'captureDate' , status: false, message: yearRangeError };   
+    }
     // limit input month not to exceed current month. Triggers if input + current years are equal
-    validationMessage = inputYear === currentYear && inputMonth > currentMonth ? INPUT_VALIDATION_MESSAGES.EXCEEDED_MONTH(formatSingleDigitDateValue(currentMonth)) : validationMessage ;
+    if(inputYear === currentYear && inputMonth > currentMonth) {
+      const monthRangeError = INPUT_VALIDATION_MESSAGES.EXCEEDED_MONTH(formatSingleDigitDateValue(currentMonth));
+      return { name: 'captureDate' , status: false, message: monthRangeError };   
+    }
     // limit input day not to exceed current day. Triggers if input + current years and months are equal 
-    validationMessage = inputYear === currentYear && inputMonth === currentMonth && inputDay > currentDay ? INPUT_VALIDATION_MESSAGES.EXCEEDED_DAY(formatSingleDigitDateValue(currentDay)) : validationMessage;
+    if(inputYear === currentYear && inputMonth === currentMonth && inputDay > currentDay) {
+      const dayRangeError = INPUT_VALIDATION_MESSAGES.EXCEEDED_DAY(formatSingleDigitDateValue(currentDay));
+      return { name: 'captureDate' , status: false, message: dayRangeError };   
+    }
   } else {
-    validationMessage = INPUT_VALIDATION_MESSAGES.INVALID_DATE;
+    return { name: 'captureDate', status: false, message: invalidDate };  
   }
-  return validationMessage;
+  return { name: 'captureDate', status: true, message: '' };  
 }
 
 // FILE INPUT (photo): validate input file, return appropriate status & message

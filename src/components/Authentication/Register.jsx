@@ -9,6 +9,7 @@ import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
 import { OPERATIONS, register } from '../../helper/dataStorage';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
+import { isPasswordMatching } from '../../helper/formValiadation';
 import { createNewUser } from '../../helper/axiosRequests';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -39,13 +40,15 @@ export default function Register() {
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const {password, passwordConfirm} = convertedData; // destructure converted data values
       const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
-      // check for matching pw-s  
-      if(password !== passwordConfirm) {
+      // check for matching PWs  
+      const matchedPassword = isPasswordMatching (password, passwordConfirm); 
+      console.log(password, passwordConfirm);
+      if(!matchedPassword) {
         setFormData(resetPassword);
         setMessage('Passwords are not matching');
         return;
       };
-      delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
+      delete convertedData.passwordConfirm; // if pw matched -> delete pw confirm from convertedData
       const response = await createNewUser(convertedData);
       const {success, message} = response ?? {}; // destructure response values
       if(success) {  // register successfull
@@ -61,6 +64,7 @@ export default function Register() {
           });
         navigate('/login'); //navigate to login page after successful registration
         setFormData(register); // reset form 
+        setMessage('');
       } else { // register failed
         setMessage(message); 
         setFormData(resetPassword); // empty pasword fields
