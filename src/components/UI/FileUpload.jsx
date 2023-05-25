@@ -1,15 +1,15 @@
 // Input field to handle file (photo) upload, read photo's exif data, update form data
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
 import React, { useState, useEffect, useRef } from 'react';
+import ExifReader from 'exifreader';
 import './Input.css';
 import './FileUpload.css';
 import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
 import { photoFileValidator } from '../../helper/formValiadation'
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { transformDate, cropString } from '../../helper/utilities';
-import ExifReader from 'exifreader';
-import Button from '../UI/Button';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading';
+import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
 import { Delete } from '../SVG/Icons';
 import { useModalContext } from '../contexts/ToggleModalContext';
@@ -37,7 +37,7 @@ export default function FileUpload() {
   // EFFECT
   // extract available exif, update form
   useEffect(() => {
-    if(!photoFile || typeof photoFile !== 'object' || !photoFile.name) return;
+    if(!photoFile?.name) return;
     (async () => {
       const tags = await ExifReader.load(photoFile, {expanded: true});
       // read & extract exif data(GPS coord.s, capture date), update formData
@@ -64,15 +64,19 @@ export default function FileUpload() {
     if(photoFile && Object.keys(activePhotoEntry).length === 0) return;
     setAllImagesLoaded(false);
   }, [photoFile, setAllImagesLoaded])
-
   // HANDLERS
+  // check if file is selected, validate file & store in sate 
+  const selectFileHandler = (selectedFile) => {
+    if(selectedFile) {
+      const validationResult = photoFileValidator(selectedFile, photoFile);
+      setFileUploadStatus(validationResult); // update validation status
+      validationResult?.status === 'success' && setPhotoFile(selectedFile); // store file in state
+    }
+  }
   // file change listener: browse & select file -> validate -> store in state
   const browseFileChangeHandler = (e) => {
     e.preventDefault();
-    const selectedFile = e.target.files[0];
-    const validationResult = photoFileValidator(selectedFile);
-    setFileUploadStatus(validationResult);
-    validationResult?.status === 'ok' && setPhotoFile(selectedFile);  // store file in state
+    selectFileHandler(e.target.files[0]); // handle file selection, validate, update state 
   }
   // triggered while file dragging is active
   const handleDrag = function(e) {
@@ -89,12 +93,7 @@ export default function FileUpload() {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    const selectedFile = e.dataTransfer.files;
-    if (selectedFile && selectedFile[0]) {
-      const validationResult = photoFileValidator(selectedFile);
-      setFileUploadStatus(validationResult);
-      validationResult?.status === 'ok' && setPhotoFile(selectedFile);  // store file in state
-    }
+    selectFileHandler(e.dataTransfer.files[0]);  // handle file selection, validate, update state 
   };
   // triggers the input when the button is clicked
   const onButtonClick = (e) => {
@@ -125,8 +124,8 @@ export default function FileUpload() {
         <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button>
       </div>
       <div className='file-upload-status'>
-        <span className={fileUploadStatus.status === "ok" ? "" : fileUploadStatus.status === "error" ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } >
-          { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message }
+        <span className={fileUploadStatus?.status === "success" ? "" : fileUploadStatus?.status === "error" ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } >
+          { fileUploadStatus?.status === 'success' ? cropString(fileUploadStatus?.message, 25, 18) : fileUploadStatus?.message }
         </span>
       </div>
     </label>
@@ -154,11 +153,11 @@ export default function FileUpload() {
             > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
           </div>
           { photoFile.name ?
-              <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
-              : activePhotoEntry.photoURL ?
-              getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id)
-              :
-              <span> NO IMG </span>
+            <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
+            : activePhotoEntry.photoURL ?
+            getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id)
+            :
+            <span> NO IMG </span>
           }
         </div>
       }

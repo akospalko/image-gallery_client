@@ -26,11 +26,25 @@ export const transformDate = (date, separatorOriginal=':', separatorReplace='-')
 }
 
 // STRING MANIPULATION
-// crop and/or return input string if its length reaches the 'to be cropped' values(cropFront, cropBack) 
-export const cropString = (inputString, cropFront = 0, cropBack = 0) => {
-  if(cropFront === 0 || !cropFront === 0) return inputString;
-  return inputString <= (cropFront + cropBack) ? inputString : `${inputString.slice(0, cropFront)}...${inputString.slice(inputString.length - cropBack)}`;  
+// crop input string's length above || return original below maxLength.
+// cropped string length is cropLength + '...' 
+export const cropString = (inputString, maxLength, cropLength) => {
+  if (inputString.length <= maxLength) { return inputString }; // max length is not reached
+  const cropStartLength = cropLength / 2; // after how many characters should crop start 
+  const cropEndLength = cropLength - cropStartLength; // before how many characters should crop end (start couting from inputString's end Length)
+  const start = inputString.slice(0, cropStartLength); // extract string before crop
+  const end = inputString.slice(inputString.length - cropEndLength); // extract string after crop (from )
+  return `${start}...${end}`;
 }
+
+
+
+
+
+
+
+
+
 
 // FORM & INPUT
 // convert and simplify form data that we can pass to the backend ({key1:value1, ...})  

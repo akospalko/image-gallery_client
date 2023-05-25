@@ -102,18 +102,19 @@ export const dateValidator = (dateInputString) => {
 }
 
 // FILE INPUT (photo): validate input file, return appropriate status & message
-export const photoFileValidator = (selectedFile) => {
-  if(!selectedFile) { return; }
-  // CONSTANTS
+export const photoFileValidator = (selectedFile, photoFile) => {
+  if(!selectedFile) { return { status: 'success', message: photoFile.name} }
+
   const maxFileSizeInBytes = CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES; 
   const convertBytesToMBConstant = CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT;
-  const fileUploadExtensionErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_EXTENSION_ERROR; 
-  const fileUploadMaxSizeErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant)
-  // validate selected file: check file extension, size
-  if (!CONSTANT_VALUES.ALLOWED_FILE_TYPES.includes(selectedFile.type)) { // check file extension
+  const allowedFileTypes = CONSTANT_VALUES.ALLOWED_FILE_TYPES;
+
+  if (!allowedFileTypes.includes(selectedFile.type)) { // check file extension
+    const fileUploadExtensionErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_EXTENSION_ERROR; 
     return { status: 'error', message: fileUploadExtensionErrorStatusMessage };
   } if (selectedFile.size > maxFileSizeInBytes) { // check photo max file size
+    const fileUploadMaxSizeErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant)
     return { status: 'error', message: fileUploadMaxSizeErrorStatusMessage };
   } 
-  return { status: 'ok', message: selectedFile.name };
+  return { status: 'success', message: selectedFile.name };
 }
