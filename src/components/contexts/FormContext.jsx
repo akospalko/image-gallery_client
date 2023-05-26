@@ -41,8 +41,20 @@ export default function FormContext({children}) {
     const {required, minLength, maxLength, fieldName} = updatedForm[name];
     // validate input field
     const validationStatus = basicInputFieldValidator(name, value, required, minLength, maxLength, fieldName);
-    console.log(validationStatus);
-    setValidationMessages(prev => ({ ...prev, [name]: { ...prev[name], ...validationStatus } }))
+    // match pw
+    console.log('ACTIVE: ', name);
+    if(name === 'password' || name === 'passwordConfirm') {
+      const currentPassword = updatedForm['password']?.value;
+      const currentConfirmPassword = updatedForm['passwordConfirm']?.value;
+      const isMatch = isPasswordMatching(currentPassword, currentConfirmPassword);
+      console.log('pw-s matched:', isMatch);
+      console.log('pw', currentPassword,'pw conf: ', currentConfirmPassword);
+      const passwordConfirmValidationStatus  = {name: 'passwordConfirm', status: isMatch ? true : false, message: isMatch ? 'match' : 'no pw match' };
+      setValidationMessages(prev => ({ ...prev, ['passwordConfirm']: { ...prev['passwordConfirm'], ...validationStatus } }))
+    } else {
+      // console.log(validationStatus);
+      setValidationMessages(prev => ({ ...prev, [name]: { ...prev[name], ...validationStatus } }))
+    }
   };
 
 
