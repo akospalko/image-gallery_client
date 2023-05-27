@@ -16,15 +16,13 @@ export const isPasswordMatching = (password, confirmPassword) => {
   return (password && confirmPassword) && password === confirmPassword ? true : false;
 }
 // check for: username, (confirm)password, email, gps coordinates, title, description, author 
-export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName, passwordValue, confirmPasswordValue) => {
+export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName) => {
   if(!name || !value) { return { name: name, status: false, message: '' } };
-  console.log('validate') 
   // CONSTANTS
   // check if value's length has reached min/max
   const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
   const isMinLengthReached = minLength ? lengthReached(value.length, minLength) : false;
   // const isMaxLengthReached = maxLength ? lengthReached(value.length, maxLength) : false;
-  
   // VALIDATION
   // USERNAME
   // check register username field   
@@ -43,35 +41,14 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
     if(name === 'password' && fieldName ==='passwordRegister') {
+      
       if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
         console.log(value);
         const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
         return { name: name, status: false, message: invalidPassword };
       }
     } 
-    // if (isPasswordMatching(passwordValue, confirmPasswordValue)) {
-    //   validationMessage = 'Password is matching';
-    // } else {
-    //   validationMessage = 'Password is not matching';
-    // }
-    // console.log(validationMessage);
-    // console.log('pw', passwordValue, 'confirmPW', confirmPasswordValue);
   } 
-  // check password matching passwords 
-  // else if(name === 'passwordConfirm') { // && fieldName==='passwordConfirmRegister'
-  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
-  //   console.log( isPasswordMatching(password, value), value, password);
-  // } 
-  // else if(name === 'password' && fieldName==='passwordRegister') {
-  //   // validationMessage = minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value) ? INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength) : '';
-  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
-  //   console.log(isPasswordMatching(password, value), value, password);
-  // } 
-  // // check password matching passwords 
-  // else if(name === 'passwordConfirm') { // && fieldName==='passwordConfirmRegister'
-  //   validationMessage = isPasswordMatching(password, value) ? 'pw is ok' : 'pw is not ok'; 
-  //   console.log( isPasswordMatching(password, value), value, password);
-  // } 
   // EMAIL
   else if (name === 'email') {
     if(!new RegExp(/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/).test(value)) {

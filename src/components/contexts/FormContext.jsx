@@ -31,32 +31,76 @@ export default function FormContext({children}) {
   const [photoFile, setPhotoFile] = useState({}); // file upload
   // HANDLERS (used in multiple components)
   // input, textarea change handler
+
+
+  // const inputChangeHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   let updatedForm = { ...formData };
+  //   const updatedItem = { ...updatedForm[name] };
+  //   updatedItem.value = value;
+  //   updatedForm[name] = updatedItem;
+  //   setFormData(updatedForm);
+  
+  //   const { required, minLength, maxLength, fieldName } = updatedForm[name];
+  //   const validationStatus = basicInputFieldValidator(name, value, required, minLength, maxLength, fieldName);
+  
+  //   if (name === 'password' || name === 'passwordConfirm') {
+  //     const currentPassword = updatedForm['password']?.value;
+  //     const currentConfirmPassword = updatedForm['passwordConfirm']?.value;
+  //     const isMatch = isPasswordMatching(currentPassword, currentConfirmPassword);
+  
+  //     const passwordConfirmValidationStatus = {
+  //       name: 'passwordConfirm',
+  //       status: isMatch,
+  //       message: isMatch ? 'Passwords match' : 'Passwords do not match',
+  //     };
+  
+  //     setValidationMessages(prev => ({
+  //       ...prev,
+  //       [name]: { ...prev[name], ...validationStatus },
+  //       passwordConfirm: { ...prev.passwordConfirm, ...passwordConfirmValidationStatus },
+  //     }));
+  //   } else {
+  //     setValidationMessages(prev => ({ ...prev, [name]: { ...prev[name], ...validationStatus } }));
+  //   }
+  // };
+
   const inputChangeHandler = (e) => {
-    const { name, value } = e.target; // get event name, value 
-    let updatedForm = {...formData}; // copy form
-    const updatedItem = {...updatedForm[name]}; // copy and update nested form properties
-    updatedItem.value = value; // update prop value
-    updatedForm[name] = updatedItem; // update form with updated property
-    setFormData(updatedForm); // update state
-    const {required, minLength, maxLength, fieldName} = updatedForm[name];
-    // validate input field
+    const { name, value } = e.target;
+    let updatedForm = { ...formData };
+    const updatedItem = { ...updatedForm[name] };
+    updatedItem.value = value;
+    updatedForm[name] = updatedItem;
+    setFormData(updatedForm);
+  
+    const { required, minLength, maxLength, fieldName } = updatedForm[name];
     const validationStatus = basicInputFieldValidator(name, value, required, minLength, maxLength, fieldName);
-    // match pw
-    console.log('ACTIVE: ', name);
-    if(name === 'password' || name === 'passwordConfirm') {
+  
+    if (name === 'password' || name === 'passwordConfirm') {
       const currentPassword = updatedForm['password']?.value;
       const currentConfirmPassword = updatedForm['passwordConfirm']?.value;
+  
+      // Check if the password field regex condition is true
+      // const isPasswordValid = minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(currentPassword);
+      // Compare passwords
       const isMatch = isPasswordMatching(currentPassword, currentConfirmPassword);
-      console.log('pw-s matched:', isMatch);
-      console.log('pw', currentPassword,'pw conf: ', currentConfirmPassword);
-      const passwordConfirmValidationStatus  = {name: 'passwordConfirm', status: isMatch ? true : false, message: isMatch ? 'match' : 'no pw match' };
-      setValidationMessages(prev => ({ ...prev, ['passwordConfirm']: { ...prev['passwordConfirm'], ...validationStatus } }))
+      // 
+      const passwordConfirmValidationStatus = {
+        //name: 'passwordConfirm',
+        status: isMatch,
+        message: isMatch ? 'matchs' : 'Passwords do not match',
+        // message: isMatch ? 'Passwords match' : (isPasswordValid ? 'Passwords do not match' : 'Password must meet the requirements'),
+      };
+  
+      setValidationMessages(prev => ({
+        ...prev,
+        [name]: { ...prev[name], ...validationStatus },
+        passwordConfirm: { ...prev.passwordConfirm, ...passwordConfirmValidationStatus },
+      }));
     } else {
-      // console.log(validationStatus);
-      setValidationMessages(prev => ({ ...prev, [name]: { ...prev[name], ...validationStatus } }))
+      setValidationMessages(prev => ({ ...prev, [name]: { ...prev[name], ...validationStatus } }));
     }
   };
-
 
   const dateInputChangeHandler = (e) => {
     e.preventDefault();
