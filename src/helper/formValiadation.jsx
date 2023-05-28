@@ -42,7 +42,8 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   else if(name === 'password' || name === 'passwordConfirm') {
     if(name === 'password' && fieldName ==='passwordRegister') {
       
-      if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
+      // if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
+      if(minLength && !new RegExp(`^(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[a-zà-öø-ý])(?=.*[0-9]).*.{${minLength},}$`).test(value)) {
         console.log(value);
         const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
         return { name: name, status: false, message: invalidPassword };
