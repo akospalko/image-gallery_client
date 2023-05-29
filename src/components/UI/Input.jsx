@@ -7,12 +7,13 @@ import './Input.css';
 import FileUpload from './FileUpload';
 import DatePicker from './DatePicker';
 import { useFormContext } from '../contexts/FormContext';
+import Button from './Button';
 
 const Input = (props) => {
   // PROPS
-  const {label, name, inputStyle, textareaStyle, labelStyle } = props;
+  const {label, name, inputStyle, textareaStyle, labelStyle,  } = props;
   // CONTEXT
-  const {formData, inputChangeHandler, validationMessages} = useFormContext();
+  const {formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility} = useFormContext();
   // ELEMENTS
   // label 
   const labelWithRequiredMarkerStyle = formData[name]?.required ? 'label-with-required-marker' : ''; 
@@ -27,7 +28,7 @@ const Input = (props) => {
   </div>
   );
   
-  // basic input fields: text, number, email, password
+  // input fields: text, number, email
   const input = (
     <input 
       className={`input-default ${inputStyle}`}
@@ -38,7 +39,29 @@ const Input = (props) => {
       value={formData[name]?.value || ''}
       disabled={formData[name]?.disabled}
       maxLength={formData[name]?.maxLength + 1 || null}
-    /> )
+    /> 
+  )
+  // input fields: password with toggle visibility 
+  const customPassword = (
+    <div className={`input-password-container`}>
+      <input 
+        className={`input-content`}
+        name={name} 
+        type={showPassword ? 'text' : formData[name]?.type} // text - type
+        placeholder={formData[name]?.placeholder}
+        onChange={inputChangeHandler}
+        value={formData[name]?.value || ''}
+        disabled={formData[name]?.disabled}
+        maxLength={formData[name]?.maxLength + 1 || null}
+      /> 
+      {/* password visibility toggler */}
+      <div className='input-password-toggler' onClick={togglePasswordVisibility}>
+        <span> 
+          {showPassword ? 'Hide' : 'Show'}
+        </span>
+      </div>
+    </div>
+  )
   const textarea = ( 
     <textarea 
       className={`textarea-default ${textareaStyle}`}
@@ -51,32 +74,34 @@ const Input = (props) => {
   const file = <FileUpload />
   const date = <DatePicker />
   // CONDITIONAL RENDER INPUT ELEMENTS
-  let renderedElement; 
+  let renderedInput; 
   switch(formData[name]?.type) {
     case 'text':
     case 'number':
     case 'email':
+      renderedInput = input; 
+      break;
     case 'password':
-      renderedElement = input; 
+      renderedInput = customPassword; 
       break;
     case 'textarea':
-      renderedElement = textarea; 
+      renderedInput = textarea; 
       break;
     case 'file':
-      renderedElement = file; 
+      renderedInput = file; 
       break;
     case 'date':
-      renderedElement = date; 
+      renderedInput = date; 
       break;
     default:
-      renderedElement = input; 
+      renderedInput = input; 
   }
 
   
   return(
     <>
       {renderedLabel}
-      {formData && renderedElement} 
+      {formData && renderedInput} 
       {renderedErrorMessage}
     </>
   );

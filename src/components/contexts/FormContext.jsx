@@ -29,6 +29,8 @@ export default function FormContext({children}) {
   const [validationMessages, setValidationMessages] = useState(errorMessageTemplate);
   const [isGalleryFetched, setIsGalleryFetched] = useState(false); // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [photoFile, setPhotoFile] = useState({}); // file upload
+  const [showPassword, setShowPassword] = useState(false); // password visibility toggler   
+
   // HANDLERS (used in multiple components)
   // input, textarea change handler
 
@@ -102,6 +104,7 @@ export default function FormContext({children}) {
     }
   };
 
+  // date input handler
   const dateInputChangeHandler = (e) => {
     e.preventDefault();
     // update form captureDate field
@@ -116,6 +119,11 @@ export default function FormContext({children}) {
     const validationStatus = dateValidator(value);
     setValidationMessages(prev => ({ ...prev, ['captureDate']: { ...prev['captureDate'], ...validationStatus } }))
   }
+  // password visibility toggler 
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault();
+    setShowPassword(prev => !prev);
+  }
 
   return (
     <FormLayoutProvider.Provider
@@ -128,8 +136,10 @@ export default function FormContext({children}) {
         homePhotos, setHomePhotos,
         message, setMessage,
         isGalleryFetched, setIsGalleryFetched,
+        showPassword,
         inputChangeHandler,
-        dateInputChangeHandler
+        dateInputChangeHandler,
+        togglePasswordVisibility
       }}
     > {children}
     </FormLayoutProvider.Provider>
