@@ -25,16 +25,21 @@ export default function Login() {
   // ROUTE
   const from = location.state?.from?.pathname || "/";
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages} = useFormContext();
   const {setAuth} = useAuthContext(); 
   const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // form cleanup
   useEffect(() => {
-    setFormData(login);
-    return () => setFormData(undefined);
-  }, [setFormData])
+    return () => {
+      setFormData(login); 
+      setMessage('');
+      setShowPassword({});
+      setValidationMessages({});
+    }
+  }, [])
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
@@ -93,7 +98,7 @@ export default function Login() {
         {formData && 
           <Form id='form-login' title='Log in' formStyle='form-authentication' > 
             {buildInputFields(login).map(elem => (
-              <Input key={elem.name} name={elem.name} inputStyle='input-authentication'/> 
+              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' label labelStyle='label-authentication'/> 
             ))}
             {/* control group: reset password */}
             <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 

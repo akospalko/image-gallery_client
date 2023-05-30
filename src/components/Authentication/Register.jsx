@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
 
 export default function Register() {
   // CONSTANTS
@@ -22,15 +23,26 @@ export default function Register() {
   // HOOKS
   const navigate = useNavigate(); 
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {
+    formData, setFormData, 
+    message, setMessage, 
+    isFormValid,
+    setValidationMessages, 
+    setShowPassword
+  } = useFormContext();
   const {theme} = useThemeContext();
   // STATE
     const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // form cleanup
   useEffect(() => {
-    setMessage('');
-    setFormData(register); // set up form initial data
-  }, [setFormData, setMessage])
+    return () => {
+      setFormData(register); 
+      setMessage('');
+      setShowPassword({});
+      setValidationMessages({});
+    }
+  }, [])
   // HANDLERS
   // register handler
   const registerHandler = async (e, formData) => {
@@ -42,10 +54,9 @@ export default function Register() {
       const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
       // check for matching PWs  
       const matchedPassword = isPasswordMatching (password, passwordConfirm); 
-      console.log(password, passwordConfirm);
       if(!matchedPassword) {
         setFormData(resetPassword);
-        setMessage('Passwords are not matching');
+        setMessage(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); // TODO: outsource status message
         return;
       };
       delete convertedData.passwordConfirm; // if pw matched -> delete pw confirm from convertedData
@@ -83,7 +94,7 @@ export default function Register() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-register'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {registerHandler(e, formData)}}
       > Register </Button>      
     </div> 
@@ -100,7 +111,7 @@ export default function Register() {
         {formData && 
           <Form id='form-register' title='Register'> 
           {buildInputFields(register).map(elem => (
-            <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/>
+            <Input inputStyle='input-authentication' key={elem.name} name={elem.name} label labelStyle='label-authentication' />
           ))}
           </Form>
         }

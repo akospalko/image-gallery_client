@@ -1,42 +1,3 @@
-/* 
-input container:
-input field - content
-shared:
-*/
-.input-password-container {
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  width: 90%;
-  height: 40px;
-  border-bottom: 2px solid var(--bg-color--ternary);
-  position: relative;
-}
-.input-content {
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  position: relative;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 1.1rem;
-  color: var(--text-color--high-emphasis);
-}
-.input-content::placeholder {
-  color: var(--text-color--medium-emphasis);
-}
-.input-password-toggler {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  width: 50px;
-  right: 0;
-  top: 0;
-  position: absolute;
-}
 
 /* ______DEFAULT VALUES______ */
 /* INPUT && TEXTAREA */
@@ -78,7 +39,7 @@ shared:
   align-items: center;
   width: 100%;
   height: 25px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 500;
 }
 /* label required marker */
@@ -86,6 +47,11 @@ shared:
   content: "*";
   color: var(--bg-color--accent);
 } 
+/* label authentication */
+.label-authentication {
+  justify-content: initial;
+  width: 90%;
+}
 /* some places default marker color would make a proper emphasis */
 .label-with-required-marker--inverted-color::after {
   color: var(--text-color--high-emphasis);
@@ -93,23 +59,61 @@ shared:
 /* VALIDATION MESSAGES */
 .validation-message { 
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  height: 35px;
+  height: 30px;
   width: 90%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 .validation-message span {
   color: var(--text-color--validation-message);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1rem;
-  text-align: left;
+}
+/* PASSWORD INPUT WITH TOGGLE BUTTON */
+/* wrapper for password input field + toggle btn */
+.input-container-password {
+  display: flex;
+  /* justify-items: center;
+  align-items: center; */
+  width: 90%;
+  height: 40px;
+  border-bottom: 2px solid var(--bg-color--ternary);
+  /* position: relative; */
+
+
+}
+/* input field */
+.input-content {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.1rem;
+  color: var(--text-color--high-emphasis);
+  /* position: relative; */
+}
+.input-content::placeholder {
+  color: var(--text-color--medium-emphasis);
+}
+/* password visibility toggler */
+.input-password-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 50px;
 }
 /* ______MODIFIERS______ */
 /* COMPONENTS */
 /* authentication form input fields */
 .input-authentication {
-  height: 50px;
+  height: 45px;
   width: 90%;
 }
 /* create-update photo entry input/textarea fields */

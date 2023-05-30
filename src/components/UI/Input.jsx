@@ -7,7 +7,7 @@ import './Input.css';
 import FileUpload from './FileUpload';
 import DatePicker from './DatePicker';
 import { useFormContext } from '../contexts/FormContext';
-import Button from './Button';
+import { OpenEyeIcon, CloseEyeIcon } from '../SVG/Icons';
 
 const Input = (props) => {
   // PROPS
@@ -20,7 +20,6 @@ const Input = (props) => {
   const renderedLabel = (label && formData[name]?.label ? 
     <label className={`label-default ${labelStyle} ${labelWithRequiredMarkerStyle}`}> {formData[name]?.label} </label>
   : null ) 
-
   // error message container
   const renderedErrorMessage = (  
   <div className='validation-message'> 
@@ -43,11 +42,11 @@ const Input = (props) => {
   )
   // input fields: password with toggle visibility 
   const customPassword = (
-    <div className={`input-password-container`}>
+    <div className={`input-container-password`}>
       <input 
         className={`input-content`}
         name={name} 
-        type={showPassword ? 'text' : formData[name]?.type} // text - type
+        type={showPassword[name] ? 'text' : formData[name]?.type} // text - type
         placeholder={formData[name]?.placeholder}
         onChange={inputChangeHandler}
         value={formData[name]?.value || ''}
@@ -55,9 +54,11 @@ const Input = (props) => {
         maxLength={formData[name]?.maxLength + 1 || null}
       /> 
       {/* password visibility toggler */}
-      <div className='input-password-toggler' onClick={togglePasswordVisibility}>
-        <span> 
-          {showPassword ? 'Hide' : 'Show'}
+      <div className='input-password-toggler' onClick={(e) => togglePasswordVisibility(e, name)}>
+        <span> {showPassword[name] ? 
+          <OpenEyeIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> 
+          : 
+          <CloseEyeIcon height='25px' width='25px'stroke='var(--text-color--high-emphasis)'/>} 
         </span>
       </div>
     </div>
@@ -97,7 +98,6 @@ const Input = (props) => {
       renderedInput = input; 
   }
 
-  
   return(
     <>
       {renderedLabel}

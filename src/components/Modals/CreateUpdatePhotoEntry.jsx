@@ -22,6 +22,7 @@ import { useFormContext } from '../contexts/FormContext';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useLoaderContext } from '../contexts/LoaderContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { basicInputFieldValidator } from '../../helper/formValiadation';
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS
@@ -32,7 +33,7 @@ export default function CreateUpdatePhotoEntry(props) {
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
   const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
-  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile} = useFormContext();
+  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile, setValidationMessages} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -41,15 +42,16 @@ export default function CreateUpdatePhotoEntry(props) {
    // STATE
   const [isFormReady, setIsFormReady] = useState(false);
   // EFFECTS
-  // set up form on mount
+  // set up form on mount, reset form on unmount
   useEffect(() => { 
     setFormData(formTemplate);
     return () => {
       setFormData(null);
       setPhotoFile({});
+      setValidationMessages({});
     } 
   }, [])
-  // update photo entry: populate form with active id on first render
+  // update photo entry: populate form with active photo + status message validation (used for character counter) on first render
   useEffect(() => {
     if(operation !== OPERATIONS.UPDATE_PHOTO || !activePhotoEntry || !formData || isFormReady) return;
     // update form with filtered fields' values
@@ -58,11 +60,14 @@ export default function CreateUpdatePhotoEntry(props) {
       const updatedItem = {...updatedForm[elem]}; 
       updatedItem.value = activePhotoEntry[elem];
       updatedForm[elem] = updatedItem; 
+      // update input field validation messages
+      const { required, minLength, maxLength, fieldName, value } = updatedForm[elem];
+      const validationStatus = basicInputFieldValidator(elem, value, required, minLength, maxLength, fieldName);
+      setValidationMessages(prev => ({ ...prev, [elem]: { ...prev[elem], ...validationStatus } }));
     }
     setFormData(updatedForm);  
     setIsFormReady(true);      
-  }, [formData, operation, isFormReady, setIsFormReady])
-
+  }, [formData, operation, activePhotoEntry, isFormReady, setIsFormReady, setValidationMessages, setFormData])
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
   const createPhotoEntryHandler = async(e, formData, photoFile) => {

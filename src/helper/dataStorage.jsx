@@ -116,7 +116,7 @@ export const updatePhoto = {
 export const login = {
   username: {
     type: 'text',
-    placeholder: 'Username',
+    placeholder: '',
     value: 'akos',
     label: 'Username',
     required: true,
@@ -125,7 +125,7 @@ export const login = {
   },
   password: {
     type: 'password',
-    placeholder: 'Password',
+    placeholder: '',
     value: '1',
     label: 'Password',
     required: true,
@@ -136,7 +136,7 @@ export const login = {
 export const register = {
   username: {
     type: 'text',
-    placeholder: 'Username',
+    placeholder: '',
     value: '',
     label: 'Username',
     required: true,
@@ -145,14 +145,14 @@ export const register = {
   },
   email: {
     type: 'email',
-    placeholder: 'Email',
+    placeholder: '',
     value: '',
     label: 'E-mail',
     required: true
   },
   password: {
     type: 'password',
-    placeholder: 'Password',
+    placeholder: '',
     value: '',
     label: 'Password',
     required: true,
@@ -161,9 +161,9 @@ export const register = {
   },
   passwordConfirm: {
     type: 'password',
-    placeholder: 'Password Confirm',
+    placeholder: '',
     value: '',
-    label: 'Password',
+    label: 'Password confirm',
     required: true,
     minLength: 8,
     fieldName: 'passwordConfirmRegister'
