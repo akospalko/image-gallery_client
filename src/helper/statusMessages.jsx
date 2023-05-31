@@ -9,6 +9,7 @@ export const INPUT_VALIDATION_MESSAGES = {
   COORDINATE_LON : 'Values between -180 and 180',
   USERNAME : "Allowed characters: a-z A-Z 0-9 _ . ",
   PASSWORD_REGISTER : minLength => minLength && `Min. ${minLength} characters. Contains: A-Z, a-z, 0-9, special characters`,
+  PASSWORDS_MATCH: 'Passwords do not match',
   EMAIL : 'Wrong email format',
   // date input 
   ALLOWED_YEAR_RANGE: (earliestYear, currentYear) => `Input year range must be between ${earliestYear} and ${currentYear} `, 

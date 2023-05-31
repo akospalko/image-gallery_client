@@ -3,13 +3,8 @@ import { INPUT_VALIDATION_MESSAGES } from './statusMessages';
 import { CONSTANT_VALUES } from './constantValues';
 
 // TODO:
-// + reset validationMessages on modal close / submit || empty validation messages on unmount
 // + add form Touched state to form context?
 // + connect validation result with submit button disable status
-// + password regex not matching special characters: e.g. /, \, $, etc.
-// basic input validator, returns valiation msg
-// validation return value for basic input field validator: {status/result: bool, message: '...'}
-
 
 // compare passwords, return match result 
 export const isPasswordMatching = (password, confirmPassword) => {
@@ -21,8 +16,7 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   // CONSTANTS
   // check if value's length has reached min/max
   const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
-  const isMinLengthReached = minLength ? lengthReached(value.length, minLength) : false;
-  // const isMaxLengthReached = maxLength ? lengthReached(value.length, maxLength) : false;
+  const isMinLengthReached = minLength ? lengthReached(value.length + 1, minLength) : false;
   // VALIDATION
   // USERNAME
   // check register username field   
@@ -42,7 +36,6 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   else if(name === 'password' || name === 'passwordConfirm') {
     if(name === 'password' && fieldName ==='passwordRegister') {
       
-      // if(minLength && !new RegExp(`^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{${minLength},}$`).test(value)) {
       if(minLength && !new RegExp(`^(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[a-zà-öø-ý])(?=.*[0-9]).*.{${minLength},}$`).test(value)) {
         console.log(value);
         const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
