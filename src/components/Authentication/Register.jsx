@@ -28,7 +28,8 @@ export default function Register() {
     message, setMessage, 
     isFormValid,
     setValidationMessages, 
-    setShowPassword
+    setShowPassword,
+    setIsFormInitialized
   } = useFormContext();
   const {theme} = useThemeContext();
   // STATE
@@ -36,8 +37,10 @@ export default function Register() {
   // EFFECT
   // form cleanup
   useEffect(() => {
+    setFormData(register); 
     return () => {
-      setFormData(register); 
+      setFormData({});
+      setIsFormInitialized(false);
       setMessage('');
       setShowPassword({});
       setValidationMessages({});

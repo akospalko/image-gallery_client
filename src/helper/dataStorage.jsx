@@ -117,20 +117,19 @@ export const login = {
   username: {
     type: 'text',
     placeholder: '',
-    value: 'akos',
+    value: '',
     label: 'Username',
     required: true,
-    fieldName: 'usernameLogin'
-    // touched: false???
+    fieldName: 'usernameLogin',
   },
   password: {
     type: 'password',
     placeholder: '',
-    value: '1',
+    value: '',
     label: 'Password',
     required: true,
     minLength: 8,
-    fieldName: 'passwordLogin'
+    fieldName: 'passwordLogin',
   }
 }
 export const register = {
@@ -141,14 +140,14 @@ export const register = {
     label: 'Username',
     required: true,
     minLength: 4,
-    fieldName: 'usernameRegister'
+    fieldName: 'usernameRegister',
   },
   email: {
     type: 'email',
     placeholder: '',
     value: '',
     label: 'E-mail',
-    required: true
+    required: true,
   },
   password: {
     type: 'password',
@@ -157,7 +156,7 @@ export const register = {
     label: 'Password',
     required: true,
     minLength: 8,
-    fieldName: 'passwordRegister'
+    fieldName: 'passwordRegister',
   },
   passwordConfirm: {
     type: 'password',
@@ -166,7 +165,11 @@ export const register = {
     label: 'Password confirm',
     required: true,
     minLength: 8,
-    fieldName: 'passwordConfirmRegister'
+    fieldName: 'passwordConfirmRegister',
+    
+    isValid: false,
+    validationMessage: '',
+    touched: false
   }
 }
 // form to get email where the password reset link is to be sent

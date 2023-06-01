@@ -25,7 +25,7 @@ export default function Login() {
   // ROUTE
   const from = location.state?.from?.pathname || "/";
   // CONTEXT
-  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages} = useFormContext();
+  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages, setIsFormInitialized, isFormValid} = useFormContext();
   const {setAuth} = useAuthContext(); 
   const {theme} = useThemeContext();
   // STATE
@@ -33,8 +33,10 @@ export default function Login() {
   // EFFECT
   // form cleanup
   useEffect(() => {
+    setFormData(login); 
     return () => {
-      setFormData(login); 
+      setFormData({});
+      setIsFormInitialized(false);
       setMessage('');
       setShowPassword({});
       setValidationMessages({});
@@ -81,7 +83,7 @@ export default function Login() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-login'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {loginHandler(e, formData)}}
       > Login </Button>      
     </div> 

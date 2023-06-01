@@ -33,7 +33,7 @@ export default function CreateUpdatePhotoEntry(props) {
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
   const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
-  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile, setValidationMessages} = useFormContext();
+  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile, setValidationMessages, setIsFormInitialized, isFormValid} = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -46,14 +46,15 @@ export default function CreateUpdatePhotoEntry(props) {
   useEffect(() => { 
     setFormData(formTemplate);
     return () => {
-      setFormData(null);
+      setFormData({});
+      setIsFormInitialized(false);
       setPhotoFile({});
       setValidationMessages({});
     } 
   }, [])
   // update photo entry: populate form with active photo + status message validation (used for character counter) on first render
   useEffect(() => {
-    if(operation !== OPERATIONS.UPDATE_PHOTO || !activePhotoEntry || !formData || isFormReady) return;
+    if(operation !== OPERATIONS.UPDATE_PHOTO || !activePhotoEntry || !Object.keys(formData).length || isFormReady) return;
     // update form with filtered fields' values
     let updatedForm = {...formData}; // copy form
     for(let elem in formData) {
@@ -91,7 +92,7 @@ export default function CreateUpdatePhotoEntry(props) {
           });
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
-        setFormData(undefined); // reset form 
+        setFormData({}); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
         setActiveID({})
@@ -126,7 +127,7 @@ export default function CreateUpdatePhotoEntry(props) {
           });
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
-        setFormData(undefined); // reset form 
+        setFormData({}); // reset form 
         toggleModalHandler(operation);
         setPhotoFile({});
         setActiveID({})
@@ -149,7 +150,7 @@ export default function CreateUpdatePhotoEntry(props) {
           buttonStyle={'button-form-submit'}
           type='button' 
           clicked={() => {
-            setFormData(undefined);
+            setFormData({});
             setMessage(statusMessages.EMPTY);
             toggleModalHandler(operation);
             setPhotoFile({});
@@ -161,7 +162,8 @@ export default function CreateUpdatePhotoEntry(props) {
           buttonStyle='button-form-submit'
           form='form-create-update-photo-entry'
           type='submit' 
-          disabled={isLoading.PHOTO_ENTRY_SUBMIT}
+          disabled={!isFormValid || isLoading.PHOTO_ENTRY_SUBMIT}
+          // disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData, photoFile) : updatePhotoEntryHandler(e, formData, photoFile) 
           }}

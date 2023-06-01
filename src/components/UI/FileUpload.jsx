@@ -22,6 +22,7 @@ export default function FileUpload() {
   const {
     photoFile, setPhotoFile,
     formData, setFormData,
+    setValidationMessages
   } = useFormContext();
   const {activePhotoEntry} = useModalContext();
   // HOOKS
@@ -65,12 +66,13 @@ export default function FileUpload() {
     setAllImagesLoaded(false);
   }, [photoFile, setAllImagesLoaded])
   // HANDLERS
-  // check if file is selected, validate file & store in sate 
+  // check if file is selected, validate file & store in state 
   const selectFileHandler = (selectedFile) => {
     if(selectedFile) {
       const validationResult = photoFileValidator(selectedFile, photoFile);
       setFileUploadStatus(validationResult); // update validation status
       validationResult?.status === 'success' && setPhotoFile(selectedFile); // store file in state
+      setValidationMessages(prev => ({...prev, photoFile: {...prev['photoFile'], status: true} }))
     }
   }
   // file change listener: browse & select file -> validate -> store in state

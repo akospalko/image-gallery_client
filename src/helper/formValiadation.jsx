@@ -35,9 +35,7 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
     if(name === 'password' && fieldName ==='passwordRegister') {
-      
       if(minLength && !new RegExp(`^(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[a-zà-öø-ý])(?=.*[0-9]).*.{${minLength},}$`).test(value)) {
-        console.log(value);
         const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
         return { name: name, status: false, message: invalidPassword };
       }
@@ -65,11 +63,10 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
     }
   }  
   // MISC
-  // check string min/max length  
+  //
   else if (name === 'description') {
     return { name: name, status: true, message: characterCounter(value.length, maxLength) };  
   } 
-  // MISC
   // check string min/max length  
   else if (name === 'title' || name === 'author') {
     const isMinLengthEqualOrReached = minLength ? lengthReached(value.length + 1, minLength) : false;
@@ -90,6 +87,7 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
 // DATE INPUT
 // TODO: invalid input is considered empty on submit (-> valid or no date)
 export const dateValidator = (dateInputString) => {
+  console.log(dateInputString);
   // check for invalid date input string
   const invalidDate = INPUT_VALIDATION_MESSAGES.INVALID_DATE;
   if(isNaN(Date.parse(dateInputString))) {
