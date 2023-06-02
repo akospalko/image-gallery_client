@@ -1,5 +1,4 @@
 // TODO: validation data from backend -> update validation data storage -> update validationmessage state on mount 
-// TODO: handle touched: if any of the fields are touched (touched: true) -> true || false
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import { statusMessages } from '../../helper/dataStorage';
 import { formatDateYear } from '../../helper/utilities';
@@ -23,22 +22,10 @@ export default function FormContext({children}) {
   const [photoFile, setPhotoFile] = useState({}); // file upload
   const [showPassword, setShowPassword] = useState({}); // password visibility toggler   
   const [validationMessages, setValidationMessages] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false); // bool; determines if submit form is enabled/disabled 
-  const [isFormInitialized, setIsFormInitialized] = useState(false); // bool; a switch that checks if form data is available (to set up form validation template)
-  // EFFECTS
-  // setup validationMessages template based on active form data
-  useEffect(() => {
-    if(isFormInitialized || !Object.keys(formData).length) return; 
-    let validationObject = {};
-    console.log(formData);
-    for(let field in formData) {
-      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
-    }
-    setValidationMessages(validationObject);
-    setIsFormInitialized(true);
-  }, [formData, setIsFormInitialized])
+  const [isFormValid, setIsFormValid] = useState(false); // bool; form input fields validation result. used: enable / disable form submit button state 
+  const [isFormTouched, setIsFormTouched] = useState(false); // bool; input fields activated. used: enable / disable form submit button state 
 
-  // validate input field when it is password || passwordConfirm
+  // EFFECTS
   useEffect(() => {
     if (formData?.password || formData?.passwordConfirm) {
       updatePasswordValidation();
@@ -51,7 +38,6 @@ export default function FormContext({children}) {
   // HELPER FUNCTIONS
   // password matching and validation
   const updatePasswordValidation = (name, validationStatus) => {
-    console.log(name, validationStatus);
     const { value: currentPassword } = formData?.password || {};
     const { value: currentConfirmPassword } = formData?.passwordConfirm || {};
     const isMatch = isPasswordMatching(currentPassword, currentConfirmPassword);
@@ -77,9 +63,8 @@ export default function FormContext({children}) {
           passwordConfirm: { ...prev.passwordConfirm, ...passwordConfirmValidationStatus },
         }));
       }
-
-    // Login page: no password confirm
-    } else {
+    // Login page(no password confirm)
+    } else if(name?.length) {
       setValidationMessages(prev => ({
         ...prev,
         [name]: { ...prev[name], ...validationStatus }
@@ -101,11 +86,12 @@ export default function FormContext({children}) {
 
   // check form input fields, set form validity (isFormValid): all fields are valid: true || false 
   const validateFormHandler = () => {
-    const purifiedValidationMessages = {...validationMessages};
-    delete purifiedValidationMessages.undefined;
-    console.log(purifiedValidationMessages);
-    const areAllFieldsValid = Object.values(purifiedValidationMessages).every(field => field.status);
+    console.log(validationMessages);
+    const areAllFieldsValid = Object.values(validationMessages).every(field => field.status);
     setIsFormValid(areAllFieldsValid);
+    // 
+    const isInputFieldTouched = Object.values(validationMessages).some(field => field.touched); // bool; filters out if any of the input fields has been interacted with
+    setIsFormTouched(isInputFieldTouched);
   }
 
   // password visibility toggler 
@@ -151,7 +137,8 @@ export default function FormContext({children}) {
         isGalleryFetched, setIsGalleryFetched,
         showPassword, setShowPassword,
         isFormValid, setIsFormValid,
-        isFormInitialized, setIsFormInitialized,
+        isFormTouched, setIsFormTouched,
+        // isFormInitialized, setIsFormInitialized,
         inputChangeHandler,
         dateInputChangeHandler,
         togglePasswordVisibility

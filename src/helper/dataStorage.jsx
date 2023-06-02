@@ -166,10 +166,6 @@ export const register = {
     required: true,
     minLength: 8,
     fieldName: 'passwordConfirmRegister',
-    
-    isValid: false,
-    validationMessage: '',
-    touched: false
   }
 }
 // form to get email where the password reset link is to be sent
@@ -196,14 +192,18 @@ export const passwordResetSaveNewPassword = {
     placeholder: 'Password',
     value: '',
     label: 'Password',
-    required: true
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordReset'
   },
   passwordConfirm: {
     type: 'password',
     placeholder: 'Password Confirm',
     value: '',
     label: 'Password',
-    required: true
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordConfirmReset'
   }
 }
 // STATUS MESSAGES

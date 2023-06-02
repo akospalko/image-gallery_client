@@ -11,7 +11,7 @@ import { OpenEyeIcon, CloseEyeIcon } from '../SVG/Icons';
 
 const Input = (props) => {
   // PROPS
-  const {label, name, inputStyle, textareaStyle, labelStyle,  } = props;
+  const {label, name, inputStyle, textareaStyle, labelStyle } = props;
   // CONTEXT
   const {formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility} = useFormContext();
   // ELEMENTS

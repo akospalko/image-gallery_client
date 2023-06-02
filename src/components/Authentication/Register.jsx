@@ -7,7 +7,7 @@ import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
-import { OPERATIONS, register } from '../../helper/dataStorage';
+import { register } from '../../helper/dataStorage';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { isPasswordMatching } from '../../helper/formValiadation';
 import { createNewUser } from '../../helper/axiosRequests';
@@ -19,7 +19,7 @@ import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
 
 export default function Register() {
   // CONSTANTS
-  const operation = OPERATIONS.REGISTER;
+  // const operation = OPERATIONS.REGISTER;
   // HOOKS
   const navigate = useNavigate(); 
   // CONTEXT
@@ -29,21 +29,32 @@ export default function Register() {
     isFormValid,
     setValidationMessages, 
     setShowPassword,
-    setIsFormInitialized
   } = useFormContext();
   const {theme} = useThemeContext();
   // STATE
     const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // initialize form validation state
+  useEffect(() => {
+    if(!Object.keys(register).length) return; 
+    let validationObject = {};
+    for(let field in register) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, [])
   // form cleanup
   useEffect(() => {
     setFormData(register); 
+    // setValidationMessages(register);
     return () => {
       setFormData({});
-      setIsFormInitialized(false);
       setMessage('');
       setShowPassword({});
-      setValidationMessages({});
+      // setValidationMessages({});
     }
   }, [])
   // HANDLERS

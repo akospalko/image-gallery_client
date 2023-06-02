@@ -25,21 +25,34 @@ export default function Login() {
   // ROUTE
   const from = location.state?.from?.pathname || "/";
   // CONTEXT
-  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages, setIsFormInitialized, isFormValid} = useFormContext();
+  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages, isFormValid} = useFormContext();
   const {setAuth} = useAuthContext(); 
   const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // initialize form validation state 
+  useEffect(() => {
+    if(!Object.keys(login).length) return; 
+    let validationObject = {};
+    for(let field in login) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, [])
   // form cleanup
   useEffect(() => {
     setFormData(login); 
+    // setValidationMessages(login);
     return () => {
       setFormData({});
-      setIsFormInitialized(false);
+      // setIsFormInitialized(false);
       setMessage('');
       setShowPassword({});
-      setValidationMessages({});
+   
     }
   }, [])
   // HANDLERS

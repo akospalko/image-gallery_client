@@ -1,18 +1,16 @@
 import { formatSingleDigitDateValue, characterCounter } from './utilities';
 import { INPUT_VALIDATION_MESSAGES } from './statusMessages';
 import { CONSTANT_VALUES } from './constantValues';
-
 // TODO:
 // + add form Touched state to form context?
 // + connect validation result with submit button disable status
-
 // compare passwords, return match result 
 export const isPasswordMatching = (password, confirmPassword) => {
   return (password && confirmPassword) && password === confirmPassword ? true : false;
 }
 // check for: username, (confirm)password, email, gps coordinates, title, description, author 
 export const basicInputFieldValidator = (name, value='', required, minLength, maxLength, fieldName) => {
-  if(!name || !value) { return { name: name, status: false, message: '' } };
+  if(!name || !value) { return { status: false, message: '', touched: true } };
   // CONSTANTS
   // check if value's length has reached min/max
   const lengthReached = (lengthValue, lengthMinOrMax) => lengthValue > lengthMinOrMax; 
@@ -24,20 +22,20 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
     // check invalid characters
     if (!new RegExp(/^[a-zA-Z0-9_.]+$/).test(value)) {
       const usernameInvalidCharacters = INPUT_VALIDATION_MESSAGES.USERNAME;
-      return { name: name, status: false, message: usernameInvalidCharacters };
+      return { status: false, message: usernameInvalidCharacters, touched: true };
     }
     // check for length 
     if(!isMinLengthReached) {
       const minLengthError = INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength);
-      return { name: name, status: false, message: minLengthError };
+      return { status: false, message: minLengthError, touched: true };
     } 
   } 
   // PASSWORD
   else if(name === 'password' || name === 'passwordConfirm') {
-    if(name === 'password' && fieldName ==='passwordRegister') {
+    if((name === 'password' && fieldName ==='passwordRegister') || (name === 'password' && fieldName ==='passwordReset')) {
       if(minLength && !new RegExp(`^(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[a-zà-öø-ý])(?=.*[0-9]).*.{${minLength},}$`).test(value)) {
         const invalidPassword = INPUT_VALIDATION_MESSAGES.PASSWORD_REGISTER(minLength);
-        return { name: name, status: false, message: invalidPassword };
+        return { status: false, message: invalidPassword, touched: true };
       }
     } 
   } 
@@ -45,53 +43,52 @@ export const basicInputFieldValidator = (name, value='', required, minLength, ma
   else if (name === 'email') {
     if(!new RegExp(/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/).test(value)) {
       const emailError = INPUT_VALIDATION_MESSAGES.EMAIL;
-      return { name: name, status: false, message: emailError };
+      return { status: false, message: emailError, touched: true };
     }
   }
   // GPS LAT
   else if(name === 'gpsLatitude') { 
     if(!new RegExp(/^-?([0-8]?[0-9](\.[0-9]+)?|90(\.0+)?)$/).test(value)) {
       const gpsLatCoordinateError = INPUT_VALIDATION_MESSAGES.COORDINATE_LAT;
-      return { name: name, status: false, message: gpsLatCoordinateError };
+      return { status: false, message: gpsLatCoordinateError, touched: true };
     }
   }
   // GPS LON
   else if(name === 'gpsLongitude') { 
     if(!new RegExp(/^-?((([0-9]|[1-9][0-9]|1[0-7][0-9])(\.[0-9]+)?)|180(\.0+)?)$/).test(value)) {
       const gpsLongCoordinateError = INPUT_VALIDATION_MESSAGES.COORDINATE_LON;
-      return { name: name, status: false, message: gpsLongCoordinateError };
+      return { status: false, message: gpsLongCoordinateError, touched: true };
     }
   }  
   // MISC
   //
   else if (name === 'description') {
-    return { name: name, status: true, message: characterCounter(value.length, maxLength) };  
+    return { status: true, message: characterCounter(value.length, maxLength), touched: true };  
   } 
   // check string min/max length  
   else if (name === 'title' || name === 'author') {
     const isMinLengthEqualOrReached = minLength ? lengthReached(value.length + 1, minLength) : false;
     if (!isMinLengthEqualOrReached) {
       const minLengthError = INPUT_VALIDATION_MESSAGES.MIN_LENGTH(minLength);
-      return { name: name, status: false, message: minLengthError };
+      return { status: false, message: minLengthError, touched: true };
     } else {
-      return { name: name, status: true, message: characterCounter(value.length, maxLength) };
+      return { status: true, message: characterCounter(value.length, maxLength), touched: true };
     }
   } 
   // CHECK IF REQUIRED FIELD IS EMPTY
   if(required && (!value || value.trim() === '')) {
     const isRequired = INPUT_VALIDATION_MESSAGES.REQUIRED;
-    return { name: name, status: false, message: isRequired };
+    return { status: false, message: isRequired, touched: true };
   } 
-  return { name: name, status: true, message: '' };
+  return { status: true, message: '', touched: true };
 }
 // DATE INPUT
 // TODO: invalid input is considered empty on submit (-> valid or no date)
 export const dateValidator = (dateInputString) => {
-  console.log(dateInputString);
   // check for invalid date input string
   const invalidDate = INPUT_VALIDATION_MESSAGES.INVALID_DATE;
   if(isNaN(Date.parse(dateInputString))) {
-    return { name: 'captureDate' , status: false, message: invalidDate };    
+    return { status: false, message: invalidDate, touched: true };    
   }
   // CONSTANTS
   let validationMessage = '';
@@ -113,32 +110,31 @@ export const dateValidator = (dateInputString) => {
     // force input year between current year and earliest year values
     if(inputYear > currentYear || inputYear < CONSTANT_VALUES.earliestYear) {
       const yearRangeError = INPUT_VALIDATION_MESSAGES.ALLOWED_YEAR_RANGE(CONSTANT_VALUES.earliestYear, currentYear);
-      return { name: 'captureDate' , status: false, message: yearRangeError };   
+      return { status: false, message: yearRangeError, touched: true };   
     }
     // limit input month not to exceed current month. Triggers if input + current years are equal
     if(inputYear === currentYear && inputMonth > currentMonth) {
       const monthRangeError = INPUT_VALIDATION_MESSAGES.EXCEEDED_MONTH(formatSingleDigitDateValue(currentMonth));
-      return { name: 'captureDate' , status: false, message: monthRangeError };   
+      return { status: false, message: monthRangeError, touched: true };   
     }
     // limit input day not to exceed current day. Triggers if input + current years and months are equal 
     if(inputYear === currentYear && inputMonth === currentMonth && inputDay > currentDay) {
       const dayRangeError = INPUT_VALIDATION_MESSAGES.EXCEEDED_DAY(formatSingleDigitDateValue(currentDay));
-      return { name: 'captureDate' , status: false, message: dayRangeError };   
+      return { status: false, message: dayRangeError, touched: true };   
     }
   } else {
-    return { name: 'captureDate', status: false, message: invalidDate };  
+    return { status: false, message: invalidDate, touched: true };  
   }
-  return { name: 'captureDate', status: true, message: '' };  
+  return { status: true, message: '', touched: true };  
 }
 
 // FILE INPUT (photo): validate input file, return appropriate status & message
 export const photoFileValidator = (selectedFile, photoFile) => {
   if(!selectedFile) { return { status: 'success', message: photoFile.name} }
-
   const maxFileSizeInBytes = CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES; 
   const convertBytesToMBConstant = CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT;
   const allowedFileTypes = CONSTANT_VALUES.ALLOWED_FILE_TYPES;
-
+  // checking for different conditions
   if (!allowedFileTypes.includes(selectedFile.type)) { // check file extension
     const fileUploadExtensionErrorStatusMessage = INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_EXTENSION_ERROR; 
     return { status: 'error', message: fileUploadExtensionErrorStatusMessage };

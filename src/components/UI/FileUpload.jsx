@@ -14,6 +14,7 @@ import LoaderIcon from '../SVG/Loader';
 import { Delete } from '../SVG/Icons';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useFormContext } from '../contexts/FormContext';
+import { OPERATIONS } from '../../helper/dataStorage';
 
 export default function FileUpload() {
   // CONSTANTS
@@ -33,9 +34,16 @@ export default function FileUpload() {
   // STATE
   const [dragActive, setDragActive] = useState(false);
   const [fileUploadStatus, setFileUploadStatus] = useState(defaultValidationState); // status -> successful/default state for adding file to the File API
+  const [imageUrl, setImageUrl] = useState('');
   // REF
   const inputRef = useRef(null);
   // EFFECT
+  // if photoFile is available, create and store photo file object URL 
+  useEffect(() => {
+    if (photoFile?.name) {
+      setImageUrl(URL.createObjectURL(photoFile));
+    }
+  }, [photoFile]);
   // extract available exif, update form
   useEffect(() => {
     if(!photoFile?.name) return;
@@ -72,7 +80,7 @@ export default function FileUpload() {
       const validationResult = photoFileValidator(selectedFile, photoFile);
       setFileUploadStatus(validationResult); // update validation status
       validationResult?.status === 'success' && setPhotoFile(selectedFile); // store file in state
-      setValidationMessages(prev => ({...prev, photoFile: {...prev['photoFile'], status: true} }))
+      validationResult?.status === 'success' && setValidationMessages(prev => ( {...prev, photoFile: { status: true, message: '', touched: true } }))
     }
   }
   // file change listener: browse & select file -> validate -> store in state
@@ -105,7 +113,12 @@ export default function FileUpload() {
   // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
   const removePhotoHandler = (e) => {
     e.preventDefault();
-    setPhotoFile({});
+    console.log(activePhotoEntry.photoURL);
+    if(activePhotoEntry.photoURL) {
+      setValidationMessages(prev => ( {...prev, photoFile: { status: true, message: '', touched: false } })); // update photo.: remove selected photo -> photo url is fetched from db is still available -> valid: true   
+    } else {
+      setValidationMessages(prev => ( {...prev, photoFile: { status: false, message: '', touched: false } })); // create photo: remove photo -> no alternative photo to be loaded -> valid: false   
+    }
     inputRef.current && (inputRef.current.value = '');
     setFileUploadStatus(defaultValidationState); // remove status (file name)
   }
@@ -142,27 +155,28 @@ export default function FileUpload() {
           <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/>
         </div>
       }
-      {/* Displayed photo */}
-      { (photoFile?.name || activePhotoEntry?.photoURL) &&
-        <div className='file-upload-display' style={hideImageStyle}>
-          {/* Button wrapper */}
-          <div className='file-upload-button-wrapper'>
-            <Button
-              title='remove photo'
-              clicked={removePhotoHandler}
-              buttonStyle='button-modal-close'
-              disabled={!photoFile.name}
-            > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
-          </div>
-          { photoFile.name ?
-            <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
-            : activePhotoEntry.photoURL ?
-            getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id)
-            :
-            <span> NO IMG </span>
-          }
-        </div>
+    {/* Displayed photo */}
+    { photoFile?.name || activePhotoEntry?.photoURL ?
+    <div className='file-upload-display' style={hideImageStyle}>
+      {/* Button wrapper */}
+      <div className='file-upload-button-wrapper'>
+        <Button
+          title='remove photo'
+          clicked={removePhotoHandler}
+          buttonStyle='button-modal-close'
+          disabled={!photoFile.name}
+        > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
+      </div>
+      { photoFile.name ?
+        <img src={imageUrl} style={{ height: '100%', width: '100%', ...customImgStyle}} />
+        : activePhotoEntry.photoURL ?
+        getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id)
+        :
+        <span> NO IMG </span>
       }
+    </div> 
+    : null
+    }
     </>
   );
 

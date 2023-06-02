@@ -33,7 +33,14 @@ export default function CreateUpdatePhotoEntry(props) {
   const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
   // CONTEXT
   const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
-  const {formData, setFormData, message, setMessage, setPhotoFile, photoFile, setValidationMessages, setIsFormInitialized, isFormValid} = useFormContext();
+  const {
+    formData, setFormData, 
+    message, setMessage, 
+    photoFile, setPhotoFile,  
+    setValidationMessages, 
+    isFormTouched,
+    isFormValid
+  } = useFormContext();
   const {isLoading, loaderToggleHandler} = useLoaderContext();
   const {theme} = useThemeContext();
   // HOOKS
@@ -42,14 +49,22 @@ export default function CreateUpdatePhotoEntry(props) {
    // STATE
   const [isFormReady, setIsFormReady] = useState(false);
   // EFFECTS
+  // set up input validation status
+  useEffect(() => {
+    if(!Object.keys(formTemplate).length) return; 
+    let validationObject = {};
+    for(let field in formTemplate) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject);
+    return () => { setValidationMessages({}) }
+  }, [])
   // set up form on mount, reset form on unmount
   useEffect(() => { 
     setFormData(formTemplate);
     return () => {
       setFormData({});
-      setIsFormInitialized(false);
       setPhotoFile({});
-      setValidationMessages({});
     } 
   }, [])
   // update photo entry: populate form with active photo + status message validation (used for character counter) on first render
@@ -64,7 +79,13 @@ export default function CreateUpdatePhotoEntry(props) {
       // update input field validation messages
       const { required, minLength, maxLength, fieldName, value } = updatedForm[elem];
       const validationStatus = basicInputFieldValidator(elem, value, required, minLength, maxLength, fieldName);
-      setValidationMessages(prev => ({ ...prev, [elem]: { ...prev[elem], ...validationStatus } }));
+      setValidationMessages(prev => {
+        if(elem === 'photoFile') {
+          return {...prev, [elem]: { ...prev[elem], status: true, message: '', touched: false } }
+        } else {
+          return { ...prev, [elem]: { ...prev[elem], ...validationStatus, touched: false } }
+        }
+      });
     }
     setFormData(updatedForm);  
     setIsFormReady(true);      
@@ -77,7 +98,6 @@ export default function CreateUpdatePhotoEntry(props) {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
       const convertedData = {...convertFormData(formData), photoFile}; // simplyfy data before sending request, merge form data with photoFile  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
-      console.log(responseCreate)
       const {success, message, photoEntry } = responseCreate ?? {};
       if(success === true) {
         toast(`${message}`, { // send toast
@@ -89,7 +109,7 @@ export default function CreateUpdatePhotoEntry(props) {
           pauseOnHover: true,
           draggable: true,
           theme: theme,
-          });
+        });
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
         setFormData({}); // reset form 
@@ -154,7 +174,6 @@ export default function CreateUpdatePhotoEntry(props) {
             setMessage(statusMessages.EMPTY);
             toggleModalHandler(operation);
             setPhotoFile({});
-            // setActiveID({})
           }}
         > Cancel 
         </Button> : null }   
@@ -162,7 +181,7 @@ export default function CreateUpdatePhotoEntry(props) {
           buttonStyle='button-form-submit'
           form='form-create-update-photo-entry'
           type='submit' 
-          disabled={!isFormValid || isLoading.PHOTO_ENTRY_SUBMIT}
+          disabled={(!isFormValid || !isFormTouched) || isLoading.PHOTO_ENTRY_SUBMIT}
           // disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData, photoFile) : updatePhotoEntryHandler(e, formData, photoFile) 
@@ -196,3 +215,11 @@ export default function CreateUpdatePhotoEntry(props) {
     </div>
   )
 }
+
+// update photo entry:
+/* 
+
+isFormValid || touched  
+true || 
+
+*/
