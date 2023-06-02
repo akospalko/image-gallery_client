@@ -1,12 +1,15 @@
 // Storage for various utility functions:
 
 // DATE:
+// assign 0 in front of single-digit stringified date obj values (month/day), return double-digit as is: e.g. 5 -> 05; 15 -> 15
+export const formatSingleDigitDateValue = dateObj => dateObj < 10 ? `0${dateObj}` : `${dateObj}`;
+
 // generate date from passed dateObj (fetched from db) -> to string (yyyy.mm.dd)
 export const generateDateString = (date, separator='.') => {
   const dateObj = new Date(date); 
   const year = dateObj.getFullYear();
-  let month = (dateObj.getMonth() + 1) < 10 ? (`0${dateObj.getMonth()}`) : (`${dateObj.getMonth()}`); 
-  let day = dateObj.getDate() < 10 ? (`0${dateObj.getDate()}`) : (`${dateObj.getDate()}`);
+  let month = formatSingleDigitDateValue(dateObj.getMonth() + 1); 
+  let day = formatSingleDigitDateValue(dateObj.getDate());
   return `${year}${separator}${month}${separator}${day}${separator}`;
 }
 
@@ -22,11 +25,23 @@ export const transformDate = (date, separatorOriginal=':', separatorReplace='-')
   } else { return }
 }
 
+// limit date input year value to 4 digits (20222 -> 2022)
+export const formatDateYear = dateValue => {
+  const dateArr = dateValue.split('-');
+  dateArr[0] = dateArr[0].trim().slice(0, 4);
+  return dateArr.join('-');
+} 
+
 // STRING MANIPULATION
-// crop and/or return input string if its length reaches the 'to be cropped' values(cropFront, cropBack) 
-export const cropString = (inputString, cropFront = 0, cropBack = 0) => {
-  if(cropFront === 0 || !cropFront === 0) return inputString;
-  return inputString <= (cropFront + cropBack) ? inputString : `${inputString.slice(0, cropFront)}...${inputString.slice(inputString.length - cropBack)}`;  
+// crop input string's length above || return original below maxLength.
+// cropped string length is cropLength + '...' 
+export const cropString = (inputString, maxLength, cropLength) => {
+  if (inputString.length <= maxLength) { return inputString }; // max length is not reached
+  const cropStartLength = cropLength / 2; // after how many characters should crop start 
+  const cropEndLength = cropLength - cropStartLength; // before how many characters should crop end (start couting from inputString's end Length)
+  const start = inputString.slice(0, cropStartLength); // extract string before crop
+  const end = inputString.slice(inputString.length - cropEndLength); // extract string after crop (from )
+  return `${start}...${end}`;
 }
 
 // FORM & INPUT
@@ -50,3 +65,11 @@ export const buildInputFields = (formData) => {
   }
   return inputFieldsArray;
 }
+
+// CHARACTER COUNTER
+// display basic chracter counter. requires current length and max allowed length
+export const characterCounter = (currentLength, maxLength) => {
+  !currentLength && !maxLength;
+  let trackedLength = currentLength > maxLength ? maxLength : currentLength;
+  return `(${trackedLength} / ${maxLength})`;
+}  

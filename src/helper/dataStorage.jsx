@@ -2,56 +2,55 @@
 export const createPhoto = {
   title: {
     type: 'text',
-    field: 'input', // custom type used for conditional rendering of input fields
     placeholder: 'title',
     value: '',
-    label: 'Title'
+    label: 'Title',
+    required: true,
+    minLength: 5,
+    maxLength: 50
   },
   author: {
     type: 'text',
-    field: 'input',
     placeholder: 'author',
     value: '',
-    label: 'Author'
+    label: 'Author',
+    required: true,
+    minLength: 4,
+    maxLength: 50
   },
   gpsLatitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS latitude'
   },
   gpsLongitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'longitude coordinate of the photo',
     value: '',
     label: 'GPS longitude'
   },
   captureDate: {
     type: 'date',
-    field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
   },
   description: {
-    field: 'textarea',
+    type: 'textarea',
     placeholder: 'description',
     value: '',
-    label: 'Description'
+    label: 'Description',
+    maxLength: 500
   },
   photoFile: {
     type: 'file',
-    field: 'file',
     value: {},
-    // label: ''
   }
 }
 export const updatePhoto = {
   _id : {
     type: 'text',
-    field: 'input',
     placeholder: 'photo entry id',
     value: '',
     disabled: true,
@@ -59,7 +58,6 @@ export const updatePhoto = {
   },
   photoName: {
     type: 'text',
-    field: 'input',
     placeholder: 'file name',
     value: '',
     disabled: true,
@@ -67,48 +65,49 @@ export const updatePhoto = {
   },
   title: {
     type: 'text',
-    field: 'input',
     placeholder: 'title',
     value: '',
-    label: 'Title'
+    label: 'Title',
+    required: true,
+    minLength: 5,
+    maxLength: 50
   },
   author: {
     type: 'text',
-    field: 'input',
     placeholder: 'author',
     value: '',
-    label: 'Author'
+    label: 'Author',
+    required: true,
+    minLength: 4,
+    maxLength: 50
   },
   gpsLatitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS latitude'
   },
   gpsLongitude: {
     type: 'number',
-    field: 'input',
     placeholder: 'latitude coordinate of the photo',
     value: '',
     label: 'GPS longitude'
   },
   captureDate: {
     type: 'date',
-    field: 'date',
     placeholder: 'capture date',
     value: '',
     label: 'Capture date'
   },
   description: {
-    field: 'textarea',
+    type: 'textarea',
     placeholder: 'description',
     value: '',
-    label: 'Description'
+    label: 'Description',
+    maxLength: 500
   },
   photoFile: {
     type: 'file',
-    field: 'file',
     value: {},
     // label: ''
   }
@@ -117,92 +116,101 @@ export const updatePhoto = {
 export const login = {
   username: {
     type: 'text',
-    field: 'input',
-    placeholder: 'Username',
-    value: '1',
-    label: 'Username'
+    placeholder: '',
+    value: '',
+    label: 'Username',
+    required: true,
+    fieldName: 'usernameLogin',
   },
   password: {
     type: 'password',
-    field: 'password',
-    placeholder: 'Password',
-    value: '111',
-    label: 'Password'
+    placeholder: '',
+    value: '',
+    label: 'Password',
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordLogin',
   }
 }
 export const register = {
   username: {
     type: 'text',
-    field: 'input',
-    placeholder: 'Username',
+    placeholder: '',
     value: '',
-    label: 'Username'
+    label: 'Username',
+    required: true,
+    minLength: 4,
+    fieldName: 'usernameRegister',
   },
   email: {
     type: 'email',
-    field: 'email',
-    placeholder: 'Email',
+    placeholder: '',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true,
   },
   password: {
     type: 'password',
-    field: 'password',
-    placeholder: 'Password',
+    placeholder: '',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordRegister',
   },
   passwordConfirm: {
     type: 'password',
-    field: 'password',
-    placeholder: 'Password Confirm',
+    placeholder: '',
     value: '',
-    label: 'Password'
+    label: 'Password confirm',
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordConfirmRegister',
   }
 }
 // form to get email where the password reset link is to be sent
 export const passwordResetSendEmailLink = {
   email: {
     type: 'email',
-    field: 'email',
     placeholder: 'Email',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true
   }
 }
 // form to get new password which are to be saved as the new password for the account
 export const passwordResetSaveNewPassword = {
   email: {
     type: 'email',
-    field: 'email',
     placeholder: 'Email',
     value: '',
-    label: 'E-mail'
+    label: 'E-mail',
+    required: true
   },
   password: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordReset'
   },
   passwordConfirm: {
     type: 'password',
-    field: 'password',
     placeholder: 'Password Confirm',
     value: '',
-    label: 'Password'
+    label: 'Password',
+    required: true,
+    minLength: 8,
+    fieldName: 'passwordConfirmReset'
   }
 }
 // STATUS MESSAGES
-
+// TODO: merge with data statusMesages.jsx 
 export const statusMessages = {
   // DEFAULT
   EMPTY: '',
-  // FILE UPLOAD
-  FILE_UPLOAD_INITIAL: function(fileSize) { return `JPEG or PNG up to ${fileSize} MB in size` },
-  FILE_UPLOAD_EXTENSION_ERROR: 'Not supported file extension! (only PNG or JPEG)',
-  FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`},
   // AXIOS
   AXIOS_NO_SERVER_RESPONSE: 'No server response',
 }

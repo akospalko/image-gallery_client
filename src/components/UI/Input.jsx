@@ -1,21 +1,33 @@
-// reusable input field component 
-import React from 'react'
-import './Input.css'
-import FileUpload from './FileUpload'
-import DatePicker from './DatePicker'
-import {useFormContext} from '../contexts/FormContext'
+// TODO: add required check
+// TODO: add state to store validity: 1. form validity, 2. input field validity
+// TODO: add input error message 
+// Reusable input component 
+import React from 'react';
+import './Input.css';
+import FileUpload from './FileUpload';
+import DatePicker from './DatePicker';
+import { useFormContext } from '../contexts/FormContext';
+import { OpenEyeIcon, CloseEyeIcon } from '../SVG/Icons';
 
 const Input = (props) => {
   // PROPS
   const {label, name, inputStyle, textareaStyle, labelStyle } = props;
   // CONTEXT
-  const {formData, inputChangeHandler} = useFormContext();
+  const {formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility} = useFormContext();
   // ELEMENTS
   // label 
+  const labelWithRequiredMarkerStyle = formData[name]?.required ? 'label-with-required-marker' : ''; 
   const renderedLabel = (label && formData[name]?.label ? 
-    <label className={`label-default ${labelStyle}`}> {formData[name]?.label} </label>
+    <label className={`label-default ${labelStyle} ${labelWithRequiredMarkerStyle}`}> {formData[name]?.label} </label>
   : null ) 
-  // input fields
+  // error message container
+  const renderedErrorMessage = (  
+  <div className='validation-message'> 
+    { validationMessages?.[name]?.message && <span> {validationMessages?.[name]?.message} </span> }
+  </div>
+  );
+  
+  // input fields: text, number, email
   const input = (
     <input 
       className={`input-default ${inputStyle}`}
@@ -25,27 +37,32 @@ const Input = (props) => {
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
       disabled={formData[name]?.disabled}
-    /> )
-  const email = (
-    <input 
-      className={`input-default ${inputStyle}`}
-      name={name} 
-      type={formData[name]?.type} 
-      placeholder={formData[name]?.placeholder}
-      onChange={inputChangeHandler}
-      value={formData[name]?.value || ''}
-      disabled={formData[name]?.disabled}
-    /> )
-  const password = (
-    <input 
-      className={`input-default ${inputStyle}`}
-      name={name} 
-      type={formData[name]?.type} 
-      placeholder={formData[name]?.placeholder}
-      onChange={inputChangeHandler}
-      value={formData[name]?.value || ''}
-      disabled={formData[name]?.disabled}
-    /> )
+      maxLength={formData[name]?.maxLength + 1 || null}
+    /> 
+  )
+  // input fields: password with toggle visibility 
+  const customPassword = (
+    <div className={`input-container-password`}>
+      <input 
+        className={`input-content`}
+        name={name} 
+        type={showPassword[name] ? 'text' : formData[name]?.type} // text - type
+        placeholder={formData[name]?.placeholder}
+        onChange={inputChangeHandler}
+        value={formData[name]?.value || ''}
+        disabled={formData[name]?.disabled}
+        maxLength={formData[name]?.maxLength + 1 || null}
+      /> 
+      {/* password visibility toggler */}
+      <div className='input-password-toggler' onClick={(e) => togglePasswordVisibility(e, name)}>
+        <span> {showPassword[name] ? 
+          <OpenEyeIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> 
+          : 
+          <CloseEyeIcon height='25px' width='25px'stroke='var(--text-color--high-emphasis)'/>} 
+        </span>
+      </div>
+    </div>
+  )
   const textarea = ( 
     <textarea 
       className={`textarea-default ${textareaStyle}`}
@@ -53,38 +70,39 @@ const Input = (props) => {
       placeholder={formData[name]?.placeholder}
       onChange={inputChangeHandler}
       value={formData[name]?.value || ''}
+      maxLength={formData[name]?.maxLength || null}
     /> )
   const file = <FileUpload />
   const date = <DatePicker />
   // CONDITIONAL RENDER INPUT ELEMENTS
-  let renderedElement; 
-  switch(formData[name]?.field) {
-    case 'input':
-      renderedElement = input; 
-      break;
+  let renderedInput; 
+  switch(formData[name]?.type) {
+    case 'text':
+    case 'number':
     case 'email':
-      renderedElement = email; 
+      renderedInput = input; 
       break;
     case 'password':
-      renderedElement = password; 
+      renderedInput = customPassword; 
       break;
     case 'textarea':
-      renderedElement = textarea; 
+      renderedInput = textarea; 
       break;
     case 'file':
-      renderedElement = file; 
+      renderedInput = file; 
       break;
     case 'date':
-      renderedElement = date; 
+      renderedInput = date; 
       break;
     default:
-      renderedElement = input; 
+      renderedInput = input; 
   }
 
   return(
     <>
       {renderedLabel}
-      {formData && renderedElement} 
+      {formData && renderedInput} 
+      {renderedErrorMessage}
     </>
   );
 }

@@ -25,16 +25,36 @@ export default function Login() {
   // ROUTE
   const from = location.state?.from?.pathname || "/";
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages, isFormValid} = useFormContext();
   const {setAuth} = useAuthContext(); 
   const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // initialize form validation state 
   useEffect(() => {
-    setFormData(login);
-    return () => setFormData(undefined);
-  }, [setFormData])
+    if(!Object.keys(login).length) return; 
+    let validationObject = {};
+    for(let field in login) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, [])
+  // form cleanup
+  useEffect(() => {
+    setFormData(login); 
+    // setValidationMessages(login);
+    return () => {
+      setFormData({});
+      // setIsFormInitialized(false);
+      setMessage('');
+      setShowPassword({});
+   
+    }
+  }, [])
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
@@ -76,7 +96,7 @@ export default function Login() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-login'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {loginHandler(e, formData)}}
       > Login </Button>      
     </div> 
@@ -93,7 +113,7 @@ export default function Login() {
         {formData && 
           <Form id='form-login' title='Log in' formStyle='form-authentication' > 
             {buildInputFields(login).map(elem => (
-              <Input key={elem.name} name={elem.name} inputStyle='input-authentication'/> 
+              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' label labelStyle='label-authentication'/> 
             ))}
             {/* control group: reset password */}
             <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 

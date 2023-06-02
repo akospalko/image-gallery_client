@@ -1,110 +1,92 @@
-// Input field to handle file (photo) upload, read photo's exif data, update form data   
+// Input field to handle file (photo) upload, read photo's exif data, update form data
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
 import React, { useState, useEffect, useRef } from 'react';
-import './FileUpload.css';
-import { statusMessages } from '../../helper/dataStorage';
-import { transformDate, cropString } from '../../helper/utilities';
 import ExifReader from 'exifreader';
-import Button from '../UI/Button';
+import './Input.css';
+import './FileUpload.css';
+import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
+import { photoFileValidator } from '../../helper/formValiadation'
+import { CONSTANT_VALUES } from '../../helper/constantValues';
+import { transformDate, cropString } from '../../helper/utilities';
 import useHideImagesWhileLoading from '../../components/hooks/useHideImagesWhileLoading';
+import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
 import { Delete } from '../SVG/Icons';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useFormContext } from '../contexts/FormContext';
+import { OPERATIONS } from '../../helper/dataStorage';
 
 export default function FileUpload() {
   // CONSTANTS
-  const maxFileSizeInBytes = 10000000; // 10 MB // allowed upload file size 
-  const convertBytesToMBConstant = 1000000;
-  const defaultStatusMessage = statusMessages.FILE_UPLOAD_INITIAL(maxFileSizeInBytes / convertBytesToMBConstant); // upload file default status message
-  const fileUploadMaxSizeErrorStatusMessage = statusMessages.FILE_UPLOAD_MAX_SIZE_ERROR(maxFileSizeInBytes / convertBytesToMBConstant) // file input: size limit is reached
-  const fileUploadExtensionErrorStatusMessage = statusMessages.FILE_UPLOAD_EXTENSION_ERROR; // file input: not supported extension
-  const types = ['image/png', "image/jpeg"]; // allowed photo file types
+  const defaultValidationState = { status: 'default', message: INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_INITIAL(CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES / CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT) }; // upload file default status message};
   // CONTEXT
   const {
     photoFile, setPhotoFile,
     formData, setFormData,
+    setValidationMessages
   } = useFormContext();
   const {activePhotoEntry} = useModalContext();
-  // HOOKS 
-  const {    
-    allImagesLoaded, setAllImagesLoaded, 
-    hideImageStyle, 
-    getImageFile} = useHideImagesWhileLoading();
+  // HOOKS
+  const {
+    allImagesLoaded, setAllImagesLoaded,
+    hideImageStyle,
+    getImageFile } = useHideImagesWhileLoading();
   // STATE
   const [dragActive, setDragActive] = useState(false);
-  const [fileUploadStatus, setFileUploadStatus] = useState({status: 'default', message: defaultStatusMessage}); // status -> successful/default state for adding file to the File API
+  const [fileUploadStatus, setFileUploadStatus] = useState(defaultValidationState); // status -> successful/default state for adding file to the File API
+  const [imageUrl, setImageUrl] = useState('');
   // REF
-  const inputRef = useRef(null); 
+  const inputRef = useRef(null);
   // EFFECT
-  // read exif data of the added photo file, if exist
+  // if photoFile is available, create and store photo file object URL 
   useEffect(() => {
-    if( !photoFile || typeof photoFile !== 'object' || !photoFile.name) return;
+    if (photoFile?.name) {
+      setImageUrl(URL.createObjectURL(photoFile));
+    }
+  }, [photoFile]);
+  // extract available exif, update form
+  useEffect(() => {
+    if(!photoFile?.name) return;
     (async () => {
       const tags = await ExifReader.load(photoFile, {expanded: true});
-      // extract exif data(GPS coord.s, capture date), update formData
-      if(tags) {
-        const extractedExif = {
-          captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined),
-          gpsLatitude: Number(tags.gps?.Latitude) || undefined,
-          gpsLongitude: Number(tags.gps?.Longitude) || undefined,
-        }
-        let updatedForm = {...formData}; // copy form
-        for(let entry in extractedExif) {
-          if(extractedExif[entry] !== undefined) { // update form if exif data is present 
-            const updatedItem = {...updatedForm[entry]}; // copy and update nested form properties
-            updatedItem.value = extractedExif[entry]; 
-            updatedForm[entry] = updatedItem; // update form with updated property
-          }
-        }
-        setFormData(updatedForm); // update state
+      // read & extract exif data(GPS coord.s, capture date), update formData
+      if(!tags) return;
+      const extractedExif = {
+        captureDate: transformDate(tags.exif?.DateTimeDigitized?.value || undefined),
+        gpsLatitude: Number(tags.gps?.Latitude) || undefined,
+        gpsLongitude: Number(tags.gps?.Longitude) || undefined,
       }
+      // update form with extracted values
+      const updatedForm = {...formData};
+      for(let entry in extractedExif) {
+        if(extractedExif[entry] !== undefined) { // update form if exif data is present
+          const updatedItem = {...updatedForm[entry]};
+          updatedItem.value = extractedExif[entry];
+          updatedForm[entry] = updatedItem;
+        }
+      }
+      setFormData(updatedForm); // update state
     })()
-  }, [photoFile, setFormData])
-  // 
+  }, [])
+  // enable loader while fetched photo entry img (!only during update) is being loaded
   useEffect(() => {
-    if(photoFile && Object.keys(activePhotoEntry).length === 0) { return } 
+    if(photoFile && Object.keys(activePhotoEntry).length === 0) return;
     setAllImagesLoaded(false);
-  }, [photoFile, setFormData])
-
-  // FUNCTIONS
-  // reusable state setter, used after a browsed/dropped photo is being validated 
-  const fileUploadStatusSetter = (status, message) => {
-    if(!status || !message || typeof status !== 'string' || typeof status !== 'string') return;
-    setFileUploadStatus(prev => {
-      prev.status = status;
-      prev.message = message; 
-      return prev;
-    });
-  }
-  // validate selected file: file extension, size && update state
-  const validatePhotoFile = (selected) => {
-    if(!selected) return false;
-    if (!types.includes(selected.type)) { // check file's extension
-      fileUploadStatusSetter('error', fileUploadExtensionErrorStatusMessage); 
-      return false;
-    }
-    if (selected.size > maxFileSizeInBytes) { // check photo max file size
-      fileUploadStatusSetter('error', fileUploadMaxSizeErrorStatusMessage);
-      return false;
-    }
-    // selected file is OK
-    setPhotoFile(selected); // store file in state  
-    fileUploadStatusSetter('ok', selected.name); // set ok status
-    return true;
-  }
+  }, [photoFile, setAllImagesLoaded])
   // HANDLERS
-  // file change listener, browse file -> select -> validate -> store in state
+  // check if file is selected, validate file & store in state 
+  const selectFileHandler = (selectedFile) => {
+    if(selectedFile) {
+      const validationResult = photoFileValidator(selectedFile, photoFile);
+      setFileUploadStatus(validationResult); // update validation status
+      validationResult?.status === 'success' && setPhotoFile(selectedFile); // store file in state
+      validationResult?.status === 'success' && setValidationMessages(prev => ( {...prev, photoFile: { status: true, message: '', touched: true } }))
+    }
+  }
+  // file change listener: browse & select file -> validate -> store in state
   const browseFileChangeHandler = (e) => {
     e.preventDefault();
-    let selectedFile = e.target.files[0]  
-    validatePhotoFile(selectedFile); // validate file
-    // update form with photo file
-    let updatedForm = {...formData}; // copy form
-    const updatedItem = {...updatedForm['photoFile']}; // copy and update nested form properties
-    updatedItem.value = selectedFile; // update prop value
-    updatedForm['photoFile'] = updatedItem; // update form with updated property
-    setFormData(updatedForm); // update state
+    selectFileHandler(e.target.files[0]); // handle file selection, validate, update state 
   }
   // triggered while file dragging is active
   const handleDrag = function(e) {
@@ -121,16 +103,7 @@ export default function FileUpload() {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-    let selectedFile = e.dataTransfer.files[0];
-    validatePhotoFile(selectedFile); // validate file, update state
-    // update form with photo file
-    let updatedForm = {...formData}; // copy form
-    const updatedItem = {...updatedForm['photoFile']}; // copy and update nested form properties
-    updatedItem.value = selectedFile; // update prop value
-    updatedForm['photoFile'] = updatedItem; // update form with updated property
-    setFormData(updatedForm); // update state
-    }
+    selectFileHandler(e.dataTransfer.files[0]);  // handle file selection, validate, update state 
   };
   // triggers the input when the button is clicked
   const onButtonClick = (e) => {
@@ -140,30 +113,35 @@ export default function FileUpload() {
   // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
   const removePhotoHandler = (e) => {
     e.preventDefault();
-    activePhotoEntry.photoURL;
-    setPhotoFile({}); // remove photo
-    fileUploadStatusSetter('default', defaultStatusMessage); // remove status (file name) 
+    console.log(activePhotoEntry.photoURL);
+    if(activePhotoEntry.photoURL) {
+      setValidationMessages(prev => ( {...prev, photoFile: { status: true, message: '', touched: false } })); // update photo.: remove selected photo -> photo url is fetched from db is still available -> valid: true   
+    } else {
+      setValidationMessages(prev => ( {...prev, photoFile: { status: false, message: '', touched: false } })); // create photo: remove photo -> no alternative photo to be loaded -> valid: false   
+    }
+    inputRef.current && (inputRef.current.value = '');
+    setFileUploadStatus(defaultValidationState); // remove status (file name)
   }
   // ELEMENTS
   // upload file input field
   const uploadFile = (
-    <label 
-      className={`file-upload-label ${dragActive ? "file-upload-label--drag-active" : ""}`} 
+    <label
+      className={`file-upload-label ${dragActive ? "file-upload-label--drag-active" : ""}`}
       onDragEnter={handleDrag}
-      onDragLeave={handleDrag} 
-      onDragOver={handleDrag} 
+      onDragLeave={handleDrag}
+      onDragOver={handleDrag}
       onDrop={handleDrop}
     >
       <input ref={inputRef} type='file' onChange={browseFileChangeHandler} />
-      <div className='file-upload-instruction'> 
-        <span> Drop Your Photo In the Box <br/> </span> 
-        <span>  OR  </span> 
-        <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button> 
+      <div className='file-upload-instruction'>
+        <span> Drop Your Photo In the Box <br/> </span>
+        <span>  OR  </span>
+        <Button clicked={onButtonClick} buttonStyle='button-upload-file'> Browse </Button>
       </div>
       <div className='file-upload-status'>
-        <span className={fileUploadStatus.status === "error" ? "file-upload-invalid" : "" } > 
-        { fileUploadStatus.status === 'ok' ? cropString(fileUploadStatus.message, 15, 15) : fileUploadStatus.message } 
-        </span> 
+        <span className={fileUploadStatus?.status === "success" ? "" : fileUploadStatus?.status === "error" ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } >
+          { fileUploadStatus?.status === 'success' ? cropString(fileUploadStatus?.message, 25, 18) : fileUploadStatus?.message }
+        </span>
       </div>
     </label>
   );
@@ -172,32 +150,33 @@ export default function FileUpload() {
   const displayFile = (
     <>
       {/* Loader */}
-      { !allImagesLoaded && 
+      { !allImagesLoaded &&
         <div className='file-upload-display'>
-          <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> 
-        </div> 
-      } 
-      {/* Displayed photo */}
-      { (photoFile.name || activePhotoEntry.photoURL) && 
-        <div className='file-upload-display' style={hideImageStyle}>
-          {/* Button wrapper */}
-          <div className='file-upload-button-wrapper'>
-            <Button
-              title='remove photo'
-              clicked={removePhotoHandler}
-              buttonStyle='button-modal-close'
-              disabled={!photoFile.name}
-            > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
-          </div>
-          { photoFile.name ? 
-              <img src={URL.createObjectURL(photoFile) || {}} style={{ height: '100%', width: '100%', ...customImgStyle}} />
-              : activePhotoEntry.photoURL ? 
-              getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id) 
-              :
-              <span> NO IMG </span> 
-          }
-        </div> 
+          <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/>
+        </div>
       }
+    {/* Displayed photo */}
+    { photoFile?.name || activePhotoEntry?.photoURL ?
+    <div className='file-upload-display' style={hideImageStyle}>
+      {/* Button wrapper */}
+      <div className='file-upload-button-wrapper'>
+        <Button
+          title='remove photo'
+          clicked={removePhotoHandler}
+          buttonStyle='button-modal-close'
+          disabled={!photoFile.name}
+        > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>
+      </div>
+      { photoFile.name ?
+        <img src={imageUrl} style={{ height: '100%', width: '100%', ...customImgStyle}} />
+        : activePhotoEntry.photoURL ?
+        getImageFile(activePhotoEntry.photoURL, customImgStyle, activePhotoEntry._id)
+        :
+        <span> NO IMG </span>
+      }
+    </div> 
+    : null
+    }
     </>
   );
 

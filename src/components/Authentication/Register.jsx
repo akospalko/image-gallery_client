@@ -7,29 +7,56 @@ import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
-import { OPERATIONS, register } from '../../helper/dataStorage';
+import { register } from '../../helper/dataStorage';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
+import { isPasswordMatching } from '../../helper/formValiadation';
 import { createNewUser } from '../../helper/axiosRequests';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
 
 export default function Register() {
   // CONSTANTS
-  const operation = OPERATIONS.REGISTER;
+  // const operation = OPERATIONS.REGISTER;
   // HOOKS
   const navigate = useNavigate(); 
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {
+    formData, setFormData, 
+    message, setMessage, 
+    isFormValid,
+    setValidationMessages, 
+    setShowPassword,
+  } = useFormContext();
   const {theme} = useThemeContext();
   // STATE
     const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // initialize form validation state
   useEffect(() => {
-    setMessage('');
-    setFormData(register); // set up form initial data
-  }, [setFormData, setMessage])
+    if(!Object.keys(register).length) return; 
+    let validationObject = {};
+    for(let field in register) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, [])
+  // form cleanup
+  useEffect(() => {
+    setFormData(register); 
+    // setValidationMessages(register);
+    return () => {
+      setFormData({});
+      setMessage('');
+      setShowPassword({});
+      // setValidationMessages({});
+    }
+  }, [])
   // HANDLERS
   // register handler
   const registerHandler = async (e, formData) => {
@@ -39,13 +66,14 @@ export default function Register() {
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const {password, passwordConfirm} = convertedData; // destructure converted data values
       const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
-      // check for matching pw-s  
-      if(password !== passwordConfirm) {
+      // check for matching PWs  
+      const matchedPassword = isPasswordMatching (password, passwordConfirm); 
+      if(!matchedPassword) {
         setFormData(resetPassword);
-        setMessage('Passwords are not matching');
+        setMessage(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); // TODO: outsource status message
         return;
       };
-      delete convertedData.passwordConfirm; // if matching -> delete pw from convertedData obj
+      delete convertedData.passwordConfirm; // if pw matched -> delete pw confirm from convertedData
       const response = await createNewUser(convertedData);
       const {success, message} = response ?? {}; // destructure response values
       if(success) {  // register successfull
@@ -61,6 +89,7 @@ export default function Register() {
           });
         navigate('/login'); //navigate to login page after successful registration
         setFormData(register); // reset form 
+        setMessage('');
       } else { // register failed
         setMessage(message); 
         setFormData(resetPassword); // empty pasword fields
@@ -79,7 +108,7 @@ export default function Register() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-register'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {registerHandler(e, formData)}}
       > Register </Button>      
     </div> 
@@ -96,7 +125,7 @@ export default function Register() {
         {formData && 
           <Form id='form-register' title='Register'> 
           {buildInputFields(register).map(elem => (
-            <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/>
+            <Input inputStyle='input-authentication' key={elem.name} name={elem.name} label labelStyle='label-authentication' />
           ))}
           </Form>
         }

@@ -992,3 +992,52 @@ export function ArrowTipIcon({height, width, fill, rotate}) {
     </div>
   );
 }
+
+
+// Open/close eye: toggle password visibility 
+// open
+export function OpenEyeIcon({height, width, stroke, strokeWidth}) {
+  return (
+    <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <g>
+          <g>
+            <g
+              stroke={stroke || "#000"}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={strokeWidth || "1.5"}
+            >
+              <path d="M15 12c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"></path>
+              <path d="M12 19.27c3.53 0 6.82-1.829 9.11-4.994.9-1.24.9-3.323 0-4.562C18.82 6.549 15.53 4.72 12 4.72c-3.53 0-6.82 1.829-9.11 4.994-.9 1.24-.9 3.323 0 4.562C5.18 17.441 8.47 19.27 12 19.27z"></path>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
+// close
+export function CloseEyeIcon({height, width, stroke, strokeWidth}) {
+  return (
+    <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <g>
+        <g>
+          <g stroke={stroke || "#000"} strokeLinecap="round" strokeWidth={strokeWidth || "1.5"}>
+            <path
+              strokeLinejoin="round"
+              d="M15.649 5.395A10.231 10.231 0 0012 4.72c-3.53 0-6.82 1.829-9.11 4.994-.9 1.24-.9 3.323 0 4.563.455.628.949 1.204 1.477 1.723m14.958-8.303a13.464 13.464 0 011.785 2.017c.9 1.24.9 3.323 0 4.563-2.29 3.165-5.58 4.993-9.11 4.993a10.26 10.26 0 01-4-.815"
+            ></path>
+            <path
+              strokeLinejoin="round"
+              d="M15 12c0 1.66-1.34 3-3 3m2.1-5.145A2.99 2.99 0 0012 9c-1.66 0-3 1.34-3 3 0 .73.26 1.397.69 1.917"
+            ></path>
+            <path d="M2 21L22 2.7"></path>
+          </g>
+        </g>
+      </g>
+    </svg>
+    </div>
+  );
+}

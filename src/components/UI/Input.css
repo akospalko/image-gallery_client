@@ -1,3 +1,4 @@
+
 /* ______DEFAULT VALUES______ */
 /* INPUT && TEXTAREA */
 .input-default, 
@@ -38,21 +39,86 @@
   align-items: center;
   width: 100%;
   height: 25px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 500;
+}
+/* label required marker */
+.label-with-required-marker::after {
+  content: "*";
+  color: var(--bg-color--accent);
+} 
+/* label authentication */
+.label-authentication {
+  justify-content: initial;
+  width: 90%;
+}
+/* some places default marker color would make a proper emphasis */
+.label-with-required-marker--inverted-color::after {
+  color: var(--text-color--high-emphasis);
+}
+/* VALIDATION MESSAGES */
+.validation-message { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 90%;
+  margin-bottom: 0.75rem;
+}
+.validation-message span {
+  color: var(--text-color--validation-message);
+  font-size: 0.8rem;
+  line-height: 1rem;
+}
+/* PASSWORD INPUT WITH TOGGLE BUTTON */
+/* wrapper for password input field + toggle btn */
+.input-container-password {
+  display: flex;
+  /* justify-items: center;
+  align-items: center; */
+  width: 90%;
+  height: 40px;
+  border-bottom: 2px solid var(--bg-color--ternary);
+  /* position: relative; */
+
+
+}
+/* input field */
+.input-content {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  position: relative;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.1rem;
+  color: var(--text-color--high-emphasis);
+  /* position: relative; */
+}
+.input-content::placeholder {
+  color: var(--text-color--medium-emphasis);
+}
+/* password visibility toggler */
+.input-password-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 50px;
 }
 /* ______MODIFIERS______ */
 /* COMPONENTS */
 /* authentication form input fields */
 .input-authentication {
-  height: 50px;
+  height: 45px;
   width: 90%;
-  margin-bottom: 1rem;
 }
 /* create-update photo entry input/textarea fields */
 .input-create-update-photo-entry,
 .textarea-create-update-photo-entry {
-  margin-bottom: 1.25rem;
   width: 90%;
 }
 /* create-update photo entry input fields */

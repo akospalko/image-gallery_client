@@ -14,15 +14,27 @@ import { useFormContext } from '../contexts/FormContext';
 
 export default function PasswordResetSendLink() {
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {formData, setFormData, message, setMessage, isFormValid, setValidationMessages} = useFormContext();
   const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(false);
   // EFFECT
+  // initialize form validation state 
+  useEffect(() => {
+    if(!Object.keys(passwordResetSendEmailLink).length) return; 
+    let validationObject = {};
+    for(let field in passwordResetSendEmailLink) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, [])
+  // initialize form 
   useEffect(() => {
     setFormData(passwordResetSendEmailLink);
-    // return () => setMessage('');
-  }, [setFormData, setMessage])
+  }, [])
   // HANDLERS
   // send a mail with a password reset link to the provided email address
   const sendPasswordResetEmailHandler = async (e, formData) => {
@@ -61,7 +73,7 @@ export default function PasswordResetSendLink() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-password-reset-link'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {sendPasswordResetEmailHandler(e, formData)}}
       > Submit </Button>      
     </div> 

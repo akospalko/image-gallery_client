@@ -13,17 +13,32 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useFormContext } from '../contexts/FormContext';
+import { isPasswordMatching } from '../../helper/formValiadation';
+import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages' 
 
 export default function PasswordResetSaveNewPassword() {
   // ROUTES
   const navigate = useNavigate();
   const {id, token} = useParams(); // get url parameters (id, token)
   // CONTEXT
-  const {formData, setFormData, message, setMessage} = useFormContext();
+  const {formData, setFormData, message, setMessage, setValidationMessages, isFormValid } = useFormContext();
   const {theme} = useThemeContext();
   // STATE
   const [isLoading, setIsLoading] = useState(true);
   // EFFECT
+  // initialize form validation state
+  useEffect(() => {
+    if(!Object.keys(passwordResetSaveNewPassword).length) return; 
+    let validationObject = {};
+    for(let field in passwordResetSaveNewPassword) {
+      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+    }
+    setValidationMessages(validationObject)
+    return () => {
+      setValidationMessages({});
+    }
+  }, []) 
+  // check token validity, initialize state
   useEffect(() => {
     if(!id || !token) { // check for necessary data, if not provided navigate to error page
       setMessage('Missing ID/Token');
@@ -41,6 +56,7 @@ export default function PasswordResetSaveNewPassword() {
       setFormData(passwordResetSaveNewPassword);
     }
   }, [])
+
   // HANDLERS
   const resetPasswordHandler = async (e, formData) => {
     e.preventDefault();
@@ -48,8 +64,17 @@ export default function PasswordResetSaveNewPassword() {
       setMessage('Missing ID/Token');
       navigate('/error-page'); // nav user to error page 
     } 
-    setIsLoading(true); 
-    const convertedData = convertFormData(formData); // simplify data before sending request  
+    setIsLoading(true);
+    const convertedData = convertFormData(formData); // simplyfy data before sending request  
+    const {password, passwordConfirm} = convertedData; // destructure converted data values
+    const resetPasswordData = {email: {...formData.email}, password: {...passwordResetSaveNewPassword.password}, passwordConfirm: {...passwordResetSaveNewPassword.passwordConfirm}}; // empty pasword fields
+    // check for matching PWs  
+    const matchedPassword = isPasswordMatching(password, passwordConfirm); 
+    if(!matchedPassword) {
+      setFormData(resetPasswordData);
+      setMessage(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); // TODO: outsource status message
+      return;
+    };
     const response = await resetPassword(id, token, convertedData); 
     const {success, message, errorField, isTokenValid } = response ?? {};
     try {
@@ -93,7 +118,7 @@ export default function PasswordResetSaveNewPassword() {
         buttonStyle='button-authentication' 
         type='submit' 
         form='form-password-reset-save-new-password'
-        disabled={false}
+        disabled={!isFormValid}
         clicked={(e) => {resetPasswordHandler(e, formData)}}
       > Submit </Button>      
     </div>

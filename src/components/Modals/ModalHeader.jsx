@@ -20,7 +20,7 @@ export default function ModalHeader(props) {
             buttonStyle='button-modal-close'
             clicked={() => {
               setMessage('');
-              setFormData(undefined);
+              setFormData({});
               photoFile.name && setPhotoFile({});
               toggleModalHandler(returnToModal);
             }}
@@ -33,7 +33,7 @@ export default function ModalHeader(props) {
           buttonStyle='button-modal-close'
           clicked={() => {
             setMessage('');
-            setFormData(undefined);
+            setFormData({});
             photoFile.name && setPhotoFile({});
             activePhotoEntry && setActivePhotoEntry({});
             toggleModalHandler(closeModal);
