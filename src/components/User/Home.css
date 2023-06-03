@@ -50,3 +50,11 @@
   width: 100%;
   height: 50px;
 }
+
+@media screen and (min-width: 1024px) {
+  /* PHOTO */
+  .home-photo {
+    width: 650px;
+    height: auto;
+  }
+}
