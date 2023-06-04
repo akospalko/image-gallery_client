@@ -37,12 +37,21 @@ const Carousel = ({ children, hideImageStyle }) => {
       } else {
         clearInterval(interval);
       }
-    }, 3000);
+    }, 300000);
     return () => clearInterval(interval);
   });
 
   return (
     <div style={hideImageStyle} className="carousel-container">
+      <div className="page">
+        {content.map((item, index) => (
+          <span
+            key={index}
+            className={counter - 1 === index ? "dot active" : "dot"}
+            onClick={() => handlePage(index + 1)}
+          />
+        ))}
+      </div>
       <div
         className="carousel-slide"
         onMouseEnter={handleMouse}
@@ -57,15 +66,6 @@ const Carousel = ({ children, hideImageStyle }) => {
         ))}
         <Button buttonStyle='button-carousel prev' clicked={handlePre}> &#10094; </Button>
         <Button buttonStyle='button-carousel next' clicked={handleNext}> &#10095; </Button>
-      </div>
-      <div className="page">
-        {content.map((item, index) => (
-          <span
-            key={index}
-            className={counter - 1 === index ? "dot active" : "dot"}
-            onClick={() => handlePage(index + 1)}
-          />
-        ))}
       </div>
     </div>
   );

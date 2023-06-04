@@ -101,15 +101,16 @@
 }
 /* HOME PHOTO CAROUSEL */
 .button-carousel {
-  background-color: Transparent;
+  background-color: transparent;
   font-size: 1.3rem;
-  width: auto;
+  width: 30px;
+  height: 100%;
   color: var(--bg-color--accent);
-  opacity: 0.5;
+  opacity: .5;
 }
 .button-carousel:hover {
-  opacity: .75;
-  background-color:  var(--bg-color--main);
+  opacity: 1;
+  background-color: var(--bg-color--accent-transparent-high);
 }
 /* PHOTO VIEW TOOLS: ZOOM, RESET */
 .button-photo-view-tools {
@@ -171,4 +172,13 @@
 .button-toggle-text:hover,
 .button-toggle-text:focus {
   background-color: var(--bg-color--accent);
+}
+
+
+
+@media screen and (min-width: 1024px) {
+  /* HOME PHOTO CAROUSEL */
+  .button-carousel {
+    height: 200px;
+  }
 }

@@ -20,7 +20,7 @@ export default function Home() {
   const {homePhotos, setHomePhotos} = useFormContext();
   const {auth} = useAuthContext();
   // HOOK
-  const {allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile} = useHideImagesWhileLoading();
+  const {allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile, onLoadHandler} = useHideImagesWhileLoading();
   // STATE
   const [isLoading, setIsLoading] = useState(true);
   // EFFECT
@@ -53,9 +53,10 @@ export default function Home() {
           key={photo._id} 
           photo={photo} 
           getImageFile={getImageFile} 
+          onLoadHandler={onLoadHandler}
           setCurrentlyLoadingImages={setCurrentlyLoadingImages}
         /> 
-      ))}
+      )) }
     </Carousel>
   )
   // display photo || skeleton loader
