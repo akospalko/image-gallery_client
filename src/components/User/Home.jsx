@@ -1,3 +1,4 @@
+// Landing page 
 import React, {useState, useEffect} from 'react'
 import './Home.css'
 import '../Shared.css'
@@ -71,13 +72,15 @@ export default function Home() {
   // home page content
   const home = (
     <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
-      {/* Header title */}
-      <div className='home-title'>
-        <h1> Photo Gallery </h1>
-      </div>
-      {/* Subtitle */}
-      <div className='home-subtitle'>
-        <h2> footages for you </h2>
+      <div className='home-header'>
+        {/* Header title */}
+        <div className='home-title'>
+          <h1> Photo Gallery </h1>
+        </div>
+        {/* Subtitle */}
+        <div className='home-subtitle'>
+          <h2> footages for you </h2>
+        </div>
       </div>
       <div className={`home-photo ${homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder'}`}>
         { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
@@ -85,7 +88,7 @@ export default function Home() {
       {/* Button container */}
       <div className='home-button'>
         <Button clicked={() => navigate(auth.userID ? `/${auth.username}/gallery` : '/login')} buttonStyle='button-home-call-to-action'>
-          Check out Gallery
+          <span> Visit Gallery </span>
         </Button>
       </div>
     </div>

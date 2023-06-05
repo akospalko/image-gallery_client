@@ -37,7 +37,7 @@ const Carousel = ({ children, hideImageStyle }) => {
       } else {
         clearInterval(interval);
       }
-    }, 300000);
+    }, 5000);
     return () => clearInterval(interval);
   });
 
@@ -64,8 +64,8 @@ const Carousel = ({ children, hideImageStyle }) => {
           > {item}
           </div>
         ))}
-        <Button buttonStyle='button-carousel prev' clicked={handlePre}> &#10094; </Button>
-        <Button buttonStyle='button-carousel next' clicked={handleNext}> &#10095; </Button>
+        <Button buttonStyle='button-carousel prev' clicked={handlePre}> <span className='prev-content'> &#10094; </span> </Button>
+        <Button buttonStyle='button-carousel next' clicked={handleNext}> <span className='next-content'> &#10095; </span> </Button>
       </div>
     </div>
   );

@@ -15,11 +15,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
  
-  /* shared variables */
+  /* SHARED VARIABLES */
   --header-height: 70px;
   --margin-default: 0.5rem;
   --padding-default: 0.5rem;
-  
+  --carousel-tracker-height: 30px;
   /* misc: */
   --tracker-bar-height: 50px;
   /* z-index groups */
@@ -28,6 +28,10 @@
   --z3: 3;
   --z4: 5;
   --z5: 6;
+  
+  /* font - size */
+  --text-color-light--high-emphasis: rgba(255, 255, 255, 0.86);
+  --text-color-dark--high-emphasis: rgba(0, 0, 0, 0.86);
   /* colors */
   /* border colors */
   --border-color-1: rgb(73, 72, 72); 
@@ -38,14 +42,17 @@
   --bg-color--main-transparent-high: rgba(206, 212, 218, 0.25);  /*25%*/
   --bg-color--main-transparent-medium: rgba(206, 212, 218, 0.50);  /*50%*/
   --bg-color--main-transparent-low: rgba(206, 212, 218, 0.75);  /*75%*/
+  
   --bg-color--secondary: #adb5bd;
   --bg-color--secondary-transparent-high: rgba(173, 181, 189, 0.25);  /*25%*/
   --bg-color--secondary-transparent-medium: rgba(173, 181, 189, 0.50);  /*50%*/
   --bg-color--secondary-transparent-low: rgba(173, 181, 189, 0.75);  /*75%*/
+
   --bg-color--ternary: #6c757d;
-  --bg-color--secondary-transparent-high: rgba(108, 117, 125, 0.25);  /*25%*/
-  --bg-color--secondary-transparent-medium: rgba(108, 117, 125, 0.50);  /*50%*/
-  --bg-color--secondary-transparent-low: rgba(108, 117, 125, 0.75);  /*75%*/
+  --bg-color--ternary-transparent-high: rgba(108, 117, 125, 0.25);  /*25%*/
+  --bg-color--ternary-transparent-medium: rgba(108, 117, 125, 0.50);  /*50%*/
+  --bg-color--ternary-transparent-low: rgba(108, 117, 125, 0.75);  /*75%*/
+ 
   --bg-color--accent: #bc4749;
   --bg-color--accent-transparent-high: rgba(188, 71, 73, 0.25);
   --bg-color--accent-transparent-medium: rgba(188, 71, 73, 0.50);
@@ -100,6 +107,8 @@
   --text-color--medium-emphasis: rgba(255, 255, 255, 0.60);
   --text-color--low-emphasis: rgba(255, 255, 255, 0.38);
   --text-color--validation-message: rgb(255, 158, 158);
+  
+
   /* SKELETON */
   --skeleton-container:#343a40;
   --skeleton-content:#50575c;
