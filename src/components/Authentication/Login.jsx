@@ -1,6 +1,7 @@
+// TODO: outsource client side status messages, constants
 // Authentication: login 
-// TODO: outsource client side status messages
 import React, { useEffect, useState } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import '../Shared.css';
 import './Authentication.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,7 +9,7 @@ import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
-import { login, OPERATIONS } from '../../helper/dataStorage';
+import { login } from '../../helper/dataStorage';
 import { buildInputFields, convertFormData} from '../../helper/utilities';
 import { loginUser } from '../../helper/axiosRequests';
 import { useNavigate } from 'react-router';
@@ -16,20 +17,37 @@ import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useAuthContext} from '../contexts/AuthenticationContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import AuthenticationToggle from './AuthenticationToggle';
+import { AvatarIllustration } from '../SVG/Illustrations';
+import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
+import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Login() {
   // CONSTANTS
-  const operation = OPERATIONS.LOGIN;
-  // HOOKS
-  const navigate = useNavigate(); 
+  // TODO: Outsource
+  const titleText = 'Welcome back,';
+  const subtitleText = 'Log in to continue...';
+  // get css colors vars to pass to svg component as prop
+  const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
+  const colorTernary = getComputedStyle(root).getPropertyValue('--bg-color--ternary');
   // ROUTE
+  const navigate = useNavigate(); 
   const from = location.state?.from?.pathname || "/";
+  // HOOK 
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
   // CONTEXT
-  const {formData, setFormData, message, setMessage, setShowPassword, setValidationMessages, isFormValid} = useFormContext();
-  const {setAuth} = useAuthContext(); 
-  const {theme} = useThemeContext();
+  const {
+    formData, setFormData, 
+    message, setMessage, 
+    setShowPassword, 
+    setValidationMessages, 
+    isFormValid } = useFormContext();
+  const { setAuth } = useAuthContext(); 
+  const { theme } = useThemeContext();
+
   // STATE
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
   // EFFECT
   // initialize form validation state 
   useEffect(() => {
@@ -52,7 +70,6 @@ export default function Login() {
       // setIsFormInitialized(false);
       setMessage('');
       setShowPassword({});
-   
     }
   }, [])
   // HANDLERS
@@ -60,7 +77,7 @@ export default function Login() {
   const loginHandler = async (e, formData) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
       const {roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
@@ -85,55 +102,115 @@ export default function Login() {
     } catch(error) {
       setMessage('Error. Try again later!'); // set status message (for both success and failed auth)
     } finally {
-      setIsLoading(false);     
+      setIsSubmitting(false); 
+      // invalidate password field
+      setValidationMessages(prev => ({
+        ...prev,
+        username: { ...prev.username, touched: false, message: '' },
+        password: { ...prev.password, status: false, touched: false, message: '' },
+      }));
     }
   }
-  // BUTTON
+  
+  // BUTTONS
   // submit form: login
   const loginButton = (
     <div className='shared-button-wrapper shared-button-wrapper--authentication'> 
       <Button 
         buttonStyle='button-authentication' 
         type='submit' 
-        form='form-login'
         disabled={!isFormValid}
         clicked={(e) => {loginHandler(e, formData)}}
-      > Login </Button>      
+      > 
+        <div className='auth-submit-button-content'>
+          <span className='shared-submit-form-button-content'> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Log in' : 'Fill in form' } </span> 
+        </div>
+      </Button>      
     </div> 
   )
 
-  return (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
-      <div className='auth-modal'>
-        {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
-        {/* modal background */}
-        <div className='auth-modal-background'></div>
+  // navigation toggle button: login-register
+  const navigationToggle = (
+    <div className='auth-modal-navigate'>
+      <AuthenticationToggle title='Log in' active activeBorder='right'/>
+      <AuthenticationToggle navigateTo='/register' title='Register'/>
+    </div>
+  ) 
+
+  // Login modal
+  const loginModal = (
+    <div className='auth-modal'>
+      {/* group 1: form */}
+      <div className='auth-modal--group-1'>
+        {/* header title */}
+        { <AuthenticationHeader title= { titleText } subtitle= { subtitleText } /> }
+        {/* header avatar */}
+        <div className='auth-modal-avatar'>
+          <AvatarIllustration color1='var(--color-accent)'/>
+        </div>
         {/* login form */}
-        {formData && 
-          <Form id='form-login' title='Log in' formStyle='form-authentication' > 
-            {buildInputFields(login).map(elem => (
-              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' label labelStyle='label-authentication'/> 
-            ))}
+        { formData && 
+          <Form id='form-login' formStyle='form-authentication'> 
+            { buildInputFields(login).map(elem => (
+              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+            )) }
             {/* control group: reset password */}
             <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 
-              Forgot password?
+              <span className='auth-modal-reset-password--content'> Forgot password? </span>
             </div>
           </Form>
         }
         {/* status message container */}
-        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
+        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
         {/* submit form button */}
-        {loginButton}
-        {/* login-register navigation button */}
-        <div className='auth-modal-navigate'>
-          <div className='auth-modal-navigate auth-modal-navigate--active'> 
-            Login 
-          </div>  
-          <div onClick={() => navigate('/register')} className='auth-modal-navigate'>
-            Register 
-          </div>
-        </div>
+        { loginButton }
+      </div>
+      {/* group 2: modal sticky bottom */}
+      <div className='auth-modal--group-2'>   
+        { navigationToggle }
+      </div>
+    </div>
+  );
+  
+  // BACKGROUND
+  // Set up responsive background
+  const backgroundComponents = (
+    <>
+      {isLargeScreen ? (
+        // Landscape for tablet/pc view
+        <BlobLandscapeBackground color1={colorMain} color2={colorTernary} />
+        ) : (
+        // Portrait for mobile view
+        <BlobPortraitBackground  color1={colorMain} color2={colorTernary} />
+      )}
+    </>
+  )
+  // Convert svg component to string 
+  const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
+  // Define background as inline style
+  const modalBackground = {
+    backgroundPosition: 'center', 
+    backgroundSize: 'cover', 
+    backgroundRepeat: 'no-repeat',
+    backgroundImage: `url("data:image/svg+xml, ${renderedBackground}")`,
+    backgroundColor: 'var(--bg-color--main)'
+  }
+
+  return (
+    <div 
+      style={modalBackground} 
+      className='shared-page-container shared-page-container--centered'
+    >   
+      {/* container: */}
+      {/* TODO: RENAME -> page content */}
+      <div className='authentication-container'> 
+        {/* modal opaque background layer */}
+        <div className='authentication-container-opaque-background'></div>
+        { /* auth modal */ }
+        { loginModal }
+        { /* auth illustration tab + guest welcome */ }
+        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } />
       </div>
     </div>
   )

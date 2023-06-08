@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 90%;
+  width: var(--input-width);
 }
 .shared-button-wrapper--modal-close {
   justify-content: center;
@@ -86,30 +86,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  height: auto;
+  width: var(--input-width);
+  min-height: 50px;
   padding: var(--padding-default);
 }
 .shared-status-message p {
   margin: 0;
-  color: var(--text-color--medium-emphasis);
+  color: var(--text-color--validation-message);
 }
-/* TOAST */
-
 
 /* ______MODIFIERS______ */
 /* TODO: place it to shared.css */
 /* WRAPPER */
-.shared-button-wrapper--create-update-photo-entry {
-/* ... */
-}
+/* .shared-button-wrapper--create-update-photo-entry {} */
 
 /* COMPONENTS */
 /* auth specific style */
 .shared-button-wrapper--authentication {
   justify-content: center;
-  /* margin-top: 1.5rem; */
-  margin: 1.5rem 0;
+  margin-bottom: 1.5rem;
+}
+/* submit form button  content */
+.shared-submit-form-button-content {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 /* ELEMENTS */
 /* centering button (only if single button is present) for auth containers */

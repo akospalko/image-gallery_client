@@ -1,3 +1,5 @@
+import { MailIcon, UserFilledIcon } from "../components/SVG/Icons" // test icons with auth forms
+
 // FORM INITIALIZERS
 export const createPhoto = {
   title: {
@@ -116,15 +118,16 @@ export const updatePhoto = {
 export const login = {
   username: {
     type: 'text',
-    placeholder: '',
+    placeholder: 'USERNAME',
     value: '',
     label: 'Username',
     required: true,
     fieldName: 'usernameLogin',
+    icon: <UserFilledIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)'/>
   },
   password: {
     type: 'password',
-    placeholder: '',
+    placeholder: 'PASSWORD',
     value: '',
     label: 'Password',
     required: true,
@@ -135,23 +138,25 @@ export const login = {
 export const register = {
   username: {
     type: 'text',
-    placeholder: '',
+    placeholder: 'USERNAME',
     value: '',
     label: 'Username',
     required: true,
     minLength: 4,
     fieldName: 'usernameRegister',
+    icon: <UserFilledIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)'/>
   },
   email: {
     type: 'email',
-    placeholder: '',
+    placeholder: 'EMAIL',
     value: '',
     label: 'E-mail',
     required: true,
+    icon: <MailIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)'/>
   },
   password: {
     type: 'password',
-    placeholder: '',
+    placeholder: 'PASSWORD',
     value: '',
     label: 'Password',
     required: true,
@@ -160,7 +165,7 @@ export const register = {
   },
   passwordConfirm: {
     type: 'password',
-    placeholder: '',
+    placeholder: 'PASSWORD CONFIRM',
     value: '',
     label: 'Password confirm',
     required: true,
@@ -172,33 +177,35 @@ export const register = {
 export const passwordResetSendEmailLink = {
   email: {
     type: 'email',
-    placeholder: 'Email',
+    placeholder: 'EMAIL',
     value: '',
     label: 'E-mail',
-    required: true
+    required: true,
+    icon: <MailIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)'/>
   }
 }
 // form to get new password which are to be saved as the new password for the account
 export const passwordResetSaveNewPassword = {
   email: {
     type: 'email',
-    placeholder: 'Email',
+    placeholder: 'EMAIL',
     value: '',
     label: 'E-mail',
-    required: true
+    required: true,
+    icon: <MailIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)'/>
   },
   password: {
     type: 'password',
-    placeholder: 'Password',
+    placeholder: 'PASSWORD',
     value: '',
-    label: 'Password',
+    label: 'PASSWORD',
     required: true,
     minLength: 8,
     fieldName: 'passwordReset'
   },
   passwordConfirm: {
     type: 'password',
-    placeholder: 'Password Confirm',
+    placeholder: 'PASSWORD CONFIRM',
     value: '',
     label: 'Password',
     required: true,
@@ -313,5 +320,6 @@ export const LOADER = {
   PHOTO_ENTRY_DELETE: {}, // delete photo entry button loader 
   PHOTO_ENTRY_LIKE: {}, // { photoID1: false, photoID2: true } - loader state of photo entry like toggle
   PHOTO_ENTRY_COLLECTION: {}, // add/remove photo item to/from collection
-  MAP_FETCH_DATA: false // loader shown in map box while fetching data / switching content
+  MAP_FETCH_DATA: false, // loader shown in map box while fetching data / switching content
+  BACKGROUND: true // show loader while svg background is being loaded   
 }

@@ -1,5 +1,7 @@
-// TODO: outsource client side status messages
+// TODO: outsource client side status messages, constants
+// Authentication: register 
 import React, {useEffect, useState} from 'react';
+import ReactDOMServer from 'react-dom/server';
 import '../Shared.css';
 import './Authentication.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,10 +18,21 @@ import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
+import { AvatarIllustration } from '../SVG/Illustrations';
+import AuthenticationToggle from './AuthenticationToggle';
+import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
+import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Register() {
   // CONSTANTS
-  // const operation = OPERATIONS.REGISTER;
+  // TODO: Outsource
+  const titleText = 'Register Account,';
+  const subtitleText = 'To view awesome photos.';
+  // get css colors vars to pass to svg component as prop
+  const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
+  const colorTernary = getComputedStyle(root).getPropertyValue('--bg-color--ternary');
+
   // HOOKS
   const navigate = useNavigate(); 
   // CONTEXT
@@ -30,10 +43,12 @@ export default function Register() {
     setValidationMessages, 
     setShowPassword,
   } = useFormContext();
-  const {theme} = useThemeContext();
+  const { theme } = useThemeContext();
+  // HOOK
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
   // STATE
-    const [isLoading, setIsLoading] = useState(false);
-  // EFFECT
+    const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
+    // EFFECT
   // initialize form validation state
   useEffect(() => {
     if(!Object.keys(register).length) return; 
@@ -46,6 +61,7 @@ export default function Register() {
       setValidationMessages({});
     }
   }, [])
+
   // form cleanup
   useEffect(() => {
     setFormData(register); 
@@ -62,7 +78,7 @@ export default function Register() {
   const registerHandler = async (e, formData) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
       const {password, passwordConfirm} = convertedData; // destructure converted data values
       const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
@@ -87,7 +103,7 @@ export default function Register() {
           draggable: true,
           theme: theme,
           });
-        navigate('/login'); //navigate to login page after successful registration
+        navigate('/login'); // navigate to login page after successful registration
         setFormData(register); // reset form 
         setMessage('');
       } else { // register failed
@@ -97,9 +113,10 @@ export default function Register() {
     } catch(error) {
       setMessage('Error. Try again later!'); 
     } finally {
-      setIsLoading(false);     
+      setIsSubmitting(false);     
     }
   }
+
   // BUTTON
   // submit form: register
   const registerButton = (
@@ -107,41 +124,94 @@ export default function Register() {
       <Button 
         buttonStyle='button-authentication' 
         type='submit' 
-        form='form-register'
-        disabled={!isFormValid}
-        clicked={(e) => {registerHandler(e, formData)}}
-      > Register </Button>      
+        disabled={ !isFormValid }
+        clicked={ (e) => {registerHandler(e, formData)} }
+      > 
+        <div className='auth-submit-button-content'>
+          <span className='shared-submit-form-button-content'> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Log in' : 'Fill in form' } </span> 
+        </div>
+      </Button>      
     </div> 
   )
 
-  return (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
-      <div className='auth-modal'>
-        {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
-        {/* modal background */}
-        <div className='auth-modal-background'></div>
-        {/* FORM: register */}
-        {formData && 
-          <Form id='form-register' title='Register'> 
-          {buildInputFields(register).map(elem => (
-            <Input inputStyle='input-authentication' key={elem.name} name={elem.name} label labelStyle='label-authentication' />
-          ))}
+  // navigation toggle button: login-register
+  const navigationToggle = (
+    <div className='auth-modal-navigate'>
+      <AuthenticationToggle navigateTo='/login' title='Log in' />
+      <AuthenticationToggle title='Register' active activeBorder='left'/>
+    </div>
+  ) 
+
+  // Register modal
+  const registerModal = (
+    <div className='auth-modal'>
+      {/* group 1: form */}
+      <div className='auth-modal--group-1'>
+        {/* header title */}
+        { <AuthenticationHeader title= { titleText } subtitle= { subtitleText } /> }
+        {/* header avatar */}
+        <div className='auth-modal-avatar'>
+          <AvatarIllustration color1='var(--color-accent)'/>
+        </div>
+        {/* register form */}
+        { formData && 
+          <Form id='form-register' formStyle='form-authentication'> 
+            { buildInputFields(register).map(elem => (
+              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+            )) }
           </Form>
         }
         {/* status message container */}
-        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
+        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
         {/* submit form button */}
-        {registerButton}
-        {/* login-register navigation button */}
-        <div className='auth-modal-navigate'>
-          <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
-            Login 
-          </div>  
-          <div className='auth-modal-navigate auth-modal-navigate--active'>
-            Register 
-          </div>
-        </div>
+        { registerButton }
+      </div>
+      {/* group 2: modal sticky bottom */}
+      <div className='auth-modal--group-2'>   
+        { navigationToggle }
+      </div>
+    </div>
+  )
+
+  // BACKGROUND
+  // Set up responsive background
+  const backgroundComponents = (
+    <>
+      {isLargeScreen ? (
+        // Landscape for tablet/pc view
+        <BlobLandscapeBackground color1={colorMain} color2={colorTernary} />
+        ) : (
+        // Portrait for mobile view
+        <BlobPortraitBackground  color1={colorMain} color2={colorTernary} />
+      )}
+    </>
+  )
+  // Convert svg component to string 
+  const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
+  // Define background as inline style
+  const modalBackground = {
+    backgroundPosition: 'center', 
+    backgroundSize: 'cover', 
+    backgroundRepeat: 'no-repeat',
+    backgroundImage: `url("data:image/svg+xml, ${renderedBackground}")`,
+    backgroundColor: 'var(--bg-color--main)'
+  }
+
+  return (
+    <div 
+      style={modalBackground} 
+      className='shared-page-container shared-page-container--centered'
+    >   
+      {/* container: */}
+      {/* TODO: RENAME -> page content */}
+      <div className='authentication-container'> 
+        {/* modal opaque background layer */}
+        <div className='authentication-container-opaque-background'></div>
+        { /* auth modal */ }
+        { registerModal }
+        { /* auth illustration tab + guest welcome */ }
+        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } />
       </div>
     </div>
   )

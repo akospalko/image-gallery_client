@@ -28,13 +28,10 @@ export default function AuthenticationToggle(props) {
   }
 
   return (
-    <>
-      <div 
-        onClick={ navigateTo?.length && (() => navigate(navigateTo)) } 
-        className={`auth-modal-navigate ${activeStyle}`}
-        // className={ `auth-modal-navigate ${active ? 'auth-modal-navigate--active' : ''}` }
-      > <span className='auth-modal-navigate-content'> { title || '' } </span>
-      </div>
-    </>
+    <div 
+      onClick={ navigateTo?.length && (() => navigate(navigateTo)) } 
+      className={`auth-modal-navigate ${activeStyle}`}
+    > <span className='auth-modal-navigate-content'> { title || '' } </span>
+    </div>
   )
 }
