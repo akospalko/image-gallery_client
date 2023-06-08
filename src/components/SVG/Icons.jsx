@@ -1,4 +1,7 @@
 // <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+// TODO: memoize icons with react memo
+
 import React from "react";
 
 // EDIT PHOTO ENTRY
@@ -994,22 +997,61 @@ export function ArrowTipIcon({height, width, fill, rotate}) {
 }
 
 
-// Open/close eye: toggle password visibility 
-// open
-export function OpenEyeIcon({height, width, stroke, strokeWidth}) {
+// Open eye: toggle password visibility 
+export function OpenEyeIcon({height, width, fill}) {
   return (
     <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <g>
-          <g>
-            <g
-              stroke={stroke || "#000"}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={strokeWidth || "1.5"}
-            >
-              <path d="M15 12c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"></path>
-              <path d="M12 19.27c3.53 0 6.82-1.829 9.11-4.994.9-1.24.9-3.323 0-4.562C18.82 6.549 15.53 4.72 12 4.72c-3.53 0-6.82 1.829-9.11 4.994-.9 1.24-.9 3.323 0 4.562C5.18 17.441 8.47 19.27 12 19.27z"></path>
+          <path fill="none" d="M0 0H24V24H0z"></path>
+          <path
+            fill={ fill || "#000" }
+            fillRule="evenodd"
+            d="M8.586 4.716a8.003 8.003 0 018.97 1.627l3.002 3.002.09.09c.407.405.758.756.97 1.156a3 3 0 010 2.818c-.212.4-.563.75-.97 1.156l-.09.09-.052.052a1 1 0 01-1.414-1.414l.052-.052c.548-.549.657-.673.71-.771a1 1 0 000-.94c-.053-.098-.162-.223-.71-.77l-3.002-3.003a6.003 6.003 0 00-6.728-1.22 1 1 0 01-.828-1.82zM2.382 4.516a1 1 0 011.403-.175l18 14a1 1 0 11-1.228 1.578l-2.96-2.303-.041.04a8 8 0 01-11.314 0L4.074 15.49c-.626-.627-1.167-1.167-1.54-1.658-.402-.525-.706-1.11-.706-1.831 0-.72.304-1.306.705-1.831.374-.491.915-1.031 1.541-1.658l.795-.794-2.312-1.798a1 1 0 01-.175-1.403zm10.375 9.336l1.688 1.314a4 4 0 01-6.116-4.757l1.69 1.314a2 2 0 002.738 2.13z"
+            clipRule="evenodd"
+          ></path>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+// Close eye: toggle password visibility 
+export function CloseEyeIcon({height, width, fill}) {
+  return (
+    <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <g>
+          <path fill="none" d="M0 0H24V24H0z"></path>
+          <path
+            fill={ fill || "#000" }
+            fillRule="evenodd"
+            d="M8 12a4 4 0 118 0 4 4 0 01-8 0zM6.242 6.343a8 8 0 0111.314 0l2.168 2.168c.627.627 1.167 1.167 1.541 1.658.401.525.705 1.11.705 1.831 0 .72-.303 1.306-.705 1.832-.374.49-.914 1.03-1.541 1.657l-2.168 2.168a8 8 0 01-11.314 0l-2.168-2.168c-.626-.627-1.167-1.167-1.54-1.658-.402-.525-.706-1.11-.706-1.831 0-.72.304-1.306.705-1.832.374-.49.915-1.03 1.541-1.657l.047-.047 2.121-2.12z"
+            clipRule="evenodd"
+          ></path>
+          <path
+            fill={ fill || "#000" }
+            fillRule="evenodd"
+            d="M12 10a2 2 0 100 4 2 2 0 000-4z"
+            clipRule="evenodd"
+          ></path>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+// mail icon
+export function MailIcon({height, width, fill}) {
+  return (
+    <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -2.5 20 20">
+        <g>
+          <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
+            <g fill={fill || "#000"} transform="translate(-340 -922)">
+              <g transform="translate(56 160)">
+                <path d="M294 774.474l-10-8.825V777h20v-11.351l-10 8.825zm.001-2.662L284 762.981V762h20v.981l-9.999 8.831z"></path>
+              </g>
             </g>
           </g>
         </g>
@@ -1017,27 +1059,22 @@ export function OpenEyeIcon({height, width, stroke, strokeWidth}) {
     </div>
   );
 }
-// close
-export function CloseEyeIcon({height, width, stroke, strokeWidth}) {
+
+// user icon color filled 
+export function UserFilledIcon({height, width, fill}) {
   return (
     <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <g>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <g>
-          <g stroke={stroke || "#000"} strokeLinecap="round" strokeWidth={strokeWidth || "1.5"}>
-            <path
-              strokeLinejoin="round"
-              d="M15.649 5.395A10.231 10.231 0 0012 4.72c-3.53 0-6.82 1.829-9.11 4.994-.9 1.24-.9 3.323 0 4.563.455.628.949 1.204 1.477 1.723m14.958-8.303a13.464 13.464 0 011.785 2.017c.9 1.24.9 3.323 0 4.563-2.29 3.165-5.58 4.993-9.11 4.993a10.26 10.26 0 01-4-.815"
-            ></path>
-            <path
-              strokeLinejoin="round"
-              d="M15 12c0 1.66-1.34 3-3 3m2.1-5.145A2.99 2.99 0 0012 9c-1.66 0-3 1.34-3 3 0 .73.26 1.397.69 1.917"
-            ></path>
-            <path d="M2 21L22 2.7"></path>
-          </g>
+          <path fill='none' d="M0 0H24V24H0z"></path>
+          <path
+            fill= { fill || "#000" }
+            fillRule="evenodd"
+            d="M6 8a6 6 0 1112 0A6 6 0 016 8zM5.43 16.902C7.057 16.223 9.224 16 12 16c2.771 0 4.935.22 6.559.898 1.742.727 2.812 1.963 3.382 3.76A1.03 1.03 0 0120.959 22H3.035c-.69 0-1.188-.67-.978-1.335.568-1.797 1.634-3.033 3.374-3.762z"
+            clipRule="evenodd"
+          ></path>
         </g>
-      </g>
-    </svg>
+      </svg>
     </div>
   );
 }
