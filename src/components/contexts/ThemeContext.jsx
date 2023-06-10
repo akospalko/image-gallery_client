@@ -7,6 +7,7 @@ export default function ThemeContext ({children}) {
   
   // STATE
   const [theme, setTheme] = useState('dark');
+  const [colors, setColors] = useState({});
   // EFFECT
   // Detecting default theme
   useLayoutEffect(() => {
@@ -17,7 +18,20 @@ export default function ThemeContext ({children}) {
     const browserDefault = isBrowserDefaultDark() ? 'dark' : 'light'; // check browser default value
     setTheme(prev => prev = localStorageTheme || browserDefault);
     document.documentElement.className = theme; // set active theme - add dark || light to :root elem 
-  }, [theme])
+    // get css theme colors, store in state:
+    const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
+    const colorTernaryTransparentLow = getComputedStyle(root).getPropertyValue('--bg-color--ternary-transparent-low');
+    const colorTernaryTransparentMedium = getComputedStyle(root).getPropertyValue('--bg-color--ternary-transparent-medium');
+    const colorTernaryTransparentHigh = getComputedStyle(root).getPropertyValue('--bg-color--ternary-transparent-high');
+    setColors(prev => (
+      { ...prev, 
+        colorMain: colorMain, 
+        colorTernaryTransparentLow: colorTernaryTransparentLow,
+        colorTernaryTransparentMedium: colorTernaryTransparentMedium,  
+        colorTernaryTransparentHigh: colorTernaryTransparentHigh  
+      
+      }));
+  }, [theme, setColors])
   // HANDLER
   // check current theme, and set the opposite as a new theme  
   const toggleThemeHandler = () => {
@@ -27,5 +41,5 @@ export default function ThemeContext ({children}) {
       return isCurrentDark ? 'light' : 'dark'; // update state
     });
   }
-  return (<ThemeLayoutProvider.Provider value={{theme, setTheme, toggleThemeHandler}}> {children} </ThemeLayoutProvider.Provider>)
+  return (<ThemeLayoutProvider.Provider value={{theme, colors, setTheme, toggleThemeHandler}}> {children} </ThemeLayoutProvider.Provider>)
 }

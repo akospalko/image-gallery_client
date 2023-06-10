@@ -28,9 +28,6 @@ export default function Login() {
   // TODO: Outsource
   const titleText = 'Welcome back,';
   const subtitleText = 'Log in to continue...';
-  // get css colors vars to pass to svg component as prop
-  const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
-  const colorTernary = getComputedStyle(root).getPropertyValue('--bg-color--ternary');
   // ROUTE
   const navigate = useNavigate(); 
   const from = location.state?.from?.pathname || "/";
@@ -44,7 +41,8 @@ export default function Login() {
     setValidationMessages, 
     isFormValid } = useFormContext();
   const { setAuth } = useAuthContext(); 
-  const { theme } = useThemeContext();
+  const { theme, colors } = useThemeContext();
+  
 
   // STATE
   const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
@@ -133,7 +131,7 @@ export default function Login() {
   // navigation toggle button: login-register
   const navigationToggle = (
     <div className='auth-modal-navigate'>
-      <AuthenticationToggle title='Log in' active activeBorder='right'/>
+      <AuthenticationToggle title='Login' active activeBorder='right'/>
       <AuthenticationToggle navigateTo='/register' title='Register'/>
     </div>
   ) 
@@ -141,7 +139,7 @@ export default function Login() {
   // Login modal
   const loginModal = (
     <div className='auth-modal'>
-      {/* group 1: form */}
+      {/* Group 1: form */}
       <div className='auth-modal--group-1'>
         {/* header title */}
         { <AuthenticationHeader title= { titleText } subtitle= { subtitleText } /> }
@@ -177,13 +175,13 @@ export default function Login() {
   // Set up responsive background
   const backgroundComponents = (
     <>
-      {isLargeScreen ? (
+      {isLargeScreen ? 
         // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colorMain} color2={colorTernary} />
-        ) : (
+        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+        : 
         // Portrait for mobile view
-        <BlobPortraitBackground  color1={colorMain} color2={colorTernary} />
-      )}
+        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+      }
     </>
   )
   // Convert svg component to string 
@@ -203,7 +201,6 @@ export default function Login() {
       className='shared-page-container shared-page-container--centered'
     >   
       {/* container: */}
-      {/* TODO: RENAME -> page content */}
       <div className='authentication-container'> 
         {/* modal opaque background layer */}
         <div className='authentication-container-opaque-background'></div>

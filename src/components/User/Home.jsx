@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import ReactDOMServer from 'react-dom/server';
 import './Home.css'
 import '../Shared.css'
-import {useFormContext } from '../contexts/FormContext'
-import {getAllHomePhotos} from '../../helper/axiosRequests'
+import { useFormContext } from '../contexts/FormContext'
+import { getAllHomePhotos } from '../../helper/axiosRequests'
 import axios from '../../helper/axiosInstances'
 import LoaderIcon from '../SVG/Loader'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
@@ -20,15 +20,12 @@ import { useThemeContext } from '../contexts/ThemeContext';
 
 export default function Home() {
   // CONSTANTS
-  // get css colors vars to pass to svg component as prop
-  const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
-  const colorTernary = getComputedStyle(root).getPropertyValue('--bg-color--ternary-transparent-high');
   // ROUTE
   const navigate =  useNavigate(); 
   // CONTEXT
   const { homePhotos, setHomePhotos } = useFormContext();
   const { auth } = useAuthContext();
-  const { theme } = useThemeContext();
+  const { colors } = useThemeContext();
   // HOOK
   const { allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile, onLoadHandler} = useHideImagesWhileLoading();
   const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
@@ -43,23 +40,23 @@ export default function Home() {
         setIsLoading(false); 
       })() 
   }, []) 
-
-  useEffect(() => {console.log(colorMain, colorTernary)}, [theme])
-
+  
+  
   // RENDERED ELEMENTS
   // BACKGROUND
   // Set up responsive background
   const backgroundComponents = (
     <>
-      {isLargeScreen ? (
+      {isLargeScreen ? 
         // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colorMain} color2={colorTernary} />
-        ) : (
+        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+         : 
         // Portrait for mobile view
-        <BlobPortraitBackground  color1={colorMain} color2={colorTernary} />
-      )}
+        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+      }
     </>
   )
+
   // Convert svg component to string 
   const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
   // Define background as inline style
@@ -123,9 +120,9 @@ export default function Home() {
           </div>
         </div>
         {/* Photo carousel / placeholder */}
-        <div className={`home-photo ${homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder'}`}>
+        {/* <div className={`home-photo ${homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder'}`}>
           { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
-        </div>
+        </div> */}
         {/* Button container */}
         <div className='home-button'>
           <Button clicked={() => navigate(auth.userID ? `/${auth.username}/gallery` : '/login')} buttonStyle='button-home-cta'>
@@ -138,7 +135,7 @@ export default function Home() {
 
   return (
     <>
-      {isLoading ? loader : home}
+      { isLoading ? loader : home }
     </>
   )
 }

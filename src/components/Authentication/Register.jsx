@@ -43,7 +43,7 @@ export default function Register() {
     setValidationMessages, 
     setShowPassword,
   } = useFormContext();
-  const { theme } = useThemeContext();
+  const { theme, colors } = useThemeContext();
   // HOOK
   const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
   // STATE
@@ -138,7 +138,7 @@ export default function Register() {
   // navigation toggle button: login-register
   const navigationToggle = (
     <div className='auth-modal-navigate'>
-      <AuthenticationToggle navigateTo='/login' title='Log in' />
+      <AuthenticationToggle navigateTo='/login' title='Login' />
       <AuthenticationToggle title='Register' active activeBorder='left'/>
     </div>
   ) 
@@ -178,13 +178,13 @@ export default function Register() {
   // Set up responsive background
   const backgroundComponents = (
     <>
-      {isLargeScreen ? (
+      {isLargeScreen ? 
         // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colorMain} color2={colorTernary} />
-        ) : (
+        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+        : 
         // Portrait for mobile view
-        <BlobPortraitBackground  color1={colorMain} color2={colorTernary} />
-      )}
+        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
+      }
     </>
   )
   // Convert svg component to string 
@@ -204,7 +204,6 @@ export default function Register() {
       className='shared-page-container shared-page-container--centered'
     >   
       {/* container: */}
-      {/* TODO: RENAME -> page content */}
       <div className='authentication-container'> 
         {/* modal opaque background layer */}
         <div className='authentication-container-opaque-background'></div>

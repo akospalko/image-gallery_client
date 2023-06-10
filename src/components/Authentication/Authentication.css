@@ -117,7 +117,7 @@
 }
 /* active button */
 .auth-modal-navigate--active {
-  color: var(--color-accent--light);
+  color: var(--color-accent);
   text-decoration: underline;
 }
 /* button content */
@@ -136,7 +136,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 1rem;
+  padding: var(--padding-default);
   flex-direction: column;
 }
 .authentication-illustration-tab-header h1 {
@@ -207,11 +207,6 @@
 
 /* DESKTOP */
 @media (min-width: 1024px) {
-  /* AUTH PAGE CONTENT */
-  .authentication-container {
-    margin: 0;
-  }
-  
   /* MODAL CONTAINER */
   .auth-modal {
     width: 375px;
