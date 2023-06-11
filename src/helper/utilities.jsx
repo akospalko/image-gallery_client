@@ -44,6 +44,15 @@ export const cropString = (inputString, maxLength, cropLength) => {
   return `${start}...${end}`;
 }
 
+// crop string to given length
+export function cropText(text, maxLength) {
+  if (typeof text !== 'string' || typeof maxLength !== 'number' || !text.length || text.length <= maxLength) {
+    return text;
+  }
+  const croppedText = text.slice(0, maxLength - 3) + '...';
+  return croppedText;
+}
+
 // FORM & INPUT
 // convert and simplify form data that we can pass to the backend ({key1:value1, ...})  
 export const convertFormData = (formData) => {
