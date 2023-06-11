@@ -316,8 +316,13 @@ export const RestoreViewIcon = ({height, width, fill}) => {
 // AUTHENTICATED USER PLACEHOLDER ICON
 export function UserIcon({height, width, fill, stroke}) {
   return (
-    <div style={{display:'flex', height: height, width: width}}> 
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <div style={{ display:'flex', height: height, width: width }}> 
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 24 24"
+        height='100%'
+        width='100%'
+      >
         <g>
           <g>
             <g
@@ -1073,6 +1078,62 @@ export function UserFilledIcon({height, width, fill}) {
             d="M6 8a6 6 0 1112 0A6 6 0 016 8zM5.43 16.902C7.057 16.223 9.224 16 12 16c2.771 0 4.935.22 6.559.898 1.742.727 2.812 1.963 3.382 3.76A1.03 1.03 0 0120.959 22H3.035c-.69 0-1.188-.67-.978-1.335.568-1.797 1.634-3.033 3.374-3.762z"
             clipRule="evenodd"
           ></path>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+// Theme switch: sun
+export function SunIcon({ height, width, color }) {
+  return ( 
+    <div style={{transform: 'rotate', display:'flex', height: height, width: width}}> 
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <g>
+          <path fill='none' d="M0 0H24V24H0z"></path>
+          <path
+            fill={ color || "#fff" }
+            fillRule="evenodd"
+            d="M8 12a4 4 0 118 0 4 4 0 01-8 0zM12 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zM19.707 4.293a1 1 0 010 1.414l-2 2a1 1 0 11-1.414-1.414l2-2a1 1 0 011.414 0zM18 12a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zM16.293 16.293a1 1 0 011.414 0l2 2a1 1 0 01-1.414 1.414l-2-2a1 1 0 010-1.414zM12 18a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zM7.707 16.293a1 1 0 010 1.414l-2 2a1 1 0 01-1.414-1.414l2-2a1 1 0 011.414 0zM2 12a1 1 0 011-1h2a1 1 0 110 2H3a1 1 0 01-1-1zM4.293 4.293a1 1 0 011.414 0l2 2a1 1 0 01-1.414 1.414l-2-2a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          ></path>
+        </g>
+      </svg>
+    </div>
+  );
+}
+// Theme switch: moon
+export function MoonIcon({ height, width, color }) {
+  return ( 
+    <div style={{ transform: 'rotate', display:'flex', height: height, width: width }}> 
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" viewBox="0 0 24 24"
+        width="100%"
+        height="100%"
+      >
+        <path
+          stroke={ color || "#000" }
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M3 17c7.952 1.618 13.683-8.242 8-14 5 .131 9 4.111 9 9 0 4.971-3.881 9-9 9-3.229 0-6.34-1.568-8-4z"
+        ></path>
+      </svg>
+    </div>
+  );
+}
+// Logout icon
+export function LogoutIcon({ height, width, stroke }) {
+  return (
+    <div style={{ transform: 'rotate', display:'flex', height: height, width: width }}>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <g
+          stroke={ stroke || "#323232" }
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        >
+          <path d="M21 12h-8M18 15l2.913-2.913v0a.123.123 0 000-.174v0L18 9M16 5v-.5 0A1.5 1.5 0 0014.5 3H5a2 2 0 00-2 2v14a2 2 0 002 2h9.5a1.5 1.5 0 001.5-1.5v0-.5"></path>
         </g>
       </svg>
     </div>
