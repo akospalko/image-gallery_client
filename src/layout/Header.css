@@ -1,168 +1,340 @@
-/* modal with navigation for small device view */
-  /* disable menu bar */
-.header-container-menu-bar {
-  display: none;
-}
-.header-container-menu-modal,
-.header-container-user-profile,
-.header-modal-container,
-.header-theme-toggler,
-.header-navigation,
-.header-navigation-item {
-  display: flex;
-  z-index: var(--z2);
-}
-.header-container-menu-modal {
+/* HEADER BAR */
+.header-bar {
   position: fixed;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: var(--header-height);
-  background-color: var(--bg-color--secondary);
-  /* border-bottom: 2px solid var(--bg-color--main); */
-  padding: 0 var(--padding-default) 0 var(--padding-default);
+  background-color: var(--bg-color--main);
+  box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high);
+  padding: 0 var(--padding-default);
+  z-index: var(--z2);
 }
-/* user profile container */
-.header-container-user-profile {
-  height: 100%;
+
+/* LOGO  */
+.header-logo {
+  display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 200px;
 }
-/* user profile name */
+
+/* GROUPS & GROUP CONTENT */
+/* Group container - shared */
+.header-bar-group {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 100%;
+  flex-direction: row;
+}
+/* group 1 L: logo, nav elements  */
+/* group 1 S: nav menu button */
+.header-bar-group--1 {
+  justify-content: flex-start;
+}
+/* group 2 L: theme toggler, user profile, authentication cta button  */
+/* group 2 S: user profile */
+.header-bar-group--2 {
+  justify-content: flex-end;
+}
+
+/* Navigation menu button wrapper */
+.header-navigation-menu-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Theme toggler */
+.header-theme-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+/* Authnetication CTA button content */
+.header-authentication-cta-button-content {
+  text-transform: uppercase;
+  font-size: 0.70rem;
+  letter-spacing: 1px;
+  color: var(--text-color-light--high-emphasis);
+}
+
+/* User profile */
+/* container */
+.header-container-user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+}
+/* user profile + theme toggler on hover effect */
+.header-container-user-profile-button:hover,
+.header-theme-toggler:hover {
+  opacity: 0.7;
+}
+/* profile name */
 .header-container-user-profile-name {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  max-width: 100px;
+  width: 50px;
 }
 .header-container-user-profile-name span {
   word-wrap: break-word;
   width: 100%;
-  font-size: 0.8rem;
-  line-height: 0.8rem;
+  font-size: 0.6rem;
+  line-height: 0.6rem;
 }
-/* menu modal && user profile modal */
-.header-modal-container {
+/* profile icon/button */
+.header-container-user-profile-button {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+/* HEADER MENU */
+/* Backdrop: */
+.header-backdrop {
   position: fixed;
-  top: var(--header-height);
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--bg-color--secondary);
-  overflow-y: scroll;
-}
-/* theme toggle wrapper */
-.header-theme-toggler {
-  height: 75px;
-  align-items: center;
-  padding: var(--padding-default);
-}
-/* header modal navigation */
-.header-modal-navigation {
-  width: 100%;
-  /* background-color: rgb(134, 134, 134); */
-  height: auto;
-  flex-direction: column;
-}
-/* SHARED /*
-/* menu navigation item: menu modal: navLink; user profile modal: div */
-.header-navigation-item {
-  width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  z-index: var(--z2);
+}
+/* backdrop with background */
+.header-backdrop--with-background {
+  background-color: var(--bg-color--main-transparent-low);
+}
+/* Navigation menu */
+/* container */
+.header-navigation-menu-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: 100%;
+  right: 0;
+  border-right: 2px solid var(--bg-color--ternary-transparent-high);
+  background-color: var(--bg-color--main);
+  overflow-y: scroll;
+  z-index: var(--z3);
+}
+/* toolbar */
+.header-navigation-menu-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--header-height);
+  box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high);
+  padding: 0 var(--padding-default)
+}
+/* elements wrapper: S & L */
+.header-navigation-elements {
+  display: flex;
+  height: auto;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* single element (nav link): S & L */
+.header-navigation-elem {
+  display: flex;
+  height: 75px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
   text-decoration: none;
 }
-/* menu navigation item text */
-.header-navigation-item p {
-  font-size: 1.5rem;
+.header-navigation-elem p {
+  font-size: 1.3rem;
   color: var(--text-color--high-emphasis);
   padding: 0;
   margin: 0;
 }
-/* navigation item active for menu modal and menu bar items */
-.header-navigation-item--active {
+/* active element */
+.header-navigation-elem--active {
+  background-color: var(--color-accent);
+}
+.header-navigation-elem--active p {
+  text-underline-position: under;
+  color: var(--text-color-light--high-emphasis);
+}
+/* User profile menu */
+/* container */
+.header-profile-menu-container {
+  position: absolute;
+  top: calc(var(--header-height));
+  right: 0;
+  width: 250px;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  margin-right: var(--margin-default);
+  overflow-y: auto;
+  border: 2px solid var(--bg-color--ternary-transparent-medium);
+  border-top: 2px solid var(--bg-color--ternary);
   background-color: var(--bg-color--main);
+  z-index: var(--z3);
+  padding: 1rem;
+  border-radius: 0 0 7px 7px;
+}
+/* profile info section container: username, email, etc. */
+.user-profile-menu-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  border-bottom: 2px solid var(--bg-color--ternary-transparent-high);
+  margin-bottom: 1rem;
+}
+/* user item: info & options sections */
+.user-profile-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  color: var(--text-color--high-emphasis);
+}
+/* user item: info block */
+.user-profile-menu-item--info {
+  width: 100%;
+  height: 30px;
+}
+/* user item: options block */
+.user-profile-menu-item--option {
+  width: 100%;
+  height: 30px;
+  border-bottom: 2px solid var(--bg-color--ternary-transparent-low);
+  height: 50px;
+  cursor: pointer;
+  transition: background-color .2s ease-in;
+}
+.user-profile-menu-item--option:hover {
+  border-bottom: 2px solid var(--color-accent);
+}
+/* item icon */
+.user-profile-menu-item-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 100%;
+  margin-right: 1rem;
+}
+/* item text */
+.user-profile-menu-item-text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-color--high-emphasis);
+}
+.user-profile-menu-item-text span { 
+  font-size: 1rem;
 }
 
-@media(min-width: 1024px) {
-/* navigation bar for large screens devices */
-.header-container-menu-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+/* MOBILE: very small */
+@media (max-width: 300px) and (orientation: portrait) {
+  /* User profile menu */
+  /* container */
+  .header-profile-menu-container {
     width: 100%;
+    margin: 0;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  /* HEADER BAR */
+  .header-bar {
+    padding: 0 3rem;
+  }
+
+  /* GROUPS & GROUP CONTENT */
+  /* group 1 L: logo, nav elements  */
+  /* group 1 S: nav menu button */
+  .header-bar-group--1 {
+    min-width: 50%;
+  }
+
+  /* HEADER MENU */
+  /* Navigation menu */
+  /* elements wrapper: S & L */
+  .header-navigation-elements {
     flex-direction: row;
-    height: var(--header-height);
-    background-color: rgb(130, 130, 130);
-  }
-  /* disable menu modal */
-  .header-container-menu-modal {
-    display: none;
-  }
-  .header-bar-container,
-  .header-bar-navigation,
-  .header-bar-navigation a {
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-  /* header bar - containing all the navigation items */
-  .header-bar-container {
-    flex-direction: row;
-    width: 100%;
-  }
-  .header-bar-navigation {
-    justify-content: initial;
-    align-items: initial;
     width: auto;
-  }
-  .header-bar-navigation a {
-    width: 150px;
     height: 100%;
-    text-decoration: none;
+    margin: 0 2rem;
   }
-  .header-dummy,
-  .header-login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* single element (nav link): S & L */
+  .header-navigation-elem {
+    min-width: 100px;
     height: 100%;
-    width: 100px;
+    box-shadow: 0 2px 0 0 var(--bg-color--ternary);
+    background-color: transparent;
   }
-  /* backdrop -> click outside close modal*/
-  .header-dropdown-backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: var(--z2);
+  /* active element */
+  .header-navigation-elem--active {
+    box-shadow: 0 2px 0 0 var(--color-accent);
   }
-  /* dropdown modal */
-  .header-dropdown-container {
-    position: absolute;
-    top: var(--header-height);
-    right: 0;
-    width: 250px;
-    max-height: 350px;
-    overflow-y: auto;
-    background-color: rgb(70, 70, 70);
-    z-index: var(--z3);
+  .header-navigation-elem--active p {
+    color: var(--color-accent);
   }
-  .header-dropdown-navigation-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 100%;
+
+  /* group 2 L: theme toggler, user profile, authentication cta button  */
+  /* group 2 S: user profile */
+  .header-bar-group--2 {
+    width: 300px;
+  }
+
+  /* Authnetication CTA button content */
+  .header-authentication-cta-button-content {
+    font-size: 0.85rem;
+  }
+
+  /* User profile menu */
+  /* container */
+  .header-profile-menu-container {
+    margin-right: 1rem;
+    width: 350px;
+  }
+
+  /* User profile */
+  /* profile name */
+  .header-container-user-profile-name span {
+    font-size: 0.8rem;
+    line-height: 0.8rem;
   }
 }

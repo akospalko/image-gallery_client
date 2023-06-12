@@ -1,15 +1,20 @@
-import React, {useState, useEffect} from 'react'
+// Responsive header component
+import React, { useState, useEffect } from 'react'
 import './Header.css'
-import MenuSmall from './MenuSmall';
-import MenuLarge from './MenuLarge';
-import {navElementsUnauthenticated, navElementsUser, navElementsAdmin} from '../helper/dataStorage';
-import {useAuthContext} from '../components/contexts/AuthenticationContext';
-import {ROLES} from '../helper/userRoles';
+import HeaderContentForSmallScreen from './HeaderContentForSmallScreen';
+import HeaderContentForLargeScreen from './HeaderContentForLargeScreen';
+import { navElementsUnauthenticated, navElementsUser, navElementsAdmin } from '../helper/dataStorage';
+import { useAuthContext } from '../components/contexts/AuthenticationContext';
+import { ROLES } from '../helper/userRoles';
+import { useMediaQuery } from 'react-responsive';
+
 export default function Header() {
   // STATE
   const [activeNavigation, setActiveNavigation] = useState(navElementsUnauthenticated);
   // CONTEXT
   const {auth} = useAuthContext();
+  // HOOK
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
   // EFFECT
   // get and set what navigation elements should be rendered on the screen based on user roles
   useEffect(() => {
@@ -33,12 +38,5 @@ export default function Header() {
     return () => {setActiveNavigation(navElementsUnauthenticated)}; // reset state back to the initial value (unauthenticated) 
   }, [auth, setActiveNavigation])
   
-  return (
-    <> 
-      {/* menu bar for small screens */}
-      <MenuSmall navElements={activeNavigation} />
-      {/* menu modal for large screens */}
-      <MenuLarge navElements={activeNavigation} />
-    </>
-  )
+  return isLargeScreen ?  <HeaderContentForLargeScreen navElements={activeNavigation} /> : <HeaderContentForSmallScreen navElements={activeNavigation} />
 }
