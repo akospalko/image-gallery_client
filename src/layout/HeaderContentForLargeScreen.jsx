@@ -15,7 +15,7 @@ import HeaderAuthenticationCTAButton from './HeaderAuthenticationCTAButton';
 
 export default function HeaderContentForLargeScreen({ navElements }) {
   // CONSTANTS
-  const usernameMaxDisplayLength = 25;
+  const usernameMaxDisplayLength = 30;
   const userProfileMenuMaxDisplayLength = 40;
   const loginRoute = '/login'; // login page route
   // CONTEXT 

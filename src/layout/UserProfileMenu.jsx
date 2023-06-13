@@ -1,12 +1,11 @@
 // User profile menu dropdown for header menus (small/large) 
-
 import React from 'react';
 import './Header.css';
 import { useModalContext } from '../components/contexts/ToggleModalContext';
 import { useAuthContext } from '../components/contexts/AuthenticationContext';
 import useLogout from '../components/hooks/useLogout';
 import { UserIcon, MailIcon, LogoutIcon }  from '../components/SVG/Icons';
-import { cropText } from '../helper/utilities';
+import { cropText, generateDateString } from '../helper/utilities';
 
 export default function UserProfileMenu(props) {
   // PROPS
@@ -25,9 +24,13 @@ export default function UserProfileMenu(props) {
       icon: <UserIcon width='20px' height='20px' stroke='var(--text-color--high-emphasis)'/> ,  
     }, {
       name: 'email',
-      value: 'test@email.com',
+      value: auth?.email,
       icon: <MailIcon width='20px' height='20px' fill='var(--text-color--high-emphasis)'/> ,
+    }, {
+      name: 'account created',
+      value: generateDateString(auth?.createdAt),
     }
+
   ]
   // user profile menu selectable options: logout,
   const userProfileOptionsData = [
@@ -47,12 +50,19 @@ export default function UserProfileMenu(props) {
   const userProfileInfo = (
     <div className='user-profile-menu-info-container'>
       { userProfileInfoData.map(info => (
-        <div key={ info.name } title={ info.name } className='user-profile-menu-item user-profile-menu-item--info'>
+        <div 
+          key={ info.name } 
+          title={ info.name } 
+          onClick={ ()=> { window.alert(`${ info.name}: ${info.value}`) } }
+          className='user-profile-menu-item user-profile-menu-item--info'
+        >
           <div className='user-profile-menu-item-icon'> 
-            { info.icon }  
-          </div> 
+            { info.icon }   
+          </div>
           <div className='user-profile-menu-item-text'>
-            <span> { info.value && cropText(info.value, cropTextLength) } </span>
+            <span> 
+              { info.value && `${!info.icon ? info.name + ': ' : '' } ${ cropText(info.value, cropTextLength) }`} 
+            </span>
           </div>
         </div> )) 
       }
@@ -68,7 +78,7 @@ export default function UserProfileMenu(props) {
       onClick={ info.clicked }
     >
       <div className='user-profile-menu-item-icon'> 
-        { info.icon }  
+        { info.icon && info.icon }  
       </div> 
       <div className='user-profile-menu-item-text'>
         <span> { info.value && cropText(info.value, cropTextLength) } </span>

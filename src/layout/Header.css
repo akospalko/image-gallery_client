@@ -13,15 +13,6 @@
   z-index: var(--z2);
 }
 
-/* LOGO  */
-.header-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 200px;
-}
-
 /* GROUPS & GROUP CONTENT */
 /* Group container - shared */
 .header-bar-group {
@@ -95,6 +86,7 @@
 .header-container-user-profile-name span {
   word-wrap: break-word;
   width: 100%;
+  text-align: right;
   font-size: 0.6rem;
   line-height: 0.6rem;
 }
@@ -140,7 +132,6 @@
   right: 0;
   border-right: 2px solid var(--bg-color--ternary-transparent-high);
   background-color: var(--bg-color--main);
-  overflow-y: scroll;
   z-index: var(--z3);
 }
 /* toolbar */
@@ -261,10 +252,12 @@
   color: var(--text-color--high-emphasis);
 }
 .user-profile-menu-item-text span { 
-  font-size: 1rem;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  text-align: start;
 }
 
-
+/* _____RESPONSIVE_____ */
 /* MOBILE: very small */
 @media (max-width: 300px) and (orientation: portrait) {
   /* User profile menu */
@@ -277,16 +270,20 @@
 
 /* TABLET */
 @media (min-width: 768px) {
-  /* HEADER BAR */
-  .header-bar {
-    padding: 0 3rem;
-  }
-
   /* GROUPS & GROUP CONTENT */
   /* group 1 L: logo, nav elements  */
   /* group 1 S: nav menu button */
   .header-bar-group--1 {
     min-width: 50%;
+  }
+  
+  /* LOGO  */
+  .header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-width: 100px;
   }
 
   /* HEADER MENU */
@@ -296,14 +293,17 @@
     flex-direction: row;
     width: auto;
     height: 100%;
-    margin: 0 2rem;
+    margin: 0 1rem;
   }
   /* single element (nav link): S & L */
   .header-navigation-elem {
-    min-width: 100px;
+    min-width: 80px;
     height: 100%;
     box-shadow: 0 2px 0 0 var(--bg-color--ternary);
     background-color: transparent;
+  }
+  .header-navigation-elem p {
+    font-size: 1.2rem;
   }
   /* active element */
   .header-navigation-elem--active {
@@ -316,7 +316,7 @@
   /* group 2 L: theme toggler, user profile, authentication cta button  */
   /* group 2 S: user profile */
   .header-bar-group--2 {
-    width: 300px;
+    width: 250px;
   }
 
   /* Authnetication CTA button content */
@@ -330,11 +330,53 @@
     margin-right: 1rem;
     width: 350px;
   }
+  .user-profile-menu-item-text span { 
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+  .user-profile-menu-item--info {
+    height: 35px;
+  }
 
   /* User profile */
+  /* container */
+  .header-container-user-profile {
+    width: 150px;
+    justify-content: flex-end;
+  }
   /* profile name */
+  .header-container-user-profile-name {
+    width: 100px;
+    justify-content: flex-end;
+  }
   .header-container-user-profile-name span {
     font-size: 0.8rem;
     line-height: 0.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* HEADER BAR */
+  .header-bar {
+    padding: 0 3rem;
+  }
+
+  /* LOGO  */
+  .header-logo {
+    min-width: 150px;
+  }
+
+  /* HEADER MENU */
+  /* Navigation menu */
+  /* elements wrapper: S & L */
+  .header-navigation-elements {
+    margin: 0 2rem;
+  }
+  /* single element (nav link): S & L */
+  .header-navigation-elem {
+    min-width: 100px;
+  }
+  .header-navigation-elem p {
+    font-size: 1.3rem;
   }
 }

@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
-import LoaderIcon from '../SVG/Loader';
 import { login } from '../../helper/dataStorage';
 import { buildInputFields, convertFormData} from '../../helper/utilities';
 import { loginUser } from '../../helper/axiosRequests';
@@ -18,9 +17,10 @@ import { useFormContext } from '../contexts/FormContext';
 import { useAuthContext} from '../contexts/AuthenticationContext';
 import { useThemeContext } from '../contexts/ThemeContext';
 import AuthenticationToggle from './AuthenticationToggle';
+import LoaderIcon from '../SVG/Loader';
 import { AvatarIllustration } from '../SVG/Illustrations';
-import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
 import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
+import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
 import { useMediaQuery } from 'react-responsive';
 
 export default function Login() {
@@ -78,19 +78,19 @@ export default function Login() {
       setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
-      const {roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
+      const {username, email, createdAt, roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
       if(success) { // auth successfull
         toast(`${message}`, {
           className: "shared-toast",
           position: "bottom-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           theme: theme,
           });
-        setAuth({username: convertedData.username, roles, accessToken, userID}); // store auth data in state
+        setAuth({username, email, createdAt, roles, accessToken, userID}); // store auth data in state
         navigate(`/${success && convertedData.username}/gallery`, { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
