@@ -2,7 +2,6 @@
 // Authentication auxiliary tab with header / title +  svg illustration   
 import React from 'react'
 import './Authentication.css';
-import { AuthenticationDoorIllustration } from '../SVG/Illustrations';
 import { useMediaQuery } from 'react-responsive';
 
 // Title
@@ -24,17 +23,24 @@ export const AuthenticationHeader = ({ title, subtitle })  => {
 }
 
 // Auxiliary tab with header and title + svg illustration 
-export default function AuthenticationIllustrationTab({ title, subtitle }) {
+export default function AuthenticationIllustrationTab(prop) {
+  const { 
+   isLayoutVertical, // defines illustration's positioning. value: 'vertical' (top-bottom) or empty prop(left-right). 
+   title, // header title content
+   subtitle, // subtitle string content
+   illustration // svg component / png to render
+  } = prop;
+
   // HOOK 
   const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
 
   return (
-    <div className='authentication-illustration-tab'>
+    <div className={ `authentication-illustration-tab ${ isLayoutVertical ? 'authentication-illustration-tab--vertical-positioning' : 'authentication-illustration-tab--border-left' }` }>
       {/* header title + background */}
       { isLargeScreen && <AuthenticationTitle title={ title } subtitle={ subtitle } /> }
       {/* auth illustration */}
-      <div className='authentication-illustration-tab-illustration'> 
-        <AuthenticationDoorIllustration/>
+      <div className={ `authentication-illustration-tab-illustration ${ isLayoutVertical ? 'authentication-illustration-tab-illustration--vertical-positioning' : '' }` } >
+        { illustration }
       </div>
     </div>
   )

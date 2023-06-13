@@ -6,8 +6,26 @@
   position: relative;
   width: 100%;
   height: auto;
-  position: relative;
   z-index: 1;
+}
+/* password reset link vertical layout */
+.authentication-container--vertical-positioning {
+  flex-direction: column;
+  position: relative;
+}
+
+/* button container to navigate back to login page */
+.authentication-return-back-button {
+  position: absolute;
+  height: 30px;
+  top: -30px;
+  padding: 0 1rem;
+  left: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+.authentication-return-back-button:hover {
+  opacity: .7;
 }
 
 /* BLURRED BACKGROUND */
@@ -34,10 +52,15 @@
   flex-direction: column;
   width: 100%;
   min-height: calc(100vh - var(--header-height));
-  background-color: var(--bg-color--main-transparent-low);
+  /* background-color: var(--bg-color--main-transparent-low); */
   position: relative;
   z-index: 1;
 }
+ /* MODAL CONTAINER: password reset */
+ .auth-modal--vertical-positioning {
+  min-height: initial;
+}
+
 /* BUTTON CONTENT */
 .auth-submit-button-content {
   display: flex;
@@ -75,7 +98,7 @@
   width: 75px;
   background-color: var(--bg-color--ternary);
   border-radius: 50%;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   flex-direction: column;
 }
 
@@ -130,6 +153,13 @@
 .authentication-illustration-tab {
   display: none;
 }
+/* container for vertical-positioning*/
+.authentication-illustration-tab--vertical-positioning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* header + guest welcome info */
 .authentication-illustration-tab-header {
   display: flex;
@@ -141,25 +171,55 @@
 }
 .authentication-illustration-tab-header h1 {
   margin: 1rem;
-  font-size: 2.2rem;
-  line-height: 2.5rem;
+  font-size: 1.9rem;
+  line-height: 2rem;
   font-weight: bold;
   color: var(--text-color--high-emphasis);
   margin: var(--padding-default) 0;
 }
 .authentication-illustration-tab-header span {
-  font-size: 1.2em;
-  line-height: 1.5rem;
+  font-size: 1.1em;
+  line-height: 1.2rem;
   color: var(--text-color--high-emphasis);
+}
+
+/* vector illustration container */
+.authentication-illustration-tab-illustration {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* MOBILE: small */
+@media (max-width: 300px) {
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab-illustration--vertical-positioning {
+    width: 80%;
+    padding: 0;
+  }
 }
 
 /* TABLET: PORTRAIT */
 @media (min-width: 768px) {
   /* AUTH PAGE CONTENT */
   .authentication-container {
-    margin: 1rem 0;
+    margin: var(--margin-default) 0;
     width: auto;
     border: 2px solid var(--bg-color--ternary);
+  }
+  
+  /* button container to navigate back to login page */
+  .authentication-return-back-button {
+    height: 50px;
+    width: 50px;
+    top: 0px;
+    padding: var(--padding-default);
+
   }
 
   /* MODAL CONTAINER */
@@ -167,6 +227,11 @@
     width: 350px;
     height: 700px;
     min-height: initial;
+  }
+  
+  /* MODAL CONTAINER: password reset */
+  .auth-modal--vertical-positioning {
+    height: 250px;
   }
   
   /* MODAL GROUP-1 */
@@ -197,41 +262,58 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border-left: 2px solid var(--bg-color--ternary);
     background-color: var(--bg-color--main-transparent-low);
     padding: 1rem;
     width: 350px;
     height: 700px;
   }
-} 
-
-/* DESKTOP */
-@media (min-width: 1024px) {
-  /* MODAL CONTAINER */
-  .auth-modal {
-    width: 375px;
-    height: 700px;
-  }
-  
-  /* AUTH ILLUSTRATION TAB */
-  /* container */
-  .authentication-illustration-tab {
-    width: 550px;
-    height: 700px;
-  }
   /* header + guest welcome info */
-  .authentication-illustration-tab-header {
-    width: 80%;
+  .authentication-illustration-tab-header h1 {
+    font-size: 2.1rem;
+    line-height: 2.2rem;
+  }
+  .authentication-illustration-tab-header span {
+    font-size: 1.3em;
+    line-height: 1.4rem;
+  }
+
+  .authentication-illustration-tab--border-left {
+    border-left: 2px solid var(--bg-color--ternary);
   }
 
   /* vector illustration container */
   .authentication-illustration-tab-illustration {
-    display: flex;
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    padding: 1rem;
-    justify-content: center;
-    align-items: center;
+    height: 200px;
+  }
+
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab--vertical-positioning {
+    height: 450px;
+  }
+} 
+
+/* TABLET: LANDSCAPE */
+@media (min-width: 768px) and (orientation: landscape) {
+   /* container for vertical-positioning*/
+   .authentication-illustration-tab--vertical-positioning {
+    height: 400px;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 1024px) {
+  /* AUTH ILLUSTRATION TAB */
+  /* container */
+  .authentication-illustration-tab {
+    width: 550px;
+  }
+
+  /* header + guest welcome info */
+  .authentication-illustration-tab-header {
+    width: 80%;
+  }
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab-illustration--vertical-positioning {
+    height: 50%;
   }
 }

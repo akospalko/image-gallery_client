@@ -18,21 +18,20 @@ import { useAuthContext} from '../contexts/AuthenticationContext';
 import { useThemeContext } from '../contexts/ThemeContext';
 import AuthenticationToggle from './AuthenticationToggle';
 import LoaderIcon from '../SVG/Loader';
-import { AvatarIllustration } from '../SVG/Illustrations';
-import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
+import { AvatarIllustration, AuthenticationDoorIllustration } from '../SVG/Illustrations';
 import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
-import { useMediaQuery } from 'react-responsive';
+import useResponsiveBackground from '../hooks/useResponsiveBackground';
 
 export default function Login() {
   // CONSTANTS
   // TODO: Outsource
-  const titleText = 'Welcome back,';
-  const subtitleText = 'Log in to continue...';
+  const titleText = 'Welcome back';
+  const subtitleText = 'log in to continue';
   // ROUTE
   const navigate = useNavigate(); 
   const from = location.state?.from?.pathname || "/";
   // HOOK 
-  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
+  const { pageBackground } = useResponsiveBackground();
   // CONTEXT
   const {
     formData, setFormData, 
@@ -41,7 +40,7 @@ export default function Login() {
     setValidationMessages, 
     isFormValid } = useFormContext();
   const { setAuth } = useAuthContext(); 
-  const { theme, colors } = useThemeContext();
+  const { theme } = useThemeContext();
   
 
   // STATE
@@ -171,33 +170,9 @@ export default function Login() {
     </div>
   );
   
-  // BACKGROUND
-  // Set up responsive background
-  const backgroundComponents = (
-    <>
-      {isLargeScreen ? 
-        // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-        : 
-        // Portrait for mobile view
-        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-      }
-    </>
-  )
-  // Convert svg component to string 
-  const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
-  // Define background as inline style
-  const modalBackground = {
-    backgroundPosition: 'center', 
-    backgroundSize: 'cover', 
-    backgroundRepeat: 'no-repeat',
-    backgroundImage: `url("data:image/svg+xml, ${renderedBackground}")`,
-    backgroundColor: 'var(--bg-color--main)'
-  }
-
   return (
     <div 
-      style={modalBackground} 
+      style={ pageBackground } 
       className='shared-page-container shared-page-container--centered'
     >   
       {/* container: */}
@@ -207,7 +182,7 @@ export default function Login() {
         { /* auth modal */ }
         { loginModal }
         { /* auth illustration tab + guest welcome */ }
-        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } />
+        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } illustration={ <AuthenticationDoorIllustration/> } />
       </div>
     </div>
   )

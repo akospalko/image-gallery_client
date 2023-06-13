@@ -18,20 +18,17 @@ import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
-import { AvatarIllustration } from '../SVG/Illustrations';
+import { AvatarIllustration, AuthenticationDoorIllustration } from '../SVG/Illustrations';
 import AuthenticationToggle from './AuthenticationToggle';
 import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
-import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
 import { useMediaQuery } from 'react-responsive';
+import useResponsiveBackground from '../hooks/useResponsiveBackground';
 
 export default function Register() {
   // CONSTANTS
   // TODO: Outsource
-  const titleText = 'Register Account,';
-  const subtitleText = 'To view awesome photos.';
-  // get css colors vars to pass to svg component as prop
-  const colorMain = getComputedStyle(root).getPropertyValue('--bg-color--main');
-  const colorTernary = getComputedStyle(root).getPropertyValue('--bg-color--ternary');
+  const titleText = 'Create Account';
+  const subtitleText = 'to check out awesome photos';
 
   // HOOKS
   const navigate = useNavigate(); 
@@ -43,9 +40,9 @@ export default function Register() {
     setValidationMessages, 
     setShowPassword,
   } = useFormContext();
-  const { theme, colors } = useThemeContext();
+  const { theme } = useThemeContext();
   // HOOK
-  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
+  const { pageBackground } = useResponsiveBackground();
   // STATE
     const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
     // EFFECT
@@ -174,33 +171,9 @@ export default function Register() {
     </div>
   )
 
-  // BACKGROUND
-  // Set up responsive background
-  const backgroundComponents = (
-    <>
-      {isLargeScreen ? 
-        // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-        : 
-        // Portrait for mobile view
-        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-      }
-    </>
-  )
-  // Convert svg component to string 
-  const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
-  // Define background as inline style
-  const modalBackground = {
-    backgroundPosition: 'center', 
-    backgroundSize: 'cover', 
-    backgroundRepeat: 'no-repeat',
-    backgroundImage: `url("data:image/svg+xml, ${renderedBackground}")`,
-    backgroundColor: 'var(--bg-color--main)'
-  }
-
   return (
     <div 
-      style={modalBackground} 
+      style={ pageBackground } 
       className='shared-page-container shared-page-container--centered'
     >   
       {/* container: */}
@@ -210,7 +183,7 @@ export default function Register() {
         { /* auth modal */ }
         { registerModal }
         { /* auth illustration tab + guest welcome */ }
-        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } />
+        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } illustration={ <AuthenticationDoorIllustration/> } />
       </div>
     </div>
   )
