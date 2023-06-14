@@ -1,6 +1,5 @@
 // Landing page with photo carousel display 
 import React, { useState, useEffect } from 'react'
-import ReactDOMServer from 'react-dom/server';
 import './Home.css'
 import '../Shared.css'
 import { useFormContext } from '../contexts/FormContext'
@@ -14,9 +13,7 @@ import HomePhoto from './HomePhoto'
 import Button from '../UI/Button'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../contexts/AuthenticationContext'
-import { useMediaQuery } from 'react-responsive';
-import { BlobLandscapeBackground, BlobPortraitBackground } from '../SVG/Backgrounds';
-import { useThemeContext } from '../contexts/ThemeContext';
+import useResponsiveBackground from '../../components/hooks/useResponsiveBackground';
 
 export default function Home() {
   // CONSTANTS
@@ -25,10 +22,10 @@ export default function Home() {
   // CONTEXT
   const { homePhotos, setHomePhotos } = useFormContext();
   const { auth } = useAuthContext();
-  const { colors } = useThemeContext();
   // HOOK
-  const { allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, getImageFile, onLoadHandler} = useHideImagesWhileLoading();
-  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
+  const { allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, onLoadHandler} = useHideImagesWhileLoading();
+  const { pageBackground } = useResponsiveBackground();
+
   // STATE
   const [isLoading, setIsLoading] = useState(true);
   // EFFECT
@@ -43,30 +40,6 @@ export default function Home() {
   
   
   // RENDERED ELEMENTS
-  // BACKGROUND
-  // Set up responsive background
-  const backgroundComponents = (
-    <>
-      {isLargeScreen ? 
-        // Landscape for tablet/pc view
-        <BlobLandscapeBackground color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-         : 
-        // Portrait for mobile view
-        <BlobPortraitBackground  color1={colors.colorMain} color2={colors.colorTernaryTransparentHigh} />
-      }
-    </>
-  )
-
-  // Convert svg component to string 
-  const renderedBackground = encodeURIComponent(ReactDOMServer.renderToString(backgroundComponents));
-  // Define background as inline style
-  const modalBackground = {
-    backgroundPosition: 'center', 
-    backgroundSize: 'cover', 
-    backgroundRepeat: 'no-repeat',
-    backgroundImage: `url("data:image/svg+xml, ${renderedBackground}")`,
-    backgroundColor: 'var(--bg-color--main)'
-  }
 
   // loader
   const loader = (
@@ -88,7 +61,6 @@ export default function Home() {
         <HomePhoto 
           key={photo._id} 
           photo={photo} 
-          getImageFile={getImageFile} 
           onLoadHandler={onLoadHandler}
           setCurrentlyLoadingImages={setCurrentlyLoadingImages}
         /> 
@@ -98,15 +70,15 @@ export default function Home() {
   // display photo || skeleton loader
   const photos =  ( 
     <>
-      {/* SkeletonLoader for photo */}
-      {!allImagesLoaded && <SkeletonHome/>}
-      {/* Photo carousel */}
+      { /* SkeletonLoader for photo */ }
+      { !allImagesLoaded && <SkeletonHome/> }
+      { /* Photo carousel */ }
       { homePhotos && homePhotos.length && carousel }
     </>
   )
   // home page content
   const home = (
-    <div style={modalBackground} className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
+    <div style={ pageBackground } className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
       <div className='home-container'>
         {/* Header */}
         <div className='home-header'>
@@ -120,12 +92,12 @@ export default function Home() {
           </div>
         </div>
         {/* Photo carousel / placeholder */}
-        {/* <div className={`home-photo ${homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder'}`}>
+        <div className={ `home-photo ${ homePhotos && homePhotos.length > 0 ? '' : 'photo-placeholder' }` }>
           { homePhotos && homePhotos.length > 0 ? photos : photoPlaceholder }
-        </div> */}
-        {/* Button container */}
+        </div>
+        { /* Button container */ }
         <div className='home-button'>
-          <Button clicked={() => navigate(auth.userID ? `/${auth.username}/gallery` : '/login')} buttonStyle='button-home-cta'>
+          <Button clicked={ () => navigate(auth.userID ? `/${auth.username}/gallery` : '/login') } buttonStyle='button-home-cta'>
             <span> Visit Gallery </span>
           </Button>
         </div>
