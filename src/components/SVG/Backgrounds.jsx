@@ -38,6 +38,7 @@ export function BlobLandscapeBackground({ color1, color2 }) {
     </svg>
   );
 }
+
 // blob portrait orientation for small devices (9:16)
 export function BlobPortraitBackground({ color1, color2 }) {
   return (

@@ -969,7 +969,7 @@ export function LocationIcon({height, width}) {
 // Arrow with default left rotation: return back
 export function ArrowIcon({height, width, fill}) {
   return (
-    <div style={{display:'flex', height: height, width: width}}> 
+    <div style={{ display:'flex', height: height, width: width }}> 
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill={fill || "#000"}
