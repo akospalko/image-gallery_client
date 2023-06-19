@@ -1,16 +1,50 @@
-/* MAP CONTAINER */
+/* MAP */
+/* map group: content switch + map container */
+.map-wrapper--map-overview,
+.map-wrapper--map-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1; 
+  flex-direction: column;
+}
+.map-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1; 
+  flex-direction: column;
+}
+
+/* map content switch button container  */
+.map-content-switch {
+  display: flex;
+  width: 100%;
+  max-width: 500px; 
+}
+
+/* container */
 .map-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 350px;
+  height: calc(100vh - var(--header-height));
   flex-direction: column;
   z-index: var(--z1);
   background: var(--bg-color--main);
 }
 
+/* container for map overview page */
+.map-container.map-container--overview {
+  height: 100%;
+  max-width: 500px; 
+  flex-grow: 1;
+}
+/* background behind the map layer */
 .map-background {
   position: absolute;
   top: 0;
@@ -25,6 +59,26 @@
   z-index: -1; /* put the background behind the modal*/
 }
 
+/* empty data field notification layer */
+.map-empty-notification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* backdrop-filter: blur(10px); */
+  z-index: 998; /* put the background behind the modal*/
+  background-color: var(--bg-color--ternary-transparent-low);
+}
+.map-empty-notification h3 {
+  font-size: var(--header-3-size--S);
+}
+
+/* layer holding the loading spinner  */
 .map-loader {
   position: absolute;
   top: 0;
@@ -37,14 +91,7 @@
   flex-direction: column;
   background-color: var(--bg-color--secondary);
   z-index: 999;
-  /* position: fixed; */
 }
-
-.map-content-switch {
-  display: flex;
-}
-
-
 
 /* LAYER BUTTON AND CONTENT */
 /* layers container: overwrite background */
@@ -73,7 +120,7 @@
 /* control panel: zoom in - out  */
 .leaflet-bar a {
   background-color: var(--bg-color--main);
-  color: var(--bg-color--accent);
+  color: var(--color-accent);
   border-bottom: var(--bg-color-main);
 }
 .leaflet-bar a:hover, .leaflet-bar a:focus {
@@ -116,7 +163,7 @@
 /* CLUSTER */
 /* custom cluster icon */
 .custom--marker-cluster {
-  background-color: var(--bg-color--accent);
+  background-color: var(--color-accent);
   border-radius: 50%;
   color: var(--text-color--high-emphasis);
   font-size: 14px;
@@ -128,6 +175,7 @@
   align-items: center;
   position: relative;
 }
+/* custom cluster icon outer ring */
 .custom--marker-cluster::before {
   content: "";
   position: absolute;
@@ -135,8 +183,65 @@
   left: -5px;
   right: -5px;
   bottom: -5px;
-  background-color: var(--bg-color--accent-transparent-medium);
+  background-color: var(--color-accent--medium-transparent-medium);
   border-radius: 50%;
   opacity: 1;
   z-index: -1;
+}
+
+/* _____MEDIA_____ */
+/* PHONE: LANDSCAPE */
+@media ((max-height: 500px) and (orientation: landscape)) {
+  /* MAP */
+  .map-wrapper--map-overview {
+    height: 450px;
+    margin-bottom: 1rem;
+    flex-grow: initial; 
+  }
+  /* container for map overview page */
+  .map-container.map-container--overview {
+    width: 500px;
+    height: 450px;
+    /* flex: 1; */
+  }
+}
+
+@media (min-width: 550px) {
+  /* MAP */
+  /* container */
+  .map-container {
+    width: 100%;
+  }
+
+  .map-wrapper--map-overview {
+    max-height: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* map content switch button container  */  
+  .map-content-switch {
+    width: 500px;
+  }
+  
+  /* container for map overview page */
+  .map-container.map-container--overview {
+    width: 500px;
+    height: 100%;
+    flex: 1;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+
+  /* map content switch button container  */  
+  .map-content-switch {
+    width: 650px;
+    max-width: initial;
+  }
+  /* container for map overview page */
+  .map-container.map-container--overview {
+    width: 650px;
+    max-width: initial;
+  }
 }

@@ -18,8 +18,8 @@ export default function MapModal() {
   )
 
   return (
-    <> 
-      { isNaN(gpsLongitude) && isNaN(gpsLatitude) ? mapDisplayError : <Map mapData={[activePhotoEntry]}/>  }
-    </>
+    <div className='map-wrapper--map-modal'>
+      { isNaN(gpsLongitude) && isNaN(gpsLatitude) ? mapDisplayError : <Map mapData={ [ activePhotoEntry ] } isSingleMarker /> }
+    </div>
   )
 }
