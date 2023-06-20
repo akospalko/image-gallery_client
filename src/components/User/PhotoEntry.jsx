@@ -165,7 +165,6 @@ const PhotoEntry = (props) => {
     </div>
   )
   
-  
   // Control panel
   const controlPanel = (
     <ControlPanel

@@ -11,7 +11,7 @@ import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
 import PhotoEntry from './PhotoEntry';
 import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry';
 import LoaderIcon from '../SVG/Loader';
-
+import { CONSTANT_VALUES } from '../../helper/constantValues'
 
 export default function PhotoEntriesGallery() {
   // CONTEXTS
@@ -35,7 +35,7 @@ export default function PhotoEntriesGallery() {
   const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true });
   // HANDLER
 
-  const fetchPhotoEntries = useCallback( async () => {
+  const fetchPEGallery = useCallback( async () => {
     try {
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
       setGalleryData(response.photoEntries); // store entries in state
@@ -48,8 +48,8 @@ export default function PhotoEntriesGallery() {
 
   // EFFECT
   useEffect(() => { // get all data on initial render
-    fetchPhotoEntries();
-  }, [ fetchPhotoEntries ]);
+    fetchPEGallery();
+  }, [ fetchPEGallery ]);
 
   // RENDERED ELEMENTS
   const loader = (
@@ -60,16 +60,21 @@ export default function PhotoEntriesGallery() {
   const photoEntries = (
     <div className='photo-entries-container'>
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id }/> ) }
+      { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
+      {/* empty gallery: display placeholder */}
+      { !galleryData.length && 
+          <div className='photo-entries-empty'> 
+            <p> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </p> 
+          </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { galleryData && galleryData.map(photoEntry => (
           <PhotoEntry 
             key={ photoEntry._id } 
             photoEntry={ photoEntry } 
             dataSetter={ setGalleryData }
+            onLoadHandler={ onLoadHandler }
             hideImageStyle={ hideImageStyle } 
             setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
-            onLoadHandler={ onLoadHandler }
           />
         )
       )}

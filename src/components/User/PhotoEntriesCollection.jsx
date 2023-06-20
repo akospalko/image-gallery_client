@@ -11,6 +11,7 @@ import LoaderIcon from '../SVG/Loader';
 import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry';
 import { useAuthContext } from '../contexts/AuthenticationContext';
 import { useDataContext } from '../contexts/DataContext';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 
 export default function PhotoEntriesCollection() {
   // CONTEXT
@@ -34,7 +35,7 @@ export default function PhotoEntriesCollection() {
   const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true });
 
   // HANDLER
-  const fetchUserCollection = useCallback( async () => {
+  const fetchPECollection = useCallback( async () => {
     try {
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'own'); // get user's collection photo entries
       setCollectionData(response.photoEntries); // store entries in state
@@ -48,8 +49,8 @@ export default function PhotoEntriesCollection() {
 
   // EFFECT
   useEffect(() => { // get all data on initial render
-   fetchUserCollection()
-  }, [ fetchUserCollection ]) 
+    fetchPECollection()
+  }, [ fetchPECollection ]) 
 
   // RENDERED ELEMENTS
   const loader = (
@@ -59,9 +60,11 @@ export default function PhotoEntriesCollection() {
   )
   const photoEntries = (
     <div className='photo-entries-container'>
-      {/* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded && collectionData && collectionData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id }/> ) }
-      {/* render photo entry && hide from view until ready to be displayed */}
+      { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
+      { !allImagesLoaded && collectionData.length > 1 && collectionData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
+      {/* empty collection: display placeholder */}
+      { !collectionData.length && <div className='photo-entries-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> </div> }
+      { /* render photo entry && hide from view until ready to be displayed */ }
       { collectionData && collectionData.map(photoEntry => (
           <PhotoEntry 
             key={ photoEntry._id } 
