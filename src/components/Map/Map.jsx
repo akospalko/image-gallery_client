@@ -25,7 +25,6 @@ export default function Map(props) {
     mapData = [], // data to display on map
     isSingleMarker // display (default/omitted): multiple markers || single marker
   } = props; // array of object(s) ([{...}, ...]) - photo entry data   
-  console.log(mapData, isSingleMarker);
   
   // CONSTANTS
   const centerPosition = [0, 0];
