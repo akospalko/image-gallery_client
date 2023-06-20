@@ -81,37 +81,38 @@ export default function MapOverview() {
   
   // Map content switch buttons 
   const mapContentSwitch = (
-    <div className='map-content-switch'> 
+    <div className='map-overview-content-switch'> 
       <Button 
         buttonStyle={ mapContentStyle('gallery') } 
         disabled={ isLoading.MAP_FETCH_DATA || activeButton === 'gallery' } 
         title='map display: gallery' 
         clicked={ getGalleryPhotoHandler } 
-      > { CONSTANT_VALUES.BUTTON_GALLERY }  </Button>
+      > <span className='map-content-switch-button-text'> { CONSTANT_VALUES.BUTTON_GALLERY }   </span> </Button>
       <Button 
         buttonStyle={ mapContentStyle('collection') } 
         disabled={ isLoading.MAP_FETCH_DATA || activeButton === 'collection' } 
         title='map display: user collection' 
         clicked={ getCollctionPhotosHandler }
-      > { CONSTANT_VALUES.BUTTON_COLLECTION } </Button>
+      > <span className='map-content-switch-button-text'> { CONSTANT_VALUES.BUTTON_COLLECTION } </span> </Button>
     </div>
   )
 
   return (
     <div className='shared-page-container shared-page-container--centered-vertically'>
       <> 
-        {/* Header */}
+        { /* Header */ }
         <div className='shared-header-wrapper'>
           <h1> { CONSTANT_VALUES.TITLE_MAP_OVERVIEW } </h1>
         </div>
+        { /* Instruction */ }
         <div className='map-overview-instruction'>
           <h3> { CONSTANT_VALUES.SUBTITLE_MAP_OVERVIEW_CTA } </h3>
         </div>
-        {/* wrap switch - map container, used for easier layout positioning */}
+        { /* Wrap switch - map container, used for easier layout positioning */ }
         <div className='map-wrapper--map-overview'>
-          { /* Switch map content: gallery || user collection */ }
+          { /* switch map content: gallery || user collection */ }
           { mapContentSwitch }
-          { /* Map container */ }
+          { /* map container */ }
           <Map className='map-container--overview' mapData={ mapData?.length > 0 && mapData } />
         </div>
         {/* Modals */}

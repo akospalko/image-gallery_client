@@ -13,10 +13,10 @@ import FullscreenControl from './FullScreenControl';
 import MarkerCluster from './MarkerCluster';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useLoaderContext } from '../contexts/LoaderContext';
-import { OPERATIONS } from '../../helper/dataStorage';
 import { LocationIcon } from '../SVG/Icons';
 import LoaderIcon from '../SVG/Loader';
 import { useMediaQuery } from 'react-responsive';
+import { OPERATIONS } from '../../helper/dataStorage';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 
 export default function Map(props) {

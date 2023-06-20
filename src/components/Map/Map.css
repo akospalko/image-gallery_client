@@ -1,5 +1,6 @@
 /* MAP */
-/* map group: content switch + map container */
+/* map group (overview): content switch + map container */
+/* map group (modal) : map container */
 .map-wrapper--map-overview,
 .map-wrapper--map-modal {
   display: flex;
@@ -9,22 +10,27 @@
   flex-grow: 1; 
   flex-direction: column;
 }
-.map-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* map page instruction */
+.map-overview-instruction {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
   width: 100%;
-  flex-grow: 1; 
-  flex-direction: column;
 }
-
-/* map content switch button container  */
-.map-content-switch {
+/* map content switch button container */
+.map-overview-content-switch {
   display: flex;
   width: 100%;
   max-width: 500px; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
-
+/* map content switch button text */
+.map-overview-content-switch-button-text {
+  font-size: var(--text-size--XS);
+  width: 100%;
+}
 /* container */
 .map-container {
   position: relative;
@@ -37,48 +43,15 @@
   z-index: var(--z1);
   background: var(--bg-color--main);
 }
-
 /* container for map overview page */
 .map-container.map-container--overview {
   height: 100%;
   max-width: 500px; 
   flex-grow: 1;
 }
-/* background behind the map layer */
-.map-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  backdrop-filter: blur(10px);
-  z-index: -1; /* put the background behind the modal*/
-}
-
-/* empty data field notification layer */
-.map-empty-notification {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  /* backdrop-filter: blur(10px); */
-  z-index: 998; /* put the background behind the modal*/
-  background-color: var(--bg-color--ternary-transparent-low);
-}
-.map-empty-notification h3 {
-  font-size: var(--header-3-size--S);
-}
-
-/* layer holding the loading spinner  */
+/* map background, notification, loader, layer shared properties */
+.map-background,
+.map-empty-notification,
 .map-loader {
   position: absolute;
   top: 0;
@@ -89,11 +62,29 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: var(--bg-color--ternary-transparent-low);
+}
+
+/* background behind the map layer */
+.map-background {
+  backdrop-filter: blur(10px);
+  z-index: -1; /* put the background behind the modal*/
+}
+/* empty data field notification layer */
+.map-empty-notification {
+  z-index: 998; /* put the background behind the modal*/
+}
+.map-empty-notification h3 {
+  font-size: var(--header-3-size--S);
+}
+/* map loader layer */
+.map-loader {
   background-color: var(--bg-color--secondary);
   z-index: 999;
 }
 
-/* LAYER BUTTON AND CONTENT */
+/* LEAFELT */
+/* Layer button and content */
 /* layers container: overwrite background */
 .leaflet-control-layers {
   background-color: var(--bg-color--main);
@@ -132,9 +123,9 @@
   background-color: var(--bg-color--secondary);
 }
 /* border around control buttons */
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-  /* border: 1px solid var(--bg-color--secondary); */
-}
+/* .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 1px solid var(--bg-color--secondary);
+} */
 /* attribution: remove margin */
 .leaflet-container .leaflet-control-attribution {
   margin: 0;
@@ -190,9 +181,16 @@
 }
 
 /* _____MEDIA_____ */
+/* PHONE: SMALL SCREEN */
+@media screen and (max-width: 350px) {
+  .map-overview-content-switch {
+    flex-direction: column;
+  }
+}
 /* PHONE: LANDSCAPE */
 @media ((max-height: 500px) and (orientation: landscape)) {
   /* MAP */
+  /* map group (overview): content switch + map container */
   .map-wrapper--map-overview {
     height: 450px;
     margin-bottom: 1rem;
@@ -202,27 +200,28 @@
   .map-container.map-container--overview {
     width: 500px;
     height: 450px;
-    /* flex: 1; */
   }
 }
 
 @media (min-width: 550px) {
   /* MAP */
+  /* map page instruction */
+  .map-overview-instruction {
+    width: 500px;
+  }
   /* container */
   .map-container {
     width: 100%;
   }
-
+ /* container for map overview page */
   .map-wrapper--map-overview {
     max-height: 100%;
     margin-bottom: 1rem;
   }
-
   /* map content switch button container  */  
-  .map-content-switch {
+  .map-overview-content-switch {
     width: 500px;
   }
-  
   /* container for map overview page */
   .map-container.map-container--overview {
     width: 500px;
@@ -233,9 +232,12 @@
 
 /* TABLET */
 @media (min-width: 768px) {
-
+  /* map page instruction */
+  .map-overview-instruction {
+    width: 650px;
+  }
   /* map content switch button container  */  
-  .map-content-switch {
+  .map-overview-content-switch {
     width: 650px;
     max-width: initial;
   }
