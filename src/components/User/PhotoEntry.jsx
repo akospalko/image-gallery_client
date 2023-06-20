@@ -79,7 +79,6 @@ const PhotoEntry = (props) => {
       setMessage(responseAddToCollection.message);
       uemSetter(dataSetter, responseAddToCollection);
     } catch (error) {
-      console.log(error)
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, false);
     }
@@ -98,7 +97,6 @@ const PhotoEntry = (props) => {
         dataSetter(prev => prev.filter(entry => entry._id !== _id)); // remove entry from state
       }
     } catch (error) {
-      console.log(error)
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, false);
     }
@@ -115,7 +113,6 @@ const PhotoEntry = (props) => {
       // upate state with new data
       uemSetter(dataSetter, responseAddLike); 
     } catch(error) {
-      console.log(error)
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
     }
@@ -132,7 +129,6 @@ const PhotoEntry = (props) => {
     uemSetter(dataSetter, responseRemoveLike);
     setMessage(responseRemoveLike.message); // set message
   } catch(error) {
-    console.log(error)
   } finally {
     loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
   }

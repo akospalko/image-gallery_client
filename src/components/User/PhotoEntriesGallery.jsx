@@ -62,10 +62,7 @@ export default function PhotoEntriesGallery() {
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
       { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
       {/* empty gallery: display placeholder */}
-      { !galleryData.length && 
-          <div className='photo-entries-empty'> 
-            <p> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </p> 
-          </div> }
+      { !galleryData.length && <div className='photo-entries-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { galleryData && galleryData.map(photoEntry => (
           <PhotoEntry 
