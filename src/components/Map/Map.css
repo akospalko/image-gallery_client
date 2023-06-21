@@ -1,22 +1,30 @@
-/* MAP */
-/* map group (overview): content switch + map container */
-/* map group (modal) : map container */
+/* MAP: modal, overview page */
+
+/* Wrapper */
+/* map wrapper - map overview: content switch + map container */
 .map-wrapper--map-overview,
+/* map modal : map container */
 .map-wrapper--map-modal {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   flex-grow: 1; 
+}
+/* map wrapper - map overview */
+.map-wrapper--map-overview {
   flex-direction: column;
 }
-/* map page instruction */
+
+/* Instruction text - map overview */
 .map-overview-instruction {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
   width: 100%;
 }
+
+/* Content switch */
 /* map content switch button container */
 .map-overview-content-switch {
   display: flex;
@@ -26,11 +34,15 @@
   overflow-wrap: break-word;
   white-space: normal;
 }
-/* map content switch button text */
+
+/* Content switch */
+/* map content switch button container */
 .map-overview-content-switch-button-text {
   font-size: var(--text-size--XS);
   width: 100%;
 }
+
+/* Map container */
 /* container */
 .map-container {
   position: relative;
@@ -43,13 +55,19 @@
   z-index: var(--z1);
   background: var(--bg-color--main);
 }
-/* container for map overview page */
-.map-container.map-container--overview {
+/* container - map overview */
+.map-container.map-container--map-overview {
   height: 100%;
   max-width: 500px; 
   flex-grow: 1;
 }
-/* map background, notification, loader, layer shared properties */
+/* container - map modal */
+.map-container.map-container--map-modal {
+  height: 100%;
+}
+
+/* Misc */
+/* shared properties: background, notification, loader, layer */
 .map-background,
 .map-empty-notification,
 .map-loader {
@@ -81,6 +99,109 @@
 .map-loader {
   background-color: var(--bg-color--secondary);
   z-index: 999;
+}
+
+/* _____MEDIA_____ */
+/* PHONE: SMALL SCREEN */
+@media screen and (max-width: 350px) {
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    flex-direction: column;
+  }
+}
+/* PHONE: LANDSCAPE */
+@media ((max-height: 500px) and (orientation: landscape)) {
+  /* Wrapper */
+  /* map wrapper - map overview */
+  .map-wrapper--map-overview {
+    height: 450px;
+    margin-bottom: 1rem;
+    flex-grow: initial; 
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    max-width: 500px;
+    max-height: 450px;
+  }
+}
+
+@media (min-width: 550px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 500px;
+  }
+  
+  /* Map container */
+  /* container */
+  .map-container {
+    width: 100%;
+  }
+  
+  /* Wrapper */
+  /* map wrapper - map overview */
+  .map-wrapper--map-overview {
+    max-height: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    width: 500px;
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 500px;
+    height: 100%;
+    flex: 1;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 650px;
+  }
+
+  /* Content switch */
+  /* map content switch button container */ 
+  .map-overview-content-switch {
+    width: 650px;
+    max-width: 100%;
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 650px;
+    max-width: 100%;
+  }
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 850px;
+  }
+
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    width: 850px;
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 850px;
+  }
 }
 
 /* LEAFELT */
@@ -136,7 +257,7 @@
 .custom-layer {
   filter: invert(100%) hue-rotate(180deg) brightness(1.25);
 }
-/* FULLSCREEN BUTTON */
+/* Fullscreen button */
 /* fullscreen: open */
 .leaflet-control-fullscreen a {
   background-color: var(--bg-color--main);
@@ -151,12 +272,12 @@
 .leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
   background-position: 5.5px -26px;
 }
-/* CLUSTER */
+/* Cluster */
 /* custom cluster icon */
 .custom--marker-cluster {
   background-color: var(--color-accent);
   border-radius: 50%;
-  color: var(--text-color--high-emphasis);
+  color: var(--text-color-light--high-emphasis);
   font-size: 14px;
   font-weight: bold;
   height: 40px;
@@ -178,72 +299,4 @@
   border-radius: 50%;
   opacity: 1;
   z-index: -1;
-}
-
-/* _____MEDIA_____ */
-/* PHONE: SMALL SCREEN */
-@media screen and (max-width: 350px) {
-  .map-overview-content-switch {
-    flex-direction: column;
-  }
-}
-/* PHONE: LANDSCAPE */
-@media ((max-height: 500px) and (orientation: landscape)) {
-  /* MAP */
-  /* map group (overview): content switch + map container */
-  .map-wrapper--map-overview {
-    height: 450px;
-    margin-bottom: 1rem;
-    flex-grow: initial; 
-  }
-  /* container for map overview page */
-  .map-container.map-container--overview {
-    width: 500px;
-    height: 450px;
-  }
-}
-
-@media (min-width: 550px) {
-  /* MAP */
-  /* map page instruction */
-  .map-overview-instruction {
-    width: 500px;
-  }
-  /* container */
-  .map-container {
-    width: 100%;
-  }
- /* container for map overview page */
-  .map-wrapper--map-overview {
-    max-height: 100%;
-    margin-bottom: 1rem;
-  }
-  /* map content switch button container  */  
-  .map-overview-content-switch {
-    width: 500px;
-  }
-  /* container for map overview page */
-  .map-container.map-container--overview {
-    width: 500px;
-    height: 100%;
-    flex: 1;
-  }
-}
-
-/* TABLET */
-@media (min-width: 768px) {
-  /* map page instruction */
-  .map-overview-instruction {
-    width: 650px;
-  }
-  /* map content switch button container  */  
-  .map-overview-content-switch {
-    width: 650px;
-    max-width: initial;
-  }
-  /* container for map overview page */
-  .map-container.map-container--overview {
-    width: 650px;
-    max-width: initial;
-  }
 }

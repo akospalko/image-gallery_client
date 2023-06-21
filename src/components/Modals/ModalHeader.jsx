@@ -1,36 +1,46 @@
-// modals header with title, return & close modal buttons
+// Modal header: title, return & close modal buttons
 import React from 'react'
 import '../Shared.css'
 import Button from '../UI/Button';
-import {useModalContext} from '../contexts/ToggleModalContext';
-import {useFormContext} from '../contexts/FormContext';
+import { useModalContext } from '../contexts/ToggleModalContext';
+import { useFormContext } from '../contexts/FormContext';
 import { ArrowIcon, MenuCloseIcon } from '../SVG/Icons';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ModalHeader(props) {
   // PROPS
-  const {title, closeModal, returnToModal} = props;
-  // CONTEXTS
-  const {activePhotoEntry, setActivePhotoEntry, toggleModalHandler} = useModalContext();
-  const {setMessage, setFormData, photoFile, setPhotoFile} = useFormContext();
+  const { title, closeModal, returnToModal } = props;
   
+  // CONTEXTS
+  const { activePhotoEntry, setActivePhotoEntry, toggleModalHandler } = useModalContext();
+  const { setMessage, setFormData, photoFile, setPhotoFile } = useFormContext();
+  
+  // HOOOK
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
+
+  // CONSTANT
+  const iconColor = 'var(--text-color--high-emphasis)';
+  const iconReturnBackArrowSize = isLargeScreen ? '35px' : '30px';
+  const iconCloseModalSize = isLargeScreen ? '25px' : '20px';
+
   return (
     <>
-      <div className='shared-modal-dummy'> 
-      {returnToModal && <Button 
-            buttonStyle='button-modal-close'
-            clicked={() => {
-              setMessage('');
-              setFormData({});
-              photoFile.name && setPhotoFile({});
-              toggleModalHandler(returnToModal);
-            }}
-          > <ArrowIcon height='70%' width='70%' fill={ 'var(--text-color--high-emphasis)' } />
-        </Button>}
+      <div className='shared-button-wrapper shared-button-wrapper--modal-header'> 
+        { returnToModal && <Button 
+              buttonStyle='button-close'
+              clicked={ () => {
+                setMessage('');
+                setFormData({});
+                photoFile.name && setPhotoFile({});
+                toggleModalHandler(returnToModal);
+              } } 
+            > <ArrowIcon height={ iconReturnBackArrowSize } width={ iconReturnBackArrowSize } fill={ iconColor } />
+          </Button> }
       </div>
-      <div className='shared-modal-title'> <h2> {title} </h2> </div>
-      <div className='shared-button-wrapper shared-button-wrapper--modal-close'>  
+      <div className='shared-modal-title'> <h2> { title } </h2> </div>
+      <div className='shared-button-wrapper shared-button-wrapper--modal-header'>  
         <Button 
-          buttonStyle='button-modal-close'
+          buttonStyle='button-close'
           clicked={() => {
             setMessage('');
             setFormData({});
@@ -38,7 +48,7 @@ export default function ModalHeader(props) {
             activePhotoEntry && setActivePhotoEntry({});
             toggleModalHandler(closeModal);
           }}
-          > <MenuCloseIcon height='50%' width='50%' fill={ 'var(--text-color--high-emphasis)' } /> 
+        > <MenuCloseIcon height={ iconCloseModalSize } width={ iconCloseModalSize } fill={ iconColor } /> 
         </Button>
       </div>
     </>

@@ -47,30 +47,31 @@ export default function useSetUpModal(toggleModal, collection='none') {
       <PhotoEntryModal 
         modalTitle={ MODAL_TITLES[OPERATIONS.MAP_VIEW] }
         modalContent={ <MapModal /> } 
-        contentStyle='shared-modal-content--centered' 
+        containerStyle='shared-modal--map-view'
+        headerStyle='shared-modal-header--map-view'
+        contentStyle='shared-modal-content--map-view' 
         closeModal={ OPERATIONS.MAP_VIEW } 
       />
   );
 
-  // photo view 
+  // photo fullscreen view 
   const photoViewModal = (
     toggleModal[OPERATIONS.FULLSCREEN_VIEW] && 
       <PhotoEntryModal 
-        modalTitle={ MODAL_TITLES[OPERATIONS.FULLSCREEN_VIEW] }
+        // modalTitle={ MODAL_TITLES[OPERATIONS.FULLSCREEN_VIEW] }
         modalContent={ <FullScreenView /> } 
-        contentStyle='shared-modal-content--centered' 
+        contentStyle='shared-modal-content--photo-view'
         closeModal={ OPERATIONS.FULLSCREEN_VIEW } 
       />
   )  
 
-  // photo view with return button (used: map overview)
+  // photo fullscreen view with return button (used: map overview)
   const photoViewWithReturnButtonModal = (
     toggleModal[OPERATIONS.FULLSCREEN_VIEW] && 
       <PhotoEntryModal 
-        modalTitle={ MODAL_TITLES[OPERATIONS.FULLSCREEN_VIEW] }
-        modalContent={ <FullScreenView/> } 
-        contentStyle='shared-modal-content--centered' 
+        modalContent={ <FullScreenView /> } 
         closeModal={ OPERATIONS.FULLSCREEN_VIEW } 
+        contentStyle='shared-modal-content--photo-view'
         returnToModal={ OPERATIONS.PHOTO_INFO_VIEW }
       /> 
   )
@@ -81,7 +82,9 @@ export default function useSetUpModal(toggleModal, collection='none') {
     <PhotoEntryModal 
       modalTitle={ MODAL_TITLES[OPERATIONS.PHOTO_INFO_VIEW] }
       modalContent={ <PhotoInfo displayTimestamp /> } 
-      contentStyle='shared-page-container--with-padding' 
+      containerStyle='shared-modal--photo-info'
+      headerStyle='shared-modal-header--info-view'
+      contentStyle='shared-modal-content--photo-info'
       closeModal={ OPERATIONS.PHOTO_INFO_VIEW } 
     /> 
   )
@@ -92,9 +95,11 @@ export default function useSetUpModal(toggleModal, collection='none') {
       <PhotoEntryModal 
       modalTitle={ MODAL_TITLES[OPERATIONS.PHOTO_INFO_VIEW] }
       modalContent={ <PhotoInfo displayPhotoView displayTimestamp/> } 
-      contentStyle='shared-page-container--with-padding' 
+      containerStyle='shared-modal--photo-info'
+      headerStyle='shared-modal-header--info-view'
+      contentStyle='shared-modal-content--photo-info'
       closeModal={ OPERATIONS.PHOTO_INFO_VIEW } 
-      /> 
+    /> 
   )
 
   return {

@@ -1,109 +1,63 @@
-// Display info about the currently opened modal 
+// Display info about the photo entry 
 import React from 'react';
 import '../Shared.css';
-import '../Admin/PhotoEntries.css';
+import '../PhotoEntries.css';
 import Timestamp from '../Timestamp';
-import ToggleText from '../ToggleText';
 import PhotoEntryContentElement from '../PhotoEntryContentElement';
-import Button from '../UI/Button';
-import { transformDate } from '../../helper/utilities';
 import { OPERATIONS } from '../../helper/dataStorage';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { ViewPhoto } from '../SVG/Icons';
+import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
+import usePhotoEntryTemplate from '../usePhotoEntryTemplate';
 
-export default function PhotoInfo({displayPhotoView, displayTimestamp}) {
-  // PROPS
-  // displayPhotoView - display button to view photo
-  // displayTimestamp - display timestamp
-  // HOOKS
+export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
   // CONTEXTS
-  const {activePhotoEntry, toggleModalHandler} = useModalContext();
-  const {title, author, captureDate, description, gpsLatitude, gpsLongitude, createdAt, updatedAt} = activePhotoEntry || {};
-  // TEMPLATE
-  // template used to map out photo entry content for info modal
-  const photoEntryTemplate = [
-    { // title
-      name: 'title', // entry's name used as key
-      data: title, // 
-      title: 'photo title', // on hover elem - info about the record
-      label: 'Title' ,
-      dataPositionTreshold: 40,
-      labelStyle: 'photo-entry-content--border-left', 
-    }, { // author
-      name: 'author', 
-      data: author,
-      title: 'the person who captured the photo',
-      label: 'Author',
-      dataPositionTreshold: 45,
-      labelStyle: 'photo-entry-content--border-left',
-    }, {  // capture date
-      name: 'captureDate', 
-      data: transformDate(captureDate, '-', '.'),
-      title: 'photo capture date',
-      label: 'Captured',
-      labelStyle: 'photo-entry-content--border-left',
-    }, { // gpsLatitude
-      name: 'gpsLatitude', 
-      data: gpsLatitude, 
-      title: 'geographic coordinate: latitude', 
-      label: 'GPS lat',
-      labelStyle: 'photo-entry-content--border-left', 
-    }, { // gpsLongitude
-      name: 'gpsLongitude', 
-      data: gpsLongitude, 
-      title: 'geographic coordinate: longitude', 
-      label: 'GPS lon',
-      labelStyle: 'photo-entry-content--border-left', 
-    }, { // description
-      name: 'description', 
-      data: <ToggleText text={description} />, 
-      title: 'few words about the photo', 
-      label: 'Description',
-      dataPositionTreshold: 40,
-      recordStyle: '_photo-entry-content-record--description', 
-      labelStyle: 'photo-entry-content-label--vertical-text',
-      dataStyle: '_photo-entry-content-data--description photo-entry--border-bottom-0 photo-entry-content--height-150px' 
-    }
-  ];
+  const { activePhotoEntry, toggleModalHandler } = useModalContext();
+  const { createdAt, updatedAt } = activePhotoEntry || {};
+  
+  // HOOKS
+  // Get photo entry layout1 template 
+  const { photoEntryLayout1Template } = usePhotoEntryTemplate(activePhotoEntry); 
+
   // ELEMENTS
-  // open view photo modal
+  // open modal: view photo 
   const viewPhotoButton = (
     displayPhotoView && 
     <Button 
       buttonStyle='button-photo-info' 
       clicked={ () => {
         toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW, false);
-        toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW);} } 
+        toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW); } } 
     > 
-      <ViewPhoto height='30px' width='30px' fill='var(--text-color--high-emphasis)'/> 
-      <span>  View Photo </span> 
+      <ViewPhoto height='30px' width='30px' fill='var(--text-color-light--high-emphasis)'/> 
+      <span> { CONSTANT_VALUES.BUTTON_PHOTO_VIEW } </span> 
     </Button>
   )
   // photo info records 
   const photoContent = (
     <>
-      {photoEntryTemplate?.map(record => (
+      { photoEntryLayout1Template?.map(record => (
         <PhotoEntryContentElement
-          key={record?.name}
-          title={record?.title} 
-          label={record?.label} 
-          data={record?.data} 
-          dataPositionTreshold={record?.dataPositionTreshold}
-          labelStyle={record?.labelStyle}
-          recordStyle={record?.recordStyle}
-          dataStyle={record?.dataStyle}
+          key={ record?.name }
+          title={ record?.title } 
+          label={ record?.label } 
+          data={ record?.data } 
+          labelStyle={ record?.labelStyle }
+          recordStyle={ record?.recordStyle }
+          dataStyle={ record?.dataStyle }
         /> )
       )}
-      { displayTimestamp && <Timestamp dateCreation={createdAt} dateLastUpdate={updatedAt} customStyle='timestamp-container--photo-info' /> }
+      { displayTimestamp && <Timestamp dateCreation={ createdAt } dateLastUpdate={ updatedAt } customStyle='timestamp-container--layout-1' /> }
     </>
   )
 
   return (
-    <div className="_photo-entry-container"> 
-      {/* VIEW PHOTO BUTTON */}
-      {viewPhotoButton}
-      {/* CONTENT */}
-      {photoContent}
+    <div className="pe-layout-1-container"> 
+      { /* VIEW PHOTO BUTTON */ }
+      { viewPhotoButton }
+      { /* CONTENT */ }
+      { photoContent }
     </div>
   )
 }
