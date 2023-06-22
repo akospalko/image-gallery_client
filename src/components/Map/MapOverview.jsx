@@ -15,6 +15,7 @@ import { useLoaderContext } from '../contexts/LoaderContext';
 import { useDataContext } from '../contexts/DataContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useSetUpModal from '../hooks/useSetUpModal';
+import useResponsiveBackground from '../hooks/useResponsiveBackground';
 import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 import Button from '../UI/Button';
@@ -39,6 +40,7 @@ export default function MapOverview() {
   
   // HOOK
   const { photoViewWithReturnButtonModal, infoViewWithPhotoDisplayModal } = useSetUpModal(toggleModal);
+  const { pageBackground } = useResponsiveBackground();
 
   // HANDLERS
   // Fetch photo entry logic
@@ -98,7 +100,10 @@ export default function MapOverview() {
   )
 
   return (
-    <div className='shared-page-container shared-page-container--centered-vertically'>
+    <div 
+      style={ pageBackground } 
+      className='shared-page-container shared-page-container--centered-vertically'
+    >
       <> 
         { /* Header */ }
         <div className='shared-header-wrapper'>
@@ -113,7 +118,7 @@ export default function MapOverview() {
           { /* switch map content: gallery || user collection */ }
           { mapContentSwitch }
           { /* map container */ }
-          <Map className='map-container--overview' mapData={ mapData?.length > 0 && mapData } />
+          <Map containerStyle='map-container--map-overview' mapData={ mapData?.length > 0 && mapData } />
         </div>
         {/* Modals */}
         { photoViewWithReturnButtonModal }
