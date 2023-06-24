@@ -4,24 +4,24 @@ import useToggleText from './hooks/useToggleText'
 import Button from './UI/Button';
 import { ArrowTipIcon } from './SVG/Icons';
 
-export default function ToggleText({text}) {
+export default function ToggleText({ text }) {
   // HOOK
   const { isTextVisible, toggleTextHandler, getShortText, maxCharLength } = useToggleText(text);
 
   return (
     <>
       {isTextVisible ?  <p> { text } </p> : <p> { getShortText() } </p>}
-      {text.length > maxCharLength && <Button 
+      { text.length > maxCharLength && <Button 
         buttonStyle='button-toggle-text' 
-        title={ `${isTextVisible ? 'Hide' : 'Show' } text` } 
+        title={ `${ isTextVisible ? 'Hide' : 'Show' } text` } 
         clicked={ toggleTextHandler }
       > 
         <ArrowTipIcon 
           rotate={ isTextVisible ? '' : 'rotate(180deg)' } 
-          width='20px' height='20px' 
-          fill='var(--text-color--high-emphasis)' 
+          width='15px' height='15px' 
+          fill='var(--text-color-light--high-emphasis)' 
         />
-      </Button>}
+      </Button> }
     </>
   );
 }
