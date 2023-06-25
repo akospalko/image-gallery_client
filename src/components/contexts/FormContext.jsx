@@ -16,7 +16,6 @@ export default function FormContext({children}) {
   const [formData, setFormData] = useState({});
   const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
-  const [homePhotos, setHomePhotos] = useState([]);
   const [message, setMessage] = useState('');
   const [isGalleryFetched, setIsGalleryFetched] = useState(false); // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [photoFile, setPhotoFile] = useState({}); // file upload
@@ -31,6 +30,7 @@ export default function FormContext({children}) {
       updatePasswordValidation();
     }
   }, [formData?.password, formData?.passwordConfirm]);
+  
   // validate form when validationMessages state is updated
   useEffect(() => {
     validateFormHandler();
@@ -132,13 +132,11 @@ export default function FormContext({children}) {
         statusMessage, setStatusMessage,
         validationMessages, setValidationMessages,
         data, setData,
-        homePhotos, setHomePhotos,
         message, setMessage,
         isGalleryFetched, setIsGalleryFetched,
         showPassword, setShowPassword,
         isFormValid, setIsFormValid,
         isFormTouched, setIsFormTouched,
-        // isFormInitialized, setIsFormInitialized,
         inputChangeHandler,
         dateInputChangeHandler,
         togglePasswordVisibility

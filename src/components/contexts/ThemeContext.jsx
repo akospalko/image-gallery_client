@@ -1,3 +1,4 @@
+// Theme context: toggle logic, theme and color states 
 // Resources: https://betterprogramming.pub/a-complete-guide-to-implementing-dark-mode-in-react-47af893b22eb
 import React, { useState, createContext, useContext, useLayoutEffect } from 'react';
 
@@ -29,7 +30,6 @@ export default function ThemeContext ({children}) {
         colorTernaryTransparentLow: colorTernaryTransparentLow,
         colorTernaryTransparentMedium: colorTernaryTransparentMedium,  
         colorTernaryTransparentHigh: colorTernaryTransparentHigh  
-      
       }));
   }, [theme, setColors])
   // HANDLER
