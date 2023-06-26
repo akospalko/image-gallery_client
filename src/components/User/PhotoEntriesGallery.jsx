@@ -53,12 +53,12 @@ export default function PhotoEntriesGallery() {
 
   // RENDERED ELEMENTS
   const loader = (
-    <div className='pes-container-gallery'>
+    <div className={ `pes-container-gallery ${ isLoading ? 'pes-container--centered' : '' }` } >
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
   const photoEntries = (
-    <div className='pes-container-gallery'>
+    <div className='pes-container-gallery' >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
       { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
       {/* empty gallery: display placeholder */}

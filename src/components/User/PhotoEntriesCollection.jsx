@@ -56,7 +56,7 @@ export default function PhotoEntriesCollection() {
 
   // RENDERED ELEMENTS
   const loader = (
-    <div className='pes-container-collection'>
+    <div className={ `pes-container-collection ${ isLoading ? 'pes-container--centered' : '' }` } >
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
@@ -80,6 +80,5 @@ export default function PhotoEntriesCollection() {
       ) ) }
     </div>
   )
-  // return ( <> { photoEntries } </> )
   return ( <> { isLoading ? loader : photoEntries } </> )
 }
