@@ -321,9 +321,8 @@
   }
   /* container - collection  */
   .pe-container-collection {
-    height: 300px;
     flex: calc(50% - 0.25rem);
-    max-width: 100%;
+    max-width: calc(50% - 0.25rem);
     margin-bottom: 0;
   }
   
@@ -352,7 +351,7 @@
   /* container - collection */
   .pe-container-collection {
     flex: calc(33.3% - 0.25rem);
-    max-width: 33.3%;
+    max-width: calc(33.3% - 0.25rem);
   }
 
   /* Control panel */
@@ -368,8 +367,7 @@
   /* Photo entry container */
   /* container - collection */
   .pe-container-collection {
-    height: 350px;
     flex: calc(25% - 0.25rem);
-    max-width: 25%;
+    max-width: calc(25% - 0.25rem);
   }
 } 

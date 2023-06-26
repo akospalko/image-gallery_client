@@ -8,7 +8,7 @@ import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
 import LoaderIcon from '../SVG/Loader';
-import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry';
+import SkeletonPhotoEntryCollection from '../../skeletons/SkeletonPhotoEntryCollection';
 import { useAuthContext } from '../contexts/AuthenticationContext';
 import { useDataContext } from '../contexts/DataContext';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
@@ -63,7 +63,7 @@ export default function PhotoEntriesCollection() {
   const photoEntries = (
     <div className='pes-container-collection' >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded && collectionData.length > 1 && collectionData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
+      { !allImagesLoaded && collectionData.length > 1 && collectionData.map(photoEntry => <SkeletonPhotoEntryCollection wrapperStyle='skeleton-wrapper--user-collection' key={ photoEntry._id } /> ) }
       {/* empty collection: display placeholder */}
       { !collectionData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
@@ -80,5 +80,6 @@ export default function PhotoEntriesCollection() {
       ) ) }
     </div>
   )
+  
   return ( <> { isLoading ? loader : photoEntries } </> )
 }

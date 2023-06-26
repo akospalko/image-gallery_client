@@ -9,7 +9,7 @@ import { useDataContext } from '../contexts/DataContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
 import PhotoEntry from './PhotoEntry';
-import SkeletonUserPhotoEntry from '../../skeletons/SkeletonUserPhotoEntry';
+import SkeletonPhotoEntryGallery from '../../skeletons/SkeletonPhotoEntryGallery';
 import LoaderIcon from '../SVG/Loader';
 import { CONSTANT_VALUES } from '../../helper/constantValues'
 
@@ -47,9 +47,9 @@ export default function PhotoEntriesGallery() {
   }, [])
 
   // EFFECT
-  useEffect(() => { // get all data on initial render
+  useEffect( () => { // get all data on initial render
     fetchPEGallery();
-  }, [ fetchPEGallery ]);
+  }, [ fetchPEGallery ] );
 
   // RENDERED ELEMENTS
   const loader = (
@@ -60,7 +60,7 @@ export default function PhotoEntriesGallery() {
   const photoEntries = (
     <div className='pes-container-gallery' >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
+      { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonPhotoEntryGallery key={ photoEntry._id } /> ) }
       {/* empty gallery: display placeholder */}
       { !galleryData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
