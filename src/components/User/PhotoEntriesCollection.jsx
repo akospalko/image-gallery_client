@@ -14,6 +14,8 @@ import { useDataContext } from '../contexts/DataContext';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 
 export default function PhotoEntriesCollection() {
+  // CONSTANT
+  const isCollection = true; // switch to check btw collection and photo entry (used in photo entry)
   // CONTEXT
   const { collectionData, setCollectionData } = useDataContext();
   const { auth } = useAuthContext(); 
@@ -54,30 +56,30 @@ export default function PhotoEntriesCollection() {
 
   // RENDERED ELEMENTS
   const loader = (
-    <div className='photo-entries-container'>
+    <div className='pes-container-collection'>
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
   const photoEntries = (
-    <div className='photo-entries-container'>
+    <div className='pes-container-collection' >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
       { !allImagesLoaded && collectionData.length > 1 && collectionData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
       {/* empty collection: display placeholder */}
-      { !collectionData.length && <div className='photo-entries-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> </div> }
+      { !collectionData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { collectionData && collectionData.map(photoEntry => (
           <PhotoEntry 
             key={ photoEntry._id } 
             photoEntry={ photoEntry } 
             dataSetter={ setCollectionData }
-            isCollection
+            isCollection={ isCollection }
             onLoadHandler={ onLoadHandler } 
             hideImageStyle={ hideImageStyle } 
             setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
           />
-        )
-      ) }
+      ) ) }
     </div>
   )
+  // return ( <> { photoEntries } </> )
   return ( <> { isLoading ? loader : photoEntries } </> )
 }

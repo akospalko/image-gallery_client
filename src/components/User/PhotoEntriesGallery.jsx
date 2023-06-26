@@ -53,16 +53,16 @@ export default function PhotoEntriesGallery() {
 
   // RENDERED ELEMENTS
   const loader = (
-    <div className='photo-entries-container'>
+    <div className='pes-container-gallery'>
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
   const photoEntries = (
-    <div className='photo-entries-container'>
+    <div className='pes-container-gallery'>
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
       { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonUserPhotoEntry key={ photoEntry._id } /> ) }
       {/* empty gallery: display placeholder */}
-      { !galleryData.length && <div className='photo-entries-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
+      { !galleryData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { galleryData && galleryData.map(photoEntry => (
           <PhotoEntry 
@@ -74,7 +74,7 @@ export default function PhotoEntriesGallery() {
             setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
           />
         )
-      )}
+      ) }
     </div>
   )
   return ( <> { isLoading ? loader : photoEntries } </> )

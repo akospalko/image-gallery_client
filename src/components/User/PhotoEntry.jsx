@@ -1,5 +1,5 @@
 // Photo entry gallery feed displayed to authenticated users 
-import React, { useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
 import '../ControlPanelWrapper.css';
@@ -18,6 +18,7 @@ import ControlPanel from './ControlPanel';
 const PhotoEntry = (props) => {
   // PROPS
   const { 
+    displayedContentStyle, // Switch to apply specific style: collection and gallery 
     photoEntry, 
     dataSetter, // fetched data (gallery or collection) state setter  
     isCollection, // switch to check if active photo entry is collection
@@ -25,9 +26,12 @@ const PhotoEntry = (props) => {
     setCurrentlyLoadingImages, 
     onLoadHandler 
   } = props;
-  const { title, photoURL, captureDate, _id } = photoEntry ?? {};
- 
-  // CONTEXT
+  const { title, photoURL, captureDate, _id, inCollection, likes } = photoEntry ?? {};
+
+  // STATE
+  const [isHovered, setIsHovered] = useState(false); // photo entry collection - panel (title, control) toggle state
+
+  // CONTEXT  
   const { setMessage } = useFormContext();
   const { loaderToggleHandler } = useLoaderContext();
 
@@ -52,6 +56,7 @@ const PhotoEntry = (props) => {
         return updatedState;
       }
     })
+    
   }, [])
 
   // HELPER
@@ -123,48 +128,63 @@ const PhotoEntry = (props) => {
   const unlikePEHandler = useCallback(async (userID, photoEntryID) => {
     try {
       loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
-    // send request to server get response
-    const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
-    // upate state with new data
-    uemSetter(dataSetter, responseRemoveLike);
-    setMessage(responseRemoveLike.message); // set message
-  } catch(error) {
-  } finally {
-    loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
-  }
+      // send request to server get response
+      const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
+      // upate state with new data
+      uemSetter(dataSetter, responseRemoveLike);
+      setMessage(responseRemoveLike.message); // set message
+    } catch(error) {
+    } finally {
+      loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
+    }
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
+
+  // toggle on handler: control title + panel
+  const showPanelHandler = () => {
+    setIsHovered(true);
+  } 
+    // toggle off handler: control title + panel
+  const hidePanelHandler = () => {
+    setIsHovered(false);
+  } 
 
   // ELEMENTS
   // Title
   const photoTitle = (
-    <div className='photo-entry-title'>
+    <div 
+      className={ isCollection ? `pe-title-collection ${ isHovered ? 'pe-title-collection--visible' : '' }` : 'pe-title-gallery' }
+    >
       <h3> { cropStringToLength(title, displayedTextLength) } </h3>
     </div>
   )
+
   // Photo (img file), capture date
   // img style
   const imgStyle= {
-    objectFit: 'contain',
+    objectFit: 'cover',
     height: '100%',
-    width: '100%'
+    width: '100%',
+    verticalAlign: 'center'
   } 
   const photo = (
-    <div className='photo-entry-photo'>
+    <div className={ isCollection ? 'pe-photo-collection' : 'pe-photo-gallery' } >
       <img  
         src={ photoURL } 
         style={ imgStyle } 
         onLoad={ () => onLoadHandler(_id) } 
       />
       {/* photo capture date */}
-      <div className='photo-entry-capture-date'> <strong> { captureDate } </strong>  </div>
+      <div className='pe-photo-capture-date'> <strong> { captureDate } </strong>  </div>
     </div>
   )
   
   // Control panel
   const controlPanel = (
     <ControlPanel
-      photoEntry = { photoEntry }
+      isCollection={ isCollection }
+      photoEntry={ photoEntry }
+      isHovered={ isHovered }
       onUnlikePE={ unlikePEHandler }
       onLikePE={ likePEHandler }
       onRemovePEFromCollection={ removePEFromCollectionHandler }
@@ -172,13 +192,42 @@ const PhotoEntry = (props) => {
    />
   )
 
-  return (
-    <div style={ hideImageStyle } className='photo-entry-container'>
+  // Uem counter
+  const uemCounter = (
+    <div className='pe-uem-counter'>
+      <div className='pe-uem-counter-item'>
+        <span> { likes && likes } </span>
+      </div>
+      <div className='pe-uem-counter-item'>
+        <span> { inCollection && inCollection } </span>
+      </div> 
+    </div> 
+  )
+
+  // Rendered scheemas: gallery || collection
+  const renderedGallery = (
+    <div style={ hideImageStyle } className='pe-container-gallery' >
+      { photoTitle }
+      { photo }
+      { controlPanel }
+      { uemCounter }
+    </div>
+  )
+  const renderedCollection = (
+    <div 
+      className='pe-container-collection'
+      style={ hideImageStyle } 
+      onMouseOver={ showPanelHandler } 
+      onTouchStart={ showPanelHandler }
+      onMouseLeave={ hidePanelHandler } 
+    >
       { photoTitle }
       { photo }
       { controlPanel }
     </div>
   )
+
+  return (  <> { isCollection ? renderedCollection : renderedGallery } </> )
 }
 
 export default React.memo(PhotoEntry); 

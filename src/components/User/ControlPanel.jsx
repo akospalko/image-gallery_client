@@ -18,21 +18,22 @@ import { useMediaQuery } from 'react-responsive';
 import { OPERATIONS } from '../../helper/dataStorage';
 
 const ControlPanel = ({
+  isCollection, // check if control panel is related to collection or gallery
   photoEntry, // photo entry
   onUnlikePE, // unlike
   onLikePE, // like photo
-  onRemovePEFromCollection, // remove photo from collettion
-  addPEToCollection // add photo to collection
+  onRemovePEFromCollection, // remove photo from collection
+  addPEToCollection, // add photo to collection
+  isHovered // photo entry hovered (used: photo entry on hover, display control panel) 
 }) => {
+
   // PROPS
   const { 
     gpsLatitude,
     gpsLongitude,
     _id, 
-    inCollection,
     isInCollection, 
     isLiked,
-    likes 
   } = photoEntry ?? {};
 
   // CONTEXT
@@ -42,13 +43,16 @@ const ControlPanel = ({
   
   // HOOK
   const isBelow350px = useMediaQuery({ query: '(max-width: 350px)' });
-  const iconSize = isBelow350px ? '20px' : '25px'; // responsive button icon size  
+  const isMobileLandscape = useMediaQuery({ query: '(max-height: 500px)' });
+  
+  // CONSTANT
+  const iconSize = isBelow350px || isMobileLandscape ? '20px' : '25px'; // responsive button icon size  
 
   // Control panel: user engagement metrics (uem)
   const controlPanelUEM = (
-    <div className='photo-entry-control-panel-uem'>
+    <div className='pe-control-panel-uem'>
       { /* like/remove photo like toggler */ }
-      <div className='photo-entry-control-panel-uem-item'>
+      <div className={ isCollection ? 'pe-control-panel-uem-item-collection' : 'pe-control-panel-uem-item-gallery' } >
         <Button
           buttonStyle='button-control-panel-view-user'
           title={ isLiked ? 'like photo' : 'remove like' }
@@ -58,17 +62,14 @@ const ControlPanel = ({
             :
             async () => onLikePE(auth.userID, _id)
           }
-          > { isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
+        > { isLiked ? isLoading.PHOTO_ENTRY_LIKE[_id] ? 
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> : <LikeIcon width={ iconSize } height={ iconSize } stroke='var(--bg-color--accent)'fill='var(--bg-color--accent)'/>
           :  isLoading.PHOTO_ENTRY_LIKE[_id]  ? 
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> : <LikeIcon width={ iconSize } height={ iconSize } stroke='var(--bg-color--accent)'/> } 
         </Button>
-        <div className='photo-entry-control-panel-uem-counter'>
-          <span> { likes } </span>
-        </div>
       </div>
       {/* add/remove photo to/from collection */}
-      <div className='photo-entry-control-panel-uem-item'>
+      <div className={ isCollection ? 'pe-control-panel-uem-item-collection' : 'pe-control-panel-uem-item-gallery' } >
         <Button
           buttonStyle='button-control-panel-view-user'
           title={ isInCollection ? 'remove photo from collection' : 'add photo to collection' }
@@ -84,18 +85,15 @@ const ControlPanel = ({
             : isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> : <AddToCollectionIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> }
         </Button>
-        <div className='photo-entry-control-panel-uem-counter'>
-          <span> { inCollection } </span>
-        </div>
       </div>
     </div>
   );
 
   // Control panel: user engagement metrics (uem)
   const controlPanelModals = (
-    <div className='photo-entry-control-panel-modal'>
-      {/* view */}
-      <div className='photo-entry-control-panel-modal--item'>
+    <div className='pe-control-panel-modal'>
+      { /* view */ }
+      <div className={ isCollection ? 'pe-control-panel-modal-item-collection' : 'pe-control-panel-modal-item-gallery' } >
         <Button
           buttonStyle='button-control-panel-view-user'
           title='view image'
@@ -104,8 +102,8 @@ const ControlPanel = ({
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) } }
         > <ViewPhoto height={ iconSize } width={ iconSize } fill='var(--text-color--high-emphasis)'/> </Button>
       </div>
-      {/* map */}
-      <div className='photo-entry-control-panel-modal--item'>
+      { /* map */ }
+      <div className={ isCollection ? 'pe-control-panel-modal-item-collection' : 'pe-control-panel-modal-item-gallery' }>
       <Button
         buttonStyle='button-control-panel-view-user'
         title='view geographic location'
@@ -116,21 +114,22 @@ const ControlPanel = ({
       > <LocationMark height={ iconSize } width={ iconSize } fill='var(--text-color--high-emphasis)'/> </Button>
       </div>
       { /* info */ }
-      <div className='photo-entry-control-panel-modal--item'>
+      <div className={ isCollection ? 'pe-control-panel-modal-item-collection' : 'pe-control-panel-modal-item-gallery' }>
         <Button
           buttonStyle='button-control-panel-view-user'
           clicked={ () => {
             setActivePhotoEntry(photoEntry);
             toggleModalHandler(OPERATIONS.PHOTO_INFO_VIEW) } }
-        > <InfoIcon height={ iconSize } width={ iconSize } stroke='var(--text-color--high-emphasis)'/> 
+        > <InfoIcon height={ iconSize } width={ iconSize } stroke='var(--text-color--high-emphasis)' /> 
         </Button>
       </div>
     </div>
   )
 
   return (
-    <div className='photo-entry-control-panel'>
-      {/* uem buttons */}
+    <div className={ isCollection ? `pe-control-panel-collection ${ isHovered ? 'pe-control-panel-collection--visible' : '' }` : 'pe-control-panel-gallery' }
+    >
+      { /* uem buttons */ }
       { controlPanelUEM }
       { /* modal buttons */ }
       { controlPanelModals }
