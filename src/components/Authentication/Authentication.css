@@ -94,11 +94,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75px;
-  width: 75px;
+  height: 65px;
+  width: 65px;
   background-color: var(--bg-color--ternary);
   border-radius: 50%;
-  margin: 1rem 0;
+  margin: 2rem 0;
   flex-direction: column;
 }
 
@@ -311,6 +311,11 @@
   /* header + guest welcome info */
   .authentication-illustration-tab-header {
     width: 80%;
+  }
+
+   /* vector illustration container */
+   .authentication-illustration-tab-illustration {
+    height: 250px;
   }
   /* container for vertical-positioning*/
   .authentication-illustration-tab-illustration--vertical-positioning {

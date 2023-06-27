@@ -126,7 +126,7 @@ export default function Register() {
       > 
         <div className='auth-submit-button-content'>
           <span className='shared-button-content'> 
-          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Log in' : 'Fill in form' } </span> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Register' : 'Fill in form' } </span> 
         </div>
       </Button>      
     </div> 
