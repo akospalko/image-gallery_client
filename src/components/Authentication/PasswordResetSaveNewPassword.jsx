@@ -8,7 +8,8 @@ import { useParams } from 'react-router-dom';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
-import { passwordResetSaveNewPassword } from '../../helper/dataStorage';
+import FormInitializers from '../../helper/FormInitializers';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { checkPasswordResetLinkValidity, resetPassword } from '../../helper/axiosRequests';
 import { isPasswordMatching } from '../../helper/formValiadation';
@@ -21,20 +22,24 @@ import LoaderIcon from '../SVG/Loader';
 import useResponsiveBackground from '../hooks/useResponsiveBackground';
 
 export default function PasswordResetSaveNewPassword() {
-  // CONSTANTS
-  // TODO: Outsource
-  const titleText = 'Save new password';
-  const subtitleText = 'make it secure!';
   // ROUTES
   const navigate = useNavigate();
   const { id, token } = useParams(); // get url parameters (id, token)
+ 
   // CONTEXT
   const { formData, setFormData, message, setMessage, setValidationMessages, isFormValid } = useFormContext();
   const { theme } = useThemeContext();
+ 
   // HOOK 
   const { pageBackground } = useResponsiveBackground();
+ 
   // STATE
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // MISC
+  // form template
+  const { passwordResetSaveNewPassword } = FormInitializers();
+
   // EFFECT
   // initialize form validation state
   useEffect(() => {
@@ -105,7 +110,7 @@ export default function PasswordResetSaveNewPassword() {
           navigate('/error-page'); 
         } 
         if(errorField === 'email') { // wrong email: reset input 
-          setFormData({ email: {...passwordResetSaveNewPassword.email }, password: { ...formData.password }, passwordConfirm: { ...formData.passwordConfirm } }); // empty password field before next attempt
+          setFormData({ email: { ...passwordResetSaveNewPassword.email }, password: { ...formData.password }, passwordConfirm: { ...formData.passwordConfirm } }); // empty password field before next attempt
         }  
         if(errorField === 'password') { // wrong password: reset input 
           setFormData({ email: { ...formData.email }, password: { ...passwordResetSaveNewPassword.password }, passwordConfirm: { ...passwordResetSaveNewPassword.passwordConfirm } }); 
@@ -116,7 +121,7 @@ export default function PasswordResetSaveNewPassword() {
       setMessage('Error. Try again later!'); 
     } finally {
       setIsSubmitting(false);
-      if(success) { setTimeout(()=> { navigate('/login'); return }, 1000) } // success: nav to login page
+      if(success) { setTimeout( ()=> { navigate('/login'); return }, 1000) } // success: nav to login page
     }
   }
 
@@ -131,24 +136,24 @@ export default function PasswordResetSaveNewPassword() {
         clicked={ (e) => { resetPasswordHandler(e, formData) } }
       >  <div className='auth-submit-button-content'>
           <span className='shared-button-content'> 
-          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Save password' : 'Fill in form' } </span> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : CONSTANT_VALUES.BUTTON_RESET_PASSWORD : CONSTANT_VALUES.BUTTON_FILL_IN_FORM } </span> 
         </div>
       </Button>      
     </div> 
   )
 
-  // modal
+  // Modal
   const saveNewPasswordModal = (
     <div className='auth-modal'>
-      {/* Group 1: form */}
+      { /* Group 1: form */ }
       <div className='auth-modal--group-1'>
-        {/* header title */}
-        { <AuthenticationHeader title= { titleText } subtitle= { subtitleText } /> }
-        {/* header avatar */}
+        { /* header title */ }
+        { <AuthenticationHeader title= { CONSTANT_VALUES.TITLE_PASSWORD_RESET_SAVE_NEW } subtitle= { CONSTANT_VALUES.SUBTITLE_PASSWORD_RESET_SAVE_NEW } /> }
+        { /* header avatar */ }
         <div className='auth-modal-avatar'>
           <AvatarIllustration color1='var(--color-accent)'/>
         </div>
-        {/* form */}
+        { /* form */ }
         { formData && 
           <Form id='form-password-reset-save-new-password' formStyle='form-authentication' > 
             { buildInputFields(passwordResetSaveNewPassword).map(elem => (
@@ -156,9 +161,9 @@ export default function PasswordResetSaveNewPassword() {
             )) }
           </Form>
         }
-        {/* status message container */}
+        { /* status message container */ }
         { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
-        {/* submit form button */}
+        { /* submit form button */ }
         { saveNewPasswordButton }
       </div>
     </div>
@@ -168,15 +173,14 @@ export default function PasswordResetSaveNewPassword() {
     <div 
       style={ pageBackground } 
       className='shared-page-container shared-page-container--centered'
-    >   
-      {/* container: */}
+    > { /* container: */ }
       <div className='authentication-container'> 
         { /* modal opaque background layer */ }
         <div className='authentication-container-opaque-background'></div>
         { /* auth modal */ }
         { saveNewPasswordModal }
         { /* auth illustration tab + guest welcome */ }
-        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } illustration={ <ForgotPasswordIllustration color1='var(--color-accent)' /> } />
+        <AuthenticationIllustrationTab title={ CONSTANT_VALUES.TITLE_PASSWORD_RESET_SAVE_NEW } subtitle={ CONSTANT_VALUES.SUBTITLE_PASSWORD_RESET_SAVE_NEW } illustration={ <ForgotPasswordIllustration color1='var(--color-accent)' /> } />
       </div>
     </div>
   )

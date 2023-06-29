@@ -1,16 +1,16 @@
-// TODO: outsource client side status messages, constants
+// TODO: outsource client side status messages
 // Authentication: login 
 import React, { useEffect, useState } from 'react';
-import ReactDOMServer from 'react-dom/server';
 import '../Shared.css';
 import './Authentication.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
-import { login } from '../../helper/dataStorage';
+import FormInitializers from '../../helper/FormInitializers';
 import { buildInputFields, convertFormData} from '../../helper/utilities';
 import { loginUser } from '../../helper/axiosRequests';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
@@ -23,15 +23,13 @@ import AuthenticationIllustrationTab, { AuthenticationHeader } from './Authentic
 import useResponsiveBackground from '../hooks/useResponsiveBackground';
 
 export default function Login() {
-  // CONSTANTS
-  // TODO: Outsource
-  const titleText = 'Welcome back';
-  const subtitleText = 'log in to continue';
   // ROUTE
   const navigate = useNavigate(); 
   const from = location.state?.from?.pathname || "/";
+ 
   // HOOK 
   const { pageBackground } = useResponsiveBackground();
+ 
   // CONTEXT
   const {
     formData, setFormData, 
@@ -42,12 +40,16 @@ export default function Login() {
   const { setAuth } = useAuthContext(); 
   const { theme } = useThemeContext();
   
-
   // STATE
   const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
+  
+  // MISC
+  // form template
+  const { login } = FormInitializers();
+
   // EFFECT
   // initialize form validation state 
-  useEffect(() => {
+  useEffect( () => {
     if(!Object.keys(login).length) return; 
     let validationObject = {};
     for(let field in login) {
@@ -57,9 +59,9 @@ export default function Login() {
     return () => {
       setValidationMessages({});
     }
-  }, [])
+  }, [] )
   // form cleanup
-  useEffect(() => {
+  useEffect( () => {
     setFormData(login); 
     // setValidationMessages(login);
     return () => {
@@ -69,6 +71,7 @@ export default function Login() {
       setShowPassword({});
     }
   }, [])
+  
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
@@ -77,7 +80,7 @@ export default function Login() {
       setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
-      const {username, email, createdAt, roles, accessToken, userID, success, message} = response ?? {}; // destructure response values
+      const { username, email, createdAt, roles, accessToken, userID, success, message } = response ?? {}; // destructure response values
       if(success) { // auth successfull
         toast(`${message}`, {
           className: "shared-toast",
@@ -89,12 +92,12 @@ export default function Login() {
           draggable: true,
           theme: theme,
           });
-        setAuth({username, email, createdAt, roles, accessToken, userID}); // store auth data in state
-        navigate(`/${success && convertedData.username}/gallery`, { replace: true }); // navigate user to default resource 
+        setAuth({ username, email, createdAt, roles, accessToken, userID }); // store auth data in state
+        navigate(`/${ success && convertedData.username }/gallery`, { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
         setMessage(message); // set status message (for both success and failed auth)
-        setFormData({username: {...formData.username}, password: {...login.password}}); // empty password field before next login attempt
+        setFormData({ username: { ...formData.username }, password: { ...login.password } }); // empty password field before next login attempt
       }
     } catch(error) {
       setMessage('Error. Try again later!'); // set status message (for both success and failed auth)
@@ -121,7 +124,7 @@ export default function Login() {
       > 
         <div className='auth-submit-button-content'>
           <span className='shared-button-content'> 
-          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : 'Log in' : 'Fill in form' } </span> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : CONSTANT_VALUES.BUTTON_LOG_IN : CONSTANT_VALUES.BUTTON_FILL_IN_FORM } </span> 
         </div>
       </Button>      
     </div> 
@@ -138,15 +141,15 @@ export default function Login() {
   // Login modal
   const loginModal = (
     <div className='auth-modal'>
-      {/* Group 1: form */}
+      { /* Group 1: form */ }
       <div className='auth-modal--group-1'>
         {/* header title */}
-        { <AuthenticationHeader title= { titleText } subtitle= { subtitleText } /> }
-        {/* header avatar */}
+        { <AuthenticationHeader title= { CONSTANT_VALUES.TITLE_LOGIN } subtitle= { CONSTANT_VALUES.SUBTITLE_LOGIN } /> }
+        { /* header avatar */ }
         <div className='auth-modal-avatar'>
           <AvatarIllustration color1='var(--color-accent)'/>
         </div>
-        {/* login form */}
+        { /* login form */ }
         { formData && 
           <Form id='form-login' formStyle='form-authentication'> 
             { buildInputFields(login).map(elem => (
@@ -158,12 +161,12 @@ export default function Login() {
             </div>
           </Form>
         }
-        {/* status message container */}
+        { /* status message container */ }
         { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
-        {/* submit form button */}
+        { /* submit form button */ }
         { loginButton }
       </div>
-      {/* group 2: modal sticky bottom */}
+      { /* group 2: modal sticky bottom */ }
       <div className='auth-modal--group-2'>   
         { navigationToggle }
       </div>
@@ -175,14 +178,14 @@ export default function Login() {
       style={ pageBackground } 
       className='shared-page-container shared-page-container--centered'
     >   
-      {/* container: */}
+      { /* container: */ }
       <div className='authentication-container'> 
-        {/* modal opaque background layer */}
+        { /* modal opaque background layer */ }
         <div className='authentication-container-opaque-background'></div>
         { /* auth modal */ }
         { loginModal }
         { /* auth illustration tab + guest welcome */ }
-        <AuthenticationIllustrationTab title={ titleText } subtitle={ subtitleText } illustration={ <AuthenticationDoorIllustration/> } />
+        <AuthenticationIllustrationTab title={ CONSTANT_VALUES.TITLE_LOGIN } subtitle={ CONSTANT_VALUES.SUBTITLE_LOGIN } illustration={ <AuthenticationDoorIllustration/> } />
       </div>
     </div>
   )
