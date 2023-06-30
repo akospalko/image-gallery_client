@@ -13,7 +13,10 @@ import { useModalContext } from '../contexts/ToggleModalContext';
 import { useFormContext } from '../contexts/FormContext';
 import Button from '../UI/Button';
 
-export default function Gallery() {  
+export default function Gallery() { 
+  // CONSTANT
+  const activeCollection = COLLECTIONS.GALLERY; // component's active collection 
+ 
   // ROUTE
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -33,7 +36,7 @@ export default function Gallery() {
     updatePhotoEntryModal, 
     mapViewModal, 
     photoViewModal 
-  } = useSetUpModal(toggleModal); 
+  } = useSetUpModal(toggleModal, activeCollection); 
   
   // EFFECT
   // get all data on initial render
@@ -64,13 +67,13 @@ export default function Gallery() {
 
   // ELEMENTS
   // Data is loading -> display skeleton -> data is loaded -> display photo entries
-  const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={ COLLECTIONS.GALLERY } /> 
-  
+  const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={ activeCollection } /> 
+
   return (
     <div className='shared-page-container shared-page-container--with-padding shared-page-container--centered'>
       { /* Header title */ }
       <div className='shared-header-wrapper'> 
-        <h1> { CONSTANT_VALUES.TITLE_HOME_DASHBOARD } </h1>  
+        <h1> { CONSTANT_VALUES.TITLE_GALLERY_ADMIN } </h1>  
       </div> 
       { /* Add new photo entry button */ }
       { createPhotoEntryButton }

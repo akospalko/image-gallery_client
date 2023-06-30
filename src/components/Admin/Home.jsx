@@ -13,6 +13,9 @@ import { useFormContext } from '../contexts/FormContext';
 import Button from '../UI/Button';
 
 export default function Home() {
+  // CONSTANT
+  const activeCollection = COLLECTIONS.HOME; // component's active collection 
+
   // ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
@@ -32,7 +35,7 @@ export default function Home() {
     updatePhotoEntryModal, 
     mapViewModal, 
     photoViewModal 
-  } = useSetUpModal(toggleModal); 
+  } = useSetUpModal(toggleModal, activeCollection);  
 
   // EFFECT
   // get all data on initial render
@@ -62,13 +65,13 @@ export default function Home() {
 
   // ELEMENTS
   // Data is loading -> display skeleton -> data is loaded -> display photo entries
-  const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry/> : <PhotoEntries collection={ COLLECTIONS.HOME } /> 
+  const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={ activeCollection } /> 
 
   return (
     <div className='shared-page-container shared-page-container--with-padding shared-page-container--centered'>
       { /* Header title */ }
       <div className='shared-header-wrapper'> 
-        <h1> { CONSTANT_VALUES.TITLE_HOME_DASHBOARD } </h1>  
+        <h1> { CONSTANT_VALUES.TITLE_HOME_ADMIN } </h1>  
       </div>
       { /* Add new photo entry button */ }
       { createPhotoEntryButton }
