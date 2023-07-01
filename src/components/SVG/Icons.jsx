@@ -360,11 +360,13 @@ export function MenuOpenIcon({height, width, fill, stroke}) {
   );
 }
 // MENU CLOSE(X) ICON
-export function MenuCloseIcon({height, width, fill, stroke}) {
+export function MenuCloseIcon({ height, width, fill }) {
   return (
-    <div style={{display:'flex', height: height, width: width}}> 
+    <div style={ { display:'flex', height: height, width: width } }> 
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
+        width="100%"
+        height="100%"
         viewBox="0 -0.5 21 21"
       >
         <g>
@@ -945,15 +947,15 @@ export function LocationsIcon2({height, width}) {
 }
 
 // MAP LOCATION MARKER, MULTICOLOR
-export function LocationIcon({height, width}) {
+export function LocationIcon( { height, width, stroke, fill } ) {
   return (
-    <div style={{display:'flex', height: height, width: width}}> 
+    <div style={ { display:'flex', height: height, width: width } }> 
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width='100%'
         height='100%'
-        stroke="var(--bg-color--accent, green)"
-        fill="var(--bg-color--accent, green)"
+        stroke={ stroke || "#fff" }
+        fill={ fill || "#fff" }
         version="1.1"
         viewBox="0 0 1200 1200"
         xmlSpace="preserve"
@@ -967,12 +969,15 @@ export function LocationIcon({height, width}) {
 }
 
 // Arrow with default left rotation: return back
-export function ArrowIcon({height, width, fill}) {
+export function ArrowIcon({ height, width, fill }) {
   return (
-    <div style={{ display:'flex', height: height, width: width }}> 
+    <div style={ { display:"flex", height: height, width: width } }> 
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill={fill || "#000"}
+        height="100%"
+        width="100%"
+        fill={ fill || "#000" }
+        stroke="1"
         data-name="Layer 1"
         viewBox="0 0 512 512"
       > <path d="M34 256L210 80l21.21 21.2L91.4 241H478v30H91.4l139.85 139.84L210 432z"></path>
