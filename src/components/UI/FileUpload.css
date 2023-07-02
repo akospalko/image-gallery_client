@@ -2,7 +2,7 @@
 .file-upload-container {
   display: flex ;
   flex-direction: column;
-  width: 90%;
+  width: var(--input-width);
 }
 /* INPUT FIELD LABEL */
 .file-upload-label {
@@ -74,7 +74,7 @@
 .file-upload-display {
   position: relative;
   display: flex;
-  height: 350px;
+  height: 300px;
   width: 100%;
   flex-direction: column;
   /* background-color: var(--bg-color--secondary); */

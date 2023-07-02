@@ -1,5 +1,3 @@
-
-
 // Input field to handle file (photo) upload, read photo's exif data, update form data
 // Resource: Codemzy blog, https://www.codemzy.com/blog/react-drag-drop-file-upload
 import React, { useState, useEffect, useRef } from 'react';
@@ -36,17 +34,17 @@ export default function FileUpload() {
     onLoadHandler } = useHideImagesWhileLoading();
 
   // STATE
-  const [dragActive, setDragActive] = useState(false);
+  const [dragActive, setDragActive] = useState(false); // active file drag 
   const [fileUploadStatus, setFileUploadStatus] = useState(defaultValidationState); // status -> successful/default state for adding file to the File API
-  const [imageUrl, setImageUrl] = useState('');
- 
+  const [imageUrl, setImageUrl] = useState(''); // store converted obj url (blob) 
+
   // REF
   const inputRef = useRef(null);
   
   // EFFECT
   // if photoFile is available, create and store photo file object URL 
   useEffect(() => {
-    if (photoFile?.name) {
+    if(photoFile?.name) {
       setImageUrl(URL.createObjectURL(photoFile));
     }
   }, [photoFile]);
@@ -120,7 +118,6 @@ export default function FileUpload() {
   // remove photo (create photo entry) || restore curent photo (update photo entry photoURL)
   const removePhotoHandler = (e) => {
     e.preventDefault();
-    console.log(activePhotoEntry.photoURL);
     if(activePhotoEntry.photoURL) {
       setValidationMessages(prev => ( { ...prev, photoFile: { status: true, message: '', touched: false } } )); // update photo.: remove selected photo -> photo url is fetched from db is still available -> valid: true   
     } else {
@@ -130,6 +127,7 @@ export default function FileUpload() {
     setImageUrl('');
     setFileUploadStatus(defaultValidationState); // remove status (file name)
   }
+
   // ELEMENTS
   // upload file input field
   const uploadFile = (
@@ -154,38 +152,43 @@ export default function FileUpload() {
     </label>
   );
   // display file
-  const customImgStyle = { objectFit: 'contain' };
+  const imgStyle= {
+    display: 'flex',
+    objectFit: 'contain',
+    height: '100%',
+    width: '100%'
+  }
   const displayFile = (
     <>
       { /* Loader */ }
-      { !allImagesLoaded &&
+      { activePhotoEntry?.photoURL && !imageUrl && !allImagesLoaded &&
         <div className='file-upload-display'>
           <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/>
         </div>
       }
       {/* Displayed photo */}
       { photoFile?.name || activePhotoEntry?.photoURL ?
-      <div className='file-upload-display' style={ hideImageStyle }>
-        {/* Button wrapper */}
+      // conditionally add style: img url dont add hide img style
+      <div className='file-upload-display' style={ activePhotoEntry?.photoURL && !imageUrl ? hideImageStyle  : {} }>
+      {/* <div className='file-upload-display' > */}
+        { /* Button wrapper */ }
         <div className='file-upload-button-wrapper'>
           <Button
             title='remove photo'
             clicked={ removePhotoHandler }
-            buttonStyle='button-modal-close'
-            disabled={ !imageUrl}
-          > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)'/> </Button>        
+            buttonStyle='button-close'
+            disabled={ !imageUrl }
+          > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)' /> </Button>        
         </div>
-        {/* display img priority: file api (new / update img), photo */}
+        { /* display img priority: file api (new / update img), photo */ }
         { imageUrl ?
-          <img src={ imageUrl } style={ { height: '100%', width: '100%', ...customImgStyle} } />
-          : activePhotoEntry.photoURL ?
+          <img src={ imageUrl } style={ imgStyle } />
+          : activePhotoEntry.photoURL ? 
           <img
             src={ activePhotoEntry.photoURL } 
-            style={ { height: '100%', width: '100%', ...customImgStyle } }
+            style={ imgStyle }
             onLoad={ () => onLoadHandler(activePhotoEntry._id) } 
-          />
-          :
-          <span> NO IMG </span>
+          /> : <span> { CONSTANT_VALUES.INFO_FILE_UPLOAD_NO_IMG } </span>
         }
       </div> 
       : null
