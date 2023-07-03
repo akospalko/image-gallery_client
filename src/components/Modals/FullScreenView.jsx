@@ -74,7 +74,7 @@ export default function FullScreenView() {
       maxScale={ 10 }
     >
       { ( { zoomIn, zoomOut, resetTransform, ...rest } ) => (
-        <div className='photo-view-loader-container' style={hideImageStyle} >
+        <div className='photo-view-loader-container' style={ hideImageStyle } >
           {/* photo view toolbar */}
           <div className='photo-view-tools'> 
             { getPhotoViewTool(zoomIn, <ZoomInIcon height={ toolIconSize } width={ toolIconSize } fill={ iconColor } />) }

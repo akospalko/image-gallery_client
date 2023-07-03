@@ -41,13 +41,13 @@ export default function ModalHeader(props) {
       <div className='shared-button-wrapper shared-button-wrapper--modal-header'>  
         <Button 
           buttonStyle='button-close'
-          clicked={() => {
+          clicked={ () => {
             setMessage('');
             setFormData({});
             photoFile.name && setPhotoFile({});
             activePhotoEntry && setActivePhotoEntry({});
             toggleModalHandler(closeModal);
-          }}
+          } }
         > <MenuCloseIcon height={ iconCloseModalSize } width={ iconCloseModalSize } fill={ iconColor } /> 
         </Button>
       </div>

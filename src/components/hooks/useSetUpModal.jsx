@@ -1,7 +1,8 @@
 // Get modal related data, set up & return modal
 // used with photo entries (admin / user) 
 import React from 'react';
-import { OPERATIONS, MODAL_TITLES, createPhoto, updatePhoto } from '../../helper/dataStorage';
+import { OPERATIONS, MODAL_TITLES } from '../../helper/dataStorage';
+import FormInitializers from '../../helper/FormInitializers';
 import PhotoEntryModal from '../Modals/PhotoEntryModal';
 import CreateUpdatePhotoEntry from '../Modals/CreateUpdatePhotoEntry';
 import MapModal from '../Modals/MapModal';
@@ -9,6 +10,10 @@ import FullScreenView from '../Modals/FullScreenView';
 import PhotoInfo from '../Modals/PhotoInfo';
 
 export default function useSetUpModal(toggleModal, collection='none') {
+  // TEMPLATES
+  // form initializers
+  const { createPhoto, updatePhoto } = FormInitializers();
+
   // MODALS
   // create photo entry view 
   const createPhotoEntryModal = (
@@ -16,31 +21,40 @@ export default function useSetUpModal(toggleModal, collection='none') {
     <PhotoEntryModal  
       modalTitle={ MODAL_TITLES[OPERATIONS.CREATE_PHOTO] }
       closeModal={ OPERATIONS.CREATE_PHOTO }  
+      containerStyle='shared-modal--create-update-photo-entry'
+      headerStyle='shared-modal-header--create-update-photo-entry'
+      contentStyle='shared-modal-content--create-update-photo-entry'
       modalContent={
         <CreateUpdatePhotoEntry 
           operation={ OPERATIONS.CREATE_PHOTO } 
           collection={ collection }
           formTemplate={ createPhoto } 
           label={ true } 
-        /> } 
+        /> 
+      } 
     />
   );
+ 
   // update photo entry view
   const updatePhotoEntryModal = (
     toggleModal[OPERATIONS.UPDATE_PHOTO] && 
       <PhotoEntryModal  
         modalTitle={ MODAL_TITLES[OPERATIONS.UPDATE_PHOTO] }
-        collection={ collection } 
         closeModal={ OPERATIONS.UPDATE_PHOTO } 
+        containerStyle='shared-modal--create-update-photo-entry'
+        headerStyle='shared-modal-header--create-update-photo-entry'
+        contentStyle='shared-modal-content--create-update-photo-entry'
         modalContent={
           <CreateUpdatePhotoEntry 
             operation={ OPERATIONS.UPDATE_PHOTO } 
             collection={ collection }
             formTemplate={ updatePhoto } 
             label={ true } 
-          /> }
+          />
+        }
       /> 
   );
+  
   // map view 
   const mapViewModal = (
     toggleModal[OPERATIONS.MAP_VIEW] && 

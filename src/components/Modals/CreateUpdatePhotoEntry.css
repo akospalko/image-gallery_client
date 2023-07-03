@@ -7,3 +7,11 @@
   flex-direction: column;
   padding: var(--padding-default);
 }
+
+@media screen and (min-width: 550px) {
+  .create-update-photo-entry-modal-wrapper {
+    border: 2px solid var(--bg-color--ternary);
+    width: 500px;    
+    padding: 2rem 0;
+  }
+}

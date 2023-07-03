@@ -1,6 +1,6 @@
 // TODO: outsource  activePhotoEntry to dataContext
 // storage for loader/modal toggle states, handlers 
-import React, {useState, createContext, useContext} from 'react'
+import React, { useCallback, useState, createContext, useContext } from 'react'
 // DEFINE && EXPORT CONTEXT
 // create context
 const ModalContext = createContext();
@@ -26,19 +26,23 @@ export default function ToggleModalContext({children}) {
   const [activePhotoEntry, setActivePhotoEntry] = useState({}); // photo entry data, used with displayed modals
   // HANDLERS
   // handle toggle state for multiple modals (e.g. create, update photo, etc). Can set a specified value(true||false) if provided (forcedValue) 
-  const toggleModalHandler = (operation, forcedValue) => {
-    setToggleModal(prev => {
-      if(!operation) return;
-      let updatedModal = {...prev};
-      // hide all modals -> set to false
-      for(let modal in updatedModal) {
-        updatedModal = {...updatedModal, [modal]: false}
-      }
-      // show the specified modal(named operation)
-      updatedModal = {...updatedModal, [operation]: forcedValue || !prev[operation]}
-      return updatedModal;
-    })
-  }
+  const toggleModalHandler = useCallback( (operation, forcedValue) => {
+      setToggleModal( prev => {
+        if (!operation) return;
+        let updatedModal = { ...prev };
+        // hide all modals -> set to false
+        for (let modal in updatedModal) {
+          updatedModal = { ...updatedModal, [modal]: false };
+        }
+        // show the specified modal(named operation)
+        const newValue = typeof forcedValue === 'undefined' || forcedValue === null ? !prev[operation] : forcedValue; // return forced value || opposite value based on condition  
+        updatedModal = { ...updatedModal, [operation]: newValue };
+        return updatedModal;
+      } );
+    },
+    [ setToggleModal ]
+  );
+
   // handle toggle state for a single dropdown  
   const toggleDropdownHandler = (forcedValue) => {
     setToggleDropdown(prev => {
@@ -48,14 +52,14 @@ export default function ToggleModalContext({children}) {
 
   return (
     <ModalContext.Provider
-      value={{
-        toggleModal, setToggleModal,
+      value={ {
+        toggleModal,
         toggleDropdown, setToggleDropdown,
         activePhotoEntry, setActivePhotoEntry,
         toggleModalHandler,
         toggleDropdownHandler
-      }}
-    > {children}
+      } }
+    > { children }
     </ModalContext.Provider>
   )
 }
