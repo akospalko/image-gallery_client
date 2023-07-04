@@ -1,120 +1,196 @@
-/* PHOTO ENTRIES */ 
+
+/* Photo entries layout (admin, info) styling */
+
+/* PE layout: admin view, photo info modal */
+/* Photo entries */ 
 /* container */
-.photo-entries-container {
+.pes-layout-container {
   display: flex;
   flex-direction: column;
   width: 100%; 
 }
-/* PHOTO ENTRY */
+/* Photo entry */
 /* container */
-._photo-entry-container {
+.pe-layout-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--bg-color--secondary);
   width: 100%;
+  background-color: var(--bg-color--secondary);
 }
 /* container - admin */
-._photo-entry-container--admin {
+.pe-layout-container--admin {
   margin-bottom: var(--margin-default);
 }
-._photo-entry-container--admin:last-child {
+.pe-layout-container--admin:last-child {
   margin-bottom: 0rem;
 }
-/* container - photo info modal */
-/* ._photo-entry--information {
-  height: 650px; 
-  justify-content: center;
-  align-items: center;
-} */
-/* container - user  */
-/* ._photo-entry--user {} */
-
-/* content: list of table records */
-._photo-entry-content {
+/* entry content: entry records */
+.pe-layout-content {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
-/* content row: table record (label + data)  */
-._photo-entry-content-row { 
+/* entry single record (label + data)  */
+.pe-layout-content-row { 
   display: flex;
-  /* align-items: center; */
-  align-items: stretch; /* added */
+  align-items: stretch; 
   justify-content: center;
   height: 50px;
 }
-.photo-entry-content-row > p {
-  margin: 0;
-}
 /* label */
-._photo-entry-content-label { 
+.pe-layout-content-label { 
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  font-size: 0.8rem;
-  line-height: 0.8rem;
+  width: 75px;
   word-break: break-word;
-  padding: var(--padding-default);
-  background-color: var(--bg-color--main);
+  padding: 0.25rem;
   flex-grow: 1;
+  font-size: calc(var(--text-size--S) - .1rem);
+  line-height: var(--text-size--S);
+  background-color: var(--bg-color--ternary);
+  margin: var(--margin-gap);
+  margin-left: calc(var(--margin-gap) * 2);
 }
 /* data */
-._photo-entry-content-data {
+.pe-layout-content-data {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  /* height: 100%; */
   width: 100%;
   padding: var(--padding-default);
   text-align: justify;
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  border-bottom: 1px solid var(--bg-color--secondary);
-  border-left: 1px solid var(--bg-color--secondary);
-  background-color: var(--bg-color--main);
- }
- /* MODIFIERS */
- /* record */
-._photo-entry-content-record--description {
+  font-size: var(--text-size--S);
+  line-height: calc(var(--text-size--S) + .5rem);
+  background-color: var(--bg-color--ternary);
+  margin: var(--margin-gap);
+  margin-right: calc(var(--margin-gap) * 2);
+}
+/* UEM content: */
+.pe-layout-content-uem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  margin: 0 var(--margin-default);
+}
+/* uem item: e.g. like */
+.pe-layout-content-uem-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
+}
+/* uem icon */
+.pe-layout-content-uem-icon {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 1rem;
+  height: 100%;
+}
+/* uem displayed data & label */
+.pe-layout-content-uem-amount, 
+.pe-layout-content-uem-label {
+  font-size: calc(var(--text-size--S) - .1rem);
+}
+
+/* MODIFIERS */
+/* Record */
+.pe-layout-content-record--auto-height {
   height: auto;
 }
-.photo-entry-content-label--fill-remaining-height {
+.pe-layout-content-label--fill-remaining-height {
   flex-grow: 1;
 }
-/* label */
-.photo-entry-content-label--vertical-text {
+/* Label */
+.pe-layout-content-label--vertical-text {
   writing-mode: vertical-rl;
 }
-/* data */
- ._photo-entry-content-data--description {
-  align-items: initial;
+/* Description content type */
+.pe-layout-content-data--description {
   word-break: break-word;
   overflow-y: auto;
   overflow-x: hidden;
   white-space: normal;
   flex-direction: column;
-  height: 100%;
   justify-content: flex-start;
 }
-/* misc */
-.photo-entry--border-bottom-0 {
-  border-bottom: 0;
+/* User engagement metric (uem) content type */
+.pe-layout-content-data--uem {
+  flex-direction: row;
+  justify-content: flex-start;
 }
-.photo-entry-content--border-top {
-  border-top: 1px solid var(--bg-color--secondary);
+/* Margin */
+.pe-layout-content--margin-top-double {
+  margin-top: calc(var(--margin-gap) * 2); 
 }
-.photo-entry-content--border-right {
-  border-right: 1px solid var(--bg-color--secondary);
-}
-.photo-entry-content--border-left {
-  border-left: 1px solid var(--bg-color--secondary);
-}
-.photo-entry-content--border-bottom {
-  border-bottom: 1px solid var(--bg-color--secondary);
-}
-.photo-entry-content--height-150px {
+
+/* Misc */
+.pe-layout-content--height-150px {
   min-height: 120px;
+}
+.pe-layout-content--height-75px {
+  min-height: 75px;
+}
+
+/* _____MEDIA_____ */
+/* PHONE: small screen */
+@media (max-width: 350px) {
+  /* Photo entry */ 
+  /* label */
+  .pe-layout-content-label { 
+    font-size: var(--text-size--XS);
+    line-height: var(--text-size--XS);
+    width: 65px;
+  }
+  /* data */
+  .pe-layout-content-data {
+    font-size: var(--text-size--XS);
+    line-height: calc(var(--text-size--XS) + .5rem);
+  }
+  /* UEM content: */
+  /* uem displayed data & label */
+  .pe-layout-content-uem-amount, 
+  .pe-layout-content-uem-label {
+    font-size: var(--text-size--XS);
+  }
+}
+
+/* PHONE - TABLET */
+@media (min-width: 480px) {
+  /* Photo entries */ 
+  /* container */
+  .pes-layout-container {
+    width: var(--pe-container-width--M); 
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  /* Photo entry */ 
+  /* label */
+  .pe-layout-content-label { 
+    width: 85px;
+    font-size: calc(var(--text-size--M) - .25rem);
+    line-height: var(--text-size--M);
+  }
+  /* data */
+  .pe-layout-content-data {
+    font-size: var(--text-size--M);
+    line-height: calc(var(--text-size--M) + .5rem);
+  }
+  /* UEM content: */
+  /* uem displayed data & label */
+  .pe-layout-content-uem-amount, 
+  .pe-layout-content-uem-label {
+    font-size: calc(var(--text-size--M) - .25rem);
+  }
 }

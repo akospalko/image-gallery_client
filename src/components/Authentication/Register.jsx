@@ -1,4 +1,5 @@
-// TODO: outsource client side status messages
+// TODO: outsource client side status messages, constants
+// Authentication: register 
 import React, {useEffect, useState} from 'react';
 import '../Shared.css';
 import './Authentication.css';
@@ -7,21 +8,25 @@ import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import LoaderIcon from '../SVG/Loader';
-import { register } from '../../helper/dataStorage';
+import FormInitializers from '../../helper/FormInitializers';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { isPasswordMatching } from '../../helper/formValiadation';
 import { createNewUser } from '../../helper/axiosRequests';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
+import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
-import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
-
+import { AvatarIllustration, AuthenticationDoorIllustration } from '../SVG/Illustrations';
+import AuthenticationToggle from './AuthenticationToggle';
+import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
+import useResponsiveBackground from '../hooks/useResponsiveBackground';
 export default function Register() {
-  // CONSTANTS
-  // const operation = OPERATIONS.REGISTER;
   // HOOKS
   const navigate = useNavigate(); 
+  const { pageBackground } = useResponsiveBackground();
+  
   // CONTEXT
   const {
     formData, setFormData, 
@@ -30,9 +35,15 @@ export default function Register() {
     setValidationMessages, 
     setShowPassword,
   } = useFormContext();
-  const {theme} = useThemeContext();
+  const { theme } = useThemeContext();
+  
   // STATE
-    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
+  
+  // MISC
+  // form template
+  const { register } = FormInitializers();
+
   // EFFECT
   // initialize form validation state
   useEffect(() => {
@@ -46,6 +57,7 @@ export default function Register() {
       setValidationMessages({});
     }
   }, [])
+
   // form cleanup
   useEffect(() => {
     setFormData(register); 
@@ -62,10 +74,10 @@ export default function Register() {
   const registerHandler = async (e, formData) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplyfy data before sending request  
-      const {password, passwordConfirm} = convertedData; // destructure converted data values
-      const resetPassword = {username: {...formData.username}, email: {...formData.email}, password: {...register.password}, passwordConfirm: {...register.passwordConfirm}}; // empty pasword fields
+      const { password, passwordConfirm } = convertedData; // destructure converted data values
+      const resetPassword = {username: { ...formData.username }, email: { ...formData.email}, password: { ...register.password }, passwordConfirm: { ...register.passwordConfirm } }; // empty pasword fields
       // check for matching PWs  
       const matchedPassword = isPasswordMatching (password, passwordConfirm); 
       if(!matchedPassword) {
@@ -75,7 +87,7 @@ export default function Register() {
       };
       delete convertedData.passwordConfirm; // if pw matched -> delete pw confirm from convertedData
       const response = await createNewUser(convertedData);
-      const {success, message} = response ?? {}; // destructure response values
+      const { success, message } = response ?? {}; // destructure response values
       if(success) {  // register successfull
         toast(`${message}`, {
           className: "shared-toast",
@@ -87,7 +99,7 @@ export default function Register() {
           draggable: true,
           theme: theme,
           });
-        navigate('/login'); //navigate to login page after successful registration
+        navigate('/login'); // navigate to login page after successful registration
         setFormData(register); // reset form 
         setMessage('');
       } else { // register failed
@@ -97,9 +109,10 @@ export default function Register() {
     } catch(error) {
       setMessage('Error. Try again later!'); 
     } finally {
-      setIsLoading(false);     
+      setIsSubmitting(false);     
     }
   }
+
   // BUTTON
   // submit form: register
   const registerButton = (
@@ -107,41 +120,69 @@ export default function Register() {
       <Button 
         buttonStyle='button-authentication' 
         type='submit' 
-        form='form-register'
-        disabled={!isFormValid}
-        clicked={(e) => {registerHandler(e, formData)}}
-      > Register </Button>      
+        disabled={ !isFormValid }
+        clicked={ (e) => { registerHandler(e, formData) } }
+      > 
+        <div className='auth-submit-button-content'>
+          <span className='shared-button-content'> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : CONSTANT_VALUES.BUTTON_REGISTER : CONSTANT_VALUES.BUTTON_FILL_IN_FORM } </span> 
+        </div>
+      </Button>      
     </div> 
   )
 
-  return (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'> 
-      <div className='auth-modal'>
-        {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
-        {/* modal background */}
-        <div className='auth-modal-background'></div>
-        {/* FORM: register */}
-        {formData && 
-          <Form id='form-register' title='Register'> 
-          {buildInputFields(register).map(elem => (
-            <Input inputStyle='input-authentication' key={elem.name} name={elem.name} label labelStyle='label-authentication' />
-          ))}
+  // navigation toggle button: login-register
+  const navigationToggle = (
+    <div className='auth-modal-navigate'>
+      <AuthenticationToggle navigateTo='/login' title='Login' />
+      <AuthenticationToggle title='Register' active activeBorder='left'/>
+    </div>
+  ) 
+
+  // Register modal
+  const registerModal = (
+    <div className='auth-modal'>
+      {/* group 1: form */}
+      <div className='auth-modal--group-1'>
+        { /* header title */ }
+        { <AuthenticationHeader title= { CONSTANT_VALUES.TITLE_REGISTER } subtitle= { CONSTANT_VALUES.SUBTITLE_REGISTER } /> }
+        { /* header avatar */ }
+        <div className='auth-modal-avatar'>
+          <AvatarIllustration color1='var(--color-accent)'/>
+        </div>
+        { /* register form */ }
+        { formData && 
+          <Form id='form-register' formStyle='form-authentication'> 
+            { buildInputFields(register).map(elem => (
+              <Input key={elem.name} name={elem.name} validationStyle='input-validation-authentication' /> 
+            )) }
           </Form>
         }
-        {/* status message container */}
-        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
-        {/* submit form button */}
-        {registerButton}
-        {/* login-register navigation button */}
-        <div className='auth-modal-navigate'>
-          <div className='auth-modal-navigate' onClick={() => navigate('/login')}> 
-            Login 
-          </div>  
-          <div className='auth-modal-navigate auth-modal-navigate--active'>
-            Register 
-          </div>
-        </div>
+        { /* status message container */ }
+        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { /* submit form button */ }
+        { registerButton }
+      </div>
+      { /* group 2: modal sticky bottom */ }
+      <div className='auth-modal--group-2'>   
+        { navigationToggle }
+      </div>
+    </div>
+  )
+
+  return (
+    <div 
+      style={ pageBackground } 
+      className='shared-page-container shared-page-container--centered'
+    >   
+      { /* container: */ }
+      <div className='authentication-container'> 
+        { /* modal opaque background layer */ }
+        <div className='authentication-container-opaque-background'></div>
+        { /* auth modal */ }
+        { registerModal }
+        { /* auth illustration tab + guest welcome */ }
+        <AuthenticationIllustrationTab title={ CONSTANT_VALUES.TITLE_REGISTER } subtitle={ CONSTANT_VALUES.SUBTITLE_REGISTER } illustration={ <AuthenticationDoorIllustration /> } />
       </div>
     </div>
   )

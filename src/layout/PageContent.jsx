@@ -3,6 +3,7 @@ import React from 'react'
 import {Route, Routes} from 'react-router-dom'
 import Home from '../components/User/Home'
 import Gallery from '../components/User/Gallery'
+import Collection from '../components/User/Collection'
 import GalleryAdmin from '../components/Admin/Gallery'
 import HomeAdmin from '../components/Admin/Home'
 import MapOverview from '../components/Map/MapOverview'
@@ -37,8 +38,8 @@ export default function PageContent() {
       {/* user routes */}
       <Route element={<RequireAuth allowedRoles={[ROLES.user]} />}>
         <Route path={`/${auth.username}/gallery`} element={<Gallery />} />
-        <Route path={'/mapoverview'} element={<MapOverview />} />
-        <Route path={`/${auth.username}/collection`} element={<Gallery isUserCollection={true} />} />
+        <Route path={`/${auth.username}/collection`} element={<Collection />} />
+        <Route path={`/${auth.username}/mapoverview`} element={<MapOverview />} />
       </Route>
       
       {/* admin routes */}

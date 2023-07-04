@@ -10,19 +10,23 @@ export default function PhotoEntryModal(props) {
     returnToModal, // reference to which modal to return when button is clicked 
     modalTitle,  // modal header title 
     modalContent, // component to hold the modal's unique content:  create/update, photo, map, info 
-    contentStyle // modal component's content style 
+    headerStyle, // modal header style
+    contentStyle, // modal component's content style 
+    containerStyle // modal container style
   } = props;
 
   return (
-      <div className='shared-modal'>
-        {/* modal header */}
-        <div className='shared-modal-header'> 
-          <ModalHeader title={modalTitle} closeModal={closeModal} returnToModal={returnToModal} />
+    <div className='shared-modal-backdrop'>
+      <div className={ `shared-modal ${ containerStyle }` }>
+        { /* modal header */ }
+        <div className={ `shared-modal-header ${ headerStyle}` }> 
+          <ModalHeader title={ modalTitle } closeModal={ closeModal } returnToModal={ returnToModal } />
         </div>
-        {/* modal content */}
-        <div className={`shared-modal-content ${contentStyle}`}> 
-          {modalContent ? modalContent :<p> Couldn't display modal </p>  }
+        { /* modal content */ }
+        <div className={ `shared-modal-content ${ contentStyle } ` }>
+        { modalContent ? modalContent : <p> Couldn't display modal </p>  }
         </div>
       </div>
+    </div>
   )
 }

@@ -1,211 +1,3 @@
-// FORM INITIALIZERS
-export const createPhoto = {
-  title: {
-    type: 'text',
-    placeholder: 'title',
-    value: '',
-    label: 'Title',
-    required: true,
-    minLength: 5,
-    maxLength: 50
-  },
-  author: {
-    type: 'text',
-    placeholder: 'author',
-    value: '',
-    label: 'Author',
-    required: true,
-    minLength: 4,
-    maxLength: 50
-  },
-  gpsLatitude: {
-    type: 'number',
-    placeholder: 'latitude coordinate of the photo',
-    value: '',
-    label: 'GPS latitude'
-  },
-  gpsLongitude: {
-    type: 'number',
-    placeholder: 'longitude coordinate of the photo',
-    value: '',
-    label: 'GPS longitude'
-  },
-  captureDate: {
-    type: 'date',
-    placeholder: 'capture date',
-    value: '',
-    label: 'Capture date'
-  },
-  description: {
-    type: 'textarea',
-    placeholder: 'description',
-    value: '',
-    label: 'Description',
-    maxLength: 500
-  },
-  photoFile: {
-    type: 'file',
-    value: {},
-  }
-}
-export const updatePhoto = {
-  _id : {
-    type: 'text',
-    placeholder: 'photo entry id',
-    value: '',
-    disabled: true,
-    label: 'ID'
-  },
-  photoName: {
-    type: 'text',
-    placeholder: 'file name',
-    value: '',
-    disabled: true,
-    label: 'File name'
-  },
-  title: {
-    type: 'text',
-    placeholder: 'title',
-    value: '',
-    label: 'Title',
-    required: true,
-    minLength: 5,
-    maxLength: 50
-  },
-  author: {
-    type: 'text',
-    placeholder: 'author',
-    value: '',
-    label: 'Author',
-    required: true,
-    minLength: 4,
-    maxLength: 50
-  },
-  gpsLatitude: {
-    type: 'number',
-    placeholder: 'latitude coordinate of the photo',
-    value: '',
-    label: 'GPS latitude'
-  },
-  gpsLongitude: {
-    type: 'number',
-    placeholder: 'latitude coordinate of the photo',
-    value: '',
-    label: 'GPS longitude'
-  },
-  captureDate: {
-    type: 'date',
-    placeholder: 'capture date',
-    value: '',
-    label: 'Capture date'
-  },
-  description: {
-    type: 'textarea',
-    placeholder: 'description',
-    value: '',
-    label: 'Description',
-    maxLength: 500
-  },
-  photoFile: {
-    type: 'file',
-    value: {},
-    // label: ''
-  }
-}
-// AUTHENTICATION
-export const login = {
-  username: {
-    type: 'text',
-    placeholder: '',
-    value: '',
-    label: 'Username',
-    required: true,
-    fieldName: 'usernameLogin',
-  },
-  password: {
-    type: 'password',
-    placeholder: '',
-    value: '',
-    label: 'Password',
-    required: true,
-    minLength: 8,
-    fieldName: 'passwordLogin',
-  }
-}
-export const register = {
-  username: {
-    type: 'text',
-    placeholder: '',
-    value: '',
-    label: 'Username',
-    required: true,
-    minLength: 4,
-    fieldName: 'usernameRegister',
-  },
-  email: {
-    type: 'email',
-    placeholder: '',
-    value: '',
-    label: 'E-mail',
-    required: true,
-  },
-  password: {
-    type: 'password',
-    placeholder: '',
-    value: '',
-    label: 'Password',
-    required: true,
-    minLength: 8,
-    fieldName: 'passwordRegister',
-  },
-  passwordConfirm: {
-    type: 'password',
-    placeholder: '',
-    value: '',
-    label: 'Password confirm',
-    required: true,
-    minLength: 8,
-    fieldName: 'passwordConfirmRegister',
-  }
-}
-// form to get email where the password reset link is to be sent
-export const passwordResetSendEmailLink = {
-  email: {
-    type: 'email',
-    placeholder: 'Email',
-    value: '',
-    label: 'E-mail',
-    required: true
-  }
-}
-// form to get new password which are to be saved as the new password for the account
-export const passwordResetSaveNewPassword = {
-  email: {
-    type: 'email',
-    placeholder: 'Email',
-    value: '',
-    label: 'E-mail',
-    required: true
-  },
-  password: {
-    type: 'password',
-    placeholder: 'Password',
-    value: '',
-    label: 'Password',
-    required: true,
-    minLength: 8,
-    fieldName: 'passwordReset'
-  },
-  passwordConfirm: {
-    type: 'password',
-    placeholder: 'Password Confirm',
-    value: '',
-    label: 'Password',
-    required: true,
-    minLength: 8,
-    fieldName: 'passwordConfirmReset'
-  }
-}
 // STATUS MESSAGES
 // TODO: merge with data statusMesages.jsx 
 export const statusMessages = {
@@ -236,11 +28,15 @@ export const navElementsUser = [
   }, {
     id: 1,
     name: 'gallery',
-    path: function(username) { return `${username}/gallery`}
-  }, {
+    path: function(username) { return `${ username }/gallery` }
+  }, { 
     id: 2,
+    name: 'collection',
+    path: function(username) { return `${ username }/collection` }
+  }, {
+    id: 3,
     name: 'map overview',
-    path: '/mapoverview'
+    path: function(username) { return `${ username }/mapoverview` }
   }
 ]
 // navigation elements visible for authenticated users with 'admin' role
@@ -284,7 +80,7 @@ export const MODAL_TITLES = {
   PHOTO_INFO_VIEW: 'Info',
   CREATE_PHOTO:'Create Photo Entry',
   UPDATE_PHOTO:'Update Photo Entry',
-  //...
+
 }
 
 // operation constants 
@@ -313,5 +109,6 @@ export const LOADER = {
   PHOTO_ENTRY_DELETE: {}, // delete photo entry button loader 
   PHOTO_ENTRY_LIKE: {}, // { photoID1: false, photoID2: true } - loader state of photo entry like toggle
   PHOTO_ENTRY_COLLECTION: {}, // add/remove photo item to/from collection
-  MAP_FETCH_DATA: false // loader shown in map box while fetching data / switching content
+  MAP_FETCH_DATA: false, // loader shown in map box while fetching data / switching content
+  BACKGROUND: true // show loader while svg background is being loaded   
 }

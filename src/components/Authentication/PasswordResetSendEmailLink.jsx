@@ -1,23 +1,42 @@
+// Password reset - request password reset email link
 import React, { useState, useEffect } from 'react';
 import './Authentication.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
-import LoaderIcon from '../SVG/Loader';
+import FormInitializers from '../../helper/FormInitializers';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { buildInputFields } from '../../helper/utilities';
 import { requestPasswordResetLink } from '../../helper/axiosRequests';
-import { passwordResetSendEmailLink } from '../../helper/dataStorage';
-import { toast } from 'react-toastify';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useFormContext } from '../contexts/FormContext';
+import useResponsiveBackground from '../hooks/useResponsiveBackground';
+import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
+import { ForgotPasswordIllustration } from '../SVG/Illustrations';
+import LoaderIcon from '../SVG/Loader';
+import { ArrowIcon } from '../SVG/Icons';
 
 export default function PasswordResetSendLink() {
+  // ROUTE
+  const navigate = useNavigate();
+
   // CONTEXT
-  const {formData, setFormData, message, setMessage, isFormValid, setValidationMessages} = useFormContext();
-  const {theme} = useThemeContext();
+  const { formData, setFormData, message, setMessage, isFormValid, setValidationMessages } = useFormContext();
+  const { theme } = useThemeContext();
+  
+  // HOOK 
+  const { pageBackground } = useResponsiveBackground();
+ 
   // STATE
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // MISC
+  // form template
+  const { passwordResetSendEmailLink } = FormInitializers();
+
   // EFFECT
   // initialize form validation state 
   useEffect(() => {
@@ -38,10 +57,11 @@ export default function PasswordResetSendLink() {
   // HANDLERS
   // send a mail with a password reset link to the provided email address
   const sendPasswordResetEmailHandler = async (e, formData) => {
+    console.log('clicked')
     e.preventDefault();
     try {
-      setIsLoading(true);
-      const response = await requestPasswordResetLink({email: formData?.email?.value }); // get reet link by posting email
+      setIsSubmitting(true);
+      const response = await requestPasswordResetLink({ email: formData?.email?.value }); // get reet link by posting email
       const {success, message} = response ?? {};
       if(success) {
         console.log(response);
@@ -61,10 +81,12 @@ export default function PasswordResetSendLink() {
       }
       catch (error) {
         setMessage('Error. Try again later!'); 
+        console.log(error)
       } finally {
-        setIsLoading(false);
+        setIsSubmitting(false);
       }
     }
+
   // BUTTONS
   // submit form: request password reset link 
   const requestPasswordResetLinkButton = (
@@ -72,31 +94,59 @@ export default function PasswordResetSendLink() {
       <Button 
         buttonStyle='button-authentication' 
         type='submit' 
-        form='form-password-reset-link'
-        disabled={!isFormValid}
-        clicked={(e) => {sendPasswordResetEmailHandler(e, formData)}}
-      > Submit </Button>      
+        disabled={ !isFormValid }
+        clicked={ (e) => { sendPasswordResetEmailHandler(e, formData) } }
+      > 
+        <div className='auth-submit-button-content'>
+          <span className='shared-button-content'> 
+          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting && <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : CONSTANT_VALUES.BUTTON_RESET_PASSWORD : CONSTANT_VALUES.BUTTON_FILL_IN_FORM } </span> 
+        </div>
+      </Button>      
     </div> 
   )
-  return (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
-      <div className='auth-modal'>
-        {/* modal loader */}
-        {isLoading ? <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div> : null }
-        {/* modal background */}
-        <div className='auth-modal-background'></div>
-        {/* send reset password form */}
-        {formData && 
-          <Form id='form-password-reset-link' title='Password reset'> 
-            {buildInputFields(passwordResetSendEmailLink).map(elem => (
-              <Input inputStyle='input-authentication' key={elem.name} name={elem.name}/> 
-            ))}
+
+  // Reset password modal
+  const resetPasswordModal = (
+    <div className='auth-modal auth-modal--vertical-positioning'>
+      { /* Group 1: form */ }
+      <div className='auth-modal--group-1'>
+        { /* form */ }
+        { formData && 
+          <Form id='form-password-reset-link' formStyle='form-authentication'> 
+            { buildInputFields(passwordResetSendEmailLink).map(elem => (
+              <Input key={ elem.name } name={ elem.name } inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+            )) }
           </Form>
         }
-        {/* status message container */}
-        {message && <div className='shared-status-message'> <p> {message} </p> </div>}
-        {/* submit form button */}
-        {requestPasswordResetLinkButton}
+        { /* status message container */ }
+        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { /* submit form button */ }
+        { requestPasswordResetLinkButton }
+      </div>
+    </div>
+  );
+
+  return (
+    <div 
+      style={ pageBackground } 
+      className='shared-page-container shared-page-container--centered'
+    >   
+      {/* container: */}
+      <div className='authentication-container authentication-container--vertical-positioning'> 
+        {/* nav to login page btn container */}
+        <div className='authentication-return-back-button'> 
+          <Button title={ CONSTANT_VALUES.BUTTON_BACK_TO_LOGIN } buttonStyle='button-return-back' clicked={ () => { navigate('/login') } } > 
+            <ArrowIcon height='25px' width='25px' fill='var(--text-color--high-emphasis)'/>
+          </Button>
+        </div>
+        { /* modal opaque background layer */ }
+        <div className='authentication-container-opaque-background'></div>
+        { /* header title */ }
+        { <AuthenticationHeader title= { CONSTANT_VALUES.TITLE_PASSWORD_RESET_EMAIL } subtitle= { CONSTANT_VALUES.SUBTITLE_PASSWORD_RESET_EMAIL } /> }
+        { /* auth illustration tab + guest welcome */ }
+        <AuthenticationIllustrationTab isLayoutVertical={ 'vertical' } title={ CONSTANT_VALUES.TITLE_PASSWORD_RESET_EMAIL } subtitle={ CONSTANT_VALUES.SUBTITLE_PASSWORD_RESET_EMAIL } illustration={ <ForgotPasswordIllustration color1='var(--color-accent)' /> } />
+        { /* auth modal */ }
+        { resetPasswordModal }
       </div>
     </div>
   )

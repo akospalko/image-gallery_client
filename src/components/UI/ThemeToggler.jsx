@@ -1,16 +1,20 @@
-// Resources: https://codepen.io/Umer_Farooq/pen/eYJgKGN
+// Display the active theme's corresponding icon 
 import React from 'react'
-import './ThemeToggler.css'
 import { useThemeContext } from '../contexts/ThemeContext'
+import { MoonIcon, SunIcon } from '../SVG/Icons'
 
-export default function ThemeToggler() {
-  const {theme, toggleThemeHandler} = useThemeContext();
+export default function ThemeToggler(prop) {
+  // PROPS
+  const { size } = prop; // height || width value e.g. 30px  
+  // CONTEXT 
+  const { theme } = useThemeContext();
+ 
   return (
     <>
-      <input type="checkbox" className="checkbox" id="checkbox" onChange={toggleThemeHandler} checked={theme === 'dark'}/>
-      <label htmlFor="checkbox" className={`checkbox-label theme-${theme}`}>
-        <span className="ball"></span>
-      </label>
+      { theme === 'dark' ? 
+      <MoonIcon height={ size } width={ size } color='var(--text-color-light--high-emphasis)' />
+      :
+      <SunIcon height={ size } width={ size } color='var(--text-color-dark--high-emphasis)' /> }
     </>
   )
 }

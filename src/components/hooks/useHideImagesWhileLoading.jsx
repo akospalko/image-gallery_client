@@ -1,51 +1,37 @@
-import React, {useEffect, useState} from 'react'
+// Logic to hide images while they are being loaded (using css)
+// display them when load is done (photos are loaded by the browser) 
+// it uses <img/> tag and onLoad tag attribute to solve the problem. 
+import { useEffect, useState } from 'react';
 
 export default function useHideImagesWhileLoading() {
   // STATE
-  const [allImagesLoaded, setAllImagesLoaded] = useState(false); // switch to indicate whether all active img-s are loaded or not  
-  const [currentlyLoadingImages, setCurrentlyLoadingImages] = useState({}); // stores the loading state for each loading image 
+  const [ allImagesLoaded, setAllImagesLoaded ] = useState(false);
+  const [ currentlyLoadingImages, setCurrentlyLoadingImages ] = useState({}); 
+
   // EFFECT
   useEffect(() => {
-    const loadingImagesArr = Object.values(currentlyLoadingImages || {});
-    const isAllImageLoaded = loadingImagesArr.every(img => img === true);
-    isAllImageLoaded === true ? setAllImagesLoaded(isAllImageLoaded) : null;
-    return () => {setAllImagesLoaded(false)};
-  }, [allImagesLoaded, currentlyLoadingImages, setAllImagesLoaded])
-  
+    const loadingImagesArr = Object.values(currentlyLoadingImages || {}); // 
+    const areAllImagesLoaded = loadingImagesArr.length > 0 && loadingImagesArr.every(img => img === true);
+    setAllImagesLoaded(areAllImagesLoaded);
+  }, [ currentlyLoadingImages, setAllImagesLoaded ]);
+
   // HANDLER 
-  // actions done when the image is loaded 
+  // update load state to true when image is finished loading 
   const onLoadHandler = (photoID) => {
     if(!photoID) return;
     // set current photo's state to true 
     setCurrentlyLoadingImages(prev => {
-      const updatedLoadingState = {...prev, [photoID]: true}
+      const updatedLoadingState = { ...prev, [photoID]: true }
       return updatedLoadingState;
     })
   }
-  // add style to hide rendered photo entry while the img is being loaded
+  // add style to hide loading img-s  
   const hideImageStyle = allImagesLoaded ? {} : { visibility: 'hidden', position: 'fixed' };
-  // return an img element
-  const getImageFile = (src, style, photoID, alt) => {
-    // img styling
-    const imgStyle = { 
-      height: '100%',
-      width: '100%', 
-      ...style
-    }
 
-    return (
-      <img 
-        src={src} 
-        style={imgStyle || {}} 
-        onLoad={() => onLoadHandler(photoID)} 
-        alt={alt || ''}
-      />
-    )
-  }
   return {
-    currentlyLoadingImages, setCurrentlyLoadingImages,
-    allImagesLoaded, setAllImagesLoaded, 
-    hideImageStyle, 
-    getImageFile
+    currentlyLoadingImages, setCurrentlyLoadingImages, // loading state for all img-s currently being loaded  
+    allImagesLoaded, setAllImagesLoaded, // stores the loading state for each loading image 
+    hideImageStyle, // check if img-s are loaded -> apply hide element 
+    onLoadHandler // handle loading state update when current img is loaded 
   }
 }

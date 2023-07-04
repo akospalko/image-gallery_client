@@ -1,63 +1,324 @@
-.auth-modal {
-  position: relative;
+/* AUTH PAGE CONTENT */
+.authentication-container {
   display: flex; 
+  align-items: center; 
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+/* password reset link vertical layout */
+.authentication-container--vertical-positioning {
+  flex-direction: column;
+  position: relative;
+}
+
+/* button container to navigate back to login page */
+.authentication-return-back-button {
+  position: absolute;
+  height: 30px;
+  top: -30px;
+  padding: 0 1rem;
+  left: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+.authentication-return-back-button:hover {
+  opacity: .7;
+}
+
+/* BLURRED BACKGROUND */
+.authentication-container-opaque-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(5px);
+  z-index: -1; /* put the background behind container */
+}
+
+/* MODAL CONTAINER */
+/* modal container */
+.auth-modal {
+  display: flex; 
+  justify-content: space-between;
   align-items: center; 
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  border: 2px solid var(--bg-color--ternary);
-  background-color: var(--bg-color--secondary);
+  min-height: calc(100vh - var(--header-height));
+  /* background-color: var(--bg-color--main-transparent-low); */
+  position: relative;
   z-index: 1;
-  /* modal is centered on the screen. Necessary  while  header position:fixed is applied */
 }
-.auth-modal-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+ /* MODAL CONTAINER: password reset */
+ .auth-modal--vertical-positioning {
+  min-height: initial;
+}
+
+/* BUTTON CONTENT */
+.auth-submit-button-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  backdrop-filter: blur(10px);
-  z-index: -1; /* put the background behind the modal*/
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
 }
+
+/* LOADER BACKGROUND */
 .auth-modal-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* MODAL GROUP-1 */
+.auth-modal--group-1 {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* USER PROFILE AVATAR CONTAINER */
+.auth-modal-avatar {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 65px;
+  width: 65px;
+  background-color: var(--bg-color--ternary);
+  border-radius: 50%;
+  margin: 2rem 0;
   flex-direction: column;
-  background-color: var(--bg-color--secondary);
-  z-index: 10;
-  /* position: fixed; */
 }
-/* reset password for login modal */
+
+/* MODAL GROUP-2 */
+.auth-modal--group-2 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PASSWORD RESET: LOGIN */
 .auth-modal-reset-password {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 90%;
+  width: var(--input-width);
   height: 25px;
   cursor: pointer;
   padding: 0 var(--padding-default);
 }
+.auth-modal-reset-password--content {
+  color: var(--text-color--high-emphasis);
+}
+.auth-modal-reset-password--content:hover {
+  color: var(--color-accent--light);
+  text-decoration: underline;
+}
+/* NAVIGATION: LOGIN, REGISTER */
+/* container  */
 .auth-modal-navigate {
-  /* background-color: rgb(102, 102, 105); */
   background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 30px;
+  height: 40px;
   cursor: pointer;
 }
+/* active button */
 .auth-modal-navigate--active {
-  background-color: var(--bg-color--ternary);
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+/* button content */
+.auth-modal-navigate-content {
+  font-size: 1.2rem;
+}
+
+/* AUTH ILLUSTRATION TAB */
+/* container */
+.authentication-illustration-tab {
+  display: none;
+}
+/* container for vertical-positioning*/
+.authentication-illustration-tab--vertical-positioning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* header + guest welcome info */
+.authentication-illustration-tab-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: var(--padding-default);
+  flex-direction: column;
+}
+.authentication-illustration-tab-header h1 {
+  margin: 1rem;
+  font-size: 1.9rem;
+  line-height: 2rem;
+  font-weight: bold;
+  color: var(--text-color--high-emphasis);
+  margin: var(--padding-default) 0;
+}
+.authentication-illustration-tab-header span {
+  font-size: 1.1em;
+  line-height: 1.2rem;
+  color: var(--text-color--high-emphasis);
+}
+
+/* vector illustration container */
+.authentication-illustration-tab-illustration {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* MOBILE: small */
+@media (max-width: 300px) {
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab-illustration--vertical-positioning {
+    width: 80%;
+    padding: 0;
+  }
+}
+
+/* TABLET: PORTRAIT */
+@media (min-width: 768px) {
+  /* AUTH PAGE CONTENT */
+  .authentication-container {
+    margin: var(--margin-default) 0;
+    width: auto;
+    border: 2px solid var(--bg-color--ternary);
+  }
+  
+  /* button container to navigate back to login page */
+  .authentication-return-back-button {
+    height: 50px;
+    width: 50px;
+    top: 0px;
+    padding: var(--padding-default);
+
+  }
+
+  /* MODAL CONTAINER */
+  .auth-modal {
+    width: 350px;
+    height: 700px;
+    min-height: initial;
+  }
+  
+  /* MODAL CONTAINER: password reset */
+  .auth-modal--vertical-positioning {
+    height: 250px;
+  }
+  
+  /* MODAL GROUP-1 */
+  /* USER PROFILE AVATAR CONTAINER */
+  .auth-modal-avatar {
+    margin: 2.5rem 0;
+  }
+ 
+  /* NAVIGATION: LOGIN, REGISTER */
+  /* active button */
+  .auth-modal-navigate--active {
+    text-decoration: none;
+  }
+  /* active button custom border */
+  .auth-modal-navigate--active-border-left {
+    border-top: 2px solid var(--bg-color--ternary);
+    border-right: 2px solid var(--bg-color--ternary);
+  }
+  .auth-modal-navigate--active-border-right {
+    border-top: 2px solid var(--bg-color--ternary);
+    border-left: 2px solid var(--bg-color--ternary);
+  }
+
+  /* AUTH ILLUSTRATION TAB */
+  /* container */
+  .authentication-illustration-tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--bg-color--main-transparent-low);
+    padding: 1rem;
+    width: 350px;
+    height: 700px;
+  }
+  /* header + guest welcome info */
+  .authentication-illustration-tab-header h1 {
+    font-size: 2.1rem;
+    line-height: 2.2rem;
+  }
+  .authentication-illustration-tab-header span {
+    font-size: 1.3em;
+    line-height: 1.4rem;
+  }
+
+  .authentication-illustration-tab--border-left {
+    border-left: 2px solid var(--bg-color--ternary);
+  }
+
+  /* vector illustration container */
+  .authentication-illustration-tab-illustration {
+    height: 200px;
+  }
+
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab--vertical-positioning {
+    height: 450px;
+  }
+} 
+
+/* TABLET: LANDSCAPE */
+@media (min-width: 768px) and (orientation: landscape) {
+   /* container for vertical-positioning*/
+   .authentication-illustration-tab--vertical-positioning {
+    height: 400px;
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 1024px) {
+  /* AUTH ILLUSTRATION TAB */
+  /* container */
+  .authentication-illustration-tab {
+    width: 550px;
+  }
+
+  /* header + guest welcome info */
+  .authentication-illustration-tab-header {
+    width: 80%;
+  }
+
+   /* vector illustration container */
+   .authentication-illustration-tab-illustration {
+    height: 250px;
+  }
+  /* container for vertical-positioning*/
+  .authentication-illustration-tab-illustration--vertical-positioning {
+    height: 50%;
+  }
 }

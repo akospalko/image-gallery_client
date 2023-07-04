@@ -1,8 +1,9 @@
-.shared-page-container,
-.shared-modal-container {
-  display: flex;
-}
+/* Shared functionalities: page container, modal, button, header*/
+
+/* PAGE */
+/* Container */
 .shared-page-container {
+  display: flex;
   position: absolute;
   top: var(--header-height);
   flex-direction: column;
@@ -10,112 +11,312 @@
   width: 100%;
   background-color: var(--bg-color--main);
 }
+
+/* Modifiers */
+/* centered - vertically + horizontally */
 .shared-page-container--centered {
   justify-content: center;
   align-items: center;
 }
+/* centered horizontally */
+.shared-page-container--justify-content-center {
+  justify-content: center;
+}
+/* centered vertically */
+.shared-page-container--align-items-center {
+  align-items: center;
+}
+/* add default padding  */
 .shared-page-container--with-padding {
   padding: var(--padding-default);
 }
-/* modals */
-.shared-modal {
+
+/* MODAL */
+/* Backdrop  */
+.shared-modal-backdrop {
   display: flex;
-  flex-direction: column;
-  position: fixed; 
+  justify-content: center;
+  align-items: center;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--bg-color--main); 
-  overflow-y: scroll;
-  z-index: var(--z5);
+  background-color: var(--bg-color--main);
+  z-index: 2;
 }
-/* modal header */
+
+/* Container */
+/* container - shared */
+.shared-modal {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%; 
+  flex-direction: column;
+}
+/* container - create-update photo entry */
+/* container - map view */
+/* container - photo info */
+.shared-modal--create-update-photo-entry,
+.shared-modal--map-view,
+.shared-modal--photo-info {
+  justify-content: flex-start;
+  overflow-y: scroll;
+}
+/* container - map view */
+.shared-modal--map-view {
+  align-items: center;
+  justify-content: center;
+}
+
+/* Header container */
+/* header - shared */
 .shared-modal-header {
+  position: absolute;
+  top: 0;
+  left: 0; 
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* height: 50px; */
-  min-height: 50px;
-  background-color: var(--bg-color--secondary);
+  min-height: var(--modal-header-height);
+  background-color: transparent;
+  z-index: 1;
 }
-.shared-modal-dummy,
+/* header - create-update photo entry */
+/* header - info-view  */
+/* header - map view */
+.shared-modal-header--create-update-photo-entry,
+.shared-modal-header--info-view,
+.shared-modal-header--map-view {
+  position: initial;
+}
+/* header title */
 .shared-modal-title {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
+/* header title */
 .shared-modal-title {
-  /* width: auto; */
   flex-grow: 1;
 }
 .shared-modal-title h2 {
   margin: 0;
 }
-.shared-modal-dummy {
-  width: 50px;
-}
+
+/* Modal content */
 /* modal content */
 .shared-modal-content {
   display: flex;
+  justify-content: center;
   width: 100%;
-  background-color: var(--bg-color--main);
+  height: 100%;
 }
-.shared-modal-content--centered {
-  flex-grow: 1;
+/* content - photo view */
+.shared-modal-content--photo-view {
+  align-items: center;
 }
-/* ______BUTTON WRAPPER______ */
-/* wrapper */
+/* content - photo info */
+.shared-modal-content--photo-info { 
+  height: auto;
+  justify-content: flex-start;
+}
+/* content - update - photo entry */
+.shared-modal-content--create-update-photo-entry {
+  height: auto;
+  justify-content: center;
+  margin: 2rem 0; 
+}
+
+/* BUTTON */
+/* Wrapper */
+/* wrapper - shared  */
 .shared-button-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 90%;
+  width: var(--input-width);
 }
-.shared-button-wrapper--modal-close {
+/* wrapper - modal header */
+.shared-button-wrapper--modal-header {
   justify-content: center;
   height: 100%;
   width: 50px;
 }
-/* ______STATUS MESSAGE______ */
-/* status message */
+
+/* wrapper - authentication */
+.shared-button-wrapper--authentication {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Button content */
+/* button content - submit form */
+.shared-button-content {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+/* STATUS MESSAGE */
 .shared-status-message {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  height: auto;
+  width: var(--input-width);
+  min-height: 50px;
   padding: var(--padding-default);
 }
 .shared-status-message p {
   margin: 0;
-  color: var(--text-color--medium-emphasis);
-}
-/* TOAST */
-
-
-/* ______MODIFIERS______ */
-/* TODO: place it to shared.css */
-/* WRAPPER */
-.shared-button-wrapper--create-update-photo-entry {
-/* ... */
+  color: var(--text-color--validation-message);
 }
 
-/* COMPONENTS */
-/* auth specific style */
-.shared-button-wrapper--authentication {
+/* PAGE HEADER */
+.shared-header-wrapper {
+  display: flex;
   justify-content: center;
-  /* margin-top: 1.5rem; */
-  margin: 1.5rem 0;
+  align-items: center; 
+  margin: 2rem 0;
+  height: auto;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
-/* ELEMENTS */
-/* centering button (only if single button is present) for auth containers */
-.shared-button-wrapper--centered {
-  flex-direction: column;
+.shared-header-wrapper h1 {
+  font-size: var(--header-1-size--S);
+  width: 100%;
 }
-.shared-button-wrapper--margin-top {
-  margin-top: 1.25rem;
+
+/* _____MEDIA_____ *
+/* PHONE: small screen */
+@media (max-width: 350px) {
+  /* PAGE */
+  /* Container */
+  .shared-page-container {
+    overflow-x: auto;
+  }
+  /* HEADERS */
+  /* Header wrapper */
+  .shared-header-wrapper h1 {
+    font-size: var(--header-1-size--XS);
+  }
+  /* MODAL */
+  /* Header container */
+  /* header - shared */
+  .shared-modal-header {
+    min-height: 75px;
+    height: auto;
+  }
+}
+
+
+/* PHONE - TABLET */
+@media (min-width: 550px) {
+  /* wrapper - create-update-photo-entry */
+  .shared-button-wrapper--create-update-photo-entry {
+    margin: 1.25rem 0;
+  }
+}
+
+
+/* TABLET */
+@media (min-width: 768px) {
+  /* HEADERS */
+  /* Header wrapper */
+  .shared-header-wrapper h1 {
+    font-size: var(--header-1-size--M);
+  }
+
+  /* MODAL */
+  /* Container */
+  /* container - shared */
+  .shared-modal {
+    padding: 4rem;
+  }
+  /* container - create-update photo entry */
+  .shared-modal--create-update-photo-entry {
+    /* width: 500px; */
+    /* background-color: var(--bg-color--main); */
+    padding: 0;
+  }
+
+  /* container - photo info */
+  .shared-modal--photo-info {
+    align-items: center;
+  } 
+
+  /* Header */
+  /* modal header container */
+  .shared-modal-header {
+    position: absolute;
+  }
+  .shared-modal-header--create-update-photo-entry {
+    position: initial;
+    min-height: 75px;
+  }
+
+  /* Content */
+  /* content - photo info */
+  .shared-modal-content--photo-info { 
+    max-width: 700px;
+    align-items: center;
+  }
+  /* content - map view */
+  .shared-modal-content--map-view { 
+    max-width: 700px;
+    justify-content: center;
+  }
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  /* HEADERS */
+  /* Header wrapper */
+  .shared-header-wrapper h1 {
+    font-size: var(--header-1-size--L);
+  }
+  /* Content */
+  /* content - photo info */
+  .shared-modal-content--photo-info { 
+    width: 850px;
+  }
+}
+
+/* PHONE: LANDSCAPE */
+@media screen and (max-height: 550px) and (max-width: 1024px) and (orientation: landscape) {
+  /* HEADERS */
+  /* Header wrapper */
+  .shared-header-wrapper {
+    margin: 1rem 0;
+  }
+  .shared-header-wrapper h1 {
+    font-size: var(--header-1-size--S);
+  }
+
+  /* MODAL */
+  /* Modal container */
+  .shared-modal {
+    padding: 0;
+  }
+  /* header container - info-view  */
+  .shared-modal-header--info-view {
+    position: initial;
+  }
+  /* header container - map view (for small screens) */
+  .shared-modal-header--map-view {
+    position: initial;
+  }
+  /* content - map view */
+  .shared-modal-content--map-view { 
+    width: 100%;
+  }
 }

@@ -1,30 +1,75 @@
-/* MAP CONTAINER */
+/* MAP: modal, overview page */
+
+/* Wrapper */
+/* map wrapper - map overview: content switch + map container */
+.map-wrapper--map-overview,
+/* map modal : map container */
+.map-wrapper--map-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1; 
+}
+/* map wrapper - map overview */
+.map-wrapper--map-overview {
+  flex-direction: column;
+}
+
+/* Instruction text - map overview */
+.map-overview-instruction {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  width: 100%;
+}
+
+/* Content switch */
+/* map content switch button container */
+.map-overview-content-switch {
+  display: flex;
+  width: 100%;
+  max-width: 500px; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+/* Content switch */
+/* map content switch button container */
+.map-overview-content-switch-button-text {
+  font-size: var(--text-size--XS);
+  width: 100%;
+}
+
+/* Map container */
+/* container */
 .map-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 350px;
+  height: calc(100vh - var(--header-height));
   flex-direction: column;
   z-index: var(--z1);
   background: var(--bg-color--main);
 }
-
-.map-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  backdrop-filter: blur(10px);
-  z-index: -1; /* put the background behind the modal*/
+/* container - map overview */
+.map-container.map-container--map-overview {
+  height: 100%;
+  max-width: 500px; 
+  flex-grow: 1;
+}
+/* container - map modal */
+.map-container.map-container--map-modal {
+  height: 100%;
 }
 
+/* Misc */
+/* shared properties: background, notification, loader, layer */
+.map-background,
+.map-empty-notification,
 .map-loader {
   position: absolute;
   top: 0;
@@ -35,18 +80,132 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: var(--bg-color--ternary-transparent-low);
+}
+
+/* background behind the map layer */
+.map-background {
+  backdrop-filter: blur(10px);
+  z-index: -1; /* put the background behind the modal*/
+}
+/* empty data field notification layer */
+.map-empty-notification {
+  z-index: 998; /* put the background behind the modal*/
+}
+.map-empty-notification h3 {
+  font-size: var(--header-3-size--S);
+}
+/* map loader layer */
+.map-loader {
   background-color: var(--bg-color--secondary);
   z-index: 999;
-  /* position: fixed; */
 }
 
-.map-content-switch {
-  display: flex;
+/* _____MEDIA_____ */
+/* PHONE: SMALL SCREEN */
+@media screen and (max-width: 350px) {
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    flex-direction: column;
+  }
+}
+/* PHONE: LANDSCAPE */
+@media ((max-height: 500px) and (orientation: landscape)) {
+  /* Wrapper */
+  /* map wrapper - map overview */
+  .map-wrapper--map-overview {
+    height: 450px;
+    margin-bottom: 1rem;
+    flex-grow: initial; 
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    max-width: 500px;
+    max-height: 450px;
+  }
 }
 
+@media (min-width: 550px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 500px;
+  }
+  
+  /* Map container */
+  /* container */
+  .map-container {
+    width: 100%;
+  }
+  
+  /* Wrapper */
+  /* map wrapper - map overview */
+  .map-wrapper--map-overview {
+    max-height: 100%;
+    margin-bottom: 1rem;
+  }
 
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    width: 500px;
+  }
 
-/* LAYER BUTTON AND CONTENT */
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 500px;
+    height: 100%;
+    flex: 1;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 650px;
+  }
+
+  /* Content switch */
+  /* map content switch button container */ 
+  .map-overview-content-switch {
+    width: 650px;
+    max-width: 100%;
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 650px;
+    max-width: 100%;
+  }
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  /* Instruction text - map overview */
+  .map-overview-instruction {
+    width: 850px;
+  }
+
+  /* Content switch */
+  /* map content switch button container */
+  .map-overview-content-switch {
+    width: 850px;
+  }
+
+  /* Map container */
+  /* container - map overview */
+  .map-container.map-container--map-overview {
+    width: 850px;
+  }
+}
+
+/* LEAFELT */
+/* Layer button and content */
 /* layers container: overwrite background */
 .leaflet-control-layers {
   background-color: var(--bg-color--main);
@@ -73,7 +232,7 @@
 /* control panel: zoom in - out  */
 .leaflet-bar a {
   background-color: var(--bg-color--main);
-  color: var(--bg-color--accent);
+  color: var(--color-accent);
   border-bottom: var(--bg-color-main);
 }
 .leaflet-bar a:hover, .leaflet-bar a:focus {
@@ -85,9 +244,9 @@
   background-color: var(--bg-color--secondary);
 }
 /* border around control buttons */
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-  /* border: 1px solid var(--bg-color--secondary); */
-}
+/* .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 1px solid var(--bg-color--secondary);
+} */
 /* attribution: remove margin */
 .leaflet-container .leaflet-control-attribution {
   margin: 0;
@@ -98,7 +257,7 @@
 .custom-layer {
   filter: invert(100%) hue-rotate(180deg) brightness(1.25);
 }
-/* FULLSCREEN BUTTON */
+/* Fullscreen button */
 /* fullscreen: open */
 .leaflet-control-fullscreen a {
   background-color: var(--bg-color--main);
@@ -113,12 +272,12 @@
 .leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
   background-position: 5.5px -26px;
 }
-/* CLUSTER */
+/* Cluster */
 /* custom cluster icon */
 .custom--marker-cluster {
-  background-color: var(--bg-color--accent);
+  background-color: var(--color-accent);
   border-radius: 50%;
-  color: var(--text-color--high-emphasis);
+  color: var(--text-color-light--high-emphasis);
   font-size: 14px;
   font-weight: bold;
   height: 40px;
@@ -128,6 +287,7 @@
   align-items: center;
   position: relative;
 }
+/* custom cluster icon outer ring */
 .custom--marker-cluster::before {
   content: "";
   position: absolute;
@@ -135,7 +295,7 @@
   left: -5px;
   right: -5px;
   bottom: -5px;
-  background-color: var(--bg-color--accent-transparent-medium);
+  background-color: var(--color-accent--medium-transparent-medium);
   border-radius: 50%;
   opacity: 1;
   z-index: -1;

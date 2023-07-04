@@ -1,3 +1,5 @@
+/* TIMESTAMP - PE */
+/* Shared */
 .timestamp-container,
 .timestamp-content,
 .timestamp-title,
@@ -5,33 +7,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
 } 
+/* Container */
 .timestamp-container { 
   flex-direction: row;
+  min-height: 50px;
   width: 100%;
   overflow-y: hidden;
   overflow-x: auto;
   padding: var(--padding-default);
-  background-color: var(--bg-color--main);
 }
 /* timestamp container for photo info modal */
-.timestamp-container--photo-info {
-  border-top: 1px solid var(--bg-color--secondary);
-  height: 50px;
+.timestamp-container--layout {
+  width: auto;
+  background-color: var(--bg-color--ternary);
+  margin: calc(var(--margin-gap) * 2);
+  margin-top: var(--margin-gap);
 }
+.timestamp-container--height-auto {
+  height: auto;
+}
+/* single item */
 .timestamp-content { 
   flex-direction: column;
   width: 50%;
+  height: 100%;
 }
+/* item title / date data */
 .timestamp-title,
 .timestamp-date {
   width: 100%;
   height: 100%;
 }
 .timestamp-title span,
-.timestamp-date span  {
+.timestamp-date span {
   margin: 0 auto;
-  font-size: 0.8rem;
-  line-height: 20px;
+  font-size: calc(var(--text-size--S) - .1rem);
+  line-height: calc(var(--text-size--S));
+}
+
+/* _____MEDIA_____ */
+/* PHONE: SMALL SCREEN */
+@media (max-width: 350px) {
+  .timestamp-title span,
+  .timestamp-date span  {
+    font-size: var(--text-size--XS);
+    line-height: calc(var(--text-size--XS));
+  }  
+}
+/* TABLET */
+@media (min-width: 768px) {
+  .timestamp-title span,
+  .timestamp-date span  {
+    font-size: calc(var(--text-size--M) - .25rem);
+    line-height: calc(var(--text-size--M));
+  }
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  .timestamp-title span,
+  .timestamp-date span  {
+    font-size: calc(var(--text-size--L) - .25rem);
+    line-height: calc(var(--text-size--L));
+  }
 }

@@ -1,5 +1,3 @@
-// TODO: replace string labels with CONSTANTs 
-// TODO: pass title/form styling to Form elem 
 // TODO: when cancel || X buttons are pressed: abort request 
 // TODO: navToPrevPage - navigates to login after operation 
 // Reusable modal for create/update photo entry 
@@ -14,6 +12,8 @@ import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
 import { statusMessages } from '../../helper/dataStorage';
+import { basicInputFieldValidator } from '../../helper/formValiadation';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { useNavigate, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
@@ -22,17 +22,18 @@ import { useFormContext } from '../contexts/FormContext';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useLoaderContext } from '../contexts/LoaderContext';
 import { useThemeContext } from '../contexts/ThemeContext';
-import { basicInputFieldValidator } from '../../helper/formValiadation';
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS
   const {operation, formTemplate, collection, label} = props;
+  
   // ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
-  const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
+  const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true });
+ 
   // CONTEXT
-  const {activePhotoEntry, setActiveID, toggleModalHandler} = useModalContext();
+  const { activePhotoEntry, setActivePhotoEntry, setActiveID, toggleModalHandler } = useModalContext();
   const {
     formData, setFormData, 
     message, setMessage, 
@@ -41,13 +42,16 @@ export default function CreateUpdatePhotoEntry(props) {
     isFormTouched,
     isFormValid
   } = useFormContext();
-  const {isLoading, loaderToggleHandler} = useLoaderContext();
-  const {theme} = useThemeContext();
+  const { isLoading, loaderToggleHandler } = useLoaderContext();
+  const { theme } = useThemeContext();
+  
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
-  const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
-   // STATE
+  const { fetchHomePhotoEntries, fetchGalleryPhotoEntries } = useFetchPhotoEntries();
+  
+  // STATE
   const [isFormReady, setIsFormReady] = useState(false);
+  
   // EFFECTS
   // set up input validation status
   useEffect(() => {
@@ -60,13 +64,13 @@ export default function CreateUpdatePhotoEntry(props) {
     return () => { setValidationMessages({}) }
   }, [])
   // set up form on mount, reset form on unmount
-  useEffect(() => { 
+  useEffect( () => { 
     setFormData(formTemplate);
     return () => {
       setFormData({});
       setPhotoFile({});
     } 
-  }, [])
+  }, [] )
   // update photo entry: populate form with active photo + status message validation (used for character counter) on first render
   useEffect(() => {
     if(operation !== OPERATIONS.UPDATE_PHOTO || !activePhotoEntry || !Object.keys(formData).length || isFormReady) return;
@@ -90,6 +94,7 @@ export default function CreateUpdatePhotoEntry(props) {
     setFormData(updatedForm);  
     setIsFormReady(true);      
   }, [formData, operation, activePhotoEntry, isFormReady, setIsFormReady, setValidationMessages, setFormData])
+  
   // HANDLERS
   // submit form for createPhoto (create new photo entry)
   const createPhotoEntryHandler = async(e, formData, photoFile) => {
@@ -161,37 +166,38 @@ export default function CreateUpdatePhotoEntry(props) {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
     }
   }
+
   // BUTTON
   // submit photo entry (create/udate) or close modal
   const photoEntryButton = (
-    <div className='shared-button-wrapper shared-button-wrapper--create-update-photo-entry shared-button-wrapper--margin-top'> 
+    <div className='shared-button-wrapper shared-button-wrapper--create-update-photo-entry'> 
       { toggleModalHandler ?  
         <Button 
-          buttonStyle={'button-form-submit'}
+          buttonStyle='button-form-submit'
           type='button' 
           clicked={() => {
             setFormData({});
+            activePhotoEntry && setActivePhotoEntry({});
+            photoFile.name && setPhotoFile({});
             setMessage(statusMessages.EMPTY);
             toggleModalHandler(operation);
-            setPhotoFile({});
-          }}
-        > Cancel 
+          } }
+        > { CONSTANT_VALUES.BUTTON_CANCEL } 
         </Button> : null }   
         <Button 
           buttonStyle='button-form-submit'
           form='form-create-update-photo-entry'
           type='submit' 
-          disabled={(!isFormValid || !isFormTouched) || isLoading.PHOTO_ENTRY_SUBMIT}
-          // disabled={isLoading.PHOTO_ENTRY_SUBMIT}
+          disabled={ (!isFormValid || !isFormTouched) || isLoading.PHOTO_ENTRY_SUBMIT }
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData, photoFile) : updatePhotoEntryHandler(e, formData, photoFile) 
           }}
-        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
+        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : CONSTANT_VALUES.BUTTON_SUBMIT } 
         </Button>      
     </div> 
   );
-  // MODAL ELEMENTS  
-  // create && update photo entry modals
+
+
   return (
     // FORM WRAPPER 
     <div className='create-update-photo-entry-modal-wrapper'>
@@ -199,27 +205,18 @@ export default function CreateUpdatePhotoEntry(props) {
       <Form id='form-create-update-photo-entry'> 
         { formData && buildInputFields(formTemplate).map(elem => (
         <Input 
-          key={elem.name} 
-          name={elem.name} 
-          label={label}
-          inputStyle='input-create-update-photo-entry' 
+          key={ elem.name } 
+          name={ elem.name } 
+          label={ label }
           textareaStyle='textarea-create-update-photo-entry'
           labelStyle='input-create-update-photo-entry-label'
         /> 
       )) }
       </Form>
-      {/* STATUS MESSAGE */}
-      {message && <div className='shared-status-message'> <p> {message || ''} </p> </div>}
-      {/* SUBMIT FORM BUTTON */}
-      {photoEntryButton}
+      { /* STATUS MESSAGE */ }
+      { message && <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+      { /* SUBMIT FORM BUTTON */ }
+      { photoEntryButton }
     </div>
   )
 }
-
-// update photo entry:
-/* 
-
-isFormValid || touched  
-true || 
-
-*/
