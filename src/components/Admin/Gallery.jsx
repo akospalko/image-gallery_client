@@ -1,7 +1,6 @@
 // Admin view gallery dashbord layout
 import React, { useState, useEffect } from 'react';
 import '../Shared.css';
-import '../PhotoEntries.css'
 import { useNavigate, useLocation } from 'react-router';
 import PhotoEntries from './PhotoEntries';
 import { COLLECTIONS, OPERATIONS } from '../../helper/dataStorage';
@@ -70,7 +69,7 @@ export default function Gallery() {
   const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={ activeCollection } /> 
 
   return (
-    <div className='shared-page-container shared-page-container--with-padding shared-page-container--centered'>
+    <div className='shared-page-container shared-page-container--align-items-center'>
       { /* Header title */ }
       <div className='shared-header-wrapper'> 
         <h1> { CONSTANT_VALUES.TITLE_GALLERY_ADMIN } </h1>  

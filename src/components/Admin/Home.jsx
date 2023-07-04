@@ -68,7 +68,7 @@ export default function Home() {
   const photoEntries = showSkeleton ? <SkeletonAdminPhotoEntry /> : <PhotoEntries collection={ activeCollection } /> 
 
   return (
-    <div className='shared-page-container shared-page-container--with-padding shared-page-container--centered'>
+    <div className='shared-page-container shared-page-container--align-items-center'>
       { /* Header title */ }
       <div className='shared-header-wrapper'> 
         <h1> { CONSTANT_VALUES.TITLE_HOME_ADMIN } </h1>  

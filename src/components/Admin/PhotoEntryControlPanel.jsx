@@ -2,30 +2,32 @@
 import React from 'react'
 import './PhotoEntries.css'
 import '../Shared.css'
-import {useModalContext} from '../contexts/ToggleModalContext'
-import {useFormContext} from '../contexts/FormContext'
-import {useNavigate, useLocation} from 'react-router'
-import {OPERATIONS} from '../../helper/dataStorage'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
-import Button from '../UI/Button';
-import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
-import {Edit, ViewPhoto, LocationMark, Delete} from '../SVG/Icons'
-import ControlPanelWrapper from '../ControlPanelWrapper'
-import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
-import { useLoaderContext } from '../contexts/LoaderContext'
-import LoaderIcon from '../SVG/Loader'
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { useNavigate, useLocation } from 'react-router'
+import { useModalContext } from '../contexts/ToggleModalContext'
+import { useFormContext } from '../contexts/FormContext'
+import { useLoaderContext } from '../contexts/LoaderContext'
 import { useThemeContext } from '../contexts/ThemeContext'
+import { OPERATIONS } from '../../helper/dataStorage'
+import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
+import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
+import Button from '../UI/Button';
+import ControlPanelWrapper from '../ControlPanelWrapper'
+import { Edit, ViewPhoto, LocationMark, Delete } from '../SVG/Icons'
+import LoaderIcon from '../SVG/Loader'
 
-export default function PhotoEntryControlPanel ({collection, photoEntry}) {
+export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
+  // CONSTANT
+  const controlPanelIconColor = 'var(--color-accent)';
   // PROPS
-  const {_id:id, gpsLatitude, gpsLongitude} = photoEntry ?? {};
+  const { _id:id, gpsLatitude, gpsLongitude } = photoEntry ?? {};
   // CONTEXT
-  const {setMessage} = useFormContext();
-  const {toggleModalHandler, setActivePhotoEntry} = useModalContext();
-  const {isLoading, loaderToggleHandler} = useLoaderContext();
-  const {theme} = useThemeContext();
+  const { setMessage } = useFormContext();
+  const { toggleModalHandler, setActivePhotoEntry } = useModalContext();
+  const { isLoading, loaderToggleHandler } = useLoaderContext();
+  const { theme } = useThemeContext();
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
@@ -39,7 +41,7 @@ export default function PhotoEntryControlPanel ({collection, photoEntry}) {
     try {
       loaderToggleHandler('PHOTO_ENTRY_DELETE', id, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
-      const {success, message, photoEntry } = responseDelete ?? {};
+      const { success, message, photoEntry } = responseDelete ?? {};
         toast(`${message}`, { // send toast
           className: "shared-toast",
           position: "bottom-center",
@@ -63,7 +65,7 @@ export default function PhotoEntryControlPanel ({collection, photoEntry}) {
     try {
       loaderToggleHandler('PHOTO_ENTRY_EDIT', id, true);
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
-      const {success, message, photoEntry } = response ?? {};
+      const { success, message, photoEntry } = response ?? {};
       if(success === false) {
         toast(`${message}`, { // send toast
           className: "shared-toast",
@@ -87,51 +89,51 @@ export default function PhotoEntryControlPanel ({collection, photoEntry}) {
   }
 
   return (
-    <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={50} backgroundColor='var(--bg-color--secondary)'>
+    <ControlPanelWrapper wrapperStyle='control-panel-photo-entry' heightPx={ 50 } >
       <span className='control-panel-photo-entry-group-1'>
-        {/* edit */}
+        { /* edit */ }
         <Button 
           buttonStyle='button-control-panel-edit'
           title='edit photo entry'
-          disabled={isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id]}
-          clicked={() => {
+          disabled={ isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id] }
+          clicked={ () => {
             editPhotoEntryHandler(id);
             setMessage('');
-          }}
-        > {isLoading.PHOTO_ENTRY_EDIT[id] ? 
-          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)'/> 
+          } }
+        > { isLoading.PHOTO_ENTRY_EDIT[id] ? 
+          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)' /> 
           : 
-          <Edit height='80%' width='80%' fill='var(--bg-color--accent)'/> } 
+          <Edit height='25px' width='25px' fill={ controlPanelIconColor } /> } 
         </Button>
-        {/* view */}
+        { /* view */ }
         <Button 
           buttonStyle='button-control-panel-edit'
           title='view photo'
           clicked={() => {
             setActivePhotoEntry(photoEntry); 
-            toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) }}
-        > <ViewPhoto height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>
-        {/* map */}
+            toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) } }
+        > <ViewPhoto height='25px' width='25px' fill={ controlPanelIconColor } /> </Button>
+        { /* map */ }
         <Button 
           buttonStyle='button-control-panel-edit'
           title='view geographic location'
-          disabled={!gpsLatitude || !gpsLongitude}
-          clicked={() => {
+          disabled={ !gpsLatitude || !gpsLongitude }
+          clicked={ () => {
             setActivePhotoEntry(photoEntry); 
-            toggleModalHandler(OPERATIONS.MAP_VIEW) }}
-        > <LocationMark height='80%' width='80%' fill='var(--bg-color--accent)'/> </Button>  
+            toggleModalHandler(OPERATIONS.MAP_VIEW) } }
+        > <LocationMark height='25px' width='25px' fill={ controlPanelIconColor } /> </Button>  
       </span>
       <span className='control-panel-photo-entry-group-2'> 
         <Button 
           buttonStyle='button-control-panel-edit'
           title='delete photo entry'
-          disabled={isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id]}
-          clicked={() => deletePhotoEntryHandler(id)} 
+          disabled={ isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id] }
+          clicked={ () => deletePhotoEntryHandler(id) } 
         > 
-        {isLoading.PHOTO_ENTRY_DELETE[id] ? 
-          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)'/> 
+        { isLoading.PHOTO_ENTRY_DELETE[id] ? 
+          <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)' /> 
           : 
-          <Delete height='80%' width='80%' stroke='var(--bg-color--accent)'/> } 
+          <Delete height='25px' width='25px' stroke={ controlPanelIconColor } /> } 
         </Button>
       </span>
     </ControlPanelWrapper>
