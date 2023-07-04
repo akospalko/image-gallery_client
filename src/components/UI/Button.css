@@ -1,52 +1,57 @@
-/* TODO: merge admin - user PE control panel styling */
-/* ______DEFAULT VALUES______ */
-/* BUTTON */
+/* BUTTONS */
+/* Default */
 .button-default {
   border: none;
   cursor: pointer;
   width: 100%;
   height: 50px;
-  background-color: var(--bg-color--accent);
-  color: var(--text-color--high-emphasis);
-  font-size: 1.1rem;
+  background-color: var(--color-accent);
+  color: var(--text-color-light--high-emphasis);
+  font-size: var(--text-size--S);
+  font-weight: bold;
+  letter-spacing: 1px;
 }
-/* hover */
-.button-default:hover {
-  /* background-color: var(--bg-color--accent); */
-}
-/* disabled */
-.button-default:disabled { 
-  background-color: var(--bg-color--accent-transparent-low);
-}
-/* ______MODIFIERS______ */
-/* CREATE - UPDATE PHOTO ENTRY */
+
+/* Create - update photo entry */
+/* create new photo entry button */
 .button-photo-new {
-  margin: 0 auto 1rem auto;
-  width: 100%;
+  width: calc(100% - 2 * var(--margin-default));
   height: 50px;
+  color: var(--text-color-light--high-emphasis);
+  text-transform: uppercase;
+  margin-bottom: var(--margin-default);
 }
-.button-photo-new:hover {
-  background-color: rgba(81, 81, 81, 1);
-}
-/* CONTROL PANEL */
+
+/* Control panel */
 /* photo entries - admin */
 .button-control-panel-edit {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 50px;
+  height: 100%;
   border: none;
   background-color: Transparent;
-  padding: var(--padding-default);
+  padding: 0 var(--padding-default);
+  transition: opacity .2s ease-in;
+  opacity: 1;
 }
 .button-control-panel-edit:hover {
-  /* background-color: rgb(0, 0, 0, 0); */
+  opacity: .70;
 }
 .button-control-panel-edit:disabled {
-  opacity: .3;
+  opacity: .2;
 }
 /* photo entries - user */
+.button-control-panel-view-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100%;
+  background-color: transparent;
+  padding: 0;
+}
 .button-control-panel-view {
   width: 40px;
   height: 40px;
@@ -54,58 +59,73 @@
   padding: var(--padding-default);
 }
 .button-control-panel-view:disabled {
-  /* background-color: var(--bg-color--secondary); */
   opacity: .3;
 }
-/* SUBMIT */
-/* submit form */
+/* Submit */
+/* submit form: create - update photo entry */
 .button-form-submit {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 150px;
+  min-height: 50px;
+  width: 45%;
   border: none;
-  /* margin: 0 1rem; */
 }
-/* .button-form-submit:disabled {
-} */
-/* submit form button for authentication pages: login/register  */
+/* submit form: authentication  */
 .button-authentication {
-  width: 150px;
+  width: 65%;
   height: 50px;
-  /* background-color: var(--bg-color--accent); */
+  margin: 0;
+  background-color: var(--color-accent);
+  color: var(--txt-test);
+  animation: fade-in .4s ease-in-out forwards;
+  transition: background-color .5s ease, color .5s ease;
 }
-/* CLOSE MODAL (X) */
-.button-modal-close {
+
+/* Modal */
+/* close (X) */
+.button-close {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
   background-color: transparent;
+  transition: opacity .2s ease-in;
+  opacity: 1;
 }
-.button-modal-close:hover,
-.button-modal-close:active {
-  /* background-color: rgb(102, 3, 3); */
+.button-close:hover,
+.button-close:focus {
+  opacity: .70;
 }
-.button-modal-close:disabled {
+.button-close:disabled {
   opacity: 0.38;
 }
-/* UPLOAD FILE */
-/* browse file to add to file api  */
+/* return (<-) */
+.button-return-back {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+ 
+/* Upload file */
+/* browse file to add to file api */
 .button-upload-file {
   width: 100px;
   height: 50px;
   letter-spacing: 1px;
 }
-/* HOME PHOTO CAROUSEL */
+
+/* Home photo carousel */
 .button-carousel {
   background-color: transparent;
   font-size: 1.3rem;
   width: 30px;
   height: 50%;
-  color: var(--bg-color--accent);
+  color: var(--color-accent);
   opacity: .5;
   margin: 0;
   padding: 0;
@@ -113,91 +133,77 @@
 .button-carousel:hover,
 .button-carousel:focus {
   opacity: 1;
-  background-color: var(--bg-color--accent-transparent-high);
+  background-color: var(--bg-color--ternary-transparent-high);
 }
 
-/* PHOTO VIEW TOOLS: ZOOM, RESET */
+/* Photo view tools: zoom, reset */
 .button-photo-view-tools {
   height: 35px;
   width: 35px;
-  background-color: var(--bg-color--main);
-}
-/* HOME CALL TO ACTION BUTTON: VIEW GALLERY */
-.button-home-call-to-action {
-  width: 240px;
-  height: 50px;
-  margin: 0;
+  margin-right: 5px;
   background-color: transparent;
-  border: 1px solid var(--bg-color--accent);
-  color: var(--bg-color--accent);
-  animation: fade-in .3s ease-in-out forwards;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.button-home-call-to-action:hover,
-.button-home-call-to-action:focus {
-  background-color: var(--bg-color--accent);
-  color: var(--text-color-light--high-emphasis);
-}
-/* Fade-in animation on hover/focus*/
-.button-home-call-to-action:hover, 
-.button-home-call-to-action:focus {
-  opacity: 0.8;
-}
-.button-home-call-to-action:not(:hover):not(:focus) {
+  transition: opacity .2s ease-in;
   opacity: 1;
 }
-/* animation: when button appears on scren */
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  0% {
-    opacity: 0.5;
-    transform: scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+.button-photo-view-tools:hover,
+.button-photo-view-tools:focus {
+  opacity: .70;
 }
 
-/* HEADER MENU & USER PROFILE TOGGLER BUTTON */
-.button-header-menu {
-  /* width: var(--header-height); */
+/* CTA */
+/* CTA home */
+.button-home-cta {
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  background-color: var(--color-accent);
+  color: var(--txt-test);
+  animation: fade-in .4s ease-in-out forwards;
+  transition: background-color .5s ease, color .5s ease;
+}
+
+/* CTA header auth */
+.button-authentication-cta {
   width: 50px;
-  height: 100%;
+  height: 35px;
+}
+
+/* Header menu & user profile toggler */
+.button-header-menu {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
+  width: 50px;
+  height: 50px;
   padding: 0;
+  background-color: transparent;
   color: var(--text-color--high-emphasis);
 }
-/* PHOTO INFO  */
+
+/* Photo info  */
 .button-photo-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--text-color--high-emphasis);
-  background-color: var(--bg-color--accent-transparent-low);
+  background-color: var(--color-accent);
 }
 .button-photo-info span {
   margin-left: 1rem;
 }
-.button-photo-info:hover,
-.button-photo-info:focus {
-  background-color: var(--bg-color--accent);
-}
 
-/* MAP CONTENT SWITCH */
+/* Map content switch */
 .button-map-content-switch {
   height: 40px;
-  color: var(--text-color--high-emphasis);
+  width: 100%;
 }
-/* TOGGLE TEXT: PREVIEW/FULL */
+.button-map-content-switch--active {
+  background-color: var(--color-accent--dark);
+  pointer-events: none;
+}
+
+/* Toggle text: preview/full */
 .button-toggle-text {
-  background-color: var(--bg-color--accent-transparent-low);
+  background-color: var(--color-accent);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -206,21 +212,129 @@
   height: 30px;
   margin: 0;
 }
+
+/* SHARED */
+/* hover & focus */
+.button-authentication:hover,
+.button-authentication:focus,
+.button-home-cta:hover,
+.button-home-cta:focus,
+.button-authentication-cta:hover,
+.button-authentication-cta:focus,
+.button-photo-new:hover,
+.button-photo-new:focus,
 .button-toggle-text:hover,
-.button-toggle-text:focus {
-  background-color: var(--bg-color--accent);
+.button-toggle-text:focus,
+.button-map-content-switch:hover,
+.button-map-content-switch:focus,
+.button-photo-info:hover,
+.button-photo-info:focus,
+.button-form-submit:hover,
+.button-form-submit:focus,
+.button-upload-file:hover,
+.button-upload-file:focus {
+  background-color: var(--color-accent--medium);
+}
+/* focus visible */
+.button-authentication:focus-visible,
+.button-home-cta:focus-visible,
+.button-map-content-switch:focus-visible {
+  outline: 2px solid var(--text-color-light--high-emphasis);
+}
+/* active */
+.button-authentication:active,
+.button-home-cta:active,
+.button-authentication-cta:active,
+.button-photo-new:active,
+.button-toggle-text:active,
+.button-map-content-switch:active,
+.button-photo-info:active,
+.button-form-submit:active,
+.button-upload-file:active {
+  background-color: var(--color-accent--dark);
+}
+/* disabled */
+.button-authentication:disabled,
+.button-authentication-cta:disabled,
+.button-form-submit:disabled {
+  background-color: var(--color-accent--disabled);
+  color: var(--txt-test);
+  opacity: 0.3;
+  pointer-events: none;
 }
 
-/* TABLET: PORTRAIT */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .button-home-call-to-action {
-    width: 300px;
+/* ANIMATION */
+/* animation: activates when button first appears */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: .5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-/* DESKTOP */
-@media (min-width: 1024px) {
-  .button-home-call-to-action {
-    width: 400px;
+/* _____MEDIA_____ */
+/* PHONE: SMALL */
+@media screen and (max-width: 350px) {
+  .button-upload-file {
+    max-width: 75%;
+    min-height: 50px;
+    height: auto;
+  }
+}
+
+/* PHONE - TABLET */
+@media screen and (min-width: 480px) {
+  /* Create - update photo entry */
+  /* Create new photo entry button */
+  .button-photo-new {
+    width: var(--pe-container-width--M);
+    margin: 0;
+    margin-bottom: var(--margin-default);
+  }
+}
+
+/* TABLET */
+@media screen and (min-width: 768px) {
+  /* Default */
+  .button-default {
+    font-size: 1rem;
+  }
+
+  /* Photo view tools: zoom, reset */
+  .button-photo-view-tools {
+    height: 45px;
+    width: 45px;
+    margin-right: 10px;
+  }
+
+  /* CTA header auth */
+  .button-authentication-cta {
+    width: 65px;
+    height: 35px;
+  }
+
+  /* Submit */
+  /* submit form: create - update photo entry */
+  .button-form-submit {
+    height: 50px;
+    width: 150px;
+  }
+}
+
+/* PHONE: LANDSCAPE*/
+@media screen and (max-height: 550px) and (orientation: landscape) {
+  /* Photo view tools: zoom, reset */
+  .button-photo-view-tools {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
   }
 }

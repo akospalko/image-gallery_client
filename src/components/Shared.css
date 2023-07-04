@@ -19,11 +19,11 @@
   align-items: center;
 }
 /* centered horizontally */
-.shared-page-container--centered-horizontally {
+.shared-page-container--justify-content-center {
   justify-content: center;
 }
 /* centered vertically */
-.shared-page-container--centered-vertically {
+.shared-page-container--align-items-center {
   align-items: center;
 }
 /* add default padding  */
