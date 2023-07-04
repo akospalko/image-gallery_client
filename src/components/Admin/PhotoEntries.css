@@ -47,7 +47,6 @@
   word-break: break-word;
   padding: 0.25rem;
   flex-grow: 1;
-  
   font-size: calc(var(--text-size--S) - .1rem);
   line-height: var(--text-size--S);
   background-color: var(--bg-color--ternary);
@@ -65,7 +64,6 @@
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  
   font-size: var(--text-size--S);
   line-height: calc(var(--text-size--S) + .5rem);
   background-color: var(--bg-color--ternary);
@@ -142,7 +140,6 @@
 .pe-layout-content--height-75px {
   min-height: 75px;
 }
-
 
 /* _____MEDIA_____ */
 /* PHONE: small screen */

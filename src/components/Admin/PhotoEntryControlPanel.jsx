@@ -30,11 +30,11 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
   const { theme } = useThemeContext();
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
-  const {fetchHomePhotoEntries, fetchGalleryPhotoEntries} = useFetchPhotoEntries();
+  const { fetchHomePhotoEntries, fetchGalleryPhotoEntries } = useFetchPhotoEntries();
   // NAVIGATION & ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
-  const navToPrevPage = () => navigate('/login', { state: {from: location}, replace: true});
+  const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true});
   // HANDLERS
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
@@ -42,7 +42,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
       loaderToggleHandler('PHOTO_ENTRY_DELETE', id, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
       const { success, message, photoEntry } = responseDelete ?? {};
-        toast(`${message}`, { // send toast
+        toast(`${ message }`, { // send toast
           className: "shared-toast",
           position: "bottom-center",
           autoClose: 5000,
@@ -67,7 +67,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
       const response = await getSinglePhotoEntry(id, axiosPrivate, collection); // fetch entry data
       const { success, message, photoEntry } = response ?? {};
       if(success === false) {
-        toast(`${message}`, { // send toast
+        toast(`${ message }`, { // send toast
           className: "shared-toast",
           position: "bottom-center",
           autoClose: 5000,
@@ -109,7 +109,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
         <Button 
           buttonStyle='button-control-panel-edit'
           title='view photo'
-          clicked={() => {
+          clicked={ () => {
             setActivePhotoEntry(photoEntry); 
             toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) } }
         > <ViewPhoto height='25px' width='25px' fill={ controlPanelIconColor } /> </Button>
