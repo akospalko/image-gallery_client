@@ -178,7 +178,7 @@ export default function FileUpload() {
             clicked={ removePhotoHandler }
             buttonStyle='button-close'
             disabled={ !imageUrl }
-          > <Delete height='100%' width='100%' stroke='var(--bg-color--accent)' /> </Button>        
+          > <Delete height='100%' width='100%' stroke='var(--color-accent)' /> </Button>        
         </div>
         { /* display img priority: file api (new / update img), photo */ }
         { imageUrl ?

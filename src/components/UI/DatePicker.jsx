@@ -1,15 +1,17 @@
 // custom date input with date picking option
-import React, {useRef, useEffect} from 'react'
+import React, { useRef, useEffect } from 'react'
 import './DatePicker.css'
 import { useFormContext } from '../contexts/FormContext' 
 import { useThemeContext } from '../contexts/ThemeContext';  
 
 export default function DatePicker() {
   // CONTEXTS
-  const {formData, dateInputChangeHandler} = useFormContext();
-  const {theme} = useThemeContext();
+  const { formData, dateInputChangeHandler } = useFormContext();
+  const { theme } = useThemeContext();
+ 
   // REF
   const datePickerRef = useRef();
+  
   // EFFECT
   useEffect(() => {
     if (!datePickerRef.current) return;
@@ -26,13 +28,11 @@ export default function DatePicker() {
   return (
     <div className='date-picker-container'>
       <input
-        ref={datePickerRef}
-        style={{colorScheme: theme}} 
+        ref={ datePickerRef }
+        style={{ colorScheme: theme }} 
         type='date' 
-        onChange={dateInputChangeHandler}
-        // min='1900-01-01'
-        // max={new Date().toISOString().split('T')[0];}
-        value={formData?.captureDate.value || ''}
+        onChange={ dateInputChangeHandler }
+        value={ formData?.captureDate.value || '' }
       />
     </div>
   )

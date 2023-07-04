@@ -1,6 +1,3 @@
-// TODO: add required check
-// TODO: add state to store validity: 1. form validity, 2. input field validity
-// TODO: add input error message 
 // Reusable input component 
 import React from 'react';
 import './Input.css';
@@ -11,67 +8,75 @@ import { OpenEyeIcon, CloseEyeIcon } from '../SVG/Icons';
 
 const Input = (props) => {
   // PROPS
-  const {label, name, inputStyle, textareaStyle, labelStyle } = props;
+  const { label, name, textareaStyle, labelStyle, validationStyle } = props;
+ 
   // CONTEXT
-  const {formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility} = useFormContext();
+  const { formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility } = useFormContext();
+ 
   // ELEMENTS
   // label 
   const labelWithRequiredMarkerStyle = formData[name]?.required ? 'label-with-required-marker' : ''; 
   const renderedLabel = (label && formData[name]?.label ? 
-    <label className={`label-default ${labelStyle} ${labelWithRequiredMarkerStyle}`}> {formData[name]?.label} </label>
+    <label className={ `label-default ${ labelStyle } ${ labelWithRequiredMarkerStyle}` }> { formData[name]?.label } </label>
   : null ) 
   // error message container
   const renderedErrorMessage = (  
-  <div className='validation-message'> 
+  <div className={ `validation-message ${ validationStyle }` } > 
     { validationMessages?.[name]?.message && <span> {validationMessages?.[name]?.message} </span> }
   </div>
   );
-  
-  // input fields: text, number, email
+  // input fields: text, number, email, password
   const input = (
-    <input 
-      className={`input-default ${inputStyle}`}
-      name={name} 
-      type={formData[name]?.type} 
-      placeholder={formData[name]?.placeholder}
-      onChange={inputChangeHandler}
-      value={formData[name]?.value || ''}
-      disabled={formData[name]?.disabled}
-      maxLength={formData[name]?.maxLength + 1 || null}
-    /> 
-  )
-  // input fields: password with toggle visibility 
-  const customPassword = (
-    <div className={`input-container-password`}>
+    <div className='input-container'>
       <input 
-        className={`input-content`}
-        name={name} 
-        type={showPassword[name] ? 'text' : formData[name]?.type} // text - type
-        placeholder={formData[name]?.placeholder}
-        onChange={inputChangeHandler}
-        value={formData[name]?.value || ''}
-        disabled={formData[name]?.disabled}
-        maxLength={formData[name]?.maxLength + 1 || null}
+        className={ `input-content ${ formData[name]?.disabled ? 'input-content--disabled' : '' }` }
+        name={ name }
+        type={ showPassword[name] ? 'text' : formData[name]?.type } // text - type
+        placeholder={ formData[name]?.placeholder }
+        onChange={ inputChangeHandler }
+        value={ formData[name]?.value || '' }
+        disabled={ formData[name]?.disabled }
+        maxLength={ formData[name]?.maxLength + 1 || null }
       /> 
-      {/* password visibility toggler */}
-      <div className='input-password-toggler' onClick={(e) => togglePasswordVisibility(e, name)}>
-        <span> {showPassword[name] ? 
-          <OpenEyeIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> 
+      { /* input field icon */ }
+      { formData[name]?.icon && <div className='input-icon'> { formData[name]?.icon } </div> }
+    </div>
+  )
+  // custom input field: contains an icon (optional: clickable) inside
+  const inputWithIcon = (
+    <div className='input-container'>
+      <input 
+        className='input-content'
+        name={ name } 
+        type={ showPassword[name] ? 'text' : formData[name]?.type } // text - type
+        placeholder={ formData[name]?.placeholder }
+        onChange={ inputChangeHandler }
+        value={ formData[name]?.value || '' }
+        disabled={ formData[name]?.disabled }
+        maxLength={ formData[name]?.maxLength + 1 || null }
+      /> 
+      { /* password visibility toggler */ }
+      <div className='input-icon' onClick={ (e) => togglePasswordVisibility(e, name) }>
+        <span> { showPassword[name] ? 
+          <OpenEyeIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)' /> 
           : 
-          <CloseEyeIcon height='25px' width='25px'stroke='var(--text-color--high-emphasis)'/>} 
+          <CloseEyeIcon height='var(--input-icon-dimension)' width='var(--input-icon-dimension)' fill='var(--text-color--medium-emphasis)' /> } 
         </span>
       </div>
     </div>
   )
+
   const textarea = ( 
     <textarea 
-      className={`textarea-default ${textareaStyle}`}
-      name={name} 
-      placeholder={formData[name]?.placeholder}
-      onChange={inputChangeHandler}
-      value={formData[name]?.value || ''}
-      maxLength={formData[name]?.maxLength || null}
-    /> )
+      className={ `textarea-default ${ textareaStyle }` }
+      name={ name } 
+      placeholder={ formData[name]?.placeholder }
+      onChange={ inputChangeHandler }
+      value={ formData[name]?.value || '' }
+      maxLength={ formData[name]?.maxLength || null }
+    /> 
+  )
+
   const file = <FileUpload />
   const date = <DatePicker />
   // CONDITIONAL RENDER INPUT ELEMENTS
@@ -83,7 +88,7 @@ const Input = (props) => {
       renderedInput = input; 
       break;
     case 'password':
-      renderedInput = customPassword; 
+      renderedInput = inputWithIcon; 
       break;
     case 'textarea':
       renderedInput = textarea; 
@@ -100,9 +105,9 @@ const Input = (props) => {
 
   return(
     <>
-      {renderedLabel}
-      {formData && renderedInput} 
-      {renderedErrorMessage}
+      { renderedLabel }
+      { formData && renderedInput } 
+      { renderedErrorMessage }
     </>
   );
 }

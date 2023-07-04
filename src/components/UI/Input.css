@@ -1,4 +1,3 @@
-
 /* ______DEFAULT VALUES______ */
 /* INPUT && TEXTAREA */
 .input-default, 
@@ -10,11 +9,13 @@
   font-size: 1.1rem;
   color: var(--text-color--high-emphasis);
 }
+
 /* INPUT */
 .input-default {
-  height: 40px;
+  height: var(--input-height);
   border-bottom: 2px solid var(--bg-color--ternary);
 }
+
 /* TEXTAREA */
 .textarea-default {
   min-height: 100px;
@@ -23,15 +24,18 @@
   text-align: justify;
   padding: var(--padding-default);
 }
+
 /* PLACEHOLDER */
 .input-default::placeholder,
 .textarea-default::placeholder {
   color: var(--text-color--medium-emphasis);
 }
+
 /* DISABLED */
 .input-default:disabled {
   color: var(--text-color--low-emphasis);
-}    
+}   
+
 /* LABEL */
 .label-default {
   display: flex;
@@ -40,97 +44,109 @@
   width: 100%;
   height: 25px;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 450;
 }
 /* label required marker */
 .label-with-required-marker::after {
   content: "*";
-  color: var(--bg-color--accent);
+  color: var(--color-accent);
 } 
 /* label authentication */
 .label-authentication {
   justify-content: initial;
-  width: 90%;
+  width: var(--input-width);
+  margin-bottom: var(--margin-default);
 }
 /* some places default marker color would make a proper emphasis */
 .label-with-required-marker--inverted-color::after {
   color: var(--text-color--high-emphasis);
 }
+
 /* VALIDATION MESSAGES */
+/* default */
 .validation-message { 
   display: flex;
   justify-content: center;
   align-items: center;
   height: 30px;
-  width: 90%;
+  width: var(--input-width);
   margin-bottom: 0.75rem;
+  padding: 5px;
 }
 .validation-message span {
   color: var(--text-color--validation-message);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   line-height: 1rem;
 }
+/* authentication */
+.input-validation-authentication {
+  min-height: 25px;
+}
+
 /* PASSWORD INPUT WITH TOGGLE BUTTON */
 /* wrapper for password input field + toggle btn */
-.input-container-password {
+.input-container {
   display: flex;
-  /* justify-items: center;
-  align-items: center; */
-  width: 90%;
-  height: 40px;
-  border-bottom: 2px solid var(--bg-color--ternary);
-  /* position: relative; */
-
-
+  width: var(--input-width);
+  height: var(--input-height);
+  border: 2px solid var(--bg-color--ternary);
+  /* background-color: var(--bg-color--ternary); */
 }
+.input-container:focus-within {
+  border: 2px solid var(--color-accent);
+}
+
 /* input field */
 .input-content {
   display: flex;
   justify-items: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 100%;
+  padding: var(--padding-default);
   position: relative;
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-color--high-emphasis);
-  /* position: relative; */
 }
 .input-content::placeholder {
   color: var(--text-color--medium-emphasis);
 }
-/* password visibility toggler */
-.input-password-toggler {
+/* disabled input field */
+.input-content--disabled {
+  background-color: var(--bg-color--ternary);
+}
+/* input icon */
+.input-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 50px;
+  cursor: pointer;
 }
+
 /* ______MODIFIERS______ */
 /* COMPONENTS */
 /* authentication form input fields */
 .input-authentication {
-  height: 45px;
-  width: 90%;
+  height: var(--input-height--authentication);
+  width: var(--input-width);
 }
 /* create-update photo entry input/textarea fields */
 .input-create-update-photo-entry,
 .textarea-create-update-photo-entry {
-  width: 90%;
+  width: var(--input-width);
 }
-/* create-update photo entry input fields */
-/* .input-create-update-photo-entry {
-  padding: 0;
-} */
 /* create-update photo entry textarea fields */
-.textarea-create-update-photo-entry {
+.textarea-create-update-photo-entry:focus-within {
   /* margin-top: var(--padding-default); */
+  border: 2px solid var(--color-accent);
 }
 /* create-update photo entry input/textarea fields */
 .input-create-update-photo-entry-label {
-  width: 90%;
+  width: var(--input-width);
   margin-bottom: 0.35rem;
 }

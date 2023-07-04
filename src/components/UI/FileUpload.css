@@ -9,10 +9,12 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  border: 2px dashed var(--bg-color--secondary);
+  border: 2px dashed var(--bg-color--ternary);
   /* border-bottom: 0; */
   padding: var(--padding-default);
   cursor: pointer;
+  word-wrap: break-word;
+
 }
 /* INPUT FIELD */
 .file-upload-label input {
@@ -30,14 +32,14 @@
 .file-upload-instruction span {
   display: inline-flex;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   letter-spacing: 0.5px;
   height: auto;
   margin-bottom: 0.5rem;
   font-weight: bold;
 } 
 .file-upload-instruction span:last-of-type {
-  font-size: 1rem;
+  font-size: .75rem;
 }
 /* FILE UPLOAD STATUS */
 .file-upload-status {
@@ -63,7 +65,7 @@
 /* ______MODIFIERS______ */
 /* DRAG ACTIVE LABEL STYLE */
 .file-upload-label--drag-active {
-  border: 2px dashed var(--bg-color--accent);
+  border: 2px dashed var(--color-accent);
   /* border-bottom: 0; */
 }
 /* INVALID FILE UPLOAD INSTRUCTION STYLING  */
@@ -77,8 +79,7 @@
   height: 300px;
   width: 100%;
   flex-direction: column;
-  /* background-color: var(--bg-color--secondary); */
-  border: 2px solid var(--bg-color--secondary);
+  border: 2px solid var(--bg-color--ternary);
   border-top: 0;
   justify-content: center;
   align-items: center;
@@ -95,4 +96,21 @@
   width: 35px;
   top: 0;
   right: 0;
+}
+
+/* _____MEDIA_____ */
+@media screen and (min-width: 550px) {
+  /* FILE UPLOAD INSTRUCTION */
+  .file-upload-instruction span {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    height: auto;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  } 
+  .file-upload-instruction span:last-of-type {
+    font-size: .9rem;
+  }
 }
