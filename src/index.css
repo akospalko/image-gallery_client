@@ -16,7 +16,8 @@
   -webkit-text-size-adjust: 100%;
  
   /* SHARED VARIABLES */
-  --header-height: 70px;
+  --header-height: 60px;
+  --modal-header-height: 50px;
   --margin-default: 0.5rem;
   --padding-default: 0.5rem;
   --carousel-tracker-height: 30px;
@@ -25,6 +26,10 @@
   --input-height: 45px;
   --input-height--authentication: 50px;
   --input-width: 80%;
+  
+  /* layout container width */
+  --pe-container-width--M: 470px;
+  --pe-container-width--L: 750px;
 
   /* ICONS */
   /* input field icon height-width values */
@@ -37,21 +42,48 @@
   --z4: 5;
   --z5: 6;
   
-  /* font - size */
+  /* MARGINS */
+  --margin-gap: 2px;
+
+  /* FONTS  */
+  /* Color */
   --text-color-light--high-emphasis: rgba(255, 255, 255, 0.86);
   --text-color-dark--high-emphasis: rgba(0, 0, 0, 0.86);
-  /* colors */
   /* border colors */
   --border-color-1: rgb(73, 72, 72); 
+  /* Size */
+  --text-size--XS: .75rem; 
+  --text-size--S: .85rem; 
+  --text-size--M: 1rem; 
+  --text-size--L: 1.125rem; 
+  /* h1 */
+  --header-1-size--XS: 1.7rem; 
+  --header-1-size--S: 1.9rem; 
+  --header-1-size--M: 2.4rem; 
+  --header-1-size--L: 2.7rem; 
+  /* h2 */
+  --header-2-size--XS: 1.25rem; 
+  --header-2-size--S: 1.4rem; 
+  --header-2-size--M: 1.9rem; 
+  --header-2-size--L: 2.2rem; 
+  /* h3 */
+  --header-3-size--XS: .9rem; 
+  --header-3-size--S: 1.1rem; 
+  --header-3-size--M: 1.3rem; 
+  --header-3-size--L: 1.5rem; 
+
 
   /* SHARED THEME COLORS:  */
   /* TODO:
   remove shared accent color from light/dark store it as shared color
   */
   --color-accent--light: hsla(359, 55%, 55%, 1);
-  --color-accent: hsla(359, 55%, 38%, 1);
+  --color-accent: hsl(359, 55%, 38%);
+  --color-accent--transparent-high: hsla(359, 55%, 38%, 0.25);
+
   --color-accent--disabled: hsla(359, 55%, 38%, 0.5);
   --color-accent--medium: hsla(359, 55%, 33%, 1);
+  --color-accent--medium-transparent-medium: hsla(359, 55%, 33%, 0.5);
   --color-accent--dark: hsla(359, 55%, 28%, 1);
   /* TODO: txt colors fit to accent color  */
   /* --txt-test: hsla(359, 75%, 90%, 1); */
@@ -60,11 +92,15 @@
   /* --txt-test: hsla(359, 75%, 90%, 1); */
   --test--a: #4e4e4e;
 }
+
+
 :root.light {
   --bg-color--main: #ced4da;
+  --bg-color--main-alpha-10: rgba(206, 212, 218, 0.10);
   --bg-color--main-transparent-high: rgba(206, 212, 218, 0.25);  /*25%*/
   --bg-color--main-transparent-medium: rgba(206, 212, 218, 0.50);  /*50%*/
   --bg-color--main-transparent-low: rgba(206, 212, 218, 0.75);  /*75%*/
+  --bg-color--main-alpha-90: rgba(206, 212, 218, 0.9);  /*25%*/
   
   --bg-color--secondary: #adb5bd;
   --bg-color--secondary-transparent-high: rgba(173, 181, 189, 0.25);  /*25%*/
@@ -72,6 +108,7 @@
   --bg-color--secondary-transparent-low: rgba(173, 181, 189, 0.75);  /*75%*/
 
   --bg-color--ternary: #6c757d;
+  --bg-color--ternary-transparent-very-high: rgba(108, 117, 125, 0.1);  /*10%*/
   --bg-color--ternary-transparent-high: rgba(108, 117, 125, 0.25);  /*25%*/
   --bg-color--ternary-transparent-medium: rgba(108, 117, 125, 0.50);  /*50%*/
   --bg-color--ternary-transparent-low: rgba(108, 117, 125, 0.75);  /*75%*/
@@ -104,14 +141,13 @@
   --color--disabled: 
 }
 
-
-
-
 :root.dark {
   --bg-color--main: #212529;
+  --bg-color--main-alpha-10: rgba(33, 37, 41, 0.19); 
   --bg-color--main-transparent-high: rgb(33, 37, 41, 25%);  /*25%*/
   --bg-color--main-transparent-medium: rgb(33, 37, 41, 50%);  /*50%*/
   --bg-color--main-transparent-low: rgb(33, 37, 41, 75%);  /*75%*/
+  --bg-color--main-alpha-90: rgba(33, 37, 41, 0.9); 
   --bg-color--secondary: #343a40;
   --bg-color--secondary-transparent-high: rgb(52, 58, 64, 25%);  /*25%*/
   --bg-color--secondary-transparent-medium: rgb(52, 58, 64, 50%);  /*50%*/
