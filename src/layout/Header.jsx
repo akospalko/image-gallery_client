@@ -3,21 +3,25 @@ import React, { useState, useEffect } from 'react'
 import './Header.css'
 import HeaderContentForSmallScreen from './HeaderContentForSmallScreen';
 import HeaderContentForLargeScreen from './HeaderContentForLargeScreen';
-import { navElementsUnauthenticated, navElementsUser, navElementsAdmin } from '../helper/dataStorage';
-import { useAuthContext } from '../components/contexts/AuthenticationContext';
-import { ROLES } from '../helper/userRoles';
 import { useMediaQuery } from 'react-responsive';
+import { useAuthContext } from '../components/contexts/AuthenticationContext';
+import { useModalContext } from '../components/contexts/ToggleModalContext';
+import { navElementsUnauthenticated, navElementsUser, navElementsAdmin } from '../helper/dataStorage';
+import { ROLES } from '../helper/userRoles';
 
 export default function Header() {
   // STATE
   const [activeNavigation, setActiveNavigation] = useState(navElementsUnauthenticated);
+  
   // CONTEXT
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
+  
   // HOOK
   const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
+
   // EFFECT
   // get and set what navigation elements should be rendered on the screen based on user roles
-  useEffect(() => {
+  useEffect( () => {
     if(!auth?.username || !auth?.roles ) return;
     // find out the rendered navigation elements based on user roles
     const getActiveNavigation = () => {
@@ -36,7 +40,7 @@ export default function Header() {
     }
     setActiveNavigation(getActiveNavigation()); // initialize state
     return () => {setActiveNavigation(navElementsUnauthenticated)}; // reset state back to the initial value (unauthenticated) 
-  }, [auth, setActiveNavigation])
+  }, [auth, setActiveNavigation] )
   
-  return isLargeScreen ?  <HeaderContentForLargeScreen navElements={activeNavigation} /> : <HeaderContentForSmallScreen navElements={activeNavigation} />
+  return isLargeScreen ? <HeaderContentForLargeScreen navElements={activeNavigation} /> : <HeaderContentForSmallScreen navElements={activeNavigation} />
 }

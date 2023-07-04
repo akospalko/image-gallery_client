@@ -5,7 +5,7 @@ import { useModalContext } from '../components/contexts/ToggleModalContext';
 import { useAuthContext } from '../components/contexts/AuthenticationContext';
 import useLogout from '../components/hooks/useLogout';
 import { UserIcon, MailIcon, LogoutIcon }  from '../components/SVG/Icons';
-import { cropText, generateDateString } from '../helper/utilities';
+import { cropStringToLength, generateDateString } from '../helper/utilities';
 
 export default function UserProfileMenu(props) {
   // PROPS
@@ -61,7 +61,7 @@ export default function UserProfileMenu(props) {
           </div>
           <div className='user-profile-menu-item-text'>
             <span> 
-              { info.value && `${!info.icon ? info.name + ': ' : '' } ${ cropText(info.value, cropTextLength) }`} 
+              { info.value && `${!info.icon ? info.name + ': ' : '' } ${ cropStringToLength(info.value, cropTextLength) }`} 
             </span>
           </div>
         </div> )) 
@@ -81,7 +81,7 @@ export default function UserProfileMenu(props) {
         { info.icon && info.icon }  
       </div> 
       <div className='user-profile-menu-item-text'>
-        <span> { info.value && cropText(info.value, cropTextLength) } </span>
+        <span> { info.value && cropStringToLength(info.value, cropTextLength) } </span>
       </div>
     </div>
   ))

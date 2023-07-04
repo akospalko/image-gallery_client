@@ -8,7 +8,7 @@ import { useAuthContext } from '../components/contexts/AuthenticationContext';
 import { useThemeContext } from '../components/contexts/ThemeContext';
 import Button from '../components/UI/Button';
 import ThemeToggler from '../components/UI/ThemeToggler';
-import {  MenuOpenIcon, MenuCloseIcon }  from '../components/SVG/Icons';
+import { MenuOpenIcon, MenuCloseIcon }  from '../components/SVG/Icons';
 
 export default function useHeaderNavigation(navElements) {
   // CONTEXT 
@@ -39,9 +39,10 @@ export default function useHeaderNavigation(navElements) {
   // mapped nav 
   const navigationElements = navElements && navElements.map(elem => 
     <NavLink 
-      key={elem.id} 
+      key={ elem.id } 
       to={ typeof elem.path === 'function' ? elem.path(auth.username) : elem.path }
-      className={({ isActive }) => ( isActive ? 'header-navigation-elem header-navigation-elem--active' : 'header-navigation-elem' )}> 
+      className={ ({ isActive }) => ( isActive ? 'header-navigation-elem header-navigation-elem--active' : 'header-navigation-elem' ) }> 
+      <div className='header-navigation-elem-spacer'> </div>
       <p> {elem.name} </p> 
     </NavLink>
   ) 

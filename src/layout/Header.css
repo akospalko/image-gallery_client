@@ -7,8 +7,7 @@
   align-items: center;
   width: 100%;
   height: var(--header-height);
-  background-color: var(--bg-color--main);
-  box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high);
+  background-color: var(--bg-color--secondary);
   padding: 0 var(--padding-default);
   z-index: var(--z2);
 }
@@ -133,6 +132,7 @@
   border-right: 2px solid var(--bg-color--ternary-transparent-high);
   background-color: var(--bg-color--main);
   z-index: var(--z3);
+  overflow-y: scroll;
 }
 /* toolbar */
 .header-navigation-menu-toolbar {
@@ -140,8 +140,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: var(--header-height);
-  box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high);
+ min-height: var(--header-height);
+  /* box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high); */
   padding: 0 var(--padding-default)
 }
 /* elements wrapper: S & L */
@@ -171,6 +171,8 @@
 /* active element */
 .header-navigation-elem--active {
   background-color: var(--color-accent);
+   pointer-events: none;
+  
 }
 .header-navigation-elem--active p {
   text-underline-position: under;
@@ -283,7 +285,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    min-width: 100px;
+    min-width: 125px;
   }
 
   /* HEADER MENU */
@@ -297,20 +299,41 @@
   }
   /* single element (nav link): S & L */
   .header-navigation-elem {
-    min-width: 80px;
+    width: auto;
+    max-width: 150px;
     height: 100%;
-    box-shadow: 0 2px 0 0 var(--bg-color--ternary);
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 3px solid transparent;
     background-color: transparent;
+    margin-right: 1.5rem;
+    transition: border-color .25s ease-in;
+  }
+  /* hovered single element */
+  .header-navigation-elem:hover {
+    border-bottom: 3px solid var(--bg-color--ternary);
   }
   .header-navigation-elem p {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    line-height: 1rem;
   }
+  /* adjust element content vertically */
+  .header-navigation-elem-spacer {
+    height: 45%;
+    width: 100%;
+  }
+
   /* active element */
   .header-navigation-elem--active {
-    box-shadow: 0 2px 0 0 var(--color-accent);
+    /* box-shadow: 0 2px 0 0 var(--color-accent); */
+    border-bottom: 3px solid var(--color-accent);
+  }
+  .header-navigation-elem--active:hover {
+    /* box-shadow: 0 2px 0 0 var(--color-accent); */
+    border-bottom: 3px solid var(--color-accent);
   }
   .header-navigation-elem--active p {
-    color: var(--color-accent);
+    color: var(--bg-color--accent-transparent-low);
   }
 
   /* group 2 L: theme toggler, user profile, authentication cta button  */
@@ -374,9 +397,9 @@
   }
   /* single element (nav link): S & L */
   .header-navigation-elem {
-    min-width: 100px;
+    /* min-width: 100px; */
   }
   .header-navigation-elem p {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 }

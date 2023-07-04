@@ -8,7 +8,7 @@ import UserProfileMenu from './UserProfileMenu';
 import Button from '../components/UI/Button';
 import { UserIcon }  from '../components/SVG/Icons';
 import { PhotoEntryIcon } from '../components/SVG/Icons';
-import { cropText } from '../helper/utilities';
+import { cropStringToLength } from '../helper/utilities';
 import { useMediaQuery } from 'react-responsive';
 import HeaderAuthenticationCTAButton from './HeaderAuthenticationCTAButton';
 
@@ -30,7 +30,7 @@ export default function HeaderContentForSmallScreen({ navElements }) {
     <>
       { /* display username */ }
       { !isScreenBelow300Px && <div className='header-container-user-profile-name' title={ auth?.username } > 
-        <span> { auth.username && cropText(auth.username, usernameMaxDisplayLength) } </span>
+        <span> { auth.username && cropStringToLength(auth.username, usernameMaxDisplayLength) } </span>
       </div>}
       {/* profile icon: toggle user profile menu */}
       <Button 

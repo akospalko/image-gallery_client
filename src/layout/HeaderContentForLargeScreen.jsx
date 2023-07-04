@@ -10,7 +10,7 @@ import ThemeToggler from '../components/UI/ThemeToggler';
 import Button from '../components/UI/Button';
 import { PhotoEntryIcon } from '../components/SVG/Icons';
 import { UserIcon } from '../components/SVG/Icons'
-import { cropText } from '../helper/utilities';
+import { cropStringToLength } from '../helper/utilities';
 import HeaderAuthenticationCTAButton from './HeaderAuthenticationCTAButton';
 
 export default function HeaderContentForLargeScreen({ navElements }) {
@@ -31,7 +31,7 @@ export default function HeaderContentForLargeScreen({ navElements }) {
     <>
       { /* display username */ }
       <div className='header-container-user-profile-name' title={ auth?.username }>  
-        <span> { auth.username && cropText(auth.username, usernameMaxDisplayLength) } </span>
+        <span> { auth.username && cropStringToLength(auth.username, usernameMaxDisplayLength) } </span>
       </div>
       {/* profile icon: toggle profile menu */}
       <div className='header-container-user-profile-button'>
@@ -51,7 +51,7 @@ export default function HeaderContentForLargeScreen({ navElements }) {
       { /* Group 1: logo, navigation */ }
       <div className='header-bar-group header-bar-group--1'>
         { /* Logo */ }
-        <div className='header-logo'> <PhotoEntryIcon height='50px' width='50px' /> </div>
+        <div className='header-logo'> <PhotoEntryIcon height='40px' width='40px' /> </div>
         { /* Header navigation */ }
         <div className='header-navigation-elements'>
           { navigationElements }
