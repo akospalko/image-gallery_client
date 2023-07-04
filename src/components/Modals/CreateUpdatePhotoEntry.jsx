@@ -1,5 +1,3 @@
-// TODO: replace string labels with CONSTANTs 
-// TODO: pass title/form styling to Form elem 
 // TODO: when cancel || X buttons are pressed: abort request 
 // TODO: navToPrevPage - navigates to login after operation 
 // Reusable modal for create/update photo entry 
@@ -15,6 +13,7 @@ import { OPERATIONS } from '../../helper/dataStorage';
 import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
 import { statusMessages } from '../../helper/dataStorage';
 import { basicInputFieldValidator } from '../../helper/formValiadation';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { useNavigate, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
@@ -26,7 +25,6 @@ import { useThemeContext } from '../contexts/ThemeContext';
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS
- 
   const {operation, formTemplate, collection, label} = props;
   
   // ROUTING
@@ -184,18 +182,17 @@ export default function CreateUpdatePhotoEntry(props) {
             setMessage(statusMessages.EMPTY);
             toggleModalHandler(operation);
           } }
-        > Cancel 
+        > { CONSTANT_VALUES.BUTTON_CANCEL } 
         </Button> : null }   
         <Button 
           buttonStyle='button-form-submit'
           form='form-create-update-photo-entry'
           type='submit' 
           disabled={ (!isFormValid || !isFormTouched) || isLoading.PHOTO_ENTRY_SUBMIT }
-          // disabled={isLoading.PHOTO_ENTRY_SUBMIT}
           clicked={ (e) => {
             operation === OPERATIONS.CREATE_PHOTO ? createPhotoEntryHandler(e, formData, photoFile) : updatePhotoEntryHandler(e, formData, photoFile) 
           }}
-        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : 'Submit' } 
+        >  { isLoading.PHOTO_ENTRY_SUBMIT ? <LoaderIcon height='25px' width='25px' stroke='var(--text-color--high-emphasis)'/> : CONSTANT_VALUES.BUTTON_SUBMIT } 
         </Button>      
     </div> 
   );
@@ -211,7 +208,6 @@ export default function CreateUpdatePhotoEntry(props) {
           key={ elem.name } 
           name={ elem.name } 
           label={ label }
-          inputStyle='input-create-update-photo-entry' 
           textareaStyle='textarea-create-update-photo-entry'
           labelStyle='input-create-update-photo-entry-label'
         /> 

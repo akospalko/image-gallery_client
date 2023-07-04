@@ -1,25 +1,25 @@
 // Display info about the photo entry 
 import React from 'react';
 import '../Shared.css';
-import '../PhotoEntries.css';
+import '../Admin/PhotoEntries.css';
 import Timestamp from '../Timestamp';
-import PhotoEntryContentElement from '../PhotoEntryContentElement';
+import PhotoEntryContentElement from '../Admin/PhotoEntryContentElement';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { ViewPhoto } from '../SVG/Icons';
 import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
-import usePhotoEntryTemplate from '../usePhotoEntryTemplate';
+import PhotoEntryLayout from '../Admin/PhotoEntryLayout';
 
 export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
+  // LAYOUT TEMPLATE
+  // get photo entry layout1 template 
+  const { photoEntryLayoutInfo } = PhotoEntryLayout(activePhotoEntry); 
+  
   // CONTEXTS
   const { activePhotoEntry, toggleModalHandler } = useModalContext();
   const { createdAt, updatedAt } = activePhotoEntry || {};
   
-  // HOOKS
-  // Get photo entry layout1 template 
-  const { photoEntryLayout1Template } = usePhotoEntryTemplate(activePhotoEntry); 
-
   // ELEMENTS
   // open modal: view photo 
   const viewPhotoButton = (
@@ -37,7 +37,7 @@ export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
   // photo info records 
   const photoContent = (
     <>
-      { photoEntryLayout1Template?.map(record => (
+      { photoEntryLayoutInfo?.map(record => (
         <PhotoEntryContentElement
           key={ record?.name }
           title={ record?.title } 
@@ -48,12 +48,12 @@ export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
           dataStyle={ record?.dataStyle }
         /> )
       )}
-      { displayTimestamp && <Timestamp dateCreation={ createdAt } dateLastUpdate={ updatedAt } customStyle='timestamp-container--layout-1' /> }
+      { displayTimestamp && <Timestamp dateCreation={ createdAt } dateLastUpdate={ updatedAt } customStyle='timestamp-container--layout' /> }
     </>
   )
 
   return (
-    <div className="pe-layout-1-container"> 
+    <div className="pe-layout-container"> 
       { /* VIEW PHOTO BUTTON */ }
       { viewPhotoButton }
       { /* CONTENT */ }
