@@ -43,14 +43,14 @@ export default function useHeaderNavigation(navElements) {
       to={ typeof elem.path === 'function' ? elem.path(auth.username) : elem.path }
       className={ ({ isActive }) => ( isActive ? 'header-navigation-elem header-navigation-elem--active' : 'header-navigation-elem' ) }> 
       <div className='header-navigation-elem-spacer'> </div>
-      <p> {elem.name} </p> 
+      <p> { elem.name } </p> 
     </NavLink>
   ) 
   // For small view
   // mapped nav with on click close modal functionality
   const navigationElementsForToggleMenu = navElements && navElements.map(elem => (
     <NavLink 
-      key={elem.id} 
+      key={ elem.id } 
       to={ typeof elem.path === 'function' ? elem.path(auth.username) : elem.path }
       onClick={ () => toggleModalHandler(OPERATIONS.HEADER_NAV, false) }
       className={ ({ isActive }) => 
@@ -61,7 +61,7 @@ export default function useHeaderNavigation(navElements) {
   // navigation menu: toolbar, nav elements
   const navigationMenu = (
     <>
-      {/* Backdrop */}
+      { /* Backdrop */ }
       <div 
         className='header-backdrop header-backdrop--with-background' 
         onClick={ () => toggleModalHandler(OPERATIONS.HEADER_NAV, false) }
@@ -70,12 +70,12 @@ export default function useHeaderNavigation(navElements) {
         className='header-navigation-menu-container' 
         onClick={ e => e.stopPropagation() }
       >
-        {/* toolbar: theme toggler, close menu botton, etc */}
+        { /* toolbar: theme toggler, close menu botton, etc */ }
         <div className='header-navigation-menu-toolbar'>
           { closeNavigationMenuButton }
           <div className='header-theme-toggler' onClick={ toggleThemeHandler } > <ThemeToggler size='30px' /> </div>
         </div>
-        {/* navigation elements */}
+        { /* navigation elements */ }
         <div className='header-navigation-elements'>
           { navigationElementsForToggleMenu }
         </div> 

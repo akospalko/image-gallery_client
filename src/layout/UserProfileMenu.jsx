@@ -42,7 +42,7 @@ export default function UserProfileMenu(props) {
         logoutUserHandler();
         toggleDropdownHandler(false); 
       }
-    }, //...
+    }, 
   ] 
   
   // RENDERED ELEMENTS
@@ -53,7 +53,7 @@ export default function UserProfileMenu(props) {
         <div 
           key={ info.name } 
           title={ info.name } 
-          onClick={ ()=> { window.alert(`${ info.name}: ${info.value}`) } }
+          onClick={ ()=> { window.alert(`${ info.name }: ${ info.value }`) } }
           className='user-profile-menu-item user-profile-menu-item--info'
         >
           <div className='user-profile-menu-item-icon'> 
@@ -88,7 +88,7 @@ export default function UserProfileMenu(props) {
 
   return (
     <>
-      {/* Backdrop */}
+      { /* Backdrop */ }
       <div 
         className='header-backdrop' 
         onClick={ () => toggleDropdownHandler() }
@@ -98,9 +98,9 @@ export default function UserProfileMenu(props) {
         className='header-profile-menu-container'
         onClick={ e => e.stopPropagation() }
       >
-        {/* menu info items */}
+        { /* menu info items */ }
         { userProfileInfo }
-        {/* menu option item(s) */}
+        { /* menu option item(s) */ }
         { userProfileOptions }
       </div>
     </>
