@@ -157,7 +157,7 @@ export default function PasswordResetSaveNewPassword() {
         { formData && 
           <Form id='form-password-reset-save-new-password' formStyle='form-authentication' > 
             { buildInputFields(passwordResetSaveNewPassword).map(elem => (
-              <Input key={ elem.name } name={ elem.name } inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+              <Input key={ elem.name } name={ elem.name } validationStyle='input-validation-authentication' /> 
             )) }
           </Form>
         }

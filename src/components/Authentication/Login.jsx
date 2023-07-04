@@ -153,7 +153,7 @@ export default function Login() {
         { formData && 
           <Form id='form-login' formStyle='form-authentication'> 
             { buildInputFields(login).map(elem => (
-              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+              <Input key={elem.name} name={elem.name} validationStyle='input-validation-authentication' /> 
             )) }
             {/* control group: reset password */}
             <div onClick={() => navigate('/password-reset')} className='auth-modal-reset-password'> 

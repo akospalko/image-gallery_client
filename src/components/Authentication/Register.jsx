@@ -154,7 +154,7 @@ export default function Register() {
         { formData && 
           <Form id='form-register' formStyle='form-authentication'> 
             { buildInputFields(register).map(elem => (
-              <Input key={elem.name} name={elem.name} inputStyle='input-authentication' validationStyle='input-validation-authentication' /> 
+              <Input key={elem.name} name={elem.name} validationStyle='input-validation-authentication' /> 
             )) }
           </Form>
         }
