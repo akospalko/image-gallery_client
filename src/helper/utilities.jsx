@@ -45,7 +45,7 @@ export const cropString = (inputString, maxLength, cropLength) => {
 }
 
 // crop string to given length
-export function cropText(text, maxLength) {
+export function cropStringToLength(text, maxLength) {
   if (typeof text !== 'string' || typeof maxLength !== 'number' || !text.length || text.length <= maxLength) {
     return text;
   }
