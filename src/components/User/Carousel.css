@@ -81,13 +81,13 @@
   height: 5px;
   width: 20px;
   margin: 0 8px; 
-  background-color: var(--bg-color--ternary-transparent-low);
+  background-color: var(--bg-color--ternary);
   display: inline-flex;
   transition: background-color 0.6s ease;
 }
 .dot:hover,
 .active {
-  background-color: var(--bg-color--accent);
+  background-color: var(--color-accent);
   opacity: 1;
 }
 

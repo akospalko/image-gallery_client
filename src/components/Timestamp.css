@@ -18,9 +18,9 @@
   padding: var(--padding-default);
 }
 /* timestamp container for photo info modal */
-.timestamp-container--layout-1 {
+.timestamp-container--layout {
   width: auto;
-  background-color: var(--bg-color--secondary);
+  background-color: var(--bg-color--ternary);
   margin: calc(var(--margin-gap) * 2);
   margin-top: var(--margin-gap);
 }

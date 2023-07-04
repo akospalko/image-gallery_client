@@ -44,6 +44,7 @@
   height: 350px;
   width: 100%;
   margin-bottom: 0.25rem;
+  border: 2px solid var(--bg-color--secondary);
 }
 .pe-container-collection:last-child {
   margin-bottom: 0;
@@ -316,7 +317,7 @@
     border-left: 2px solid var(--bg-color--secondary);
     border-right: 2px solid var(--bg-color--secondary);
     border-bottom: 2px solid var(--bg-color--secondary);
-    width: 470px;
+    width: var(--pe-container-width--M);
     background-color: var(--bg-color--ternary-transparent-high);
   }
   /* container - collection  */

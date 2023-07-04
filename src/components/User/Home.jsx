@@ -1,11 +1,9 @@
 // Landing page with photo carousel display 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './Home.css'
 import '../Shared.css'
-import { useFormContext } from '../contexts/FormContext'
 import { getAllHomePhotos } from '../../helper/axiosRequests'
 import axios from '../../helper/axiosInstances'
-import LoaderIcon from '../SVG/Loader'
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading'
 import SkeletonHome from '../../skeletons/SkeletonHome'
 import Carousel from './Carousel'
@@ -14,40 +12,28 @@ import Button from '../UI/Button'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../contexts/AuthenticationContext'
 import useResponsiveBackground from '../../components/hooks/useResponsiveBackground';
+import { useDataContext } from '../contexts/DataContext';
 
 export default function Home() {
   // CONSTANTS
   // ROUTE
   const navigate =  useNavigate(); 
   // CONTEXT
-  const { homePhotos, setHomePhotos } = useFormContext();
+  const { homePhotos, setHomePhotos } = useDataContext();
   const { auth } = useAuthContext();
   // HOOK
   const { allImagesLoaded, hideImageStyle, setCurrentlyLoadingImages, onLoadHandler} = useHideImagesWhileLoading();
   const { pageBackground } = useResponsiveBackground();
 
-  // STATE
-  const [isLoading, setIsLoading] = useState(true);
   // EFFECT
    useEffect(() => {  
-    if(!isLoading) return; // get home photos only when data is not yet loaded   
+    if(homePhotos.length) return; // fetch photos if photo storage is empty  
       (async () => {
         const response = await getAllHomePhotos(axios); // fetch entries, update state
         response.success ? setHomePhotos(response?.photoEntries) : setHomePhotos(null) // set state with fetched photo-s || []  
-        setIsLoading(false); 
       })() 
   }, []) 
   
-  
-  // RENDERED ELEMENTS
-
-  // loader
-  const loader = (
-    <div className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>   
-    <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/>
-    </div>
-  )
-
   // photo placeholder failed fetch || no data
   const photoPlaceholder = (
     <div className='home-photo'>
@@ -76,8 +62,9 @@ export default function Home() {
       { homePhotos && homePhotos.length && carousel }
     </>
   )
-  // home page content
-  const home = (
+ 
+  return (
+    // home page content
     <div style={ pageBackground } className='shared-page-container shared-page-container--centered shared-page-container--with-padding'>
       <div className='home-container'>
         {/* Header */}
@@ -102,12 +89,6 @@ export default function Home() {
           </Button>
         </div>
       </div>
-    </div>
-  ) 
-
-  return (
-    <>
-      { isLoading ? loader : home }
-    </>
+    </div> 
   )
 }
