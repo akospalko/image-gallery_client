@@ -102,7 +102,7 @@ export default function MapOverview() {
   return (
     <div 
       style={ pageBackground } 
-      className='shared-page-container shared-page-container--centered-vertically'
+      className='shared-page-container shared-page-container--align-items-center'
     >
       <> 
         { /* Header */ }

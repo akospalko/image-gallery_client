@@ -23,7 +23,8 @@ export default function Map(props) {
   // PROPS
   const { 
     mapData = [], // data to display on map
-    isSingleMarker // display (default/omitted): multiple markers || single marker
+    isSingleMarker, // display (default/omitted): multiple markers || single marker,
+    containerStyle // custom style for specific map instances: map modal, map overview  
   } = props; // array of object(s) ([{...}, ...]) - photo entry data   
   
   // CONSTANTS
@@ -95,7 +96,7 @@ export default function Map(props) {
 
   return (
     <MapContainer
-      className='map-container map-container--overview'
+      className={ `map-container ${ containerStyle }` }
       center={ centerPosition } 
       minZoom={ 2 }
       zoom={ 12 } 
