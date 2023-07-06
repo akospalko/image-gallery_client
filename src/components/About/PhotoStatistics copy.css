@@ -1,0 +1,123 @@
+/* STATISTICS */
+/* conatainer */
+.statistics-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--bg-color--secondary);
+}
+/* title */
+.statistics-container h2 {
+  font-size: var(--header-2-size--S);
+  color: var(--text-color--high-emphasis);
+}
+/* stat card */
+.statistics-card {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-default);
+}
+/* stat card content */
+.statistics-elem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-right: var(--margin-default);
+  height: 100%;
+  background-color: var(--bg-color--main);
+  border: 2px solid var(--bg-color--main);
+}
+.statistics-elem:last-child {
+  margin-right: 0;
+}
+
+.statistics-elem:hover {
+  background-color: var(--bg-color--main-transparent-medium);
+}
+.statistics-elem:hover .statistics-icon {
+  transform: scale(1.1);
+}
+/* svg icon */
+.statistics-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 1rem 0;
+  width: 90%;
+  transition: all .2s ease-in;
+}
+
+
+/* labels: card title && counter */
+.statistics-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  font-weight: bold;
+}
+.statistics-label span:first-child {
+  font-size: 1.5rem;
+  line-height: 1.5rem;  
+  color: var(--bg-color--accent);
+}
+.statistics-label span:last-child {
+  font-size: var(--text-size--M);
+  line-height: 2rem;
+  color: var(--text-color--high-emphasis);
+}
+
+/* _____MEDIA_____ */
+/* PHONE - TABLET */
+@media screen and (max-width: 350px) {
+  .statistics-card {
+    flex-direction: column;
+  }
+  .statistics-elem {
+    margin: 0;
+    margin-bottom: var(--margin-default);
+  }
+  .statistics-elem:last-child {
+    margin-bottom: 0;
+  }
+}
+/* _____MEDIA_____ */
+/* PHONE - TABLET */
+@media screen and (min-width: 550px) {
+  .statistics-container {
+    width: var(--container-width--500px);
+  }
+  .statistics-container h2 {
+    font-size: var(--header-2-size--M);
+  }
+  .statistics-label span:last-child {
+    line-height: 2rem;
+    font-size: var(--text-size--M);
+  }
+}
+/* TABLET */
+@media screen and (min-width: 768px) {
+  .statistics-container h2 {
+    font-size: var(--header-2-size--M);
+  }
+
+  .statistics-label span:first-child {
+    font-size: 1.75rem;
+    line-height: 1.75rem;  
+    color: var(--bg-color--accent);
+  }
+  .statistics-label span:last-child {
+    line-height: 2rem;
+    font-size: var(--text-size--L);
+  }
+
+}
