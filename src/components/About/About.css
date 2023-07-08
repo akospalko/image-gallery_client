@@ -26,10 +26,11 @@
 .about-project-metrics-cards,
 .about-attribution-cards {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  /* height: 100%; */
+  /* justify-content: flex-start;
+  width: 100%; */
+  justify-content: center;
+  width: calc(100% + var(--margin-default));
   flex-wrap: wrap;
   padding-top: var(--padding-default);
   gap: var(--margin-default);
@@ -44,16 +45,16 @@
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color--main);
-  flex: calc(33.33% - var(--margin-default));
-  width: 33.33%;
+  flex: 33.33%;
+  max-width: calc(33.33% - var(--margin-default));
   height: 100px;
   transition: all .2s ease-in;
 }
 .about-attribution-card:last-child {
-  max-width: calc(33.33% - 0.35rem);
+  max-width: calc(33.33% - 0.5rem);
 }
 .about-attribution-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 
@@ -139,14 +140,14 @@
   /* Project attribution & used technologies */
   /* attribution icon card */
   .about-attribution-card {
-    flex: calc(50% - var(--margin-default));
-    max-width: 50%;
+    flex: 50%;
+    max-width: calc(50% - var(--margin-default));
   }
   .about-attribution-card:last-child {
-    max-width: calc(50% - 0.35rem);
+    max-width: calc(50% - 0.5rem);
   }
   .about-attribution-card:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
   /* project metrics card */
   .about-project-metrics-card {
@@ -175,11 +176,11 @@
   }
   /* attribution icon card */ 
   .about-attribution-card {
-    flex: calc(25% - var(--margin-default));
-    max-width: 25%;
+    flex: 25%; 
+    max-width: calc(25% - var(--margin-default));
   }
   .about-attribution-card:last-child {
-    max-width: calc(25% - 0.35rem);
+    max-width: calc(25% - var(--margin-default));
   }
   /* project metrics card */
   .about-project-metrics-card {

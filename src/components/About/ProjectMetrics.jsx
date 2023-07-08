@@ -1,71 +1,103 @@
-// add more stats: likes sum, collectionized items sum
-// create separate state to store fetched stats 
-// TODO: remove unecessary icons
-// TODO: calc stats on backend
-
-// Display basic metrics about the project: number of authors, locations, photos   
+// Display basic metrics about the project: number of authors, locations, photos, likes, items in collection etc   
 import React, { useState, useEffect } from 'react';
 import './About.css';
-import { useFormContext } from '../contexts/FormContext'
-import { PhotographerMaleIcon, PhotoEntryIcon, PhotoEntryIcon2, LocationsIcon, LocationsIcon2 } from '../SVG/Icons';
+import { 
+  PhotoIcon,
+  PhotoCollectionIcon,
+  PhotoLikedIcon,
+  PhotoDownloadIcon,
+  PhotoLocationIcon,
+  PhotoAuthorIcon } from '../SVG/Icons';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
+import { getProjectMetrics } from '../../helper/axiosRequests';
+import axios from '../../helper/axiosInstances';
+
 export default function ProjectMetrics() {
-  // CONSTANTS && TEMPLATE
-  // template
-  const statisticsTemplate = [
-    { name: 'photos', icon: <PhotoEntryIcon2 height='100%' width='100%' />, amount: 0 }, // add icon: <icon/> // photos w + w/o coordinates
-    { name: 'locations', icon: <LocationsIcon2 height='100%' width='100%' /> , amount: 0 }, // photos w coordinates
-    { name: 'authors', icon: <PhotographerMaleIcon height='100%' width='100%' />, amount: 0 },
+  // TEMPLATE
+  const metricsTemplate = [
+    { // all photos 
+      name: 'photos', 
+      label: 'all photos',
+      title: 'number of photos you can explore', 
+      icon: <PhotoIcon height='100%' width='100%' />, amount: 0 
+    }, 
+    { // amount of times a photo was added to user's collection 
+      name: 'collectionized', 
+      label: 'in collection',
+      title: 'number of times a photo was added to the user\'s collection', 
+      icon: <PhotoCollectionIcon height='100%' width='100%' />, amount: 0 
+    },
+    { // amount of times a photo was added to user's collection 
+      name: 'likes', 
+      label: 'liked',
+      title: 'number of photo likes',
+      icon: <PhotoLikedIcon height='100%' width='100%' />, amount: 0 
+    }, 
+    { // amount of times a photo was added to user's collection 
+      name: 'downloads', 
+      label: 'downloads',
+      title: 'number of photo downloads', 
+      icon: <PhotoDownloadIcon height='100%' width='100%' />, amount: 0 
+    },
+    { // photos with geolocation
+      name: 'locations', 
+      label: 'locations',
+      title: 'number of photos with geolocation (gps coordinates)', 
+      icon: <PhotoLocationIcon height='120%' width='120%' /> , amount: 0 }, 
+    { // photographers 
+      name: 'authors', 
+      label: 'authors',
+      title: 'photographer, artist, creator', 
+      icon: <PhotoAuthorIcon height='120%' width='120%' />, amount: 0 
+    },
   ];
 
   // STATE 
-  const [ statistics, setStatistics ] = useState(statisticsTemplate);
-  
-  // CONTEXT
-  const { data } = useFormContext();
-  
+  const [ metrics, setMetrics ] = useState(metricsTemplate); // store project metrics data 
+
   // EFFECT
-  // calculate statistics on first render
-  useEffect( () => {
-    if (!data) return;
-    setStatistics( prev => {
-      let statsCopy = [ ...prev ]; // create state copy
-      let authors = []; // store unique authors (no duplicate values)
-      statsCopy = statsCopy.map(stat => {
-        // copied (update) obj
-        const statCopy = { ...stat };
-        data.forEach( entry => {
-          // update statistics based on entry content
-          if (statCopy.name === 'photos') {
-            statCopy.amount++; // calc photos: total No. entries
-          } else if (statCopy.name === 'locations' && (entry?.gpsLatitude && entry?.gpsLongitude)) {
-            statCopy.amount++; // calc locations: entries with lat-long coord.s
-          } else if (statCopy.name === 'authors' && !authors.includes(entry.author)) {
-            // calc authors
-            authors = [ ...authors, entry.author ];
-            statCopy.amount++;
+  // fetch project metrics, update state
+  useEffect(() => {  
+      (async () => {
+        try {
+          // update local metrics (state with initialized template) with fetched metrics data (amount)
+          const response = await getProjectMetrics(axios); // fetch entries, update state
+          if(response && response.success) {
+            const fetchedMetrics = response?.metrics; 
+            setMetrics(prevMetrics => {
+              let metricsCopy = [ ...prevMetrics ]; // create state copy
+              metricsCopy = metricsCopy.map(localMetric => {
+                const metricCopy = { ...localMetric };
+                fetchedMetrics.forEach( fetchedMetric => {
+                  if (localMetric.name === fetchedMetric.name ) {
+                    localMetric.amount = fetchedMetric.value
+                  }
+                });
+                return metricCopy;
+              });
+              return metricsCopy;
+            })
+          } else { // fetch unsuccessful
+            console.log(response.message);
           }
-        });
-        return statCopy;
-      });
-      return statsCopy;
-    });
-    return () => { setStatistics(statisticsTemplate) } 
+        } catch (error) {
+          console.log(error);
+        }
+      })() 
   }, []) 
 
 return (
     <div className='about-project-metrics'>
       { /* title */ }
       <h2> { CONSTANT_VALUES.TITLE_ABOUT_PROJECT_METRICS } </h2>
-      {/* TODO: basic intro what this article is */}
       { /* statistics card */ }
       <div className='about-project-metrics-cards'>
-        { statistics.map( card => (
-        <div key={ card.name } title={ `number of ${ card.name }` } className='about-project-metrics-card'>
+        { metrics.map( card => (
+        <div key={ card.name } title={ card.title } className='about-project-metrics-card'>
           <div className='about-project-metrics-cards-icon'> { card?.icon } </div>
           <div className='about-project-metrics-cards-label'> 
             <span> { card.amount } </span> 
-            <span> { card.name } </span> 
+            <span> { card.label } </span> 
           </div>
         </div>
         )) }

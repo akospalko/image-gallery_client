@@ -13,6 +13,7 @@ import {
   IconifyIcon, 
   NodeJSIcon, 
   ExpressJSIcon, 
+  PostmanIcon,
   LeafletIcon, 
   OSMIcon,
   AWSIcon, 
@@ -43,10 +44,10 @@ export default function About() {
         The web app was developed combining various web technologies: frontend was built with <span className='about-highlighted-text'> HTML</span>, <span className='about-highlighted-text'> CSS</span> and <span className='about-highlighted-text'> JavaScript</span>, utilizing the robust <span className='about-highlighted-text'>React</span> library. Additionally, several helpful npm packages such as router, responsive, toastify, zoom-pan-pinch, and axios were integrated. For visual elements, <span className='about-highlighted-text'> SVG Repo</span>, <span className='about-highlighted-text'> Iconify</span> and <span className='about-highlighted-text'> unDraw</span> resources were utilized.
       </p>
       <p className='about-indent-text'>
-        <span className='about-highlighted-text'> Leaflet</span>, a JavaScript library, was used to create dynamic and interactive maps. The project takes advantage of this library to showcase photos on the map. Furthermore, the app provides users with a variety of base layers, thanks to OSM, Stamen, and Esri, offering different map styles and layers.
+        <span className='about-highlighted-text'> Leaflet</span>, a JavaScript library, was used to create dynamic and interactive maps. The project takes advantage of this library to showcase photos on the map. Furthermore, the app provides users with a variety of base layers, thanks to <span className='about-highlighted-text'> OSM</span>, Stamen, and Esri, offering different map styles and layers.
       </p>
       <p className='about-indent-text'>
-        On the backend, <span className='about-highlighted-text'> Node.js</span> and <span className='about-highlighted-text'> Express</span> were harnessed to create a server, implementing a REST API architecture. Some of the packages used: jsonwebtokens and bcrypt for implementing authentication, sharp for image processing, nodemailer for sending emails.
+        On the backend, <span className='about-highlighted-text'> Node.js</span> and <span className='about-highlighted-text'> Express</span> and <span className='about-highlighted-text'> Postman</span> were harnessed to create a server with REST architecture. Some of the used packages: jsonwebtokens and bcrypt for implementing authentication, sharp for image processing, nodemailer for sending emails.
       </p>
       <p className='about-indent-text'>
         For data storage, <span className='about-highlighted-text'> MongoDB</span>, a flexible NoSQL database was employed with <span className='about-highlighted-text'> Mongoose</span> to handle data modeling and interaction. To provide scalable and reliable storage solutions for the app, <span className='about-highlighted-text'> AWS S3</span> was leveraged. 
@@ -97,6 +98,10 @@ export default function About() {
       title: 'expressjs',
       icon: <ExpressJSIcon width={ iconSize } height={ iconSize } fill={ iconColor } />,
       url: 'https://expressjs.com/',
+    }, {
+      title: 'postman',
+      icon: <PostmanIcon width={ iconSize } height={ iconSize } fill={ iconColor } />,
+      url: 'https://www.postman.com/',
     }, { 
       title: 'aws',
       icon: <AWSIcon width={ iconSize } height={ iconSize } fill={ iconColor } />,
@@ -109,7 +114,7 @@ export default function About() {
       title: 'mongoose',
       icon: <MongooseIcon width={ iconSize } height={ iconSize } fill={ iconColor } />,
       url: 'https://mongoosejs.com/',
-    }
+    } 
   ]
 
   // ELEMENTS  
@@ -147,7 +152,7 @@ export default function About() {
       { /* used technologies: tech icons, text */ }
       { usedTechnologiesAndAttribution }
       { /* footer */ }
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

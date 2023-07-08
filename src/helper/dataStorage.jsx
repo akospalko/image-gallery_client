@@ -15,8 +15,8 @@ export const navElementsUnauthenticated = [
     path: '/'
   }, {
     id: 1,
-    name: 'info',
-    path: '/info'
+    name: 'about',
+    path: '/about'
   }
 ]
 // navigation elements visible for authenticated users with 'user' role
@@ -27,14 +27,18 @@ export const navElementsUser = [
     path: '/'
   }, {
     id: 1,
+    name: 'about',
+    path: '/about'
+  }, {
+    id: 2,
     name: 'gallery',
     path: function(username) { return `${ username }/gallery` }
   }, { 
-    id: 2,
+    id: 3,
     name: 'collection',
     path: function(username) { return `${ username }/collection` }
   }, {
-    id: 3,
+    id: 4,
     name: 'map overview',
     path: function(username) { return `${ username }/mapoverview` }
   }
@@ -47,10 +51,14 @@ export const navElementsAdmin = [
     path: '/admin/home'
   }, {
     id: 1,
-    name: 'gallery',
-    path: function(username) { return `/admin/${username}/gallery`}
+    name: 'about',
+    path: '/about'
   }, {
     id: 2,
+    name: 'gallery',
+    path: function(username) { return `/admin/${ username }/gallery`}
+  }, {
+    id: 3,
     name: 'map overview',
     path: '/admin/mapoverview'
   }
