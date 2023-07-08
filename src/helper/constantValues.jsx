@@ -18,6 +18,9 @@ export const CONSTANT_VALUES = {
   TITLE_REGISTER: 'Create account',
   TITLE_PASSWORD_RESET_SAVE_NEW: 'Save new password',
   TITLE_PASSWORD_RESET_EMAIL: 'Forgot password?',
+  TITLE_ABOUT_PROJECT_INTRODUCTION: 'About the project',
+  TITLE_ABOUT_PROJECT_METRICS: 'Project metrics',
+  TITLE_ABOUT_ATTRIBUTION: 'Used technologies & attribution',
   SUBTITLE_LOGIN: 'log in to continue',
   SUBTITLE_REGISTER: 'and check out awesome photos',
   SUBTITLE_PASSWORD_RESET_SAVE_NEW: 'make it secure!',
@@ -31,6 +34,7 @@ export const CONSTANT_VALUES = {
   INFO_PHOTO_ENTRY_EMPTY: 'There is nothing to display',
   INFO_PHOTO_ENTRY_ERROR: 'Could not display photo entries',
   INFO_FILE_UPLOAD_NO_IMG: 'NO IMG',
+  INFO_SCROLL_TO_TOP: 'Back to top',
 
   // BUTTON CONTENT
   BUTTON_ENTRY_CREATE: 'Create new entry',

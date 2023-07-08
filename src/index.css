@@ -30,6 +30,8 @@
   /* layout container width */
   --pe-container-width--M: 470px;
   --pe-container-width--L: 750px;
+  /* container width */
+  --container-width--500px: 500px; 
 
   /* ICONS */
   /* input field icon height-width values */
@@ -71,7 +73,10 @@
   --header-3-size--S: 1.1rem; 
   --header-3-size--M: 1.3rem; 
   --header-3-size--L: 1.5rem; 
-
+  /* text: span - p */
+  --text-size--S: 1rem; 
+  --text-size--M: 1.1rem; 
+  --text-size--L: 1.2rem; 
 
   /* SHARED THEME COLORS:  */
   /* TODO:

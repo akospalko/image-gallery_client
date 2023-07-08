@@ -21,8 +21,7 @@
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.2",
-    "react-zoom-pan-pinch": "^3.0.7",
-    "styled-components": "^5.3.10"
+    "react-zoom-pan-pinch": "^3.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

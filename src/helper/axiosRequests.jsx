@@ -270,3 +270,19 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
     }
     return fetchResult;
   }
+
+  // GET project metrics: unprotected resource
+  export const getProjectMetrics = async (axiosInstance) => {
+    let fetchedData; 
+    try {
+      const response = await axiosInstance.get('/api/v1/project-metrics');
+      fetchedData = {...response?.data}; 
+    } catch (error) {
+      if(!error?.response) {
+        fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      } else {
+        fetchedData = {...error?.response.data};
+      }
+    }
+    return fetchedData;
+  }
