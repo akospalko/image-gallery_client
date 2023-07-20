@@ -47,12 +47,12 @@ export const navElementsUser = [
 export const navElementsAdmin = [
   {
     id: 0,
-    name: 'home',
-    path: '/admin/home'
-  }, {
-    id: 1,
     name: 'about',
     path: '/about'
+  }, {
+    id: 1,
+    name: 'home',
+    path: '/admin/home'
   }, {
     id: 2,
     name: 'gallery',

@@ -12,13 +12,13 @@ import { useModalContext } from '../contexts/ToggleModalContext';
 import PhotoEntryLayout from '../Admin/PhotoEntryLayout';
 
 export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
-  // LAYOUT TEMPLATE
-  // get photo entry layout1 template 
-  const { photoEntryLayoutInfo } = PhotoEntryLayout(activePhotoEntry); 
-  
   // CONTEXTS
   const { activePhotoEntry, toggleModalHandler } = useModalContext();
   const { createdAt, updatedAt } = activePhotoEntry || {};
+  
+  // LAYOUT TEMPLATE
+  // get photo entry layout1 template 
+  const { photoEntryLayoutInfo } = PhotoEntryLayout(activePhotoEntry); 
   
   // ELEMENTS
   // open modal: view photo 

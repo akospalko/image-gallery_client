@@ -26,13 +26,13 @@ export default function Home() {
   const { pageBackground } = useResponsiveBackground();
 
   // EFFECT
-   useEffect(() => {  
-    if(homePhotos.length) return; // fetch photos if photo storage is empty  
-      (async () => {
-        const response = await getAllHomePhotos(axios); // fetch entries, update state
-        response.success ? setHomePhotos(response?.photoEntries) : setHomePhotos(null) // set state with fetched photo-s || []  
-      })() 
-  }, []) 
+  useEffect(() => {  
+  if(homePhotos?.length) return; // fetch photos if photo storage is empty  
+    (async () => {
+      const response = await getAllHomePhotos(axios); // fetch entries, update state
+      response.success ? setHomePhotos(response?.photoEntries) : setHomePhotos(null) // set state with fetched photo-s || []  
+    })() 
+}, []) 
   
   // photo placeholder failed fetch || no data
   const photoPlaceholder = (

@@ -39,7 +39,7 @@ export default function PageContent() {
       
       { /* user routes */ }
       <Route element={ <RequireAuth allowedRoles={ [ROLES.user] } /> }>
-        <Route path={ `/$ {auth.username }/gallery` } element={ <Gallery /> } />
+        <Route path={ `/${ auth.username }/gallery` } element={ <Gallery /> } />
         <Route path={ `/${ auth.username }/collection` } element={ <Collection /> } />
         <Route path={ `/${ auth.username }/mapoverview` } element={ <MapOverview /> } />
       </Route>
