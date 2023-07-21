@@ -4,8 +4,10 @@ import '../Shared.css'
 import Button from '../UI/Button';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import { ArrowIcon, MenuCloseIcon } from '../SVG/Icons';
 import { useMediaQuery } from 'react-responsive';
+import { statusDefault } from '../../helper/statusMessages';
 
 export default function ModalHeader(props) {
   // PROPS
@@ -13,8 +15,8 @@ export default function ModalHeader(props) {
   
   // CONTEXTS
   const { activePhotoEntry, setActivePhotoEntry, toggleModalHandler } = useModalContext();
-  const { setMessage, setFormData, photoFile, setPhotoFile } = useFormContext();
-  
+  const { photoFile, setFormData, setPhotoFile } = useFormContext();
+  const { setStatus } = useStatusContext(); 
   // HOOOK
   const isLargeScreen = useMediaQuery({ query: '(min-width: 768px)' });
 
@@ -29,7 +31,7 @@ export default function ModalHeader(props) {
         { returnToModal && <Button 
               buttonStyle='button-close'
               clicked={ () => {
-                setMessage('');
+                setStatus(statusDefault);
                 setFormData({});
                 photoFile.name && setPhotoFile({});
                 toggleModalHandler(returnToModal);
@@ -42,7 +44,7 @@ export default function ModalHeader(props) {
         <Button 
           buttonStyle='button-close'
           clicked={ () => {
-            setMessage('');
+            setStatus(statusDefault);
             setFormData({});
             photoFile.name && setPhotoFile({});
             activePhotoEntry && setActivePhotoEntry({});

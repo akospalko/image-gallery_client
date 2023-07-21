@@ -7,10 +7,9 @@ import { useNavigate } from 'react-router'
 import { useMediaQuery } from 'react-responsive';
 import { 
   addPhotoEntryLike, removePhotoEntryLike, 
-  addPhotoEntryToCollection, removePhotoEntryFromCollection
-} from '../../helper/axiosRequests'
+  addPhotoEntryToCollection, removePhotoEntryFromCollection, downloadPhotoEntry } from '../../helper/axiosRequests'
 import { cropStringToLength } from '../../helper/utilities';
-import { useFormContext } from '../contexts/FormContext'
+import { useStatusContext } from '../contexts/StatusContext';
 import { useLoaderContext } from '../contexts/LoaderContext'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanel from './ControlPanel';
@@ -26,13 +25,13 @@ const PhotoEntry = (props) => {
     setCurrentlyLoadingImages, 
     onLoadHandler 
   } = props;
-  const { title, photoURL, captureDate, _id, inCollection, likes } = photoEntry ?? {};
-
+  const { title, photoURL, captureDate, _id, inCollection, likes, downloads } = photoEntry ?? {};
+  console.log(photoEntry);
   // STATE
   const [isHovered, setIsHovered] = useState(false); // photo entry collection - panel (title, control) toggle state
 
   // CONTEXT  
-  const { setMessage } = useFormContext();
+  const { setStatus, sendToast } = useStatusContext();
   const { loaderToggleHandler } = useLoaderContext();
 
   // HOOK
@@ -56,23 +55,23 @@ const PhotoEntry = (props) => {
         return updatedState;
       }
     })
-    
   }, [])
 
   // HELPER
-  // Update like/dislike add/remove collection states for photo entries (pe)  
+  // Update like/dislike add/remove collection, download states for photo entries (pe)  
   const uemSetter = (dataSetter, responsePE) => {
-    dataSetter(prev => {
-      const copyData = [...prev];
+    if(!responsePE?.photoEntry?._id) return;
+    dataSetter( prev => {
+      const copyData = [ ...prev ];
       const updatedData = copyData.map(entry => {
         // compare id-s, update storage with fetched data 
-        if(entry._id === responsePE?.photoEntry._id) { 
-          return { ...entry, ...responsePE.photoEntry } 
+        if(entry?._id === responsePE?.photoEntry?._id) { 
+          return { ...entry, ...responsePE?.photoEntry } 
         } 
         else { return { ...entry } }
       })
       return updatedData;
-    })
+    } )
   } 
   
   // HANDLERS
@@ -81,7 +80,12 @@ const PhotoEntry = (props) => {
     try {
       loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, true);
       const responseAddToCollection = await addPhotoEntryToCollection(userID, photoEntryID, axiosPrivate);
-      setMessage(responseAddToCollection.message);
+      const { success, message } = responseAddToCollection;
+      setStatus({ 
+        code: 'CODE',
+        success: success,
+        message: message
+      });
       uemSetter(dataSetter, responseAddToCollection);
     } catch (error) {
     } finally {
@@ -95,7 +99,12 @@ const PhotoEntry = (props) => {
     try {
       loaderToggleHandler('PHOTO_ENTRY_COLLECTION', _id, true);
       const responseRemoveFromCollection = await removePhotoEntryFromCollection(userID, photoEntryID, axiosPrivate);
-      setMessage(responseRemoveFromCollection.message);
+      const { message, success } = responseRemoveFromCollection;
+      setStatus({ 
+        code: 'CODE',
+        success: success,
+        message: message
+      });
       uemSetter(dataSetter, responseRemoveFromCollection);
       // update state: remove photo entry from collection 
       if(isCollection) {
@@ -114,7 +123,12 @@ const PhotoEntry = (props) => {
       loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
       // send request to server get response
       const responseAddLike = await addPhotoEntryLike(userID, photoEntryID, axiosPrivate);
-      setMessage(responseAddLike.message);
+      const { success, message } = responseAddLike;
+      setStatus({ 
+        code: 'CODE',
+        success: success,
+        message: message
+      });
       // upate state with new data
       uemSetter(dataSetter, responseAddLike); 
     } catch(error) {
@@ -130,12 +144,34 @@ const PhotoEntry = (props) => {
       loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
       // send request to server get response
       const responseRemoveLike = await removePhotoEntryLike(userID, photoEntryID, axiosPrivate);
-      // upate state with new data
-      uemSetter(dataSetter, responseRemoveLike);
-      setMessage(responseRemoveLike.message); // set message
+      const { success, message } = responseRemoveLike;
+      uemSetter(dataSetter, responseRemoveLike); // upate state with new data
+      setStatus({ 
+        code: 'CODE',
+        success: success,
+        message: message
+      });
     } catch(error) {
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
+    }
+    // navToPrevPage(); // navigate unauth user back to login page
+  }, [])
+
+  // Download photo entry
+  const downloadPhotoHandler = useCallback(async (userID, photoEntryID) => {
+    try {
+      // loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
+      const responseDownloadPhoto = await downloadPhotoEntry(userID, photoEntryID, axiosPrivate);
+      const { success, message } = responseDownloadPhoto; 
+      sendToast(message);
+      // upate state with new data
+      console.log(responseDownloadPhoto);
+      uemSetter(dataSetter, responseDownloadPhoto); 
+    } catch(error) {
+      console.log(error);
+    } finally {
+      // loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
     }
     // navToPrevPage(); // navigate unauth user back to login page
   }, [])
@@ -144,11 +180,11 @@ const PhotoEntry = (props) => {
   const showPanelHandler = () => {
     setIsHovered(true);
   } 
-    // toggle off handler: control title + panel
+  // toggle off handler: control title + panel
   const hidePanelHandler = () => {
     setIsHovered(false);
   } 
-
+  
   // ELEMENTS
   // Title
   const photoTitle = (
@@ -189,6 +225,7 @@ const PhotoEntry = (props) => {
       onLikePE={ likePEHandler }
       onRemovePEFromCollection={ removePEFromCollectionHandler }
       addPEToCollection={ addPEToCollectionHandler }
+      downloadPhoto={ downloadPhotoHandler }
    />
   )
 
@@ -201,10 +238,14 @@ const PhotoEntry = (props) => {
       <div className='pe-uem-counter-item'>
         <span> { inCollection && inCollection } </span>
       </div> 
+      <div className='pe-uem-counter-item'>
+        <span> { downloads } </span>
+      </div> 
+
     </div> 
   )
 
-  // Rendered scheemas: gallery || collection
+  // Rendered schemas: gallery || collection
   const renderedGallery = (
     <div style={ hideImageStyle } className='pe-container-gallery' >
       { photoTitle }

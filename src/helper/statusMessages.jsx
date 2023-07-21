@@ -21,3 +21,16 @@ export const INPUT_VALIDATION_MESSAGES = {
   FILE_UPLOAD_EXTENSION_ERROR: 'Unsupported file extension! (use JPEG or PNG)',
   FILE_UPLOAD_MAX_SIZE_ERROR: function(fileSize) { return `Maximum file size is ${fileSize} MB!`},
 } 
+
+// status state default value initializer template
+export const statusDefault = { 
+  success: null,
+  code: 0,
+  message: '' 
+}
+
+// HTTP request / general status messages
+export const STATUS_MESSAGES = {
+  ERROR_REQUEST: 'Error. Try again later!',
+  ERROR_MISSING_ID_TOKEN: 'Missing ID/Token',
+}

@@ -1,8 +1,6 @@
 // Password reset - save new password
 import React, { useState, useEffect } from 'react';
 import './Authentication.css';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import Form from '../UI/Form';
@@ -13,9 +11,10 @@ import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { checkPasswordResetLinkValidity, resetPassword } from '../../helper/axiosRequests';
 import { isPasswordMatching } from '../../helper/formValiadation';
-import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages' 
+import { INPUT_VALIDATION_MESSAGES, STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages' 
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
 import { ForgotPasswordIllustration, AvatarIllustration } from '../SVG/Illustrations';
 import LoaderIcon from '../SVG/Loader';
@@ -27,9 +26,15 @@ export default function PasswordResetSaveNewPassword() {
   const { id, token } = useParams(); // get url parameters (id, token)
  
   // CONTEXT
-  const { formData, setFormData, message, setMessage, setValidationMessages, isFormValid } = useFormContext();
+  const { 
+    formData, 
+    setFormData,  
+    setValidationMessages, 
+    isFormValid 
+  } = useFormContext();
   const { theme } = useThemeContext();
- 
+  const { status, setStatus, sendToast } = useStatusContext();
+  
   // HOOK 
   const { pageBackground } = useResponsiveBackground();
  
@@ -56,18 +61,17 @@ export default function PasswordResetSaveNewPassword() {
   // check token validity, initialize state
   useEffect(() => {
     if(!id || !token) { // check for necessary data, if not provided navigate to error page
-      setMessage('Missing ID/Token');
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_MISSING_ID_TOKEN }); 
       navigate('/error-page'); // nav user to error page 
     } 
     // get initial token validity status: valid/invalid
     (async () => {
       const response = await checkPasswordResetLinkValidity(id, token); 
-      // setMessage(response.message);
       if(!response?.isTokenValid) { navigate('/error-page') } // invalid token -> nav to error page    
       setIsSubmitting(false);
     })() 
     return () => {
-      setMessage('');
+      setStatus(statusDefault);
       setFormData(passwordResetSaveNewPassword);
     }
   }, [])
@@ -76,7 +80,7 @@ export default function PasswordResetSaveNewPassword() {
   const resetPasswordHandler = async (e, formData) => {
     e.preventDefault();
     if(!id || !token) { // check for necessary data, if not provided navigate to error page
-      setMessage('Missing ID/Token');
+      setStatus({ statusDefault, message: ERROR_MISSING_ID_TOKEN });
       navigate('/error-page'); // nav user to error page 
     } 
     setIsSubmitting(true);
@@ -87,25 +91,20 @@ export default function PasswordResetSaveNewPassword() {
     const matchedPassword = isPasswordMatching(password, passwordConfirm); 
     if(!matchedPassword) {
       setFormData(resetPasswordData);
-      setMessage(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); // TODO: outsource status message
+      setStatus({ statusDefault, message: INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH }); 
       return;
     };
     const response = await resetPassword(id, token, convertedData); 
     const { success, message, errorField, isTokenValid } = response ?? {};
     try {
       if(success) {
-        toast(`${ message }`, {
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 4000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-          });
+        sendToast(message);
       } else {
-        setMessage(message);
+        setStatus({ 
+            code: 'CODE' ,
+            success: success,
+            message: message 
+          });
         if(isTokenValid === false) { // invalid token -> nav to error page 
           navigate('/error-page'); 
         } 
@@ -118,7 +117,7 @@ export default function PasswordResetSaveNewPassword() {
       }
     }
       catch (error) {
-      setMessage('Error. Try again later!'); 
+      setStatus(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); 
     } finally {
       setIsSubmitting(false);
       if(success) { setTimeout( ()=> { navigate('/login'); return }, 1000) } // success: nav to login page
@@ -162,7 +161,7 @@ export default function PasswordResetSaveNewPassword() {
           </Form>
         }
         { /* status message container */ }
-        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { <div className='shared-status-message'> <p> { status.message || '' } </p> </div> }
         { /* submit form button */ }
         { saveNewPasswordButton }
       </div>

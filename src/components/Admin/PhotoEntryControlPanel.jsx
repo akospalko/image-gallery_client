@@ -6,11 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { useNavigate, useLocation } from 'react-router'
 import { useModalContext } from '../contexts/ToggleModalContext'
-import { useFormContext } from '../contexts/FormContext'
+import { useStatusContext } from '../contexts/StatusContext';
 import { useLoaderContext } from '../contexts/LoaderContext'
 import { useThemeContext } from '../contexts/ThemeContext'
 import { OPERATIONS } from '../../helper/dataStorage'
 import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
+import { STATUS_MESSAGES } from '../../helper/statusMessages';
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries'
 import Button from '../UI/Button';
@@ -18,30 +19,36 @@ import ControlPanelWrapper from '../ControlPanelWrapper'
 import { Edit, ViewPhoto, LocationMark, Delete } from '../SVG/Icons'
 import LoaderIcon from '../SVG/Loader'
 
+
 export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
   // CONSTANT
   const controlPanelIconColor = 'var(--color-accent)';
+  
   // PROPS
   const { _id:id, gpsLatitude, gpsLongitude } = photoEntry ?? {};
-  // CONTEXT
-  const { setMessage } = useFormContext();
+  
+  // CONTEXTS
+  const { setStatus } = useStatusContext();
   const { toggleModalHandler, setActivePhotoEntry } = useModalContext();
   const { isLoading, loaderToggleHandler } = useLoaderContext();
   const { theme } = useThemeContext();
+  
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
   const { fetchHomePhotoEntries, fetchGalleryPhotoEntries } = useFetchPhotoEntries();
+  
   // NAVIGATION & ROUTING
   const navigate = useNavigate(); 
   const location = useLocation(); 
   const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true});
+  
   // HANDLERS
   // delete and refetch photo entries
   const deletePhotoEntryHandler = async (id) => {
     try {
       loaderToggleHandler('PHOTO_ENTRY_DELETE', id, true);
       const responseDelete = await deletePhotoEntry(id, axiosPrivate, collection);
-      const { success, message, photoEntry } = responseDelete ?? {};
+      const { message } = responseDelete ?? {};
         toast(`${ message }`, { // send toast
           className: "shared-toast",
           position: "bottom-center",
@@ -54,7 +61,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
         });
         collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
     } catch(error) {
-      setMessage('Error. Try again later!'); 
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_REQUEST } ); 
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_DELETE', id, false);
@@ -81,7 +88,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
       setActivePhotoEntry(photoEntry); // set active entry
       toggleModalHandler(OPERATIONS.UPDATE_PHOTO); // open modal
     } catch(error) {
-      setMessage('Error. Try again later!'); 
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_REQUEST } ); 
       navToPrevPage(); // navigate unauth user back to login page
     } finally {
       loaderToggleHandler('PHOTO_ENTRY_EDIT', id, false);
@@ -98,7 +105,7 @@ export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
           disabled={ isLoading.PHOTO_ENTRY_DELETE[id] || isLoading.PHOTO_ENTRY_EDIT[id] }
           clicked={ () => {
             editPhotoEntryHandler(id);
-            setMessage('');
+            setStatus(statusDefault);
           } }
         > { isLoading.PHOTO_ENTRY_EDIT[id] ? 
           <LoaderIcon width='70%' height='70%' stroke='var(--text-color--high-emphasis)' /> 

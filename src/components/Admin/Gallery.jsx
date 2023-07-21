@@ -9,7 +9,8 @@ import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry';
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
 import useSetUpModal from '../hooks/useSetUpModal';
 import { useModalContext } from '../contexts/ToggleModalContext';
-import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
+import { statusDefault } from '../../helper/statusMessages';
 import Button from '../UI/Button';
 
 export default function Gallery() { 
@@ -26,7 +27,7 @@ export default function Gallery() {
 
   // CONTEXT
   const { toggleModal, toggleModalHandler } = useModalContext();
-  const { setMessage } = useFormContext();
+  const { setStatus } = useStatusContext();
   
   // HOOKS
   const { fetchGalleryPhotoEntries } = useFetchPhotoEntries();
@@ -58,7 +59,7 @@ export default function Gallery() {
       title='create new photo entry'
       clicked={ () => {
         toggleModalHandler(OPERATIONS.CREATE_PHOTO);
-        setMessage('');
+        setStatus(statusDefault);
       } }
       buttonStyle='button-photo-new'
   > { CONSTANT_VALUES.BUTTON_ENTRY_CREATE } </Button>

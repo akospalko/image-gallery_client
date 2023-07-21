@@ -5,11 +5,12 @@ import { useNavigate, useLocation } from 'react-router';
 import PhotoEntries from './PhotoEntries';
 import { COLLECTIONS, OPERATIONS } from '../../helper/dataStorage';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
+import { statusDefault } from '../../helper/statusMessages';
 import SkeletonAdminPhotoEntry from '../../skeletons/SkeletonAdminPhotoEntry';
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
 import useSetUpModal from '../hooks/useSetUpModal';
 import { useModalContext } from '../contexts/ToggleModalContext';
-import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import Button from '../UI/Button';
 
 export default function Home() {
@@ -26,7 +27,7 @@ export default function Home() {
 
   // CONTEXT
   const { toggleModal, toggleModalHandler } = useModalContext();
-  const { setMessage } = useFormContext();
+  const { setStatus } = useStatusContext();
 
   // HOOK
   const { fetchHomePhotoEntries } = useFetchPhotoEntries(); 
@@ -57,7 +58,7 @@ export default function Home() {
       title='create new photo entry'
       clicked={ () => {
         toggleModalHandler(OPERATIONS.CREATE_PHOTO);
-        setMessage('');
+        setStatus(statusDefault);
       } }
       buttonStyle='button-photo-new'
   > { CONSTANT_VALUES.BUTTON_ENTRY_CREATE } </Button>

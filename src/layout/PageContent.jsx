@@ -18,46 +18,69 @@ import PasswordResetSaveNewPassword from '../components/Authentication/PasswordR
 import ErrorPage from '../error/ErrorPage'
 import Logout from '../components/Authentication/Logout'
 import About from '../components/About/About'
+import { ToastContainer } from 'react-toastify';
+import { useThemeContext } from '../components/contexts/ThemeContext'
 
 // set up context with role here
 export default function PageContent() {
   // HOOK
   useToggleModalScrollLock();
-  // CONTEXT
-  const { auth } = useAuthContext();
+  
+    // CONTEXT
+    const { auth } = useAuthContext();
+    const { theme } = useThemeContext();
+
+
+
   return (
-    <Routes>
-      { /* public routes */ }
-      <Route path={ '/' } element={ <Home /> } />
-      <Route path={ '/about' } element={ <About /> } />
-      <Route path={ '/login' } element={ <Login /> } />
-      <Route path={ '/register' } element={ <Register /> } />
-      <Route path={ '/password-reset' } element={ <PasswordResetSendEmailLink /> } />
-      { /* password reset must be last public route */ }
-      <Route path={ '*' } element={ <ErrorPage /> } />
-      <Route path={ '/password-forgot/:id/:token' } element={ <PasswordResetSaveNewPassword /> } />
-      
-      { /* user routes */ }
-      <Route element={ <RequireAuth allowedRoles={ [ROLES.user] } /> }>
-        <Route path={ `/${ auth.username }/gallery` } element={ <Gallery /> } />
-        <Route path={ `/${ auth.username }/collection` } element={ <Collection /> } />
-        <Route path={ `/${ auth.username }/mapoverview` } element={ <MapOverview /> } />
-      </Route>
-      
-      { /* admin routes */ }
-      <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
-        <Route path={'/admin/home'} element={<HomeAdmin />} />
-        <Route path={`/admin/${auth.username}/gallery`} element={<GalleryAdmin />} />
-        <Route path={'/admin/mapoverview'} element={<MapOverview />} />
-      </Route>
-      
-      {/* shared routes */}
-      <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.user]} />}>
-        <Route path={`/${auth.username}/logout`} element={<Logout />} />
-      </Route>
-      
-      {/* default route */}
-      <Route path={'*'} element={<ErrorPage />} />
-    </Routes>
+    <>
+      <Routes>
+        { /* public routes */ }
+        <Route path={ '/' } element={ <Home /> } />
+        <Route path={ '/about' } element={ <About /> } />
+        <Route path={ '/login' } element={ <Login /> } />
+        <Route path={ '/register' } element={ <Register /> } />
+        <Route path={ '/password-reset' } element={ <PasswordResetSendEmailLink /> } />
+        { /* password reset must be last public route */ }
+        <Route path={ '*' } element={ <ErrorPage /> } />
+        <Route path={ '/password-forgot/:id/:token' } element={ <PasswordResetSaveNewPassword /> } />
+        
+        { /* user routes */ }
+        <Route element={ <RequireAuth allowedRoles={ [ROLES.user] } /> }>
+          <Route path={ `/${ auth.username }/gallery` } element={ <Gallery /> } />
+          <Route path={ `/${ auth.username }/collection` } element={ <Collection /> } />
+          <Route path={ `/${ auth.username }/mapoverview` } element={ <MapOverview /> } />
+        </Route>
+        
+        { /* admin routes */ }
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
+          <Route path={'/admin/home'} element={<HomeAdmin />} />
+          <Route path={`/admin/${auth.username}/gallery`} element={<GalleryAdmin />} />
+          <Route path={'/admin/mapoverview'} element={<MapOverview />} />
+        </Route>
+        
+        {/* shared routes */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.user]} />}>
+          <Route path={`/${auth.username}/logout`} element={<Logout />} />
+        </Route>
+        
+        {/* default route */}
+        <Route path={'*'} element={<ErrorPage />} />
+      </Routes>
+
+    {/* Toast */}
+    <ToastContainer
+        position="bottom-center"
+        autoClose={ 5000 } 
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={ false }
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={ theme }
+      />
+    </>
   )
 }

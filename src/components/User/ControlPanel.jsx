@@ -20,10 +20,11 @@ import { OPERATIONS } from '../../helper/dataStorage';
 const ControlPanel = ({
   isCollection, // check if control panel is related to collection or gallery
   photoEntry, // photo entry
-  onUnlikePE, // unlike
-  onLikePE, // like photo
+  onUnlikePE, // unlike photo, update tracker
+  onLikePE, // like photo, update tracker
   onRemovePEFromCollection, // remove photo from collection
-  addPEToCollection, // add photo to collection
+  addPEToCollection, // add photo to collection, update tracker
+  downloadPhoto, // download photo, update tracker 
   isHovered // photo entry hovered (used: photo entry on hover, display control panel) 
 }) => {
 
@@ -84,6 +85,20 @@ const ControlPanel = ({
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> : <RemoveFromCollectionIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/>
             : isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> : <AddToCollectionIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> }
+        </Button>
+      </div>
+      {/* download photo */}
+      <div className={ isCollection ? 'pe-control-panel-uem-item-collection' : 'pe-control-panel-uem-item-gallery' } >
+        <Button
+          buttonStyle='button-control-panel-view-user'
+          title='download photo' 
+          disabled={ isLoading.PHOTO_ENTRY_COLLECTION[_id] }
+          clicked={ async () => downloadPhoto(auth.userID, _id) }
+        > 
+          { isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
+            <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> 
+            : 'DOWNLOAD' 
+          }
         </Button>
       </div>
     </div>

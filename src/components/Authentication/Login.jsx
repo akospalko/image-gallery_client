@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import '../Shared.css';
 import './Authentication.css';
-import 'react-toastify/dist/ReactToastify.css';
 import Form from '../UI/Form';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
@@ -11,11 +10,11 @@ import FormInitializers from '../../helper/FormInitializers';
 import { buildInputFields, convertFormData} from '../../helper/utilities';
 import { loginUser } from '../../helper/axiosRequests';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
+import { statusDefault } from '../../helper/statusMessages';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import { useAuthContext} from '../contexts/AuthenticationContext';
-import { useThemeContext } from '../contexts/ThemeContext';
 import AuthenticationToggle from './AuthenticationToggle';
 import LoaderIcon from '../SVG/Loader';
 import { AvatarIllustration, AuthenticationDoorIllustration } from '../SVG/Illustrations';
@@ -33,12 +32,11 @@ export default function Login() {
   // CONTEXT
   const {
     formData, setFormData, 
-    message, setMessage, 
     setShowPassword, 
     setValidationMessages, 
     isFormValid } = useFormContext();
+  const { status, setStatus, sendToast } = useStatusContext();
   const { setAuth } = useAuthContext(); 
-  const { theme } = useThemeContext();
   
   // STATE
   const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
@@ -53,7 +51,7 @@ export default function Login() {
     if(!Object.keys(login).length) return; 
     let validationObject = {};
     for(let field in login) {
-      validationObject = {...validationObject, [field]: {status: false, message: '', touched: false}}
+      validationObject = {...validationObject, [field]: { status: false, message: '', touched: false }}
     }
     setValidationMessages(validationObject)
     return () => {
@@ -67,7 +65,7 @@ export default function Login() {
     return () => {
       setFormData({});
       // setIsFormInitialized(false);
-      setMessage('');
+      setStatus(statusDefault);
       setShowPassword({});
     }
   }, [])
@@ -75,32 +73,28 @@ export default function Login() {
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
+    console.log('logging in' );
     e.preventDefault();
     try {
       setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
+      console.log(response);
       const { username, email, createdAt, roles, accessToken, userID, success, message } = response ?? {}; // destructure response values
       if(success) { // auth successfull
-        toast(`${message}`, {
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-          });
+        sendToast(message);
         setAuth({ username, email, createdAt, roles, accessToken, userID }); // store auth data in state
         navigate(`/${ success && convertedData.username }/gallery`, { replace: true }); // navigate user to default resource 
         setFormData(login); // reset form to initial state
       } else { // auth failed
-        setMessage(message); // set status message (for both success and failed auth)
+        setStatus({
+          code: 'TODO PASS STATUS CODE',
+          success: success, 
+          message: message }); // set status message (for both success and failed auth)
         setFormData({ username: { ...formData.username }, password: { ...login.password } }); // empty password field before next login attempt
       }
     } catch(error) {
-      setMessage('Error. Try again later!'); // set status message (for both success and failed auth)
+      setStatus(statusDefault); // set status message (for both success and failed auth)
     } finally {
       setIsSubmitting(false); 
       // invalidate password field
@@ -162,7 +156,11 @@ export default function Login() {
           </Form>
         }
         { /* status message container */ }
-        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { 
+          <div className='shared-status-message'> 
+            <p> { status.message || '' } </p> 
+          </div> 
+          }
         { /* submit form button */ }
         { loginButton }
       </div>

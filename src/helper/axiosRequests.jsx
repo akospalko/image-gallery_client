@@ -130,7 +130,7 @@ export const removePhotoEntryFromCollection = async (userID, photoEntryID, axios
   return fetchResult;
 }
 // PHOTO ENTRY LIKE
-// PATCH (create/update) // create user collection && add photo entry (if non existent) || add a new photo entry to an already existing one 
+// PATCH (create/update) // update photo entry like state: add 
 export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
@@ -145,7 +145,7 @@ export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => 
   }
   return fetchResult;
 }
-// DELETE // remove photo entry from user collection 
+// DELETE // update photo entry like state: remove 
 export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
@@ -160,6 +160,23 @@ export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) 
   }
   return fetchResult;
 }
+// PHOTO ENTRY DOWNLOAD
+// PATCH // update photo downloads tracker
+export const downloadPhotoEntry = async (userID, photoEntryID, axiosInstance) => {
+  let fetchResult; 
+  try { 
+    const response = await axiosInstance.patch(`/api/v1/photo-downloads/${ userID }/${ photoEntryID }`);
+    fetchResult = { ...response?.data };
+  } catch (error) {
+    if(!error?.response) {
+      fetchResult = { success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE };
+    } else {
+      fetchResult = { ...error?.response.data };
+    }
+  }
+  return fetchResult;
+}
+
 // AUTHENTICATION
 // POST, register user
 export const createNewUser = async (userData) => {
@@ -271,6 +288,8 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
     return fetchResult;
   }
 
+
+  // PROJECT METRICS
   // GET project metrics: unprotected resource
   export const getProjectMetrics = async (axiosInstance) => {
     let fetchedData; 

@@ -11,8 +11,10 @@ import FormInitializers from '../../helper/FormInitializers';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { buildInputFields } from '../../helper/utilities';
 import { requestPasswordResetLink } from '../../helper/axiosRequests';
+import { STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useFormContext } from '../contexts/FormContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import useResponsiveBackground from '../hooks/useResponsiveBackground';
 import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
 import { ForgotPasswordIllustration } from '../SVG/Illustrations';
@@ -24,9 +26,14 @@ export default function PasswordResetSendLink() {
   const navigate = useNavigate();
 
   // CONTEXT
-  const { formData, setFormData, message, setMessage, isFormValid, setValidationMessages } = useFormContext();
+  const { 
+    formData, setFormData, 
+    isFormValid, 
+    setValidationMessages } = useFormContext();
   const { theme } = useThemeContext();
-  
+  const { status, setStatus, sendToast } = useStatusContext();
+
+
   // HOOK 
   const { pageBackground } = useResponsiveBackground();
  
@@ -64,28 +71,22 @@ export default function PasswordResetSendLink() {
       const response = await requestPasswordResetLink({ email: formData?.email?.value }); // get reet link by posting email
       const {success, message} = response ?? {};
       if(success) {
-        console.log(response);
-        toast(`${message}`, {
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-          });
-        } else {
-          setMessage(response.message);
-        }
-      }
-      catch (error) {
-        setMessage('Error. Try again later!'); 
-        console.log(error)
-      } finally {
-        setIsSubmitting(false);
+        sendToast(message);
+      } else {
+        setStatus({ 
+          code: 'CODE',
+          success: success,
+          message: message,
+        });
       }
     }
+    catch (error) {
+      setStatus({...statusDefault , message: STATUS_MESSAGES.ERROR_REQUEST}); 
+      console.log(error)
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   // BUTTONS
   // submit form: request password reset link 
@@ -119,7 +120,7 @@ export default function PasswordResetSendLink() {
           </Form>
         }
         { /* status message container */ }
-        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { <div className='shared-status-message'> <p> { status.message || '' } </p> </div> }
         { /* submit form button */ }
         { requestPasswordResetLinkButton }
       </div>

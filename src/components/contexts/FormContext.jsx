@@ -14,9 +14,7 @@ export const useFormContext = () => useContext(FormLayoutProvider);
 export default function FormContext({children}) {
   // STATES
   const [formData, setFormData] = useState({});
-  const [statusMessage, setStatusMessage] = useState(statusMessages.EMPTY);
   const [data, setData] = useState([]);
-  const [message, setMessage] = useState('');
   const [isGalleryFetched, setIsGalleryFetched] = useState(false); // fetch states: preventing rerenders/refetches for specific components (e.g. user's gallery)
   const [photoFile, setPhotoFile] = useState({}); // file upload
   const [showPassword, setShowPassword] = useState({}); // password visibility toggler   
@@ -35,7 +33,7 @@ export default function FormContext({children}) {
   useEffect(() => {
     validateFormHandler();
   }, [validationMessages]);
-  // HELPER FUNCTIONS
+  // HELPER FUNCTIONS z
   // password matching and validation
   const updatePasswordValidation = (name, validationStatus) => {
     const { value: currentPassword } = formData?.password || {};
@@ -129,10 +127,8 @@ export default function FormContext({children}) {
       value={{
         formData, setFormData,
         photoFile, setPhotoFile,
-        statusMessage, setStatusMessage,
         validationMessages, setValidationMessages,
         data, setData,
-        message, setMessage,
         isGalleryFetched, setIsGalleryFetched,
         showPassword, setShowPassword,
         isFormValid, setIsFormValid,

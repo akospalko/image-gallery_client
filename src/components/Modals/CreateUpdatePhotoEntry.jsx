@@ -1,4 +1,3 @@
-// TODO: when cancel || X buttons are pressed: abort request 
 // TODO: navToPrevPage - navigates to login after operation 
 // Reusable modal for create/update photo entry 
 import React, { useEffect, useState } from 'react';
@@ -12,6 +11,7 @@ import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
 import { statusMessages } from '../../helper/dataStorage';
+import { STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages';
 import { basicInputFieldValidator } from '../../helper/formValiadation';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
 import { useNavigate, useLocation } from 'react-router';
@@ -22,10 +22,11 @@ import { useFormContext } from '../contexts/FormContext';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useLoaderContext } from '../contexts/LoaderContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useStatusContext } from '../contexts/StatusContext';
 
 export default function CreateUpdatePhotoEntry(props) {
   // PROPS
-  const {operation, formTemplate, collection, label} = props;
+  const { operation, formTemplate, collection, label } = props;
   
   // ROUTING
   const navigate = useNavigate(); 
@@ -36,7 +37,6 @@ export default function CreateUpdatePhotoEntry(props) {
   const { activePhotoEntry, setActivePhotoEntry, setActiveID, toggleModalHandler } = useModalContext();
   const {
     formData, setFormData, 
-    message, setMessage, 
     photoFile, setPhotoFile,  
     setValidationMessages, 
     isFormTouched,
@@ -44,6 +44,7 @@ export default function CreateUpdatePhotoEntry(props) {
   } = useFormContext();
   const { isLoading, loaderToggleHandler } = useLoaderContext();
   const { theme } = useThemeContext();
+  const { status, setStatus, sendToast } = useStatusContext();
   
   // HOOKS
   const axiosPrivate = useAxiosPrivate();
@@ -105,16 +106,7 @@ export default function CreateUpdatePhotoEntry(props) {
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
       const {success, message, photoEntry } = responseCreate ?? {};
       if(success === true) {
-        toast(`${message}`, { // send toast
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-        });
+        sendToast(message);
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
         setFormData({}); // reset form 
@@ -122,10 +114,15 @@ export default function CreateUpdatePhotoEntry(props) {
         setPhotoFile({});
         setActiveID({})
       } else {
-        setMessage(message);
+        setStatus({
+            code: 'CODE',
+            success: success,
+            message: message
+          }
+        );
       }
     } catch (error) { 
-      setMessage('Error. Try again later!'); 
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_REQUEST }); 
       // navToPrevPage();
     } finally {      
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
@@ -140,16 +137,7 @@ export default function CreateUpdatePhotoEntry(props) {
       const responseUpdate = await updatePhotoEntry(activePhotoEntry._id, convertedData, axiosPrivate, collection);
       const {success, message, photoEntry } = responseUpdate ?? {};
       if(success === true) {
-        toast(`${message}`, { // send toast
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-          });
+        sendToast(message)
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
         collection === 'gallery' ? await fetchGalleryPhotoEntries() : await fetchHomePhotoEntries(); 
         setFormData({}); // reset form 
@@ -157,10 +145,14 @@ export default function CreateUpdatePhotoEntry(props) {
         setPhotoFile({});
         setActiveID({})
       } else {
-        setMessage(message);
+        setStatus({ 
+          code: 'CODE',
+          success: success,
+          message: message
+        });
       }
     } catch(error) { 
-      setMessage('Error. Try again later!'); 
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_REQUEST });
       // navToPrevPage();
     } finally { 
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, false);
@@ -179,7 +171,7 @@ export default function CreateUpdatePhotoEntry(props) {
             setFormData({});
             activePhotoEntry && setActivePhotoEntry({});
             photoFile.name && setPhotoFile({});
-            setMessage(statusMessages.EMPTY);
+            setStatus(statusDefault);
             toggleModalHandler(operation);
           } }
         > { CONSTANT_VALUES.BUTTON_CANCEL } 
@@ -214,7 +206,7 @@ export default function CreateUpdatePhotoEntry(props) {
       )) }
       </Form>
       { /* STATUS MESSAGE */ }
-      { message && <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+      { status.message && <div className='shared-status-message'> <p> { status.message || '' } </p> </div> }
       { /* SUBMIT FORM BUTTON */ }
       { photoEntryButton }
     </div>

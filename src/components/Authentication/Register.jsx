@@ -1,4 +1,3 @@
-// TODO: outsource client side status messages, constants
 // Authentication: register 
 import React, {useEffect, useState} from 'react';
 import '../Shared.css';
@@ -13,15 +12,16 @@ import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { isPasswordMatching } from '../../helper/formValiadation';
 import { createNewUser } from '../../helper/axiosRequests';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
-import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
+import { INPUT_VALIDATION_MESSAGES, STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { useFormContext } from '../contexts/FormContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useStatusContext } from '../contexts/StatusContext';
 import { AvatarIllustration, AuthenticationDoorIllustration } from '../SVG/Illustrations';
 import AuthenticationToggle from './AuthenticationToggle';
 import AuthenticationIllustrationTab, { AuthenticationHeader } from './AuthenticationIllustrationTab';
 import useResponsiveBackground from '../hooks/useResponsiveBackground';
+
 export default function Register() {
   // HOOKS
   const navigate = useNavigate(); 
@@ -30,13 +30,12 @@ export default function Register() {
   // CONTEXT
   const {
     formData, setFormData, 
-    message, setMessage, 
     isFormValid,
     setValidationMessages, 
     setShowPassword,
   } = useFormContext();
   const { theme } = useThemeContext();
-  
+  const { status, setStatus, sendToast } = useStatusContext();
   // STATE
     const [isSubmitting, setIsSubmitting] = useState(false); // handles form submit loading
   
@@ -64,7 +63,7 @@ export default function Register() {
     // setValidationMessages(register);
     return () => {
       setFormData({});
-      setMessage('');
+      setStatus(statusDefault);
       setShowPassword({});
       // setValidationMessages({});
     }
@@ -82,32 +81,27 @@ export default function Register() {
       const matchedPassword = isPasswordMatching (password, passwordConfirm); 
       if(!matchedPassword) {
         setFormData(resetPassword);
-        setMessage(INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH); // TODO: outsource status message
+        setStatus({ ...statusDefault, message: INPUT_VALIDATION_MESSAGES.PASSWORDS_MATCH });
         return;
       };
       delete convertedData.passwordConfirm; // if pw matched -> delete pw confirm from convertedData
       const response = await createNewUser(convertedData);
       const { success, message } = response ?? {}; // destructure response values
-      if(success) {  // register successfull
-        toast(`${message}`, {
-          className: "shared-toast",
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: theme,
-          });
+      if(success) { // register successfull
+        sendToast(message);
         navigate('/login'); // navigate to login page after successful registration
         setFormData(register); // reset form 
-        setMessage('');
+        setStatus(statusDefault);
       } else { // register failed
-        setMessage(message); 
+        setStatus({ 
+          code: 'CODE',
+          success: success,
+          message: message
+        }); 
         setFormData(resetPassword); // empty pasword fields
       }
     } catch(error) {
-      setMessage('Error. Try again later!'); 
+      setStatus({ ...statusDefault, message: STATUS_MESSAGES.ERROR_REQUEST }); 
     } finally {
       setIsSubmitting(false);     
     }
@@ -159,7 +153,7 @@ export default function Register() {
           </Form>
         }
         { /* status message container */ }
-        { <div className='shared-status-message'> <p> { message || '' } </p> </div> }
+        { <div className='shared-status-message'> <p> { status.message || '' } </p> </div> }
         { /* submit form button */ }
         { registerButton }
       </div>
