@@ -8,7 +8,8 @@ import { useLoaderContext } from '../contexts/LoaderContext'
 import { 
   LikeIcon, 
   AddToCollectionIcon, 
-  RemoveFromCollectionIcon, 
+  RemoveFromCollectionIcon,
+  DownloadIcon,
   ViewPhoto, 
   LocationMark, 
   InfoIcon 
@@ -36,7 +37,6 @@ const ControlPanel = ({
     isInCollection, 
     isLiked,
   } = photoEntry ?? {};
-
   // CONTEXT
   const { setActivePhotoEntry, toggleModalHandler } = useModalContext();
   const { auth } = useAuthContext();
@@ -92,19 +92,19 @@ const ControlPanel = ({
         <Button
           buttonStyle='button-control-panel-view-user'
           title='download photo' 
-          disabled={ isLoading.PHOTO_ENTRY_COLLECTION[_id] }
+          disabled={ isLoading.PHOTO_ENTRY_DOWNLOAD[_id] }
           clicked={ async () => downloadPhoto(auth.userID, _id) }
         > 
-          { isLoading.PHOTO_ENTRY_COLLECTION[_id] ? 
+          { isLoading.PHOTO_ENTRY_DOWNLOAD[_id] ? 
             <LoaderIcon width={ iconSize } height={ iconSize } stroke='var(--text-color--high-emphasis)'/> 
-            : 'DOWNLOAD' 
+            : <DownloadIcon width={ iconSize } height={ iconSize } fill='var(--text-color--high-emphasis)'/>
           }
         </Button>
       </div>
     </div>
   );
 
-  // Control panel: user engagement metrics (uem)
+  // Control panel modals
   const controlPanelModals = (
     <div className='pe-control-panel-modal'>
       { /* view */ }
@@ -114,7 +114,7 @@ const ControlPanel = ({
           title='view image'
           clicked={() => {
             setActivePhotoEntry(photoEntry)
-            toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) } }
+             (OPERATIONS.FULLSCREEN_VIEW) } }
         > <ViewPhoto height={ iconSize } width={ iconSize } fill='var(--text-color--high-emphasis)'/> </Button>
       </div>
       { /* map */ }
@@ -142,8 +142,7 @@ const ControlPanel = ({
   )
 
   return (
-    <div className={ isCollection ? `pe-control-panel-collection ${ isHovered ? 'pe-control-panel-collection--visible' : '' }` : 'pe-control-panel-gallery' }
-    >
+    <div className={ isCollection ? 'pe-control-panel-collection' : 'pe-control-panel-gallery' } >
       { /* uem buttons */ }
       { controlPanelUEM }
       { /* modal buttons */ }

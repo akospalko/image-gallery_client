@@ -34,7 +34,7 @@ export default function ProjectMetrics() {
       icon: <PhotoLikedIcon height='100%' width='100%' />, amount: 0 
     }, 
     { // amount of times a photo was added to user's collection 
-      name: 'downloads', 
+      name: 'downloaded', 
       label: 'downloads',
       title: 'number of photo downloads', 
       icon: <PhotoDownloadIcon height='100%' width='100%' />, amount: 0 

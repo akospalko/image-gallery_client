@@ -9,10 +9,14 @@ import {
   addPhotoEntryLike, removePhotoEntryLike, 
   addPhotoEntryToCollection, removePhotoEntryFromCollection, downloadPhotoEntry } from '../../helper/axiosRequests'
 import { cropStringToLength } from '../../helper/utilities';
+import { OPERATIONS } from '../../helper/dataStorage';
 import { useStatusContext } from '../contexts/StatusContext';
 import { useLoaderContext } from '../contexts/LoaderContext'
+import { useModalContext } from '../contexts/ToggleModalContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ControlPanel from './ControlPanel';
+import { saveAs } from 'file-saver';
+import axios from 'axios';
 
 const PhotoEntry = (props) => {
   // PROPS
@@ -26,14 +30,13 @@ const PhotoEntry = (props) => {
     onLoadHandler 
   } = props;
   const { title, photoURL, captureDate, _id, inCollection, likes, downloads } = photoEntry ?? {};
-  console.log(photoEntry);
   // STATE
   const [isHovered, setIsHovered] = useState(false); // photo entry collection - panel (title, control) toggle state
 
   // CONTEXT  
   const { setStatus, sendToast } = useStatusContext();
   const { loaderToggleHandler } = useLoaderContext();
-
+  const { setActivePhotoEntry, toggleModalHandler } = useModalContext();
   // HOOK
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -159,22 +162,51 @@ const PhotoEntry = (props) => {
   }, [])
 
   // Download photo entry
+  // convert url to blob, save it
+  const downloadPhoto = async (url) => {
+    try {
+      const response = await axios.get(url, { responseType: 'blob' });
+      // Determine the content type from the response headers
+      const contentType = response.headers['content-type'];
+      let fileExtension = '';
+      if (contentType === 'image/jpeg') {
+        fileExtension = 'jpg';
+      } else if (contentType === 'image/png') {
+        fileExtension = 'png';
+      } else {
+        console.error('Unsupported image format:', contentType);
+        return;
+      }
+      // save image as Blob (fileSaver)
+      const blob = new Blob([response.data], { type: contentType });
+      saveAs(blob, `downloaded-image.${fileExtension}`);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+  
+  // handle photo downloading: loader, download, update download count 
   const downloadPhotoHandler = useCallback(async (userID, photoEntryID) => {
     try {
-      // loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, true);
-      const responseDownloadPhoto = await downloadPhotoEntry(userID, photoEntryID, axiosPrivate);
-      const { success, message } = responseDownloadPhoto; 
+      loaderToggleHandler('PHOTO_ENTRY_DOWNLOAD', _id, true);
+      const responseDownloadPhoto = await downloadPhotoEntry(
+        userID,
+        photoEntryID,
+        axiosPrivate
+      );
+      const { success, message, photoEntry } = responseDownloadPhoto;
+      console.log(photoEntry.photoURL)
+      if (success) {
+        await downloadPhoto(photoEntry.photoURL);
+      }
       sendToast(message);
-      // upate state with new data
-      console.log(responseDownloadPhoto);
-      uemSetter(dataSetter, responseDownloadPhoto); 
-    } catch(error) {
+      uemSetter(dataSetter, responseDownloadPhoto);
+    } catch (error) {
       console.log(error);
     } finally {
-      // loaderToggleHandler('PHOTO_ENTRY_LIKE', _id, false);
+      loaderToggleHandler('PHOTO_ENTRY_DOWNLOAD', _id, false);
     }
-    // navToPrevPage(); // navigate unauth user back to login page
-  }, [])
+  }, []);
 
   // toggle on handler: control title + panel
   const showPanelHandler = () => {
@@ -209,6 +241,10 @@ const PhotoEntry = (props) => {
         src={ photoURL } 
         style={ imgStyle } 
         onLoad={ () => onLoadHandler(_id) } 
+        onClick={() => {
+          setActivePhotoEntry(photoEntry)
+          toggleModalHandler(OPERATIONS.FULLSCREEN_VIEW) } }
+
       />
       {/* photo capture date */}
       <div className='pe-photo-capture-date'> <strong> { captureDate } </strong>  </div>
@@ -226,38 +262,47 @@ const PhotoEntry = (props) => {
       onRemovePEFromCollection={ removePEFromCollectionHandler }
       addPEToCollection={ addPEToCollectionHandler }
       downloadPhoto={ downloadPhotoHandler }
-   />
+    />
   )
 
   // Uem counter
   const uemCounter = (
     <div className='pe-uem-counter'>
       <div className='pe-uem-counter-item'>
-        <span> { likes && likes } </span>
+        <span> likes: { likes && likes } </span>
       </div>
       <div className='pe-uem-counter-item'>
-        <span> { inCollection && inCollection } </span>
+        <span> in collection: { inCollection && inCollection } </span>
       </div> 
       <div className='pe-uem-counter-item'>
-        <span> { downloads } </span>
+        <span> downloads: { downloads } </span>
       </div> 
-
     </div> 
+  )
+
+  // photo entry's footer. contains control panel, uem counter
+  const photoFooter = (
+    <div className='pe-footer'>
+      { controlPanel }
+      { uemCounter }
+    </div>
   )
 
   // Rendered schemas: gallery || collection
   const renderedGallery = (
-    <div style={ hideImageStyle } className='pe-container-gallery' >
+    <div 
+      style={ hideImageStyle } 
+      className='pe-container-gallery' 
+    >
       { photoTitle }
       { photo }
-      { controlPanel }
-      { uemCounter }
+      { photoFooter }
     </div>
   )
   const renderedCollection = (
     <div 
       className='pe-container-collection'
-      style={ hideImageStyle } 
+      // style={ hideImageStyle } 
       onMouseOver={ showPanelHandler } 
       onTouchStart={ showPanelHandler }
       onMouseLeave={ hidePanelHandler } 
@@ -268,7 +313,7 @@ const PhotoEntry = (props) => {
     </div>
   )
 
-  return (  <> { isCollection ? renderedCollection : renderedGallery } </> )
+  return ( <> { isCollection ? renderedCollection : renderedGallery } </> )
 }
 
 export default React.memo(PhotoEntry); 

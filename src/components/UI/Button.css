@@ -51,7 +51,16 @@
   height: 100%;
   background-color: transparent;
   padding: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
 }
+.button-control-panel-view-user:hover {
+  opacity: 0.7;
+}
+
+
+
+
 .button-control-panel-view {
   width: 40px;
   height: 40px;
