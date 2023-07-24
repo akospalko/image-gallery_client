@@ -1,0 +1,47 @@
+.pe-gallery-modal-buttons,
+.pe-collection-modal-buttons {
+  display: grid;
+  grid-area: 1 / 5 / 2 / 8; 
+  grid-auto-flow: column; 
+} 
+.pe-collection-modal-buttons--modal {
+  display: grid;
+  grid-area: 1 / 1 / 2 / 4; 
+}
+.pe-gallery-modal-buttons-item,
+.pe-collection-modal-buttons-item {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  justify-content: end;
+}
+.pe-collection-modal-buttons-item--modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* MEDIA QUERY */
+/* PHONE: SMALL SCREEN */
+  @media (max-width: 199px) {
+  .pe-gallery-modal-buttons {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .pe-collection-modal-buttons {   
+    display: flex;
+    height: auto;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+  }
+  .pe-collection-modal-buttons--modal {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}

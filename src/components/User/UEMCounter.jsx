@@ -1,14 +1,15 @@
- // User engagement metrics counter
+// User engagement metrics counter
 import React from 'react';
 import './UEMCounter.css';
 
 const UEMCounter = (props) => {
   // PROPS
   const {
-    isCollection,
     likes,
     inCollection,
-    downloads
+    downloads,
+    customContainerStyle,
+    customItemStyle,
   } = props;
 
   const uemCounterTemplate = [
@@ -28,11 +29,11 @@ const UEMCounter = (props) => {
       value: downloads
     }
   ]
-
+  
   return (
-    <div className='uem-counter'>
+    <div className={ `uem-counter ${ customContainerStyle }` }>
       { uemCounterTemplate.map(metric => (
-        <div key={ metric.id } className='uem-counter-item'>
+        <div key={ metric.id } className={ `uem-counter-item ${ customItemStyle }` }>
           <span> { metric?.label + ':' } </span> 
           <span> { metric?.value } </span> 
         </div>
