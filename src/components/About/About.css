@@ -1,6 +1,3 @@
-/* Project introduction */
-/* Project attribution & used technologies */
-/* containers */
 .about-project-introduction,
 .about-used-technologies {
   display: flex;
@@ -15,51 +12,36 @@
 .about-project-introduction {
   margin-top: 2rem;
 }
-/* attribution text wrapper */
 .about-attribution-text {
   width: 100%;
 }
-/* stat cards wrapper */
-/* attribution icon cards wrapper */
 .about-attribution-cards {
-  display: flex;
-  align-items: center;
-  /* justify-content: flex-start;
-  width: 100%; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  width: 100%;
   justify-content: center;
-  width: calc(100% + var(--margin-default));
-  flex-wrap: wrap;
+  gap: var(--padding-default);
   padding-top: var(--padding-default);
-  gap: var(--margin-default);
 }
-/* attribution icon card */
 .about-attribution-card {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color--main);
-  flex: 33.33%;
-  max-width: calc(33.33% - var(--margin-default));
+  width: 100%;
   height: 100px;
   transition: all .2s ease-in;
-}
-.about-attribution-card:last-child {
-  max-width: calc(33.33% - 0.5rem);
 }
 .about-attribution-card:hover {
   transform: scale(1.03);
 }
-
-/* Headers */
 .about-project-introduction h2,
 .about-used-technologies h2 {
   font-size: var(--header-2-size--S);
   color: var(--text-color--high-emphasis);
   word-break: break-all;
 }
-
-/* Text */
-/* text wrapper */
 .about-project-introduction article, 
 .about-attribution-text article {
   font-size: var(--text-size--M);
@@ -71,59 +53,47 @@
   word-wrap: break-word;
   width: 100%;
 }
-/* highlighted text */
 .about-highlighted-text {
   color: var(--color-accent--light);
 }
 
-/* _____MEDIA_____ */
-/* PHONE: SMALL */
-@media screen and (max-width: 350px) {
-  /* Project attribution & used technologies */
-  /* attribution icon card */
-  .about-attribution-card {
-    flex: 50%;
-    max-width: calc(50% - var(--margin-default));
-  }
-  .about-attribution-card:last-child {
-    max-width: calc(50% - 0.5rem);
+/* MEDIA QUERIES */
+@media screen and (max-width: 300px) {
+  .about-attribution-cards {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
   }
   .about-attribution-card:hover {
     transform: scale(1.05);
   }
-
-
-  /* Headers */
   .about-project-introduction h2,
   .about-used-technologies h2 {
     min-height: auto;
   }
 }
 
+/* PHONE: SMALL */
+@media screen and (max-width: 250px) {
+  .about-attribution-cards {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
+
 /* PHONE - TABLET */
 @media screen and (min-width: 550px) {
-  /* Project introduction */
-  /* Project attribution & used technologies */
-  /* containers */
   .about-project-introduction,
   .about-used-technologies {
     width: var(--container-width--500px);
   }
-  /* attribution icon card */ 
-  .about-attribution-card {
-    flex: 25%; 
-    max-width: calc(25% - var(--margin-default));
+  .about-attribution-cards {
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
   }
-  .about-attribution-card:last-child {
-    max-width: calc(25% - var(--margin-default));
-  }
-  /* Text */
-  /* text wrapper */
   .about-project-introduction article,
   .about-attribution-text article {
     padding: 1.5rem;
   }
-  /* text indentation for article paragraphs */
   .about-indent-text {
     text-indent: 1rem;
   }
@@ -131,9 +101,6 @@
 
 /* TABLET */
 @media screen and (min-width: 768px) {
- 
-  /* Text */
-  /* text wrapper */
   .about-project-introduction article,
   .about-attribution-text article {
     font-size: var(--text-size--L);
