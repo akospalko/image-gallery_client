@@ -1,9 +1,7 @@
 /* Project introduction */
-/* Project metrics */
 /* Project attribution & used technologies */
 /* containers */
 .about-project-introduction,
-.about-project-metrics,
 .about-used-technologies {
   display: flex;
   justify-content: center;
@@ -23,7 +21,6 @@
 }
 /* stat cards wrapper */
 /* attribution icon cards wrapper */
-.about-project-metrics-cards,
 .about-attribution-cards {
   display: flex;
   align-items: center;
@@ -34,10 +31,6 @@
   flex-wrap: wrap;
   padding-top: var(--padding-default);
   gap: var(--margin-default);
-}
-/* project metrics */
-.about-project-metrics-cards {
-  justify-content: center;
 }
 /* attribution icon card */
 .about-attribution-card {
@@ -57,59 +50,8 @@
   transform: scale(1.03);
 }
 
-
-/* stat single card */
-.about-project-metrics-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: var(--bg-color--main);
-  flex: calc(50% - var(--margin-default));
-  width: 50%;
-  /* height: 100px; */
-  transition: all .2s ease-in;
-}
-.about-project-metrics-card:hover .about-project-metrics-cards-icon {
-  transform: scale(1.1);
-}
-/* svg icon */
-.about-project-metrics-cards-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100px;
-  padding: 1rem 0;
-  width: 90%;
-  transition: all .2s ease-in;
-}
-/* labels: card title && counter */
-.about-project-metrics-cards-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  font-weight: bold;
-  word-wrap: break-word;
-}
-.about-project-metrics-cards-label span:first-child {
-  font-size: 1.5rem;
-  line-height: 1.5rem;  
-  color: var(--color-accent--light);
-  width: 100%;
-}
-.about-project-metrics-cards-label span:last-child {
-  font-size: var(--text-size--M);
-  line-height: 2rem;
-  color: var(--text-color--high-emphasis);
-  width: 100%;
-}
-
 /* Headers */
 .about-project-introduction h2,
-.about-project-metrics h2,
 .about-used-technologies h2 {
   font-size: var(--header-2-size--S);
   color: var(--text-color--high-emphasis);
@@ -149,15 +91,10 @@
   .about-attribution-card:hover {
     transform: scale(1.05);
   }
-  /* project metrics card */
-  .about-project-metrics-card {
-    flex: calc(100% - var(--margin-default));
-    width: 100%;
-  }
+
 
   /* Headers */
   .about-project-introduction h2,
-  .about-project-metrics h2,
   .about-used-technologies h2 {
     min-height: auto;
   }
@@ -166,11 +103,9 @@
 /* PHONE - TABLET */
 @media screen and (min-width: 550px) {
   /* Project introduction */
-  /* Project metrics */
   /* Project attribution & used technologies */
   /* containers */
   .about-project-introduction,
-  .about-project-metrics,
   .about-used-technologies {
     width: var(--container-width--500px);
   }
@@ -182,18 +117,6 @@
   .about-attribution-card:last-child {
     max-width: calc(25% - var(--margin-default));
   }
-  /* project metrics card */
-  .about-project-metrics-card {
-    background-color: var(--bg-color--main);
-    flex: calc(33.33% - var(--margin-default));
-    width: 33.33%;
-  }
-  /* labels: card title && counter */
-  .about-project-metrics-cards-label span:last-child {
-    line-height: 2rem;
-    font-size: var(--text-size--M);
-  }
-
   /* Text */
   /* text wrapper */
   .about-project-introduction article,
@@ -208,21 +131,7 @@
 
 /* TABLET */
 @media screen and (min-width: 768px) {
-  /* labels: card title && counter */
-  .about-project-metrics-cards-label span:last-child {
-    font-size: 1.75rem;
-    line-height: 1.75rem;  
-    line-height: 2rem;
-    font-size: var(--text-size--L);
-  } 
-
-  /* Headers */
-  .about-project-introduction h2,
-  .about-project-metrics h2,
-  .about-used-technologies h2 {
-    font-size: var(--header-2-size--M);
-  }
-  
+ 
   /* Text */
   /* text wrapper */
   .about-project-introduction article,

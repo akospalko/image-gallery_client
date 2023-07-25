@@ -1,6 +1,6 @@
 // Display basic metrics about the project: number of authors, locations, photos, likes, items in collection etc   
 import React, { useState, useEffect } from 'react';
-import './About.css';
+import './ProjectMetrics.css';
 import { 
   PhotoIcon,
   PhotoCollectionIcon,
@@ -43,12 +43,12 @@ export default function ProjectMetrics() {
       name: 'locations', 
       label: 'locations',
       title: 'number of photos with geolocation (gps coordinates)', 
-      icon: <PhotoLocationIcon height='120%' width='120%' /> , amount: 0 }, 
+      icon: <PhotoLocationIcon height='100%' width='100%' /> , amount: 0 }, 
     { // photographers 
       name: 'authors', 
       label: 'authors',
       title: 'photographer, artist, creator', 
-      icon: <PhotoAuthorIcon height='120%' width='120%' />, amount: 0 
+      icon: <PhotoAuthorIcon height='100%' width='100%' />, amount: 0 
     },
   ];
 
@@ -86,18 +86,18 @@ export default function ProjectMetrics() {
       })() 
   }, []) 
 
-return (
+  return (
     <div className='about-project-metrics'>
       { /* title */ }
       <h2> { CONSTANT_VALUES.TITLE_ABOUT_PROJECT_METRICS } </h2>
       { /* statistics card */ }
       <div className='about-project-metrics-cards'>
-        { metrics.map( card => (
+        { metrics?.map( card => (
         <div key={ card.name } title={ card.title } className='about-project-metrics-card'>
           <div className='about-project-metrics-cards-icon'> { card?.icon } </div>
           <div className='about-project-metrics-cards-label'> 
-            <span> { card.amount } </span> 
-            <span> { card.label } </span> 
+            <span> { card?.amount || '-' } </span> 
+            <span> { card?.label || '-' } </span> 
           </div>
         </div>
         )) }
