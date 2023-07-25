@@ -1,29 +1,28 @@
 // Photo entries: collection 
-import React, { useCallback, useEffect, useState } from 'react'
-import './PhotoEntries.css'
-import '../Shared.css'
-import { useNavigate } from 'react-router'
-import PhotoEntry from './PhotoEntry';
-import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests'
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
-import LoaderIcon from '../SVG/Loader';
-import SkeletonPhotoEntryCollection from '../../skeletons/SkeletonPhotoEntryCollection';
+import React, { useCallback, useEffect, useState } from 'react';
+import './PhotoEntries.css';
+import '../Shared.css';
+import { useNavigate } from 'react-router';
+import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
+import PhotoEntryCollection from './PhotoEntryCollection';
 import { useAuthContext } from '../contexts/AuthenticationContext';
 import { useDataContext } from '../contexts/DataContext';
-import { CONSTANT_VALUES } from '../../helper/constantValues';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
+import SkeletonPhotoEntryCollection from '../../skeletons/SkeletonPhotoEntryCollection';
+import LoaderIcon from '../SVG/Loader';
 
 export default function PhotoEntriesCollection() {
-  // CONSTANT
-  const isCollection = true; // switch to check btw collection and photo entry (used in photo entry)
   // CONTEXT
   const { collectionData, setCollectionData } = useDataContext();
   const { auth } = useAuthContext(); 
   
   // STATE
   const [ isLoading, setIsLoading ] = useState(true);
+  const [ isModalOpen, setIsModalOpen ] = useState(false);
 
-  // HOOK
+
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const {
@@ -36,7 +35,8 @@ export default function PhotoEntriesCollection() {
   // ROUTING
   const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true });
 
-  // HANDLER
+  // HANDLERS
+  // fetch user collection photo entries
   const fetchPECollection = useCallback( async () => {
     try {
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'own'); // get user's collection photo entries
@@ -53,30 +53,42 @@ export default function PhotoEntriesCollection() {
     fetchPECollection()
   }, [ fetchPECollection ]) 
 
-  // RENDERED ELEMENTS
+  // ELEMENTS
+  // Loader
   const loader = (
-    <div className={ `pes-container-collection ${ isLoading ? 'pes-container--centered' : '' }` } >
+    <div className={ `pes-collection-container ${ isLoading ? 'pes-container--centered' : '' }` } >
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
+
+  // Entries
   const photoEntries = (
-    <div className='pes-container-collection' >
+    <div className={ `pes-collection-container ${ !collectionData?.length ? 'pes-empty-container' : '' }`} >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded && collectionData.length > 1 && collectionData.map(photoEntry => <SkeletonPhotoEntryCollection wrapperStyle='skeleton-wrapper--user-collection' key={ photoEntry._id } /> ) }
+      { !allImagesLoaded 
+        && collectionData.length > 1 
+        && collectionData.map(photoEntry => 
+          <SkeletonPhotoEntryCollection 
+            key={ photoEntry._id } 
+            wrapperStyle='skeleton-wrapper--user-collection' 
+          /> 
+      ) }
       {/* empty collection: display placeholder */}
-      { !collectionData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> </div> }
+      { !collectionData.length && 
+      <div className='pes-empty-container'> 
+        <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_COLLECTION } </h3> 
+      </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { collectionData && collectionData.map(photoEntry => (
-          <PhotoEntry 
-            key={ photoEntry._id } 
-            photoEntry={ photoEntry } 
-            dataSetter={ setCollectionData }
-            isCollection={ isCollection }
-            onLoadHandler={ onLoadHandler } 
-            hideImageStyle={ hideImageStyle } 
-            setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
-          />
-      ) ) }
+        <PhotoEntryCollection 
+          key={ photoEntry._id } 
+          photoEntry={ photoEntry } 
+          dataSetter={ setCollectionData }
+          onLoadHandler={ onLoadHandler } 
+          hideImageStyle={ hideImageStyle } 
+          setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
+        />
+      )) }
     </div>
   )
   

@@ -363,12 +363,12 @@ export function UserIcon({height, width, fill, stroke}) {
 // MENU BAR ICON
 export function MenuOpenIcon({height, width, fill, stroke}) {
   return (
-    <div style={{display:'flex', height: height, width: width}}> 
+    <div style={ { display:'flex', height: height, width: width } }> 
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
         height="100%"
-        fill={fill || "#000"}
+        fill={ fill || "#000" }
         version="1.1"
         viewBox="0 0 24 24"
         xmlSpace="preserve"
@@ -390,7 +390,7 @@ export function MenuCloseIcon({ height, width, fill }) {
       >
         <g>
           <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
-            <g fill={fill || "#000"} transform="translate(-419 -240)">
+            <g fill={ fill || "#000" } transform="translate(-419 -240)">
               <g transform="translate(56 160)">
                 <path d="M375.0183 90L384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446z"></path>
               </g>

@@ -58,9 +58,6 @@
   opacity: 0.7;
 }
 
-
-
-
 .button-control-panel-view {
   width: 40px;
   height: 40px;
@@ -102,6 +99,7 @@
   background-color: transparent;
   transition: opacity .2s ease-in;
   opacity: 1;
+  padding: 0;
 }
 .button-close:hover,
 .button-close:focus {
