@@ -20,37 +20,45 @@ import {
   MongoDBIcon,
   MongooseIcon } from '../SVG/Icons';
 
+// helper component to hihglight text
+export function HighlightText({ text }) {
+  return ( <span className='about-highlighted-text'>{ text }</span> )
+}  
+
+
+<HighlightText text=''/>
+
 export default function About() {
   // CONSTANTS
   // Icon: size, color
-  const iconSize = '50%';
-  const iconColor = 'var(--color-accent--light)';
+  const iconSize = '50%'; 
+  const iconColor = 'var(--text-color--high-emphasis)';
   // Text
   // short project intro
   const projectIntroductionText = (
     <article>
-        <p>
-          This project is a simple <span className='about-highlighted-text'>photo gallery </span> designed to store and display photographs with geolocation information. Authenticated users have access to view the photos, like them, add them to their own collection, read more details about them, and even locate them on a map.
-        </p>
-        <p>
-          The inspiration behind this project stems from my deep passion for photography, particularly aerial photography utilizing UAV (drone) technology. Additionally it also served as a valuable means of developing my skills in both <span className='about-highlighted-text'> frontend</span> and <span className='about-highlighted-text'> backend</span> web development, as well as allowing me to explore aspects of <span className='about-highlighted-text'> aesthetics</span>, <span className='about-highlighted-text'> user experience (UX)</span>, and  <span className='about-highlighted-text'> user interface (UI)</span> design.
-        </p>
+      <p>
+        This project is a <HighlightText text='photo gallery'/> designed to store and display photographs with geolocation information. Authenticated users have access to view the photos, like, download, add them to their own collection, read more details about them, even locate them on a map.
+      </p>
+      <p>
+        The inspiration behind this project stems from my deep passion for photography, particularly aerial photography utilizing UAV (drone) technology. Additionally it also served as a valuable means of developing my skills in both <HighlightText text='frontend'/> and <HighlightText text='backend'/> web development, as well as allowing me to explore aspects of <HighlightText text='aesthetics'/>, <HighlightText text='user experience (UX)'/>, and <HighlightText text='user interface (UI)'/> design.
+      </p>
     </article>
   )
   // attribution & used technologies
   const usedTechnologiesText = (
     <article>
       <p className='about-indent-text'>
-        The web app was developed combining various web technologies: frontend was built with <span className='about-highlighted-text'> HTML</span>, <span className='about-highlighted-text'> CSS</span> and <span className='about-highlighted-text'> JavaScript</span>, utilizing the robust <span className='about-highlighted-text'>React</span> library. Additionally, several helpful npm packages such as router, responsive, toastify, zoom-pan-pinch, and axios were integrated. For visual elements, <span className='about-highlighted-text'> SVG Repo</span>, <span className='about-highlighted-text'> Iconify</span> and <span className='about-highlighted-text'> unDraw</span> resources were utilized.
+        The web-app was developed combining various web technologies: frontend was built with <HighlightText text='HTML'/>, <HighlightText text='CSS' /> and <HighlightText text='JavaScript' />, utilizing <HighlightText text='React' /> library. Additionally, several helpful npm packages such as router, responsive, toastify, zoom-pan-pinch, and axios were utilized. For visual elements, <HighlightText text='SVGRepo' />, <HighlightText text='Iconify' /> and <HighlightText text='unDraw' /> resources were utilized.
       </p>
       <p className='about-indent-text'>
-        <span className='about-highlighted-text'> Leaflet</span>, a JavaScript library, was used to create dynamic and interactive maps. The project takes advantage of this library to showcase photos on the map. Furthermore, the app provides users with a variety of base layers, thanks to <span className='about-highlighted-text'> OSM</span>, Stamen, and Esri, offering different map styles and layers.
+        <HighlightText text='Leaflet' />, a JavaScript library, was used to create dynamic and interactive maps. The project takes advantage of this library to showcase photos' locations on the map. Furthermore, the app provides users with a variety of base layers, thanks to <HighlightText text='OSM' />, Stamen, and Esri, offering different map styles and layers.
       </p>
       <p className='about-indent-text'>
-        On the backend, <span className='about-highlighted-text'> Node.js</span> and <span className='about-highlighted-text'> Express</span> and <span className='about-highlighted-text'> Postman</span> were harnessed to create a server with REST architecture. Some of the used packages: jsonwebtokens and bcrypt for implementing authentication, sharp for image processing, nodemailer for sending emails.
+        On the backend, <HighlightText text='Node.js' /> and <HighlightText text='Express' /> and <HighlightText text='Postman' /> were harnessed to create a server with REST architecture. Some of the used packages: jsonwebtokens and bcrypt for implementing authentication, sharp for image processing, nodemailer for sending emails.
       </p>
       <p className='about-indent-text'>
-        For data storage, <span className='about-highlighted-text'> MongoDB</span>, a flexible NoSQL database was employed with <span className='about-highlighted-text'> Mongoose</span> to handle data modeling and interaction. To provide scalable and reliable storage solutions for the app, <span className='about-highlighted-text'> AWS S3</span> was leveraged. 
+        For data storage, <HighlightText text='MongoDB' />, a flexible NoSQL database was employed with <HighlightText text='Mongoose' /> to handle data modeling and interaction. To provide scalable and reliable storage solutions for the app, <HighlightText text='AWS S3' />  was leveraged. 
       </p>
     </article>
   );
