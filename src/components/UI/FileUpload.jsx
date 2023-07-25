@@ -46,6 +46,10 @@ export default function FileUpload() {
   useEffect(() => {
     if(photoFile?.name) {
       setImageUrl(URL.createObjectURL(photoFile));
+      
+      return () => {
+        URL.revokeObjectURL(imageUrl); // Release memory when the component unmounts or photoFile changes.
+      };
     }
   }, [photoFile]);
   // extract available exif, update form

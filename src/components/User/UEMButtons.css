@@ -1,0 +1,51 @@
+.pe-gallery-uem-buttons {
+  display: grid;
+  grid-area: 1 / 1 / 2 / 4;
+  grid-auto-flow: column; 
+}
+.pe-collection-uem-buttons {
+  display: grid;
+  grid-area: 1 / 1 / 2 / 4;
+  grid-auto-flow: column; 
+}
+.pe-collection-uem-buttons--modal {
+  display: grid;
+  grid-area: 2 / 1 / 3 / 4;
+}
+.pe-collection-uem-buttons-item,
+.pe-gallery-uem-buttons-item {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  justify-content: start;
+}
+.pe-collection-uem-buttons-item--modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* MEDIA QUERY */
+/* PHONE: SMALL SCREEN */
+@media (max-width: 199px) {
+  .pe-gallery-uem-buttons {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .pe-collection-uem-buttons {
+    display: flex;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pe-collection-uem-buttons--modal {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}

@@ -4,14 +4,14 @@ import './PhotoEntries.css'
 import '../Shared.css'
 import { useNavigate } from 'react-router'
 import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests'
+import { CONSTANT_VALUES } from '../../helper/constantValues'
+import PhotoEntryGallery from './PhotoEntryGallery';
 import { useAuthContext } from '../contexts/AuthenticationContext';
 import { useDataContext } from '../contexts/DataContext';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useHideImagesWhileLoading from '../hooks/useHideImagesWhileLoading';
-import PhotoEntry from './PhotoEntry';
 import SkeletonPhotoEntryGallery from '../../skeletons/SkeletonPhotoEntryGallery';
 import LoaderIcon from '../SVG/Loader';
-import { CONSTANT_VALUES } from '../../helper/constantValues'
 
 export default function PhotoEntriesGallery() {
   // CONTEXTS
@@ -33,8 +33,8 @@ export default function PhotoEntriesGallery() {
 
   // ROUTING
   const navToPrevPage = () => navigate('/login', { state: { from: location }, replace: true });
+  
   // HANDLER
-
   const fetchPEGallery = useCallback( async () => {
     try {
       const response = await getAllGalleryPhotoEntries(axiosPrivate, auth.userID, 'all'); // fetch entries, update state  
@@ -52,20 +52,23 @@ export default function PhotoEntriesGallery() {
   }, [ fetchPEGallery ] );
 
   // RENDERED ELEMENTS
+  // Loader
   const loader = (
-    <div className={ `pes-container-gallery ${ isLoading ? 'pes-container--centered' : '' }` } >
+    <div className={ `pes-gallery-container ${ isLoading ? 'pes-container--centered' : '' }` } >
       <div className='auth-modal-loader'> <LoaderIcon height='100px' width='100px' stroke='var(--text-color--high-emphasis)'/> </div>
     </div>
   )
+
+  // Entries
   const photoEntries = (
-    <div className='pes-container-gallery' >
+    <div className='pes-gallery-container'>
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
       { !allImagesLoaded && galleryData && galleryData.map(photoEntry => <SkeletonPhotoEntryGallery key={ photoEntry._id } /> ) }
       {/* empty gallery: display placeholder */}
-      { !galleryData.length && <div className='pes-empty'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
+      { !galleryData.length && <div className='pes-empty-container-container'> <h3> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY_GALLERY } </h3> </div> }
       { /* render photo entry && hide from view until ready to be displayed */ }
       { galleryData && galleryData.map(photoEntry => (
-          <PhotoEntry 
+          <PhotoEntryGallery 
             key={ photoEntry._id } 
             photoEntry={ photoEntry } 
             dataSetter={ setGalleryData }
@@ -73,8 +76,7 @@ export default function PhotoEntriesGallery() {
             hideImageStyle={ hideImageStyle } 
             setCurrentlyLoadingImages={ setCurrentlyLoadingImages }
           />
-        )
-      ) }
+      )) }
     </div>
   )
   return ( <> { isLoading ? loader : photoEntries } </> )

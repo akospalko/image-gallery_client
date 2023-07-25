@@ -1,0 +1,181 @@
+.pe-collection-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 250px 50px;
+  grid-area: auto;
+  grid-auto-flow: column;
+  width: 100%;
+  background-color: var(--bg-color--secondary);
+}
+.pe-collection-header {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  grid-template-rows: 100%;
+}
+.pe-collection-title {
+  display: grid;
+  grid-area: 1 / 1 / 2 / 3;
+  justify-content: start;
+  align-items: center;
+  word-wrap: break-word;
+  word-break: break-all;
+  padding-left: 1rem;
+}
+.pe-collection-title h3 {
+  text-align: left;
+  color: var(--text-color--high-emphasis);
+  font-size: var(--header-3-size--XS);
+  line-height: calc(var(--header-3-size--XS) * 1.2);
+  margin: 0;
+}
+.pe-collection-header-modal-toggler-button {
+  display: grid;
+  grid-area: 1 / 3 / 2 / 4;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 1rem;
+}
+.pe-collection-photo {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100%;
+  cursor: pointer;
+}
+.pe-collection-control-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 40px) minmax(0, 1fr) auto;
+  grid-template-rows: 50px; 
+  width: 100%;
+  padding: 0 1rem;
+  background-color: var(--bg-color--secondary);
+}
+.pe-collection-capture-date {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-area: 1 / 6 / 2 / 8;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.pe-collection-capture-date strong {
+  font-size: var(--text-size--XS);
+  line-height: calc(var(--text-size--XS) * 1.3);
+  text-align: right;
+}
+/* PE modal  */
+.pe-collection-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-area: 2 / 1 / 4 / 2;
+  padding: 1rem;
+  height: 100%;
+  background-color: var(--bg-color--secondary);
+}
+.pe-collection-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pe-collection-modal-buttons-wrapper {
+  display: grid;
+  grid-area: 1 / 1 / 2 / 2;
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(2, 50px);
+  gap: 5px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* _____MEDIA_____ */
+/* PHONE: SMALL SCREEN */
+@media (max-width: 199px) {
+  .pe-collection-container {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+  .pe-collection-header {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    padding: var(--padding-default);
+  }
+  .pe-collection-title {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+  }
+  .pe-collection-header-modal-toggler-button {
+    display: flex;
+    padding: 0;
+  }
+  .pe-collection-modal {
+    padding: 1rem;
+  }
+  .pe-collection-modal-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: var(--padding-default);
+    justify-content: space-between;
+  }
+  .pe-collection-photo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .pe-collection-control-panel {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: var(--padding-default);
+    justify-content: space-between;
+  }
+  .pe-collection-capture-date {
+    display: flex;
+    width: 100%;
+  }
+  .pe-collection-modal {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .pe-collection-control-panel {
+    grid-template-columns: repeat(3, 30px) minmax(0, 1fr) auto;
+  }
+}
+/* TABLET */
+@media (min-width: 768px) {
+  .pe-collection-container {
+    grid-template-columns: 1fr;
+  }
+  .pe-collection-control-panel {
+    grid-template-columns: repeat(2, auto); 
+    grid-template-rows: 50px; 
+  }
+}

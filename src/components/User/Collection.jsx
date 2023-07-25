@@ -12,9 +12,10 @@ export default function Collection() {
   
   // HOOK
   const { mapViewModal, photoViewModal, infoViewModal } = useSetUpModal(toggleModal);
- 
+  /* centered vertically */
+
   return (
-    <div className='shared-page-container'>
+    <div className='shared-page-container shared-page-container--align-items-center'>
       { /* Header title */ }
       <div className='shared-header-wrapper'> 
         <h1> { CONSTANT_VALUES.TITLE_MY_COLLECTION } </h1>  

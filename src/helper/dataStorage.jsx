@@ -117,6 +117,7 @@ export const LOADER = {
   PHOTO_ENTRY_DELETE: {}, // delete photo entry button loader 
   PHOTO_ENTRY_LIKE: {}, // { photoID1: false, photoID2: true } - loader state of photo entry like toggle
   PHOTO_ENTRY_COLLECTION: {}, // add/remove photo item to/from collection
+  PHOTO_ENTRY_DOWNLOAD: {}, // download photo 
   MAP_FETCH_DATA: false, // loader shown in map box while fetching data / switching content
   BACKGROUND: true // show loader while svg background is being loaded   
 }

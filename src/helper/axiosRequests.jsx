@@ -1,8 +1,8 @@
 // TODO: replace status message strings with CONSTANTS 
 // List of requests made to the api
 import axios from 'axios';
-import {axiosAuthentication} from '../helper/axiosInstances'
-import {statusMessages} from './dataStorage';
+import { axiosAuthentication } from '../helper/axiosInstances'
+import { statusMessages } from './dataStorage';
 // PHOTO ENTRY 
 // GET all photo entries -> gallery (all gallery photos || photos added to user's own collection) protected resources 
 export const getAllGalleryPhotoEntries = async (axiosInstance, userID, collectionType) => {
@@ -161,7 +161,7 @@ export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) 
   return fetchResult;
 }
 // PHOTO ENTRY DOWNLOAD
-// PATCH // update photo downloads tracker
+// PATCH // update photo downloads tracker, download file
 export const downloadPhotoEntry = async (userID, photoEntryID, axiosInstance) => {
   let fetchResult; 
   try { 
