@@ -25,9 +25,6 @@ export function HighlightText({ text }) {
   return ( <span className='about-highlighted-text'>{ text }</span> )
 }  
 
-
-<HighlightText text=''/>
-
 export default function About() {
   // CONSTANTS
   // Icon: size, color

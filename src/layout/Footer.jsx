@@ -10,7 +10,12 @@ export default function Footer() {
   // CONSTANTS
   // Icon: size, color
   const iconSize = '100%';
-  const iconColor = 'var(--color-accent--light)';
+  const iconColor = 'var(--text-color--high-emphasis)';
+
+  // HOOK
+  // Media queries
+  const isBelow350px = useMediaQuery({ query: '(max-width: 349px)' });
+  const isBelow550px = useMediaQuery({ query: '(max-width: 549px)' });
 
   // TEMPLATE
   // Social icons 
@@ -32,20 +37,21 @@ export default function Footer() {
     }
   ];
 
-  // MEDIA QUERIES
-  const isBelow350px = useMediaQuery({ query: '(max-width: 350px)' });
-  const isBelow550px = useMediaQuery({ query: '(max-width: 550px)' });
-
   // ELEMENTS
   // Social icons
   const socialIcons = (
     <div className='social-icons-container'>
       { /* social icon */ }
       { socialIconsTemplate.map(card => (
-        <a key={ card.title } title={ card.title } href={ card.url } target="_blank" rel="noopener noreferrer" className='social-icon-card'> 
-          <div className='social-icon'> 
-            { card.icon } 
-          </div>
+        <a 
+          key={ card.title } 
+          title={ card.title } 
+          href={ card.url } 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className='social-icon-card'
+        > 
+          <div className='social-icon'> { card.icon } </div>
         </a>
       )) }
     </div>
