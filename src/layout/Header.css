@@ -259,7 +259,7 @@
   text-align: start;
 }
 
-/* _____RESPONSIVE_____ */
+/* MEDIA QUERIES */
 /* MOBILE: very small */
 @media (max-width: 300px) and (orientation: portrait) {
   /* User profile menu */
@@ -267,6 +267,14 @@
   .header-profile-menu-container {
     width: 100%;
     margin: 0;
+  }
+}
+
+/* MOBILE - TABLET */
+@media (min-width: 500px) {
+  /* HEADER BAR */
+  .header-bar {
+    padding: 0 1rem;
   }
 }
 
@@ -381,7 +389,7 @@
 @media (min-width: 1024px) {
   /* HEADER BAR */
   .header-bar {
-    padding: 0 3rem;
+    padding: 0 2rem;
   }
 
   /* LOGO  */
