@@ -17,11 +17,14 @@ export default function HeaderContentForSmallScreen({ navElements }) {
   const usernameMaxDisplayLength = 20;
   const userProfileMenuMaxDisplayLength = 30;
   const loginRoute = '/login'; // login page route
+  
   // CONTEXT 
   const { toggleModal, toggleDropdown, toggleDropdownHandler } = useModalContext();
   const { auth } = useAuthContext();
+  
   // HOOK
-  const isScreenBelow300Px = useMediaQuery({ query: '(max-width: 300px)' });
+  const isScreenBelow250Px = useMediaQuery({ query: '(max-width: 249px)' });
+  const isScreenBelow300Px = useMediaQuery({ query: '(max-width: 299px)' });
   const { navigationMenu, openNavigationMenuButton } = useHeaderNavigation(navElements);
   
   // USER PROFILE
@@ -52,7 +55,7 @@ export default function HeaderContentForSmallScreen({ navElements }) {
         </div>
       </div>
       { /* Logo */ }
-      <div className='header-logo'> <PhotoEntryIcon height='45px' width='45px' /> </div>
+      <div style={ isScreenBelow250Px ? { display: 'none' } : {} } className='header-logo'> <PhotoEntryIcon height='45px' width='45px' /> </div>
       { /* Group 2: logo */ }
       { /* User profile */ }
       <div className='header-bar-group header-bar-group--2'>

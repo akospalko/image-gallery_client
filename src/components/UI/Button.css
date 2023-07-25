@@ -295,6 +295,11 @@
     min-height: 50px;
     height: auto;
   }
+  .button-home-cta { 
+    height: auto;
+    min-height: 50px;
+  }
+
 }
 
 /* PHONE - TABLET */

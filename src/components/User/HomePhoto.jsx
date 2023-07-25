@@ -10,12 +10,13 @@ export default function HomePhoto(props) {
     onLoadHandler // when photo is loaded: set loading status to true 
   } = props;
   const { photoURL, _id } = photo ?? {}; //url & id associated with the photo 
+ 
   // EFFECT
   // Add currently loading image to loading state
   useEffect(()=> {
     setCurrentlyLoadingImages(prev => {
       const isDuplicate =  Object.keys(prev ?? {}).includes(String(_id)) // img already added to the loading list
-      if(!isDuplicate) {// if img id is not yet in state -> add
+      if(!isDuplicate) { // if img id is not yet in state -> add
         const updatedState = { ...prev, [_id]: false };
         return updatedState;
       } else {
@@ -27,7 +28,7 @@ export default function HomePhoto(props) {
   // STYLE
   const imgStyle= {
     display: 'flex',
-    objectFit: 'contain',
+    objectFit: 'cover',
     height: '100%',
     width: '100%'
   }

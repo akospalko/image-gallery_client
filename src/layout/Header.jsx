@@ -5,7 +5,6 @@ import HeaderContentForSmallScreen from './HeaderContentForSmallScreen';
 import HeaderContentForLargeScreen from './HeaderContentForLargeScreen';
 import { useMediaQuery } from 'react-responsive';
 import { useAuthContext } from '../components/contexts/AuthenticationContext';
-import { useModalContext } from '../components/contexts/ToggleModalContext';
 import { navElementsUnauthenticated, navElementsUser, navElementsAdmin } from '../helper/dataStorage';
 import { ROLES } from '../helper/userRoles';
 
