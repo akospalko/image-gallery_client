@@ -9,6 +9,7 @@ export const CONSTANT_VALUES = {
   
   // STRING/TEXT
   // titles & subtitles
+  TITLE_HOME_USER: 'GeoLens Gallery',
   TITLE_HOME_ADMIN:'Home - Photo entries',
   TITLE_GALLERY_ADMIN: 'Gallery - Photo entries',
   TITLE_GALLERY_USER: 'Gallery',
@@ -21,6 +22,7 @@ export const CONSTANT_VALUES = {
   TITLE_ABOUT_PROJECT_INTRODUCTION: 'About the project',
   TITLE_ABOUT_PROJECT_METRICS: 'Project metrics',
   TITLE_ABOUT_ATTRIBUTION: 'Used technologies & attribution',
+  SUBTITLE_HOME_USER: 'Capturing World Pictures',
   SUBTITLE_LOGIN: 'log in to continue',
   SUBTITLE_REGISTER: 'and check out awesome photos',
   SUBTITLE_PASSWORD_RESET_SAVE_NEW: 'make it secure!',
@@ -35,8 +37,10 @@ export const CONSTANT_VALUES = {
   INFO_PHOTO_ENTRY_ERROR: 'Could not display photo entries',
   INFO_FILE_UPLOAD_NO_IMG: 'NO IMG',
   INFO_SCROLL_TO_TOP: 'Back to top',
+  INFO_FAIL_TO_DISPLAY_IMGS: 'Couldn\'t display images',
 
   // BUTTON CONTENT
+  BUTTON_VISIT_GALLERY: 'Visit Gallery',
   BUTTON_ENTRY_CREATE: 'Create new entry',
   BUTTON_COLLECTION: 'Collection',
   BUTTON_GALLERY: 'Gallery',

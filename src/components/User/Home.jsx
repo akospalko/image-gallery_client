@@ -13,10 +13,11 @@ import { useNavigate } from 'react-router'
 import { useAuthContext } from '../contexts/AuthenticationContext'
 import useResponsiveBackground from '../../components/hooks/useResponsiveBackground';
 import { useDataContext } from '../contexts/DataContext';
+import { CONSTANT_VALUES } from '../../helper/constantValues'
 
 export default function Home() {
   // CONSTANTS
-  // ROUTE
+  // ROUTEd
   const navigate =  useNavigate(); 
   // CONTEXT
   const { homePhotos, setHomePhotos } = useDataContext();
@@ -37,7 +38,7 @@ export default function Home() {
   // photo placeholder failed fetch || no data
   const photoPlaceholder = (
     <div className='home-photo'>
-      <span> error displaying images </span>
+      <span> { CONSTANT_VALUES.INFO_FAIL_TO_DISPLAY_IMGS } </span>
     </div>
   )
   // photo carousel with rendered home photos
@@ -71,11 +72,11 @@ export default function Home() {
         <div className='home-header'>
           {/* title */}
           <div className='home-title'>
-            <h1> Photo Gallery </h1>
+            <h1> { CONSTANT_VALUES.TITLE_HOME_USER } </h1>
           </div>
           {/* subtitle */}
           <div className='home-subtitle'>
-            <span> footages for you </span>
+            <span> { CONSTANT_VALUES.SUBTITLE_HOME_USER } </span>
           </div>
         </div>
         {/* Photo carousel / placeholder */}
@@ -84,8 +85,8 @@ export default function Home() {
         </div>
         { /* Button container */ }
         <div className='home-button'>
-          <Button clicked={ () => navigate(auth.userID ? `/${auth.username}/gallery` : '/login') } buttonStyle='button-home-cta'>
-            <span> Visit Gallery </span>
+          <Button clicked={ () => navigate(auth.userID ? `/${ auth.username }/gallery` : '/login') } buttonStyle='button-home-cta'>
+            <span> { CONSTANT_VALUES.BUTTON_VISIT_GALLERY } </span>
           </Button>
         </div>
       </div>

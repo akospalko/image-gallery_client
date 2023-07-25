@@ -140,9 +140,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
- min-height: var(--header-height);
-  /* box-shadow: 0 2px 0 0 var(--bg-color--ternary-transparent-high); */
-  padding: 0 var(--padding-default)
+  min-height: var(--header-height);
+  padding: 0 var(--padding-default);
 }
 /* elements wrapper: S & L */
 .header-navigation-elements {

@@ -65,8 +65,7 @@ export default function PhotoEntriesCollection() {
   const photoEntries = (
     <div className={ `pes-collection-container ${ !collectionData?.length ? 'pes-empty-container' : '' }`} >
       { /* data is fetched && img-s are not yet loaded: show data.length amount of skeleton components */ }
-      { !allImagesLoaded 
-        && collectionData.length > 1 
+      { !allImagesLoaded && collectionData.length > 1 
         && collectionData.map(photoEntry => 
           <SkeletonPhotoEntryCollection 
             key={ photoEntry._id } 
