@@ -16,7 +16,8 @@ export default function PhotoEntryLayout(activePhotoEntry) {
     gpsLatitude, 
     gpsLongitude, 
     likes,
-    inCollection
+    inCollection,
+    downloads
   } = activePhotoEntry || {};
   
   // CONTENT MODULES
@@ -25,15 +26,8 @@ export default function PhotoEntryLayout(activePhotoEntry) {
     data: _id, //  entry content data
     title: 'photo entry id', // on hover elem - info about the record
     label: 'ID', // displayed label
-    // labelStyle: 'pe-layout-content--border-top', // custom style for label 
-    // dataStyle: 'pe-layout-content--border-top' // custom style for data 
   }
-  // const titleContent = {
-  //   name: 'title', 
-  //   data: title,
-  //   title: 'photo title', 
-  //   label: 'Title',
-  // };
+
   const titleContentInfo = { // photo info page
     name: 'title', 
     data: title,
@@ -83,7 +77,7 @@ export default function PhotoEntryLayout(activePhotoEntry) {
   };
   const uemContent = { 
     name: 'uem', 
-    data: <PhotoEntryContentUEM collectedUEM={ { likes, inCollection } } />, 
+    data: <PhotoEntryContentUEM collectedUEM={ { likes, inCollection, downloads } } />, 
     title: 'User engagement metrics', 
     label: 'Metrics',
     recordStyle: 'pe-layout-content-record--auto-height', 
