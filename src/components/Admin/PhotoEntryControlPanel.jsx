@@ -17,6 +17,7 @@ import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
 import Button from '../UI/Button';
 import { Edit, ViewPhoto, LocationMark, Delete } from '../SVG/Icons';
 import LoaderIcon from '../SVG/Loader';
+import { statusDefault } from '../../helper/statusMessages';
 
 export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
   // CONSTANTS

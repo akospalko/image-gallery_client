@@ -22,7 +22,8 @@ const PhotoEntry = ({ collection, photoEntry }) => {
     <>
       { photoEntryLayoutAdmin?.map(record => (
         <PhotoEntryContentElement
-          key= { record?.name }
+          key={ record?.name }
+          id={ record?.id }
           title={ record?.title } 
           label={ record?.label } 
           data={ record?.data } 
@@ -31,7 +32,12 @@ const PhotoEntry = ({ collection, photoEntry }) => {
           dataStyle={ record?.dataStyle }
         /> )
       ) }
-      <Timestamp dateCreation={ createdAt } dateLastUpdate={ updatedAt } customStyle='timestamp-container--layout' />
+      <Timestamp 
+        dateCreation={ createdAt } 
+        dateLastUpdate={ updatedAt } 
+        customStyle='timestamp-container--layout' 
+        customContentStyle='timestamp-content--layout' 
+      />
     </>
   )
 
@@ -45,4 +51,4 @@ const PhotoEntry = ({ collection, photoEntry }) => {
   )
 }
 
-export default React.memo(PhotoEntry); // NOTE: memo won't work here as long as each refetch will have a freshly signed img url
+export default React.memo(PhotoEntry);

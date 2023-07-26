@@ -20,9 +20,7 @@
 /* timestamp container for photo info modal */
 .timestamp-container--layout {
   width: auto;
-  background-color: var(--bg-color--ternary);
-  margin: calc(var(--margin-gap) * 2);
-  margin-top: var(--margin-gap);
+  background-color: var(--bg-color--main);
 }
 .timestamp-container--height-auto {
   height: auto;
@@ -49,6 +47,10 @@
 /* _____MEDIA_____ */
 /* PHONE: SMALL SCREEN */
 @media (max-width: 350px) {
+  .timestamp-content--layout {
+    word-wrap: break-word;
+    word-break: break-all;
+  }
   .timestamp-title span,
   .timestamp-date span  {
     font-size: var(--text-size--XS);
