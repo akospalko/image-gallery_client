@@ -32,7 +32,7 @@
   height: 100%;
   border: none;
   background-color: Transparent;
-  padding: 0 var(--padding-default);
+  padding: 0;
   transition: opacity .2s ease-in;
   opacity: 1;
 }
@@ -299,7 +299,11 @@
     height: auto;
     min-height: 50px;
   }
-
+  .button-photo-new {
+    word-break: break-all;
+    height: auto;
+    min-height: 50px;
+  }
 }
 
 /* PHONE - TABLET */

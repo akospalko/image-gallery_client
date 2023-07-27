@@ -73,13 +73,11 @@ export default function Login() {
   // HANDLERS
   // login handler 
   const loginHandler = async (e, formData) => {
-    console.log('logging in' );
     e.preventDefault();
     try {
       setIsSubmitting(true);
       const convertedData = convertFormData(formData); // simplify data before sending request  
       const response = await loginUser(convertedData); // get response 
-      console.log(response);
       const { username, email, createdAt, roles, accessToken, userID, success, message } = response ?? {}; // destructure response values
       if(success) { // auth successfull
         sendToast(message);

@@ -15,10 +15,7 @@ import { Delete } from '../SVG/Icons';
 import { useModalContext } from '../contexts/ToggleModalContext';
 import { useFormContext } from '../contexts/FormContext';
 
-export default function FileUpload() {
-  // CONSTANTS
-  const defaultValidationState = { status: 'default', message: INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_INITIAL(CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES / CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT) }; // upload file default status message};
-  
+export default function FileUpload({ name }) {
   // CONTEXT
   const {
     photoFile, setPhotoFile,
@@ -26,6 +23,10 @@ export default function FileUpload() {
     setValidationMessages
   } = useFormContext();
   const { activePhotoEntry } = useModalContext();
+
+  // CONSTANTS
+  const defaultValidationState = { required: formData[name]?.required, status: 'default', message: INPUT_VALIDATION_MESSAGES.FILE_UPLOAD_INITIAL(CONSTANT_VALUES.MAX_FILE_SIZE_IN_BYTES / CONSTANT_VALUES.CONVERT_BYTES_TO_MB_CONSTANT) }; // upload file default status message};
+
 
   // HOOKS
   const {
@@ -76,7 +77,7 @@ export default function FileUpload() {
       setFormData(updatedForm); // update state
     })()
   }, [])
-  // enable loader while fetched img is being loaded photo entry 
+  // enable loader while fetched img is being loaded
   useEffect(() => {
     if(photoFile && Object.keys(activePhotoEntry).length === 0) return;
     setAllImagesLoaded(false);
@@ -86,10 +87,10 @@ export default function FileUpload() {
   // check if file is selected, validate file & store in state 
   const selectFileHandler = (selectedFile) => {
     if(selectedFile) {
-      const validationResult = photoFileValidator(selectedFile, photoFile);
+      const validationResult = photoFileValidator(selectedFile, formData[name]?.required);
       setFileUploadStatus(validationResult); // update validation status
-      validationResult?.status === 'success' && setPhotoFile(selectedFile); // store file in state
-      validationResult?.status === 'success' && setValidationMessages(prev => ( { ...prev, photoFile: { status: true, message: '', touched: true } } ))
+      validationResult?.status === true && setPhotoFile(selectedFile); // store file in state
+      validationResult?.status === true && setValidationMessages(prev => ( { ...prev, photoFile: { required: formData[name]?.required, status: true, message: '', touched: true } } ))
     }
   }
   // file change listener: browse & select file -> validate -> store in state
@@ -123,9 +124,9 @@ export default function FileUpload() {
   const removePhotoHandler = (e) => {
     e.preventDefault();
     if(activePhotoEntry.photoURL) {
-      setValidationMessages(prev => ( { ...prev, photoFile: { status: true, message: '', touched: false } } )); // update photo.: remove selected photo -> photo url is fetched from db is still available -> valid: true   
+      setValidationMessages(prev => ( { ...prev, photoFile: { required: formData[name]?.required, status: true, message: '', touched: false } } )); // update photo.: remove selected photo -> photo url is fetched from db is still available -> valid: true   
     } else {
-      setValidationMessages(prev => ( { ...prev, photoFile: { status: false, message: '', touched: false } } )); // create photo: remove photo -> no alternative photo to be loaded -> valid: false   
+      setValidationMessages(prev => ( { ...prev, photoFile: { required: formData[name]?.required, status: false, message: '', touched: false } } )); // create photo: remove photo -> no alternative photo to be loaded -> valid: false   
     }
     inputRef.current && (inputRef.current.value = '');
     setImageUrl('');
@@ -149,8 +150,8 @@ export default function FileUpload() {
         <Button clicked={ onButtonClick } buttonStyle='button-upload-file'> Browse </Button>
       </div>
       <div className='file-upload-status'>
-        <span className={fileUploadStatus?.status === "success" ? "" : fileUploadStatus?.status === "error" ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } >
-          { fileUploadStatus?.status === 'success' ? cropString(fileUploadStatus?.message, 25, 18) : fileUploadStatus?.message }
+        <span className={fileUploadStatus?.status === true ? "" : fileUploadStatus?.status === false ? "file-upload-invalid label-with-required-marker label-with-required-marker--inverted-color" : "label-with-required-marker" } >
+          { fileUploadStatus?.status === true ? cropString(fileUploadStatus?.message, 25, 18) : fileUploadStatus?.message }
         </span>
       </div>
     </label>
@@ -173,7 +174,7 @@ export default function FileUpload() {
       {/* Displayed photo */}
       { photoFile?.name || activePhotoEntry?.photoURL ?
       // conditionally add style: img url dont add hide img style
-      <div className='file-upload-display' style={ activePhotoEntry?.photoURL && !imageUrl ? hideImageStyle  : {} }>
+      <div className='file-upload-display' style={ activePhotoEntry?.photoURL && !imageUrl ? hideImageStyle : {} }>
       {/* <div className='file-upload-display' > */}
         { /* Button wrapper */ }
         <div className='file-upload-button-wrapper'>
@@ -182,7 +183,7 @@ export default function FileUpload() {
             clicked={ removePhotoHandler }
             buttonStyle='button-close'
             disabled={ !imageUrl }
-          > <Delete height='100%' width='100%' stroke='var(--color-accent)' /> </Button>        
+          > <Delete height='75%' width='75%' stroke='var(--color-accent)' /> </Button>        
         </div>
         { /* display img priority: file api (new / update img), photo */ }
         { imageUrl ?

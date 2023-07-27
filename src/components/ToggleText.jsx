@@ -10,7 +10,7 @@ export default function ToggleText({ text }) {
 
   return (
     <>
-      {isTextVisible ?  <p> { text } </p> : <p> { getShortText() } </p>}
+      {isTextVisible ?  <span> { text } </span> : <span> { getShortText() } </span>}
       { text.length > maxCharLength && <Button 
         buttonStyle='button-toggle-text' 
         title={ `${ isTextVisible ? 'Hide' : 'Show' } text` } 

@@ -33,4 +33,10 @@ export const statusDefault = {
 export const STATUS_MESSAGES = {
   ERROR_REQUEST: 'Error. Try again later!',
   ERROR_MISSING_ID_TOKEN: 'Missing ID/Token',
+  AXIOS_NO_SERVER_RESPONSE: 'No server response',
+}
+
+// DEFAULT
+export const MISC_MESSAGES = {
+  EMPTY: '',
 }

@@ -17,6 +17,5 @@ export default function PhotoEntries({ collection }) {
   } else if (data && data.length < 1) {
     photoEntries = <h4> { CONSTANT_VALUES.INFO_PHOTO_ENTRY_EMPTY } </h4>
   }
-  
   return <div className='pes-layout-container'> { photoEntries } </div>
 }

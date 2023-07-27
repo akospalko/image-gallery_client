@@ -1,10 +1,10 @@
 // Photo entries: gallery 
-import React, { useCallback, useEffect, useState } from 'react'
-import './PhotoEntries.css'
-import '../Shared.css'
-import { useNavigate } from 'react-router'
-import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests'
-import { CONSTANT_VALUES } from '../../helper/constantValues'
+import React, { useCallback, useEffect, useState } from 'react';
+import './PhotoEntries.css';
+import '../Shared.css';
+import { useNavigate } from 'react-router';
+import { getAllGalleryPhotoEntries } from '../../helper/axiosRequests';
+import { CONSTANT_VALUES } from '../../helper/constantValues';
 import PhotoEntryGallery from './PhotoEntryGallery';
 import { useAuthContext } from '../contexts/AuthenticationContext';
 import { useDataContext } from '../contexts/DataContext';

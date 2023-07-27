@@ -10,7 +10,6 @@ import LoaderIcon from '../SVG/Loader';
 import { buildInputFields, convertFormData } from '../../helper/utilities';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { postPhotoEntry, updatePhotoEntry } from '../../helper/axiosRequests';
-import { statusMessages } from '../../helper/dataStorage';
 import { STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages';
 import { basicInputFieldValidator } from '../../helper/formValiadation';
 import { CONSTANT_VALUES } from '../../helper/constantValues';
@@ -82,8 +81,8 @@ export default function CreateUpdatePhotoEntry(props) {
       updatedItem.value = activePhotoEntry[elem];
       updatedForm[elem] = updatedItem; 
       // update input field validation messages
-      const { required, minLength, maxLength, fieldName, value } = updatedForm[elem];
-      const validationStatus = basicInputFieldValidator(elem, value, required, minLength, maxLength, fieldName);
+      const { required, minLength, maxLength, fieldName, value, min, max } = updatedForm[elem];
+      const validationStatus = basicInputFieldValidator(elem, value, required, minLength, maxLength, fieldName, min, max);
       setValidationMessages(prev => {
         if(elem === 'photoFile') {
           return {...prev, [elem]: { ...prev[elem], status: true, message: '', touched: false } }
@@ -104,7 +103,7 @@ export default function CreateUpdatePhotoEntry(props) {
       loaderToggleHandler('PHOTO_ENTRY_SUBMIT', undefined, true);
       const convertedData = {...convertFormData(formData), photoFile}; // simplyfy data before sending request, merge form data with photoFile  
       const responseCreate = await postPhotoEntry(convertedData, axiosPrivate, collection); // post entry to server
-      const {success, message, photoEntry } = responseCreate ?? {};
+      const {success, message } = responseCreate ?? {};
       if(success === true) {
         sendToast(message);
         // collection === 'gallery' ? await fetchGalleryPhotoEntries(navToPrevPage) : await fetchHomePhotoEntries(navToPrevPage); 
@@ -189,7 +188,6 @@ export default function CreateUpdatePhotoEntry(props) {
     </div> 
   );
 
-
   return (
     // FORM WRAPPER 
     <div className='create-update-photo-entry-modal-wrapper'>
@@ -197,8 +195,9 @@ export default function CreateUpdatePhotoEntry(props) {
       <Form id='form-create-update-photo-entry'> 
         { formData && buildInputFields(formTemplate).map(elem => (
         <Input 
-          key={ elem.name } 
-          name={ elem.name } 
+          key={ elem?.name } 
+          name={ elem?.name }
+          placeholder={ elem?.placeholder } 
           label={ label }
           textareaStyle='textarea-create-update-photo-entry'
           labelStyle='input-create-update-photo-entry-label'

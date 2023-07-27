@@ -64,7 +64,6 @@ export default function PasswordResetSendLink() {
   // HANDLERS
   // send a mail with a password reset link to the provided email address
   const sendPasswordResetEmailHandler = async (e, formData) => {
-    console.log('clicked')
     e.preventDefault();
     try {
       setIsSubmitting(true);
@@ -82,7 +81,7 @@ export default function PasswordResetSendLink() {
     }
     catch (error) {
       setStatus({...statusDefault , message: STATUS_MESSAGES.ERROR_REQUEST}); 
-      console.log(error)
+      // console.log(error)
     } finally {
       setIsSubmitting(false);
     }

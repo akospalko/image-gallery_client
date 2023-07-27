@@ -1,8 +1,8 @@
-// TODO: replace status message strings with CONSTANTS 
 // List of requests made to the api
 import axios from 'axios';
 import { axiosAuthentication } from '../helper/axiosInstances'
-import { statusMessages } from './dataStorage';
+import { STATUS_MESSAGES } from './statusMessages';
+
 // PHOTO ENTRY 
 // GET all photo entries -> gallery (all gallery photos || photos added to user's own collection) protected resources 
 export const getAllGalleryPhotoEntries = async (axiosInstance, userID, collectionType) => {
@@ -12,7 +12,7 @@ export const getAllGalleryPhotoEntries = async (axiosInstance, userID, collectio
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
-      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchedData = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchedData = {...error?.response.data};
     }
@@ -27,7 +27,7 @@ export const getAllHomePhotos = async (axiosInstance) => {
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
-      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchedData = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchedData = {...error?.response.data};
     }
@@ -43,7 +43,7 @@ export const getSinglePhotoEntry = async (activePhotoEntry, axiosInstance, colle
     fetchedData = {...response?.data}; 
   } catch (error) {
     if(!error?.response) {
-      fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchedData = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchedData = {...error?.response.data};
     }
@@ -59,7 +59,7 @@ export const postPhotoEntry = async (entryData, axiosInstance, collection, userI
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -75,7 +75,7 @@ export const updatePhotoEntry = async (activePhotoEntry, entryData, axiosInstanc
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -91,7 +91,7 @@ export const deletePhotoEntry = async (activePhotoEntry, axiosInstance, collecti
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -107,7 +107,7 @@ export const addPhotoEntryToCollection = async (userID, photoEntryID, axiosInsta
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -122,7 +122,7 @@ export const removePhotoEntryFromCollection = async (userID, photoEntryID, axios
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -138,7 +138,7 @@ export const addPhotoEntryLike = async (userID, photoEntryID, axiosInstance) => 
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -153,7 +153,7 @@ export const removePhotoEntryLike = async (userID, photoEntryID, axiosInstance) 
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -169,7 +169,7 @@ export const downloadPhotoEntry = async (userID, photoEntryID, axiosInstance) =>
     fetchResult = { ...response?.data };
   } catch (error) {
     if(!error?.response) {
-      fetchResult = { success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE };
+      fetchResult = { success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE };
     } else {
       fetchResult = { ...error?.response.data };
     }
@@ -187,8 +187,8 @@ export const createNewUser = async (userData) => {
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
-      console.log(error)
-     fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      // console.log(error)
+     fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -204,7 +204,7 @@ export const loginUser = async (userData) => {
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -219,7 +219,7 @@ export const refreshToken = async () => {
     fetchResult = {...response?.data}
   } catch(error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -234,7 +234,7 @@ export const logoutUser = async () => {
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -249,7 +249,7 @@ export const requestPasswordResetLink = async (email) => {
     fetchResult = {...response?.data};
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -265,7 +265,7 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
     fetchResult = {...response?.data}
   } catch (error) {
     if(!error?.response) {
-      fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+      fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
     } else {
       fetchResult = {...error?.response.data};
     }
@@ -280,7 +280,7 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
       fetchResult = {...response?.data}
     } catch (error) {
       if(!error?.response) {
-        fetchResult = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+        fetchResult = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
       } else {
         fetchResult = {...error?.response.data};
       }
@@ -298,7 +298,7 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
       fetchedData = {...response?.data}; 
     } catch (error) {
       if(!error?.response) {
-        fetchedData = {success: false, message: statusMessages.AXIOS_NO_SERVER_RESPONSE};
+        fetchedData = {success: false, message: STATUS_MESSAGES.AXIOS_NO_SERVER_RESPONSE};
       } else {
         fetchedData = {...error?.response.data};
       }

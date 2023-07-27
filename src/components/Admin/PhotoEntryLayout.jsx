@@ -5,6 +5,11 @@ import ToggleText from '../ToggleText';
 import PhotoEntryContentUEM from './PhotoEntryContentUEM';
 import { transformDate } from '../../helper/utilities';
 
+// Photo entry layout text data wrapper
+const TextData = ({ data }) => {
+  return ( <span> { data } </span> );
+}
+
 export default function PhotoEntryLayout(activePhotoEntry) {
   // PROPS
   const {
@@ -16,78 +21,67 @@ export default function PhotoEntryLayout(activePhotoEntry) {
     gpsLatitude, 
     gpsLongitude, 
     likes,
-    inCollection
+    inCollection,
+    downloads
   } = activePhotoEntry || {};
   
   // CONTENT MODULES
   const idContent = { // id
     name: 'id', // entry's name used as key
-    data: _id, //  entry content data
+    data: <TextData data={ _id } />, // entry content data
     title: 'photo entry id', // on hover elem - info about the record
     label: 'ID', // displayed label
-    // labelStyle: 'pe-layout-content--border-top', // custom style for label 
-    // dataStyle: 'pe-layout-content--border-top' // custom style for data 
   }
-  // const titleContent = {
-  //   name: 'title', 
-  //   data: title,
-  //   title: 'photo title', 
-  //   label: 'Title',
-  // };
+
   const titleContentInfo = { // photo info page
     name: 'title', 
-    data: title,
+    data: <TextData data={ title } />,
     title: 'photo title', 
     label: 'Title',
-    labelStyle: 'pe-layout-content--margin-top-double',
-    dataStyle: 'pe-layout-content--margin-top-double' 
   };
   const titleContentAdmin = { 
     name: 'title', 
-    data: title, 
+    data: <TextData data={ title } />, 
     title: 'photo title',
     label: 'Title',
   };
   const authorContent = { 
     name: 'author', 
-    data: author,
+    data: <TextData data={ author } />,
     title: 'the person who captured the photo',
     label: 'Author',
   };
   const captureDateContent = {  
     name: 'captureDate', 
-    data: transformDate(captureDate, '-', '.'),
+    data: <TextData data={ transformDate(captureDate, '-', '.')  } />,
     title: 'photo capture date',
     label: 'Captured',
   };
   const gpsLatitudeContent = { 
     name: 'gpsLatitude', 
-    data: gpsLatitude, 
-    title: 'geographic coordinate: latitude', 
-    label: 'GPS lat',
+    data: <TextData data={ gpsLatitude.toFixed(2) } />, 
+    title: 'GPS latitude(°) in WGS 1984 coordinate system' ,
+    label: 'Lat.°',
   };
   const gpsLongitudeContent = { 
     name: 'gpsLongitude', 
-    data: gpsLongitude, 
-    title: 'geographic coordinate: longitude', 
-    label: 'GPS lon',
+    data: <TextData data={ gpsLongitude.toFixed(2) } />, 
+    title: 'GPS longitude(°) in WGS 1984 coordinate system', 
+    label: 'Lon.°',
   };
   const descriptionContent = { 
+    id: 'description',
     name: 'description', 
     data: <ToggleText text={ description } />, 
     title: 'few words about the photo', 
     label: 'Description',
-    recordStyle: 'pe-layout-content-record--auto-height',  // custom style for record 
-    labelStyle: 'pe-layout-content-label--vertical-text',
-    dataStyle: 'pe-layout-content-data--description' 
   };
   const uemContent = { 
+    id: 'uem',
     name: 'uem', 
-    data: <PhotoEntryContentUEM collectedUEM={ { likes, inCollection } } />, 
+    data: <PhotoEntryContentUEM collectedUEM={ { likes, inCollection, downloads } } />, 
     title: 'User engagement metrics', 
     label: 'Metrics',
-    recordStyle: 'pe-layout-content-record--auto-height', 
-    dataStyle: 'pe-layout-content-data--uem pe-layout-content--height-75px'
   };
   
   // TEMPLATES
@@ -99,8 +93,8 @@ export default function PhotoEntryLayout(activePhotoEntry) {
     captureDateContent,
     gpsLatitudeContent,
     gpsLongitudeContent,
+    uemContent,
     descriptionContent,
-    uemContent
   ];
   // photo entry info view
   const photoEntryLayoutAdmin = [
@@ -110,8 +104,8 @@ export default function PhotoEntryLayout(activePhotoEntry) {
     captureDateContent,
     gpsLatitudeContent,
     gpsLongitudeContent,
+    uemContent,
     descriptionContent,
-    uemContent
   ];
 
   return { photoEntryLayoutInfo, photoEntryLayoutAdmin }

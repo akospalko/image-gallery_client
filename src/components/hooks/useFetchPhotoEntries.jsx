@@ -18,7 +18,7 @@ const useFetchPhotoEntries = () => {
       setData(response.photoEntries); // store entries in state
       return response;
     } catch(error) {
-      console.log(error);
+      // console.log(error);
       navToPrevPage(); // navigate unauth user back to login page
     } 
   }, [])
@@ -29,7 +29,7 @@ const useFetchPhotoEntries = () => {
       setData(response.photoEntries); // store entries in state
       return response;
     } catch(error) {
-      console.log(error);
+      // console.log(error);
       navToPrevPage(); // navigate unauth user back to login page
     } 
   }, [])
