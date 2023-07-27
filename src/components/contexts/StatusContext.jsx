@@ -23,7 +23,6 @@ export default function StatusContext({ children }) {
   // Send toast with status message
   const sendToast = (message) => {
     if(!message) return; 
-    console.log('toasting message:', message)
     toast(`${ message }`, { 
       className: "shared-toast",
       position: "bottom-center",

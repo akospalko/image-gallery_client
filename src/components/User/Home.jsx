@@ -17,7 +17,7 @@ import { CONSTANT_VALUES } from '../../helper/constantValues'
 
 export default function Home() {
   // CONSTANTS
-  // ROUTEd
+  // ROUTE
   const navigate =  useNavigate(); 
   // CONTEXT
   const { homePhotos, setHomePhotos } = useDataContext();

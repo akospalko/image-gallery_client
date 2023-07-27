@@ -9,11 +9,11 @@ export default function PhotoEntryContentElement(props) {
   return (
     <div id={ id } className='pe-layout-content'>
       { /* content label */ }
-      <div title={ title || '' } className={ `pe-layout-content-label`}> 
+      <div title={ title || '' } className='pe-layout-content-label'> 
         <span> { label } </span> 
       </div>
       { /* content data */ }
-      <div className={ `pe-layout-content-data` }> 
+      <div className='pe-layout-content-data'> 
         { data || '-' } 
       </div>
     </div>

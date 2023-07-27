@@ -40,6 +40,7 @@ export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
       { photoEntryLayoutInfo?.map(record => (
         <PhotoEntryContentElement
           key={ record?.name }
+          id={ record?.id }
           title={ record?.title } 
           label={ record?.label } 
           data={ record?.data } 
@@ -47,7 +48,7 @@ export default function PhotoInfo({ displayPhotoView, displayTimestamp }) {
           recordStyle={ record?.recordStyle }
           dataStyle={ record?.dataStyle }
         /> )
-      )}
+      ) }
       { displayTimestamp && <Timestamp dateCreation={ createdAt } dateLastUpdate={ updatedAt } customStyle='timestamp-container--layout' /> }
     </>
   )

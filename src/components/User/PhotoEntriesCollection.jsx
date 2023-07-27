@@ -49,9 +49,9 @@ export default function PhotoEntriesCollection() {
   }, [])
 
   // EFFECT
-  useEffect(() => { // get all data on initial render
+  useEffect( () => { // get all data on initial render
     fetchPECollection()
-  }, [ fetchPECollection ]) 
+  }, [ fetchPECollection ] ) 
 
   // ELEMENTS
   // Loader

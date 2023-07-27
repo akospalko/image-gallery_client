@@ -78,10 +78,10 @@ export default function ProjectMetrics() {
               return metricsCopy;
             })
           } else { // fetch unsuccessful
-            console.log(response.message);
+            // console.log(response.message);
           }
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
       })() 
   }, []) 

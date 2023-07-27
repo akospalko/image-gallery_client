@@ -10,6 +10,7 @@ import Button from '../components/UI/Button';
 import ThemeToggler from '../components/UI/ThemeToggler';
 import { MenuOpenIcon, MenuCloseIcon }  from '../components/SVG/Icons';
 
+
 export default function useHeaderNavigation(navElements) {
   // CONTEXT 
   const { toggleModalHandler } = useModalContext();
@@ -66,20 +67,20 @@ export default function useHeaderNavigation(navElements) {
         className='header-backdrop header-backdrop--with-background' 
         onClick={ () => toggleModalHandler(OPERATIONS.HEADER_NAV, false) }
       > </div> 
-      <div 
-        className='header-navigation-menu-container' 
-        onClick={ e => e.stopPropagation() }
-      >
-        { /* toolbar: theme toggler, close menu botton, etc */ }
-        <div className='header-navigation-menu-toolbar'>
-          { closeNavigationMenuButton }
-          <div className='header-theme-toggler' onClick={ toggleThemeHandler } > <ThemeToggler size='30px' /> </div>
+        <div
+          className='header-navigation-menu-container'
+          onClick={ e => e.stopPropagation() }
+        >
+          { /* toolbar: theme toggler, close menu botton, etc */ }
+          <div className='header-navigation-menu-toolbar'>
+            { closeNavigationMenuButton }
+            <div className='header-theme-toggler' onClick={ toggleThemeHandler } > <ThemeToggler size='30px' /> </div>
+          </div>
+          { /* navigation elements */ }
+          <div className='header-navigation-elements'>
+            { navigationElementsForToggleMenu }
+          </div> 
         </div>
-        { /* navigation elements */ }
-        <div className='header-navigation-elements'>
-          { navigationElementsForToggleMenu }
-        </div> 
-      </div>
     </>
   );
 
