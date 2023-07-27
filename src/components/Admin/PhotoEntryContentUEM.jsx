@@ -42,7 +42,7 @@ export default function PhotoEntryContentUEM({ collectedUEM }) {
           <div className='pe-layout-content-uem-icon'> { content.icon } </div>
           {/* amount  */}
           <span className='pe-layout-content-uem-label'> { content.label } </span>
-          <span className='pe-layout-content-uem-amount'> { content?.data } </span>
+          <span className='pe-layout-content-uem-amount'> { content?.data || '-' } </span>
         </div>
         {/* label */}
       </div> 
