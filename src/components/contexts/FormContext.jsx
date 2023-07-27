@@ -1,6 +1,5 @@
 // TODO: validation data from backend -> update validation data storage -> update validationmessage state on mount 
 import React, { useState, createContext, useContext, useEffect } from 'react';
-import { statusMessages } from '../../helper/dataStorage';
 import { formatDateYear } from '../../helper/utilities';
 import { basicInputFieldValidator, dateValidator, isPasswordMatching  } from '../../helper/formValiadation';
 import { INPUT_VALIDATION_MESSAGES } from '../../helper/statusMessages';
@@ -33,7 +32,8 @@ export default function FormContext({children}) {
   useEffect(() => {
     validateFormHandler();
   }, [validationMessages]);
-  // HELPER FUNCTIONS z
+  
+  // HELPER FUNCTIONS
   // password matching and validation
   const updatePasswordValidation = (name, validationStatus) => {
     const { value: currentPassword } = formData?.password || {};
@@ -84,8 +84,13 @@ export default function FormContext({children}) {
 
   // check form input fields, set form validity (isFormValid): all fields are valid: true || false 
   const validateFormHandler = () => {
-    console.log(validationMessages);
-    const areAllFieldsValid = Object.values(validationMessages).every(field => field.status);
+    const areAllFieldsValid = Object.values(validationMessages).every(field => {
+      const { required, status } = field;
+      if (required && !status) {
+        return false;
+      }
+      return true; 
+    });
     setIsFormValid(areAllFieldsValid);
     // 
     const isInputFieldTouched = Object.values(validationMessages).some(field => field.touched); // bool; filters out if any of the input fields has been interacted with
@@ -114,11 +119,11 @@ export default function FormContext({children}) {
 
   // date input handler
   const dateInputChangeHandler = (e) => {
-    e.preventDefault();
     const captureDate = 'captureDate'; // active form input name
-    const formattedValue = formatDateYear(e.target.value); // date value
-    updateFormField(captureDate, formattedValue);   // update form captureDate field
-    const validationStatus = dateValidator(formattedValue);  // validate input field
+    const isRequired = formData[captureDate]?.required; // is field required 
+    const formattedValue = formatDateYear(e.target.value, isRequired); // date value
+    updateFormField(captureDate, formattedValue); // update form captureDate field
+    const validationStatus = dateValidator(formattedValue, isRequired); // validate input field
     updateValidationStatus(captureDate, validationStatus);
   }
 

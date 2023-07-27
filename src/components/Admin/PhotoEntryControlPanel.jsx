@@ -11,13 +11,12 @@ import { useLoaderContext } from '../contexts/LoaderContext';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { OPERATIONS } from '../../helper/dataStorage';
 import { getSinglePhotoEntry, deletePhotoEntry } from '../../helper/axiosRequests';
-import { STATUS_MESSAGES } from '../../helper/statusMessages';
+import { STATUS_MESSAGES, statusDefault } from '../../helper/statusMessages';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useFetchPhotoEntries from '../hooks/useFetchPhotoEntries';
 import Button from '../UI/Button';
 import { Edit, ViewPhoto, LocationMark, Delete } from '../SVG/Icons';
 import LoaderIcon from '../SVG/Loader';
-import { statusDefault } from '../../helper/statusMessages';
 
 export default function PhotoEntryControlPanel ({ collection, photoEntry }) {
   // CONSTANTS

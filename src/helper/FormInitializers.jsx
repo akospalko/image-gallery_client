@@ -8,43 +8,57 @@ export default function FormInitializers() {
     title: {
       type: 'text',
       value: '',
+      placeholder: 'photo title',
       label: 'Title',
-      required: true,
       minLength: 5,
-      maxLength: 50
+      maxLength: 50,
+      required: true,
     },
     author: {
       type: 'text',
       value: '',
+      placeholder: 'photographer\'s name',
       label: 'Author',
-      required: true,
       minLength: 4,
-      maxLength: 50
+      maxLength: 50,
+      required: true,
     },
     gpsLatitude: {
       type: 'number',
       value: '',
-      label: 'GPS latitude'
+      placeholder: 'a value between -90 and 90',
+      label: 'GPS latitude°',
+      required: false,
+      min: -90,
+      max: 90
     },
     gpsLongitude: {
       type: 'number',
       value: '',
-      label: 'GPS longitude'
+      placeholder: 'a value between -180 and 180',
+      label: 'GPS longitude°',
+      required: false,
+      min: -180,
+      max: 180
     },
     captureDate: {
       type: 'date',
       value: '',
-      label: 'Capture date'
+      label: 'Capture date',
+      required: false
     },
     description: {
       type: 'textarea',
       value: '',
+      placeholder: 'a brief description about the photo...',
       label: 'Description',
-      maxLength: 500
+      maxLength: 500,
+      required: false,
     },
     photoFile: {
       type: 'file',
       value: {},
+      required: true,
     }
   }
 
@@ -53,18 +67,22 @@ export default function FormInitializers() {
     _id : {
       type: 'text',
       value: '',
+      placeholder: 'photo title',
       disabled: true,
-      label: 'ID'
+      label: 'ID',
+      required: true
     },
     photoName: {
       type: 'text',
       value: '',
       disabled: true,
-      label: 'File name'
+      label: 'File name',
+      required: true
     },
     title: {
       type: 'text',
       value: '',
+      placeholder: 'photo title',
       label: 'Title',
       required: true,
       minLength: 5,
@@ -73,6 +91,7 @@ export default function FormInitializers() {
     author: {
       type: 'text',
       value: '',
+      placeholder: 'photographer\'s name',
       label: 'Author',
       required: true,
       minLength: 4,
@@ -81,27 +100,35 @@ export default function FormInitializers() {
     gpsLatitude: {
       type: 'number',
       value: '',
-      label: 'GPS latitude'
+      placeholder: 'a value between -90 and 90',
+      label: 'GPS latitude°',
+      required: false,
     },
     gpsLongitude: {
       type: 'number',
       value: '',
-      label: 'GPS longitude'
+      placeholder: 'a value between -180 and 180',
+      label: 'GPS longitude°',
+      required: false,
     },
     captureDate: {
       type: 'date',
       value: '',
-      label: 'Capture date'
+      label: 'Capture date',
+      required: false
     },
     description: {
       type: 'textarea',
       value: '',
+      placeholder: 'a brief description about the photo...',
       label: 'Description',
-      maxLength: 500
+      maxLength: 500,
+      required: false,
     },
     photoFile: {
       type: 'file',
       value: {},
+      required: false,
     }
   }
 

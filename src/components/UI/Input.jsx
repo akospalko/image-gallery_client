@@ -12,7 +12,6 @@ const Input = (props) => {
  
   // CONTEXT
   const { formData, inputChangeHandler, validationMessages, showPassword, togglePasswordVisibility } = useFormContext();
- 
   // ELEMENTS
   // label 
   const labelWithRequiredMarkerStyle = formData[name]?.required ? 'label-with-required-marker' : ''; 
@@ -77,7 +76,7 @@ const Input = (props) => {
     /> 
   )
 
-  const file = <FileUpload />
+  const file = <FileUpload name={ name } />
   const date = <DatePicker />
   // CONDITIONAL RENDER INPUT ELEMENTS
   let renderedInput; 

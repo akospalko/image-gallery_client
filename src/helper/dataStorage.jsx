@@ -1,11 +1,3 @@
-// STATUS MESSAGES
-// TODO: merge with data statusMesages.jsx 
-export const statusMessages = {
-  // DEFAULT
-  EMPTY: '',
-  // AXIOS
-  AXIOS_NO_SERVER_RESPONSE: 'No server response',
-}
 // NAVIGATION 
 // navigation elements visible for unauthenticated users
 export const navElementsUnauthenticated = [
