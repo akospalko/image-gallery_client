@@ -1,7 +1,7 @@
 // axios instances, configuration
 import axios from 'axios'
 // URL
-const BASE_URL = 'http://localhost:3000'; // TODO: change URL to live  api's URL after production
+const BASE_URL = process.env.VITE_API_BASE_URL;
 // INSTANCES
 // basic/default
 export default axios.create({
