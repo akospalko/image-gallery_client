@@ -1,7 +1,7 @@
 // axios instances, configuration
 import axios from 'axios'
 // URL
-const BASE_URL = process.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // INSTANCES
 // basic/default
 export default axios.create({
