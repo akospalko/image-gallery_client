@@ -1,5 +1,4 @@
 // List of requests made to the api
-import axios from 'axios';
 import { axiosAuthentication } from '../helper/axiosInstances'
 import { STATUS_MESSAGES } from './statusMessages';
 
