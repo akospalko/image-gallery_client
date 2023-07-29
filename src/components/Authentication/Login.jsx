@@ -116,7 +116,15 @@ export default function Login() {
       > 
         <div className='auth-submit-button-content'>
           <span className='shared-button-content'> 
-          { isFormValid ? isSubmitting ? <div className='auth-modal-loader'> { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } </div> : CONSTANT_VALUES.BUTTON_LOG_IN : CONSTANT_VALUES.BUTTON_FILL_IN_FORM } </span> 
+            { isFormValid ? isSubmitting ? 
+              <div className='auth-modal-loader'> 
+                { isSubmitting &&  <LoaderIcon height='30px' width='30px' stroke='var(--text-color--high-emphasis)'/> } 
+              </div> 
+              : CONSTANT_VALUES.BUTTON_LOG_IN 
+                : 
+                CONSTANT_VALUES.BUTTON_FILL_IN_FORM 
+            } 
+          </span> 
         </div>
       </Button>      
     </div> 

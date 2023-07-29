@@ -8,7 +8,7 @@
   top: var(--header-height);
   left: 0;
   flex-direction: column;
-  min-height: calc(100% - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
   width: 100%;
   background-color: var(--bg-color--main);
 }
@@ -154,7 +154,7 @@
 /* wrapper - authentication */
 .shared-button-wrapper--authentication {
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 /* Button content */
@@ -166,7 +166,7 @@
   font-size: 0.85rem;
 }
 
-/* STATUS MESSAGE */
+/* STATUS MESSAGE for auth page */
 .shared-status-message {
   display: flex;
   justify-content: center;
@@ -174,6 +174,7 @@
   width: var(--input-width);
   min-height: 50px;
   padding: var(--padding-default);
+  margin: 1rem 0;
 }
 .shared-status-message p {
   margin: 0;
@@ -271,10 +272,28 @@
     max-width: 700px;
     align-items: center;
   }
+
   /* content - map view */
   .shared-modal-content--map-view { 
     max-width: 700px;
     justify-content: center;
+  }
+
+  /* wrapper - authentication */
+  .shared-button-wrapper--authentication {
+    justify-content: center;
+    margin: 0 0 1rem 0;
+  }
+
+  /* STATUS MESSAGE for auth page */
+  .shared-status-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--input-width);
+    min-height: 50px;
+    padding: var(--padding-default);
+    margin: 1rem 0;
   }
 }
 
