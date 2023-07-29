@@ -9,6 +9,7 @@ import HomeAdmin from '../components/Admin/Home'
 import MapOverview from '../components/Map/MapOverview'
 import { ROLES } from '../helper/userRoles'
 import RequireAuth from '../components/Authentication/RequireAuth'
+import RequireUnauth from '../components/Authentication/RequireUnauth'
 import Login from '../components/Authentication/Login'
 import Register from '../components/Authentication/Register'
 import useToggleModalScrollLock from '../components/hooks/useToggleModalScrollLock'
@@ -26,24 +27,25 @@ export default function PageContent() {
   // HOOK
   useToggleModalScrollLock();
   
-    // CONTEXT
-    const { auth } = useAuthContext();
-    const { theme } = useThemeContext();
-
-
+  // CONTEXT
+  const { auth } = useAuthContext();
+  const { theme } = useThemeContext();
 
   return (
     <>
       <Routes>
         { /* public routes */ }
+        { /* authentication routes */ }
+        <Route element={ <RequireUnauth /> } >
+          <Route path={ '/login' } element={ <Login /> } />
+          <Route path={ '/register' } element={ <Register /> } />
+          <Route path={ '/password-reset' } element={ <PasswordResetSendEmailLink /> } />
+          <Route path={ '/password-forgot/:id/:token' } element={ <PasswordResetSaveNewPassword /> } />
+        </ Route >
+        { /* page routes */ }
         <Route path={ '/' } element={ <Home /> } />
         <Route path={ '/about' } element={ <About /> } />
-        <Route path={ '/login' } element={ <Login /> } />
-        <Route path={ '/register' } element={ <Register /> } />
-        <Route path={ '/password-reset' } element={ <PasswordResetSendEmailLink /> } />
-        { /* password reset must be last public route */ }
         <Route path={ '*' } element={ <ErrorPage /> } />
-        <Route path={ '/password-forgot/:id/:token' } element={ <PasswordResetSaveNewPassword /> } />
         
         { /* user routes */ }
         <Route element={ <RequireAuth allowedRoles={ [ROLES.user] } /> }>
