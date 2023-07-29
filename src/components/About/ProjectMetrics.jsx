@@ -69,7 +69,6 @@ export default function ProjectMetrics() {
       try {
         // update local metrics (state with initialized template) with fetched metrics data (amount)
         const response = await getProjectMetrics(axios); // fetch entries, update state
-        console.log(response)
         if(response && response?.success) {
           const fetchedMetrics = response?.metrics; // [{name: 'likes', value: 2}, {...}]
           setMetrics((prevMetrics) => {
@@ -83,7 +82,6 @@ export default function ProjectMetrics() {
               });
               return metricCopy;
             });
-            console.log(metricsCopy);
             return metricsCopy;
           });
         } else { // fetch unsuccessful

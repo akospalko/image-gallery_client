@@ -20,8 +20,6 @@ export default function PhotoEntriesCollection() {
   
   // STATE
   const [ isLoading, setIsLoading ] = useState(true);
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
-
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ import { useMediaQuery } from 'react-responsive';
 export const AuthenticationTitle = ({ title, subtitle })  => (
   <div className='authentication-illustration-tab-header' >
     <h1> { title || 'Hey!' } </h1> 
-    <span> { subtitle || 'Chill a little bit...' } </span>
+    <h3> { subtitle || 'Chill a little bit...' } </h3>
   </div>
 )
 

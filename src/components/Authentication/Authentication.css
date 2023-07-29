@@ -71,6 +71,11 @@
   flex-direction: row;
 }
 
+.auth-submit-button-content span {
+  font-size: var(--text-size--XS);
+  line-height: calc(var(--text-size--XS) - 1.3);
+}
+
 /* LOADER BACKGROUND */
 .auth-modal-loader {
   display: flex;
@@ -98,7 +103,7 @@
   width: 65px;
   background-color: var(--bg-color--ternary);
   border-radius: 50%;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
   flex-direction: column;
 }
 
@@ -170,19 +175,18 @@
   flex-direction: column;
 }
 .authentication-illustration-tab-header h1 {
-  margin: 1rem;
-  font-size: 1.9rem;
-  line-height: 2rem;
+  font-size: var(--header-1-size--S);
+  line-height: calc(var(--header-1-size--S) * 1.1);
   font-weight: bold;
   color: var(--text-color--high-emphasis);
-  margin: var(--padding-default) 0;
+  margin: 1rem 0;
 }
-.authentication-illustration-tab-header span {
-  font-size: 1.1em;
-  line-height: 1.2rem;
+.authentication-illustration-tab-header h3 {
+  font-size: var(--header-3-size--S);
+  line-height: calc(var(--header-3-size--S) * 1.1);
   color: var(--text-color--high-emphasis);
+  margin: var(--padding-default)  0;
 }
-
 /* vector illustration container */
 .authentication-illustration-tab-illustration {
   display: flex;
@@ -237,7 +241,7 @@
   /* MODAL GROUP-1 */
   /* USER PROFILE AVATAR CONTAINER */
   .auth-modal-avatar {
-    margin: 2.5rem 0;
+    margin: 2rem 0;
   }
  
   /* NAVIGATION: LOGIN, REGISTER */
@@ -269,18 +273,16 @@
   }
   /* header + guest welcome info */
   .authentication-illustration-tab-header h1 {
-    font-size: 2.1rem;
-    line-height: 2.2rem;
+    font-size: var(--header-1-size--M);
+    line-height: calc(var(--header-1-size--M) * 1.1);
   }
-  .authentication-illustration-tab-header span {
-    font-size: 1.3em;
-    line-height: 1.4rem;
+  .authentication-illustration-tab-header h3 {
+    font-size: var(--header-3-size--M);
+    line-height: calc(var(--header-3-size--M) * 1.1);
   }
-
   .authentication-illustration-tab--border-left {
     border-left: 2px solid var(--bg-color--ternary);
   }
-
   /* vector illustration container */
   .authentication-illustration-tab-illustration {
     height: 200px;
@@ -297,6 +299,10 @@
    /* container for vertical-positioning*/
    .authentication-illustration-tab--vertical-positioning {
     height: 400px;
+  }
+  .auth-submit-button-content span {
+    font-size: var(--text-size--S);
+    line-height: calc(var(--text-size--S) - 1.3);
   }
 }
 
