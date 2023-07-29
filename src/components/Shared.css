@@ -6,6 +6,7 @@
   display: flex;
   position: absolute;
   top: var(--header-height);
+  left: 0;
   flex-direction: column;
   min-height: calc(100% - var(--header-height));
   width: 100%;
