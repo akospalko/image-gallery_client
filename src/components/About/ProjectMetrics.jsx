@@ -65,51 +65,59 @@ export default function ProjectMetrics() {
   // EFFECT
   // fetch project metrics, update state
   useEffect(() => {  
-      (async () => {
-        try {
-          // update local metrics (state with initialized template) with fetched metrics data (amount)
-          const response = await getProjectMetrics(axios); // fetch entries, update state
-          console.log(response)
-          if(response && response.success) {
-            const fetchedMetrics = response?.metrics; 
-            setMetrics(prevMetrics => {
-              let metricsCopy = [ ...prevMetrics ]; // create state copy
-              metricsCopy = metricsCopy.map(localMetric => {
-                const metricCopy = { ...localMetric };
-                fetchedMetrics.forEach( fetchedMetric => {
-                  if (localMetric.name === fetchedMetric.name ) {
-                    localMetric.amount = fetchedMetric.value
-                  }
-                });
-                return metricCopy;
+    const fetchMetricsData = async () => {
+      try {
+        // update local metrics (state with initialized template) with fetched metrics data (amount)
+        const response = await getProjectMetrics(axios); // fetch entries, update state
+        console.log(response)
+        if(response && response?.success) {
+          const fetchedMetrics = response?.metrics; // [{name: 'likes', value: 2}, {...}]
+          setMetrics((prevMetrics) => {
+            let metricsCopy = [...prevMetrics]; // create state copy
+            metricsCopy = metricsCopy.map((localMetric) => {
+              const metricCopy = { ...localMetric };
+              fetchedMetrics.forEach((fetchedMetric) => {
+                if (localMetric.name === fetchedMetric.name) {
+                  metricCopy.amount = fetchedMetric.value; // Update metricCopy.amount, not localMetric.amount
+                }
               });
-              return metricsCopy;
-            })
-          } else { // fetch unsuccessful
-            // console.log(response.message);
-          }
-        } catch (error) {
-          console.log(error);
+              return metricCopy;
+            });
+            console.log(metricsCopy);
+            return metricsCopy;
+          });
+        } else { // fetch unsuccessful
+          // console.log(response.message);
+          setIsLoading(false);
         }
-      })() 
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    fetchMetricsData();
   }, []) 
+
+  // ELEMENTS
+  const metricCards = (
+    <div className='about-project-metrics-cards'>
+      { metrics?.map( card => (
+      <div key={ card.name } title={ card.title } className='about-project-metrics-card'>
+        <div className='about-project-metrics-cards-icon'> { card?.icon } </div>
+        <div className='about-project-metrics-cards-label'> 
+          <span> { card?.amount } </span> 
+          <span> { card?.label } </span> 
+        </div>
+      </div> ))
+      }
+    </div>
+  )
 
   return (
     <div className='about-project-metrics'>
       { /* title */ }
       <h2> { CONSTANT_VALUES.TITLE_ABOUT_PROJECT_METRICS } </h2>
       { /* statistics card */ }
-      <div className='about-project-metrics-cards'>
-        { metrics?.map( card => (
-        <div key={ card.name } title={ card.title } className='about-project-metrics-card'>
-          <div className='about-project-metrics-cards-icon'> { card?.icon } </div>
-          <div className='about-project-metrics-cards-label'> 
-            <span> { card?.amount || '-' } </span> 
-            <span> { card?.label || '-' } </span> 
-          </div>
-        </div>
-        )) }
-      </div>
+      { metricCards }
     </div> 
   )
 }
