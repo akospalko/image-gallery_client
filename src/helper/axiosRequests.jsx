@@ -288,7 +288,6 @@ export const checkPasswordResetLinkValidity = async (userID, token) => {
     return fetchResult;
   }
 
-
   // PROJECT METRICS
   // GET project metrics: unprotected resource
   export const getProjectMetrics = async (axiosInstance) => {

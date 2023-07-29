@@ -19,36 +19,43 @@ export default function ProjectMetrics() {
       name: 'photos', 
       label: 'all photos',
       title: 'number of photos you can explore', 
-      icon: <PhotoIcon height='100%' width='100%' />, amount: 0 
+      icon: <PhotoIcon height='100%' width='100%' />, 
+      amount: 0 
     }, 
     { // amount of times a photo was added to user's collection 
       name: 'collectionized', 
       label: 'in collection',
       title: 'number of times a photo was added to the user\'s collection', 
-      icon: <PhotoCollectionIcon height='100%' width='100%' />, amount: 0 
+      icon: <PhotoCollectionIcon height='100%' width='100%' />, 
+      amount: 0 
     },
     { // amount of times a photo was added to user's collection 
       name: 'likes', 
       label: 'liked',
       title: 'number of photo likes',
-      icon: <PhotoLikedIcon height='100%' width='100%' />, amount: 0 
+      icon: <PhotoLikedIcon height='100%' width='100%' />, 
+      amount: 0 
     }, 
     { // amount of times a photo was added to user's collection 
       name: 'downloaded', 
       label: 'downloads',
       title: 'number of photo downloads', 
-      icon: <PhotoDownloadIcon height='100%' width='100%' />, amount: 0 
+      icon: <PhotoDownloadIcon height='100%' width='100%' />, 
+      amount: 0 
     },
     { // photos with geolocation
       name: 'locations', 
       label: 'locations',
       title: 'number of photos with geolocation (gps coordinates)', 
-      icon: <PhotoLocationIcon height='100%' width='100%' /> , amount: 0 }, 
+      icon: <PhotoLocationIcon height='100%' width='100%' /> , 
+      amount: 0 
+    }, 
     { // photographers 
       name: 'authors', 
       label: 'authors',
       title: 'photographer, artist, creator', 
-      icon: <PhotoAuthorIcon height='100%' width='100%' />, amount: 0 
+      icon: <PhotoAuthorIcon height='100%' width='100%' />, 
+      amount: 0 
     },
   ];
 
@@ -62,6 +69,7 @@ export default function ProjectMetrics() {
         try {
           // update local metrics (state with initialized template) with fetched metrics data (amount)
           const response = await getProjectMetrics(axios); // fetch entries, update state
+          console.log(response)
           if(response && response.success) {
             const fetchedMetrics = response?.metrics; 
             setMetrics(prevMetrics => {
@@ -81,7 +89,7 @@ export default function ProjectMetrics() {
             // console.log(response.message);
           }
         } catch (error) {
-          // console.log(error);
+          console.log(error);
         }
       })() 
   }, []) 
